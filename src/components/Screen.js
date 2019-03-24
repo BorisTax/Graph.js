@@ -16,7 +16,7 @@ class Screen extends React.Component {
             realWidth:0,realHeight:0,
             ratio:1,
             pixelRatio:1,
-            marginTop:15,marginLeft:80,marginBottom:15,marginRight:10,
+            marginTop:15,marginLeft:40,marginBottom:15,marginRight:10,
             screenWidth:550,screenHeight:550,
             statusBar:5,
             xAxe:null,yAxe:null,
@@ -132,8 +132,8 @@ class Screen extends React.Component {
         ctx.stroke();
     }
     drawGrid(ctx,state){
-        //debugger;
-        ctx.strokeStyle="grey";
+        ctx.strokeStyle="#C0C0C0";
+
         let firstX=Math.round(state.topLeft.x/state.gridStep)*state.gridStep;
         let firstY=Math.round(state.topLeft.y/state.gridStep)*state.gridStep;
         let hor=false;
@@ -337,6 +337,22 @@ class Screen extends React.Component {
             this.setState(state);
         }
     }
+    mwheel(e){
+        let state=Object.assign({},this.state);
+        if(state.dragGrid)return;
+        let ctx=e.target.getContext("2d");
+        let rect=e.target.getBoundingClientRect();
+        let p=this.screenToReal(e.clientX-rect.left,e.clientY-rect.top,state);
+        if(e.deltaY>0)
+        {
+            if(state.realWidth<=1000) this.setScale(1.2,p,state);
+        }else{
+            if(state.pixelRatio>=0.001)
+                this.setScale(1/1.2,p,state);
+        }
+        this.paint(ctx,state);
+        this.setState(state);
+    }
     componentDidMount() {
         let ctx=document.querySelector("#canvas").getContext("2d");
         let state=Object.assign({},this.state);
@@ -348,10 +364,11 @@ class Screen extends React.Component {
     render(){
         return <div>
             <canvas id="canvas" width={this.state.screenWidth} height={this.state.screenHeight}
-                style={{borderColor:"black",cursor:"none"}}
+                style={{border:"black solid 1px",cursor:"none"}}
                 onMouseMove={this.mmove.bind(this)}
                 onMouseDown={this.mdown.bind(this)}
                 onMouseUp={this.mup.bind(this)}
+                onWheel={this.mwheel.bind(this)}
             >
 
             </canvas>
