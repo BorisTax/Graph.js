@@ -1,15 +1,13 @@
 import React from 'react';
 import './style.css';
-import Header from "./components/Header"
-import MainContent from "./components/MainContent"
-import Footer from "./components/Footer"
+import Screen from "./components/Screen.js"
+
   
 function App() {
     return (  
       <div>
-        <Header />
-        <MainContent />
-        <Footer />
+        <Screen />
+
       </div>
     )
   }
