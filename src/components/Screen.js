@@ -1,9 +1,11 @@
 import React from 'react';
-import Geometry, {StraightLine, Line, Circle, Coord2D, Point2D, StraightHalfLine} from '../util/geometry/geometry.js';
+import Geometry, {StraightLine, Line, Circle, Coord2D, Point2D, StraightHalfLine} from '../utils/geometry/geometry.js';
 import StraightLineShape from "./shapes/StraightLineShape.js";
 class Screen extends React.Component {
+    showGrid=true;
     constructor(props){
         super(props);
+        //console.log(props);
         this.state={
             status:'FREE',
             points:new Array(3),
@@ -17,14 +19,14 @@ class Screen extends React.Component {
             ratio:1,
             pixelRatio:1,
             marginTop:15,marginLeft:40,marginBottom:15,marginRight:10,
-            screenWidth:550,screenHeight:550,
+            screenWidth:props.screenWidth,screenHeight:props.screenHeight,
             statusBar:5,
             xAxe:null,yAxe:null,
             curPoint:new Point2D(),
             prevPoint:new Point2D(),
             curCoord:new Coord2D(),
             snap:false,
-            gridStep:1,gridStepPixels:1,dragGrid:false,showGrid:true,
+            gridStep:1,gridStepPixels:1,dragGrid:false,
             gridPointsX:[],gridPointsY:[],
             gridNumbersX:[],gridNumbersY:[],
             dragX0:0,dragY0:0,
@@ -153,10 +155,13 @@ class Screen extends React.Component {
                 let x=firstX+state.gridStep*ix;
                 let px=this.realToScreen(new Coord2D(x,state.topLeft.y),state);
                 if(xGridLineNumber%10==0) ctx.setLineDash([0]);else ctx.setLineDash([5]);
-                ctx.beginPath();
-                ctx.moveTo(px.x,0);
-                ctx.lineTo(px.x,state.screenHeight);
-                ctx.stroke();
+
+                if(this.showGrid) {
+                    ctx.beginPath();
+                    ctx.moveTo(px.x, 0);
+                    ctx.lineTo(px.x, state.screenHeight);
+                    ctx.stroke();
+                }
                 state.gridPointsX[ix]=px.x;
                 state.gridNumbersX[ix]=x;
                 ix++;
@@ -168,10 +173,12 @@ class Screen extends React.Component {
                 let py=this.realToScreen(new Coord2D(state.topLeft.x,y),state);
                 if(yGridLineNumber%10==0) ctx.setLineDash([0]);else ctx.setLineDash([5]);
                 yGridLineNumber--;
-                ctx.beginPath();
-                ctx.moveTo(0,py.y);
-                ctx.lineTo(state.screenWidth,py.y);
-                ctx.stroke();
+                if(this.showGrid) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, py.y);
+                    ctx.lineTo(state.screenWidth, py.y);
+                    ctx.stroke();
+                }
                 state.gridPointsY[iy]=py.y;
                 state.gridNumbersY[iy]=y;
                 iy++;
@@ -255,7 +262,7 @@ class Screen extends React.Component {
         ctx.fillStyle="white";
         ctx.lineWidth=1;
         ctx.fillRect(0, 0, state.screenWidth, state.screenHeight);
-        if(state.showGrid)this.drawGrid(ctx,state);
+        this.drawGrid(ctx,state);
         for(let s of state.shapes){
                 this.drawShape(s,ctx,state);
             }
@@ -352,18 +359,29 @@ class Screen extends React.Component {
         }
         this.paint(ctx,state);
         this.setState(state);
+        e.preventDefault();
     }
     componentDidMount() {
         let ctx=document.querySelector("#canvas").getContext("2d");
         let state=Object.assign({},this.state);
-        this.setDimentions(550,550,20,new Coord2D(-10,10),state);
+        this.setDimentions(this.state.screenWidth,this.state.screenHeight,20,new Coord2D(-10,10),state);
         this.paint(ctx,state);
         this.setState(state);
     }
+    componentWillReceiveProps(nextProps, nextContext) {
+
+        let ctx=document.querySelector("#canvas").getContext("2d");
+        let state=Object.assign({},this.state);
+        this.showGrid=nextProps.show.grid;
+
+        this.paint(ctx,state);
+
+    }
 
     render(){
-        return <div>
-            <canvas id="canvas" width={this.state.screenWidth} height={this.state.screenHeight}
+        return <div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
+            <div>
+            <canvas id="canvas" width={this.props.screenWidth} height={this.props.screenHeight}
                 style={{border:"black solid 1px",cursor:"none"}}
                 onMouseMove={this.mmove.bind(this)}
                 onMouseDown={this.mdown.bind(this)}
@@ -372,6 +390,7 @@ class Screen extends React.Component {
             >
 
             </canvas>
+            </div>
         </div>
     }
 }

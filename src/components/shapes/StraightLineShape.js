@@ -1,4 +1,4 @@
-import Geometry,{Circle,Line,StraightLine,Coord2D} from "../../util/geometry/geometry";
+import Geometry,{Circle,Line,StraightLine,Coord2D} from "../../utils/geometry/geometry";
 
 export default class StraightLineShape {
     constructor(line, circle){

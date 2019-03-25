@@ -1,5 +1,8 @@
 body{
     background-color: whitesmoke;
+    //display:flex;
+    //flex-direction: row;
+    //justifyContent:"center";
 }
 .todo-list{
     margin: auto;

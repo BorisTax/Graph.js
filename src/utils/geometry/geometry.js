@@ -146,9 +146,9 @@ class Geometry {
     }
 
     static LinesIntersection(sLine, line) {
-        let p = this.LinesIntersectionPoint(sLine, new StraightLine(line));
+        let p = Geometry.LinesIntersectionPoint(sLine, new StraightLine(line));
         if (p == null) return null;
-        if (!this.pointInRect(p, line.p1, line.p2)) return null;
+        if (!Geometry.pointInRect(p, line.p1, line.p2)) return null;
         return p;
     }
 
@@ -161,7 +161,7 @@ class Geometry {
         lines[3] = new Line(rectBottomRight.x, rectTopLeft.y, rectBottomRight.x, rectBottomRight.y);
         let i = 0;
         for (let l of lines) {
-            points[i] = this.LinesIntersection(line, l);
+            points[i] = Geometry.LinesIntersection(line, l);
             i++;
 
         }
@@ -187,11 +187,11 @@ class Geometry {
     static arcCenterPoint(p1, p2, p3) {
         let line1 = new StraightLine(p1, p2);
         let line2 = new StraightLine(p2, p3);
-        let midp1 = this.midPoint(p1, p2);
-        let midp2 = this.midPoint(p2, p3);
-        let pline1 = this.LinePerpOnPoint(line1, midp1);
-        let pline2 = this.LinePerpOnPoint(line2, midp2);
-        return this.LinesIntersectionPoint(pline1, pline2);
+        let midp1 = Geometry.midPoint(p1, p2);
+        let midp2 = Geometry.midPoint(p2, p3);
+        let pline1 = Geometry.LinePerpOnPoint(line1, midp1);
+        let pline2 = Geometry.LinePerpOnPoint(line2, midp2);
+        return Geometry.LinesIntersectionPoint(pline1, pline2);
     }
 
     static CircleLineIntersection(line, circle) {
@@ -210,7 +210,7 @@ class Geometry {
         let A = a * a + b * b;
         let B = 2 * a * c;
         let C = c * c - r * r * b * b;
-        let x = this.QuadEquation(A, B, C);
+        let x = Geometry.QuadEquation(A, B, C);
         if (x == null) return null;
         let res = new Array(x.length);
         for (let i = 0; i < x.length; i++) {
@@ -235,13 +235,13 @@ class Geometry {
     }
 
     static CircleHalfLineIntersection(line, circle) {
-        let points = this.CircleLineIntersection(new StraightLine(line.origin, line.vector), circle);
+        let points = Geometry.CircleLineIntersection(new StraightLine(line.origin, line.vector), circle);
         if (points == null) return null;
         let k = 0;
         let i = 0;
         for (let p of points) {
 
-            if (this.isPointOnHalfLine(line, p)) k++; else points[i] = null;
+            if (Geometry.isPointOnHalfLine(line, p)) k++; else points[i] = null;
             i++;
         }
         if (k == 0) return null;
@@ -254,7 +254,7 @@ class Geometry {
     }
 
     static arcMiddlePoint(arc) {
-        let mp = this.midPoint(arc.first, arc.third);
+        let mp = Geometry.midPoint(arc.first, arc.third);
         let m = Math.sqrt((mp.x - arc.center.x) * (mp.x - arc.center.x) + (mp.y - arc.center.y) * (mp.y - arc.center.y));
         return new Coord2D(arc.radius / m + arc.center.x, arc.radius / m + arc.center.y);
     }
@@ -266,9 +266,9 @@ class Geometry {
             res[1] = arc.third;
             return res;
         }
-        let mp = this.arcMiddlePoint(arc);
-        let first = this.arcToPointArray(this.arcByTwoPointsCenter(arc.first, mp, arc.center), limit);
-        let second = this.arcToPointArray(this.arcByTwoPointsCenter(mp, arc.third, arc.center), limit);
+        let mp = Geometry.arcMiddlePoint(arc);
+        let first = Geometry.arcToPointArray(Geometry.arcByTwoPointsCenter(arc.first, mp, arc.center), limit);
+        let second = Geometry.arcToPointArray(Geometry.arcByTwoPointsCenter(mp, arc.third, arc.center), limit);
         let len = first.length - 1 + second.length;
         let res = new Array(len);
         for (let i = 0; i <= len; i++) {
@@ -279,7 +279,7 @@ class Geometry {
     }
 
     static arcByTwoPointsCenter(p1, p2, c) {
-        let mp = this.midPoint(p1, p2);
+        let mp = Geometry.midPoint(p1, p2);
         let m = Math.sqrt((mp.x - c.x) * (mp.x - c.x) + (mp.y - c.y) * (mp.y - c.y));
         let r = Math.sqrt((p1.x - c.x) * (p1.x - c.x) + (p1.y - c.y) * (p1.y - c.y));
         return new Arc(p1, new Coord2D(r / m + c.x, r / m + c.y), p2);
@@ -292,7 +292,7 @@ class Geometry {
 
         let v1 = new Vector(arc.center, arc.first);
         let v2 = new Vector(arc.center, arc.third);
-        let a = this.angleVectors(v1, v2);
+        let a = Geometry.angleVectors(v1, v2);
         return a * arc.radius;
     }
 
