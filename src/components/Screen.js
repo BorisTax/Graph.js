@@ -1,4 +1,5 @@
 import React from 'react';
+import '../App.css';
 import Geometry, {StraightLine, Line, Circle, Coord2D, Point2D, StraightHalfLine} from '../utils/geometry/geometry.js';
 import StraightLineShape from "./shapes/StraightLineShape.js";
 class Screen extends React.Component {
@@ -132,6 +133,12 @@ class Screen extends React.Component {
         this.status=this.STATUS_CREATE;
 
     };
+    cancel(){
+        this.status=this.STATUS_FREE;
+        this.curShape=null;
+        this.creationStep="";
+        this.currentShape="";
+    }
     drawCursor(ctx){
         let size=10;
         let x0=this.curPoint.x;
@@ -427,7 +434,7 @@ class Screen extends React.Component {
         return <div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
             <div>
             <canvas id="canvas" width={this.props.screenWidth} height={this.props.screenHeight}
-                style={{border:"black solid 1px",cursor:"none"}}
+                styles={{border:"black solid 1px",cursor:"none"}}
                 onMouseMove={this.mmove.bind(this)}
                 onMouseDown={this.mdown.bind(this)}
                 onMouseUp={this.mup.bind(this)}

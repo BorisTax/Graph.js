@@ -1,18 +1,21 @@
 import React from "react";
-import StraightLineCreator from './shapes/StraightLineCreator';
+import '../CreateButton.css';
 export default class CreateShapeButton extends React.Component{
     constructor(props){
         super(props);
+        this.state={pressed:false}
     }
     onclick(e){
-        this.props.screenContext.newShape(new StraightLineCreator(this.props.boundedCircle,"blue"));
+        if(!this.state.pressed) this.props.screenContext.newShape(new this.props.creator(this.props.boundedCircle, "blue"));
+         else this.props.screenContext.cancel();
+        this.setState({pressed:!this.state.pressed});
     }
     render(){
-        return <button className={"create-shape"}
+        return <a href={"#"} className={!this.state.pressed?"createShapeButtonUp":"createShapeButtonDown"}
                        onClick={this.onclick.bind(this)}
 
         >
             {this.props.title}
-        </button>
+        </a>
     }
 }

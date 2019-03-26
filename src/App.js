@@ -6,15 +6,16 @@ import OptionToggle from "./components/OptionToggle";
 import CreateShapeButton from "./components/CreateShapeButton";
 import {setGridVisible, setGridSnap, setBoundedCircle,setScreenContext} from "./actions/ScreenActions";
 import {createShape} from "./actions/ShapeActions";
+import StraightLineCreator from './components/shapes/StraightLineCreator';
 
 class App extends React.Component {
     render() {
         return <div>
             <div className={"create-toolbar"}>
                 <CreateShapeButton title={"Straight Line"}
-                                   action={this.props.createShape}
                                    boundedCircle={this.props.boundedCircle}
-                                   screenContext={this.props.context} />
+                                   screenContext={this.props.context}
+                                   creator={StraightLineCreator}/>
             </div>
             <div className={"option-toggle-toolbar"}>
             <OptionToggle title={"Show grid"}
@@ -48,7 +49,7 @@ const mapDispatchToProps = dispatch => {
         setGridSnap: snap=>dispatch(setGridSnap(snap)),
         setBoundedCircle:circle=>dispatch(setBoundedCircle(circle)),
         setScreenContext:context=>dispatch(setScreenContext(context)),
-        createShape: shapeCreator=>dispatch(createShape(shapeCreator)),
+
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(App)
