@@ -6,9 +6,7 @@ class OptionToggle extends React.Component{
 
     }
     change(e){
-
         this.props.action(e.target.checked);
-
     }
     render(){
         return <div>

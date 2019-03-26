@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP} from "../actions/ScreenActions";
 
 const initialState = {
     screenWidth:550,
@@ -9,7 +9,9 @@ const initialState = {
 export function screenReducer(state = initialState,action) {
     switch (action.type) {
         case SET_GRID_VISIBLE:
-            return{...state,show:{grid:action.payload}}
+            return{...state,show:{grid:action.payload}};
+        case SET_GRID_SNAP:
+            return{...state,snap:{grid:action.payload}};
         default:
             return state
     }
