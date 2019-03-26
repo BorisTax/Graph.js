@@ -5,7 +5,10 @@ class Screen extends React.Component {
     showGrid=true;
     snap=false;
     snapDist=10;
-    status='FREE';
+    STATUS_FREE='FREE';
+    STATUS_CREATE='CREATE';
+    STATUS_DRAWING='DRAWING';
+    status='';
     points=new Array(3);
     topLeft=new Coord2D();
     bottomRight=new Coord2D();
@@ -29,13 +32,15 @@ class Screen extends React.Component {
     gridNumbersX=[];gridNumbersY=[];
     dragX0=0;dragY0=0;
     creationStep="";currentShape="";
-    curColor="";
+    curColor="black";
     drag=false;lbut=0o00;mbut=0o01;
     constructor(props){
         super(props);
-        console.log(props);
+        //console.log(props);
+        this.status=this.STATUS_FREE;
         this.screenWidth=props.screenWidth;
         this.screenHeight=props.screenHeight;
+        this.props.returnContext(this);
         this.state={
 
         }
@@ -44,6 +49,7 @@ class Screen extends React.Component {
         let c=this.screenToReal(this.screenWidth/2,this.screenHeight/2);
         let r=Math.sqrt(this.realWidth*this.realWidth+this.realHeight*this.realHeight)/2;
         this.boundedCircle=new Circle(c,r);
+        this.props.setBoundedCircle(this.boundedCircle);
     }
     screenToReal(x,y){
         let rx=x/this.screenWidth*this.realWidth+this.topLeft.x;
@@ -104,7 +110,7 @@ class Screen extends React.Component {
         this.shapes.push(this.yAxeShape);
     }
     cancel(){
-        this.status="FREE";
+        this.status=this.STATUS_FREE;
         this.curShape=null;
         this.creationStep="";
         this.currentShape="";
@@ -120,9 +126,11 @@ class Screen extends React.Component {
     newShape(creator){
         this.shapeCreator=creator;
         this.curShape=this.shapeCreator.getShape();
+        this.curShape.setColor('blue');
         this.currentShape=this.shapeCreator.getShapeDescription();
         this.creationStep=this.shapeCreator.getPointDescription();
-        this.status="CREATE";
+        this.status=this.STATUS_CREATE;
+
     };
     drawCursor(ctx){
         let size=10;
@@ -159,7 +167,7 @@ class Screen extends React.Component {
             if(!hor){
                 let x=firstX+this.gridStep*ix;
                 let px=this.realToScreen(new Coord2D(x,this.topLeft.y));
-                if(xGridLineNumber%10==0) ctx.setLineDash([0]);else ctx.setLineDash([5]);
+                if(xGridLineNumber%10==0) ctx.setLineDash([0]);else ctx.setLineDash([1,3]);
 
                 if(this.showGrid) {
                     ctx.beginPath();
@@ -176,7 +184,7 @@ class Screen extends React.Component {
             if(!vert){
                 let y=firstY-this.gridStep*iy;
                 let py=this.realToScreen(new Coord2D(this.topLeft.x,y));
-                if(yGridLineNumber%10==0) ctx.setLineDash([0]);else ctx.setLineDash([5]);
+                if(yGridLineNumber%10==0) ctx.setLineDash([0]);else ctx.setLineDash([1,3]);
                 yGridLineNumber--;
                 if(this.showGrid) {
                     ctx.beginPath();
@@ -268,14 +276,15 @@ class Screen extends React.Component {
         ctx.lineWidth=1;
         ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
         this.drawGrid(ctx);
+        let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}
+             Shape: ${this.currentShape} : ${this.creationStep}`;
         for(let s of this.shapes){
                 this.drawShape(s,ctx);
             }
-        if(this.status=="DRAWING") {
+        if(this.status==this.STATUS_DRAWING) {
             this.drawShape(this.curShape, ctx);
             }
-        let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}
-             Shape: ${this.currentShape} : ${this.creationStep}`;
+
         ctx.fillStyle="white";
         //fill margin
         ctx.fillRect(0, 0, this.screenWidth-this.marginRight,this.marginTop);
@@ -329,7 +338,7 @@ class Screen extends React.Component {
                 }
                 }
         }
-        if(this.status=="DRAWING"){
+        if(this.status==this.STATUS_DRAWING){
             this.shapeCreator.setCurrent(this.curCoord);
             this.curShape=this.shapeCreator.getShape();
 
@@ -381,8 +390,22 @@ class Screen extends React.Component {
     onclick(e){
         if(e.button==0){
             //alert();
+            if(this.status==this.STATUS_CREATE||this.status==this.STATUS_DRAWING){
+                let ctx=document.querySelector("#canvas").getContext("2d");
+                this.shapeCreator.setNextPoint(this.curCoord);
+                this.creationStep=this.shapeCreator.getPointDescription();
+                this.status=this.STATUS_DRAWING;
+                if(!this.shapeCreator.isNext())
+                {
+                    this.curShape.setColor(this.curColor);
+                    this.shapes.push(this.curShape);
+                    this.newShape(this.shapeCreator.reset());
+                }
+                this.paint(ctx);
+            }
         }
     }
+
     componentDidMount() {
         let ctx=document.querySelector("#canvas").getContext("2d");
         

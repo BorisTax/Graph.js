@@ -198,7 +198,7 @@ class Geometry {
         let dx = -circle.center.x;
         let dy = -circle.center.y;
 
-        let sline = this.LineShifted(line, dx, dy);
+        let sline = Geometry.LineShifted(line, dx, dy);
         let a = sline.a;
         let b = sline.b;
         let c = sline.c;
