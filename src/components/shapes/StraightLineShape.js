@@ -1,12 +1,12 @@
 import Geometry,{Circle,Line,StraightLine,Coord2D} from "../../utils/geometry/geometry";
+import ShapeStyle from './ShapeStyle';
 
 export default class StraightLineShape {
-    constructor(line, circle, color){
+    constructor(line, circle){
         this.i=0;
         this.p=Geometry.CircleLineIntersection(line,circle);
         this.line=line;
         this.circle=circle;
-        this.color=color;
     }
      isNext(){
         if(this.p==null) return false;
@@ -29,5 +29,11 @@ export default class StraightLineShape {
     }
     getColor(){
         return this.color;
+    }
+    getStyle() {
+        return this.style;
+    }
+    setStyle(style) {
+        this.style = style;
     }
 }
