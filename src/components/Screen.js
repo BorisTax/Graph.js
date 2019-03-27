@@ -435,7 +435,7 @@ class Screen extends React.Component {
     }
 
     render(){
-        return <div style={{display:"flex",flexDirection:"row",justifyContent:"center"}}>
+        return <div style={{}}>
             <div>
             <canvas id="canvas" width={this.props.screenWidth} height={this.props.screenHeight}
                 styles={{border:"black solid 1px",cursor:"none"}}

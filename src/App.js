@@ -3,21 +3,15 @@ import { connect } from 'react-redux';
 import './style.css';
 import Screen from "./components/Screen.js";
 import OptionToggle from "./components/OptionToggle";
-import CreateShapeButton from "./components/CreateShapeButton";
 import {setGridVisible, setGridSnap, setBoundedCircle,setScreenContext} from "./actions/ScreenActions";
-import {createShape} from "./actions/ShapeActions";
-import StraightLineCreator from './components/shapes/StraightLineCreator';
+import CreateToolBar from "./components/CreateToolBar";
 
 class App extends React.Component {
     render() {
-        return <div>
-            <div className={"create-toolbar"}>
-                <CreateShapeButton title={"Straight Line"}
-                                   boundedCircle={this.props.boundedCircle}
-                                   screenContext={this.props.context}
-                                   creator={StraightLineCreator}/>
-            </div>
-            <div className={"option-toggle-toolbar"}>
+        return <div className={"mainContainer"}>
+            <CreateToolBar/>
+
+            <div className={"option-toggle-toolbar"} style={{borderWidth:1+'px',borderStyle:"solid"}}>
             <OptionToggle title={"Show grid"}
                           action={this.props.setGridVisible}
                           checked={this.props.screen.show.grid}
@@ -27,7 +21,7 @@ class App extends React.Component {
                           checked={this.props.screen.snap.grid}
             />
             </div>
-            <Screen setBoundedCircle={this.props.setBoundedCircle}
+            <Screen setBoundedCircle={this.props.setBoundedCircle} style={{borderWidth:1+'px',borderStyle:"solid"}}
                     returnContext={this.props.setScreenContext}
                     {...this.props.screen}/>
 
@@ -39,8 +33,6 @@ const mapStateToProps = store => {
 
     return {
             screen: store.screen,
-            boundedCircle:store.screen.boundedCircle,
-            context:store.screen.context,
     }
 };
 const mapDispatchToProps = dispatch => {

@@ -45,7 +45,7 @@ class StraightLine{
     }
 }
 
-class StraightHalfLine {
+class RayLine {
 
     constructor(p1=new Coord2D(), p2=new Coord2D()){
     this.origin=p1;
@@ -230,18 +230,18 @@ class Geometry {
 
     }
 
-    static isPointOnHalfLine(line, point) {
+    static isPointOnRayLine(line, point) {
         return (((point.x - line.origin.x) * line.vector.x) >= 0 && ((point.y - line.origin.y) * line.vector.y) >= 0);
     }
 
-    static CircleHalfLineIntersection(line, circle) {
-        let points = Geometry.CircleLineIntersection(new StraightLine(line.origin, line.vector), circle);
+    static CircleRayLineIntersection(line, circle) {
+        let points = Geometry.CircleLineIntersection(new StraightLine(line.origin, new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y)), circle);
         if (points == null) return null;
         let k = 0;
         let i = 0;
         for (let p of points) {
 
-            if (Geometry.isPointOnHalfLine(line, p)) k++; else points[i] = null;
+            if (Geometry.isPointOnRayLine(line, p)) k++; else points[i] = null;
             i++;
         }
         if (k == 0) return null;
@@ -314,4 +314,4 @@ class Geometry {
 
 }
 export default Geometry;
-export {StraightLine, Line, Circle, Coord2D, Point2D, StraightHalfLine}
+export {StraightLine, Line, Circle, Coord2D, Point2D, RayLine}
