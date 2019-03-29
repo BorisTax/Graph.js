@@ -1,10 +1,9 @@
-'use strict';
+
 class Coord2D{
     constructor(x=0,y=0){
         this.x=x;
         this.y=y;
     }
-    getType(){return "point"}
 }
 class Point2D {
     constructor(x=0,y=0){
@@ -18,7 +17,6 @@ class Line{
         this.p1=p1;
         this.p2=p2;
     }
-    getType(){return "line"}
 }
 class StraightLine{
     constructor(){
@@ -27,7 +25,7 @@ class StraightLine{
             this.a=p1.y-p2.y;
             this.b=p2.x-p1.x;
             this.c=p1.x*p2.y-p1.y*p2.x;
-        }
+        };
         switch (param.length) {
             case(0):createLine(new Coord2D(),new Coord2D());break;
             case(1):createLine(param[0].p1,param[0].p2);break;
@@ -36,12 +34,11 @@ class StraightLine{
             default:
         }
     }
-    getType(){return "sline"}
     getYbyX(x){
-        if(this.b!=0)return -(this.a*x+this.c)/this.b;else return NaN;
+        if(this.b!==0)return -(this.a*x+this.c)/this.b;else return NaN;
     }
     getXbyY(y){
-        if(this.a!=0)return -(this.b*y+this.c)/this.a;else return NaN;
+        if(this.a!==0)return -(this.b*y+this.c)/this.a;else return NaN;
     }
 }
 
@@ -55,7 +52,7 @@ class RayLine {
     }
 
     getYbyX(x){
-    if(this.b!=0){
+    if(this.b!==0){
         let y=-(this.a*x+this.c)/this.b;
         if(((x-this.origin.x)*this.vector.x)>=0&&((y-this.origin.y)*this.vector.y)>=0)return y;
         return NaN;
@@ -64,7 +61,7 @@ class RayLine {
     }
 
     getXbyY(y){
-    if(this.a!=0){
+    if(this.a!==0){
         let x=-(this.b*y+this.c)/this.a;
         if(((x-this.origin.x)*this.vector.x)>=0&&((y-this.origin.y)*this.vector.y)>=0)return y;
         return NaN;
@@ -132,7 +129,7 @@ class Geometry {
 
     static LinesIntersectionPoint(line1, line2) {
         let d = line1.a * line2.b - line1.b * line2.a;
-        if (d == 0) return null;
+        if (d === 0) return null;
         let d1 = -line1.c * line2.b - (-line2.c * line1.b);
         let d2 = -line2.c * line1.a - (-line1.c * line2.a);
         return new Coord2D(d1 / d, d2 / d);
@@ -203,7 +200,7 @@ class Geometry {
         let b = sline.b;
         let c = sline.c;
         let r = circle.radius;
-        if (b == 0) {
+        if (b === 0) {
             a = sline.b;
             b = sline.a;
         }
@@ -215,7 +212,7 @@ class Geometry {
         let res = new Array(x.length);
         for (let i = 0; i < x.length; i++) {
             res[i] = new Coord2D();
-            if (sline.b == 0) {
+            if (sline.b === 0) {
                 res[i].y = x[i];
                 res[i].x = -(a * x[i] + c) / b;
             } else {
@@ -244,7 +241,7 @@ class Geometry {
             if (Geometry.isPointOnRayLine(line, p)) k++; else points[i] = null;
             i++;
         }
-        if (k == 0) return null;
+        if (k === 0) return null;
         let res = new Array(k);
         k = 0;
         for (let p of points) if (p != null) {
@@ -297,11 +294,11 @@ class Geometry {
     }
 
     static QuadEquation(a, b, c) {
-        if (a == 0) return null;
+        if (a === 0) return null;
         let d = b * b - 4 * a * c;
         if (d < 0) return null;
         let res = [];
-        if (d == 0) {
+        if (d === 0) {
             res = [];
             res[0] = -b / (2 * a);
             return res;

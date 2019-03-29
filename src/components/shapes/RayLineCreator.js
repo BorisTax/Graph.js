@@ -1,7 +1,6 @@
 import RayLineShape from './RayLineShape';
 import ShapeStyle from './ShapeStyle';
 import {RayLine, Coord2D} from "../../utils/geometry/geometry";
-import Geometry from "../../utils/geometry/geometry";
 
 export default class RayLineCreator{
     constructor(circle,style){
@@ -40,7 +39,7 @@ export default class RayLineCreator{
     reset(){return new RayLineCreator(this.circle,this.style);}
     getPointDescription(){
         let s="";
-        if (this.i==0) s="origin";else s="second";
+        if (this.i===0) s="origin";else s="second";
         return "Select "+s+" point";
     }
     getShapeDescription(){

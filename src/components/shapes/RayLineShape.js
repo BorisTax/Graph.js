@@ -1,4 +1,4 @@
-import Geometry,{Circle,Line,StraightLine,Coord2D} from "../../utils/geometry/geometry";
+import Geometry from "../../utils/geometry/geometry";
 
 export default class RayLineShape {
     p=[];
@@ -22,7 +22,7 @@ export default class RayLineShape {
     }
     next(){
         if(this.p==null)return null;
-        if(this.i==-1){this.i++;return this.line.origin;}
+        if(this.i===-1){this.i++;return this.line.origin;}
         return this.p[this.i++];
     }
     reset(){this.i=-1;}

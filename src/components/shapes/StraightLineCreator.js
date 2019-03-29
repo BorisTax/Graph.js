@@ -1,5 +1,4 @@
 import StraightLineShape from './StraightLineShape';
-import ShapeStyle from './ShapeStyle';
 import {StraightLine,Coord2D} from "../../utils/geometry/geometry";
 
 export default class StraightLineCreator {
@@ -38,7 +37,7 @@ export default class StraightLineCreator {
     reset(){return new StraightLineCreator(this.circle,this.style);}
     getPointDescription(){
         let s="";
-        if (this.i==0) s="first";else s="second";
+        if (this.i===0) s="first";else s="second";
         return `Select ${s} point`;
     }
     getShapeDescription(){

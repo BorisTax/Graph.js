@@ -5,6 +5,8 @@
 }
 .createToolBar{
   border:1px solid black;
+  background-color: whitesmoke;
+  padding: 5px;
 }
 #canvas{
   border: solid 1px black;

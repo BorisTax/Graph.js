@@ -1,10 +1,7 @@
 import React from "react";
 
 class OptionToggle extends React.Component{
-    constructor(props){
-        super(props);
 
-    }
     change(e){
         this.props.action(e.target.checked);
     }
