@@ -1,14 +1,14 @@
 import RayLineShape from './RayLineShape';
 import ShapeStyle from './ShapeStyle';
-import {RayLine, Coord2D} from "../../utils/geometry/geometry";
+import {RayLine, Coord2D, Circle} from "../../utils/geometry/geometry";
 
 export default class RayLineCreator{
-    constructor(circle,style){
+    constructor(style){
         //debugger;
         this.i=0;
         this.line=new RayLine(new Coord2D(),new Coord2D());
         this.points=new Array(2);
-        this.circle=circle;
+        this.circle=new Circle();
         this.shape=[];
         this.shape.push(new RayLineShape(this.line,this.circle));
 
@@ -36,7 +36,7 @@ export default class RayLineCreator{
     setNextPoint(p){
         this.points[this.i++]=p;
     }
-    reset(){return new RayLineCreator(this.circle,this.style);}
+    reset(circle){this.circle=circle;return new RayLineCreator(this.style);}
     getPointDescription(){
         let s="";
         if (this.i===0) s="origin";else s="second";

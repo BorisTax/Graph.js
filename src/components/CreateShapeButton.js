@@ -10,7 +10,7 @@ export default class CreateShapeButton extends React.Component{
     }
     onclick(){
         if(!this.state.pressed) {
-                this.props.setScreenStatus(Screen.STATUS_CREATE,new this.props.creator(this.props.boundedCircle, new ShapeStyle("black", ShapeStyle.SOLID)));
+                this.props.setScreenStatus(Screen.STATUS_CREATE,new this.props.creator(new ShapeStyle("black", ShapeStyle.SOLID)));
                 this.props.setButtonID(this.state.id);
             }
             else {

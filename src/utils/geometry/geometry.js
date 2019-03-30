@@ -89,7 +89,7 @@ class Rectangle {
 }
 
 class Circle {
-    constructor(center,radius){
+    constructor(center=new Coord2D(),radius=0){
     this.center=center;
     this.radius=radius;
 }

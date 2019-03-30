@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import '../App.css';
 import CreateShapeButton from "./CreateShapeButton";
 import StraightLineCreator from "./shapes/StraightLineCreator";
 import RayLineCreator from "./shapes/RayLineCreator";
+import LineCreator from "./shapes/LineCreator";
 import {setButtonID} from "../actions/ComponentActions";
 import {createNewShape,setScreenStatus} from "../actions/ScreenActions";
+
 
 class CreateToolBar extends React.Component{
 
@@ -14,11 +17,12 @@ class CreateToolBar extends React.Component{
         let rline=this.props.captions?this.props.captions.main.toolBars.create.ray.buttonTitle:"Ray line";
         let segline=this.props.captions?this.props.captions.main.toolBars.create.segment.buttonTitle:"Segment line";
         return <div className={"createToolBar"}>
-            {createCaption}<br/>
+                 <div className={"toolBarHeader"}>
+                    <span className={"toolBarCaption noselect"}>{createCaption}</span>
+                </div>
+                <br/>
             <CreateShapeButton title={strline}
                                id={"SLine"}
-                               boundedCircle={this.props.boundedCircle}
-                               screenContext={this.props.context}
                                setButtonID={this.props.setButtonID}
                                pressed={this.props.buttonId==="SLine"}
                                creator={StraightLineCreator}
@@ -28,8 +32,6 @@ class CreateToolBar extends React.Component{
             <CreateShapeButton title={rline}
                                id={"RLine"}
                                pressed={this.props.buttonId==="RLine"}
-                               boundedCircle={this.props.boundedCircle}
-                               screenContext={this.props.context}
                                setButtonID={this.props.setButtonID}
                                creator={RayLineCreator}
                                createNewShape={this.props.createNewShape}
@@ -39,10 +41,8 @@ class CreateToolBar extends React.Component{
             <CreateShapeButton title={segline}
                                id={"Line"}
                                pressed={this.props.buttonId==="Line"}
-                               boundedCircle={this.props.boundedCircle}
-                               screenContext={this.props.context}
                                setButtonID={this.props.setButtonID}
-                               creator={StraightLineCreator}
+                               creator={LineCreator}
                                createNewShape={this.props.createNewShape}
                                setScreenStatus={this.props.setScreenStatus}
                             />

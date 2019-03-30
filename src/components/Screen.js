@@ -39,11 +39,9 @@ export default class Screen extends React.Component {
     drag=false;lbut=0o00;mbut=0o01;
     constructor(props){
         super(props);
-        //console.log(props);
         this.status=Screen.STATUS_FREE;
         this.screenWidth=props.screenWidth;
         this.screenHeight=props.screenHeight;
-        this.props.returnContext(this);
         this.state={
 
         }
@@ -128,6 +126,7 @@ export default class Screen extends React.Component {
     }
     newShape(creator){
         this.shapeCreator=creator;
+        this.shapeCreator.reset(this.boundedCircle);
         this.curShapes=this.shapeCreator.getShapes();
         this.currentShape=this.shapeCreator.getShapeDescription();
         this.creationStep=this.shapeCreator.getPointDescription();
@@ -404,7 +403,7 @@ export default class Screen extends React.Component {
                 if(!this.shapeCreator.isNext())
                 {
                     this.shapes.push(this.curShapes);
-                    this.newShape(this.shapeCreator.reset());
+                    this.newShape(this.shapeCreator.reset(this.boundedCircle));
                     this.status=Screen.STATUS_CREATE;
                 }
                 this.paint(ctx);
