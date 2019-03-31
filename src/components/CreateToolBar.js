@@ -5,7 +5,7 @@ import CreateShapeButton from "./CreateShapeButton";
 import StraightLineCreator from "./shapes/StraightLineCreator";
 import RayLineCreator from "./shapes/RayLineCreator";
 import LineCreator from "./shapes/LineCreator";
-import {setActiveCreateButtonId} from "../actions/ComponentActions";
+import {setActiveCreateButton} from "../actions/ComponentActions";
 import {setScreenStatus} from "../actions/ScreenActions";
 
 
@@ -17,7 +17,7 @@ class CreateToolBar extends React.Component{
         let strline=cap?cap.createSLine2Ponts:"Straight line";
         let rline=cap?cap.createRayLine2Points:"Ray line";
         let segline=cap?cap.createSegmentLine2Points:"Segment line";
-        return <div className={"createToolBar"}>
+        return <div className={"toolBar"}>
                  <div className={"toolBarHeader"}>
                     <span className={"toolBarCaption noselect"}>{createCaption}</span>
                 </div>
@@ -61,7 +61,7 @@ const mapStateToProps = store => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        setButtonId:id=>dispatch(setActiveCreateButtonId(id)),
+        setButtonId:id=>dispatch(setActiveCreateButton(id)),
         setScreenStatus:(status,creator)=>dispatch(setScreenStatus(status,creator)),
     }
 };

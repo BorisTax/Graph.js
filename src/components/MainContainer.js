@@ -5,13 +5,15 @@ import {setBoundedCircle,setScreenStatus} from "../actions/ScreenActions";
 import {setLanguage} from "../actions/AppActions";
 import CreateToolBar from "./CreateToolBar";
 import Screen from "./Screen.js";
-import OptionToggleBar from './OptionToggleBar';
+import SnapToggleBar from './SnapToggleBar';
+import ShowToggleBar from './ShowToggleBar';
 
 class MainContainer extends React.Component{
     render(){
         return <div className={"mainContainer"}>
         <CreateToolBar/>
-        <OptionToggleBar/>
+        <SnapToggleBar/>
+        <ShowToggleBar/>
         <Screen setBoundedCircle={this.props.setBoundedCircle} style={{borderWidth:1+'px',borderStyle:"solid"}}
                 setStatus={this.props.setScreenStatus}
                 {...this.props.screen}/>

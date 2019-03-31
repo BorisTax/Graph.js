@@ -1,6 +1,6 @@
 import Screen from '../components/Screen';
 export const SET_GRID_VISIBLE = 'SET_GRID_VISIBLE';
-export const SET_GRID_SNAP = 'SET_GRID_SNAP';
+export const SET_SNAP = 'SET_SNAP';
 export const SET_BOUNDED_CIRCLE='SET_BOUNDED_CIRCLE';
 export const SET_SCREEN_CONTEXT='SET_SCREEN_CONTEXT';
 export const CREATE_SHAPE='CREATE_SHAPE';
@@ -13,9 +13,9 @@ export function setGridVisible(visible) {
         payload: visible,
     }
 }
-export function setGridSnap(snap) {
+export function setSnap(snap) {
     return {
-        type: SET_GRID_SNAP,
+        type: SET_SNAP,
         payload: snap,
     }
 }

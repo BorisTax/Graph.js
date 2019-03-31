@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_BOUNDED_CIRCLE,SET_SCREEN_CONTEXT,CREATE_SHAPE,SET_STATUS} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_SNAP,SET_BOUNDED_CIRCLE,SET_SCREEN_CONTEXT,CREATE_SHAPE,SET_STATUS} from "../actions/ScreenActions";
 
 const initialState = {
     screenWidth:550,
@@ -11,8 +11,8 @@ export function screenReducer(state = initialState,action) {
     switch (action.type) {
         case SET_GRID_VISIBLE:
             return{...state,show:{grid:action.payload}};
-        case SET_GRID_SNAP:
-            return{...state,snap:{grid:action.payload}};
+        case SET_SNAP:
+            return{...state,snap:action.payload};
         case SET_BOUNDED_CIRCLE:
             return{...state,boundedCircle:action.payload};
         case SET_SCREEN_CONTEXT:

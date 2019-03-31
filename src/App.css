@@ -8,7 +8,7 @@ body{
   justify-content:center;
   align-items: flex-start;
 }
-.createToolBar{
+.toolBar{
   border:5px ridge;
   background-color: rgba(185, 202, 203, 0.8);
   padding: 5px;
