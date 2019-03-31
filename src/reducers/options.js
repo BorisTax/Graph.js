@@ -1,8 +1,8 @@
-import {SET_LANG} from "../actions/AppActions";
+import {SET_LANGUAGE} from "../actions/AppActions";
 
 export function optionsReducer(state={},action) {
     switch (action.type) {
-        case SET_LANG:
+        case SET_LANGUAGE:
             return{...state,captions:action.payload};
         default:
             return state

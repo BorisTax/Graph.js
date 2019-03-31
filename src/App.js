@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import Header from './Header';
-import {engCaptions} from './locale/eng';
+import Header from './components/Header';
+import {engCaptions} from './lang/eng';
 import MainContainer from './components/MainContainer';
 import {setLanguage} from './actions/AppActions';
 
