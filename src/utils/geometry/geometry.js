@@ -314,6 +314,9 @@ class Geometry {
         res[1] = (-b - Math.sqrt(d)) / (2 * a);
         return res;
     }
+    static distance(p1,p2) {
+        return Math.sqrt((p2.x-p1.x) * (p2.x-p1.x) + (p2.y-p1.y) * (p2.y-p1.y));
+    }
 
 }
 export default Geometry;

@@ -33,6 +33,9 @@ export default class RayLineCreator{
     getShapes(){
         return this.shape;
     }
+    getHelperShapes(){
+        return null;
+    }
     setNextPoint(p){
         this.points[this.i++]=p;
     }

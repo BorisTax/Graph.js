@@ -120,6 +120,7 @@ export default class Screen extends React.Component {
     cancel(){
         this.status=Screen.STATUS_FREE;
         this.curShape=null;
+        this.curHelperShapes=null;
         this.creationStep="";
         this.currentShape="";
     }
@@ -135,6 +136,7 @@ export default class Screen extends React.Component {
         this.shapeCreator=creator;
         this.shapeCreator.reset(this.boundedCircle);
         this.curShapes=this.shapeCreator.getShapes();
+        this.curHelperShapes=this.shapeCreator.getHelperShapes();
         this.currentShape=this.shapeCreator.getShapeDescription();
         this.creationStep=this.shapeCreator.getPointDescription();
         this.status=Screen.STATUS_CREATE;
@@ -287,7 +289,11 @@ export default class Screen extends React.Component {
             for(let s of shape)
                 this.drawShape(s,ctx);
             }
+            
         if(this.status===Screen.STATUS_DRAWING) {
+            if(this.curHelperShapes!=null)
+                for(let shape of this.curHelperShapes)
+                    this.drawShape(shape, ctx);
             for(let shape of this.curShapes)
                 this.drawShape(shape, ctx);
             }
@@ -347,6 +353,7 @@ export default class Screen extends React.Component {
         if(this.status===Screen.STATUS_DRAWING){
             this.shapeCreator.setCurrent(this.curCoord);
             this.curShapes=this.shapeCreator.getShapes();
+            this.curHelperShapes=this.shapeCreator.getHelperShapes();
         }
 
 

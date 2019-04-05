@@ -29,6 +29,9 @@ export default class LineCreator{
     getShapes(){
         return this.shape;
     }
+    getHelperShapes(){
+        return null;
+    }
     setNextPoint(p){
         this.setCurrent(p);
         this.i++;
