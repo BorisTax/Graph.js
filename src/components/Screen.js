@@ -69,14 +69,13 @@ export default class Screen extends React.Component {
         this.bottomRight.y=this.topLeft.y-this.realHeight;
     }
     setRealWidth(width){
-       //debugger;
        this.realWidth=width;
-       this.realHeight=width/this.ratio;
        this.pixelRatio=this.realWidth/this.screenWidth;
+       this.realHeight=this.screenHeight*this.pixelRatio;
        this.gridStepPixels=Math.round(this.gridStep/this.pixelRatio);
        this.bottomRight={};
        this.bottomRight.x=this.topLeft.x+this.realWidth;
-       this.bottomRight.y=this.topLeft.y+this.realHeight;
+       this.bottomRight.y=this.topLeft.y-this.realHeight;
     }
     setScale(scale,anchor){
         let dx=anchor.x-this.topLeft.x;
@@ -92,6 +91,13 @@ export default class Screen extends React.Component {
             else if(this.gridStep/this.pixelRatio>100)
                 if(this.gridStep>0.001) this.gridStep=this.gridStep/10;
                 this.gridStepPixels=Math.round(this.gridStep/this.pixelRatio);
+    }
+    centerToPoint(point){
+        let viewPortWidth=this.realWidth-(this.marginLeft+this.marginRight)*this.pixelRatio;
+        let viewPortHeight=this.realHeight-(this.marginTop+this.marginBottom)*this.pixelRatio;
+        this.setTopLeft(new Coord2D(point.x-viewPortWidth/2-this.marginLeft*this.pixelRatio,point.y+viewPortHeight/2+this.marginTop*this.pixelRatio));
+        this.setBoundedCircle();
+        this.setState(this.state);
     }
     setDimentions(width, height, realWidth, topLeft){
         this.screenHeight=height;
@@ -109,6 +115,7 @@ export default class Screen extends React.Component {
         this.yAxeShape[0].setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
         this.shapes.push(this.xAxeShape);
         this.shapes.push(this.yAxeShape);
+        this.centerToPoint(new Coord2D(0,0));
     }
     cancel(){
         this.status=Screen.STATUS_FREE;
@@ -165,7 +172,7 @@ export default class Screen extends React.Component {
         this.gridPointsY=new Array(gridLinesCountY);
         this.gridNumbersX=new Array(gridLinesCountX);
         this.gridNumbersY=new Array(gridLinesCountY);
-        while(!hor&&!vert){
+        while(!hor||!vert){
             if(!hor){
                 let x=firstX+this.gridStep*ix;
                 let px=this.realToScreen(new Coord2D(x,this.topLeft.y));
@@ -181,7 +188,7 @@ export default class Screen extends React.Component {
                 this.gridNumbersX[ix]=x;
                 ix++;
                 xGridLineNumber++;
-                if(x>=(this.topLeft.x+this.realWidth))hor=true;
+                if(x>(this.topLeft.x+this.realWidth))hor=true;
             }
             if(!vert){
                 let y=firstY-this.gridStep*iy;
@@ -197,7 +204,7 @@ export default class Screen extends React.Component {
                 this.gridPointsY[iy]=py.y;
                 this.gridNumbersY[iy]=y;
                 iy++;
-                if(y<=(this.topLeft.y-this.realWidth))vert=true;
+                if(y<(this.topLeft.y-this.realHeight))vert=true;
             }
 
         }
@@ -254,25 +261,20 @@ export default class Screen extends React.Component {
         }
     }
     drawShape(s, ctx){
-        let first=true;
-        let p0=new Point2D(0,0);
-        let p;
         if(s.refresh) s.refresh(this.boundedCircle);
-        s.reset();
-        while(s.isNext()){
-            let c=s.next();
-            if(c!=null){
-                if(first) {p0=this.realToScreen(c);first=false;continue;}
-                p=this.realToScreen(c);
-                ctx.strokeStyle=s.getStyle().getColor();
-                ctx.setLineDash(s.getStyle().getStroke());
-                ctx.beginPath();
-                ctx.moveTo(p0.x,p0.y);
-                ctx.lineTo(p.x,p.y);
-                ctx.stroke();
-                p0=p;
-            }
-        }
+        ctx.strokeStyle=s.getStyle().getColor();
+        ctx.setLineDash(s.getStyle().getStroke());
+        let realRect = {};
+        realRect.topLeft = this.topLeft;
+        realRect.bottomRight = this.bottomRight;
+        let screenRect = {};
+        screenRect.topLeft={};
+        screenRect.bottomRight={};
+        screenRect.topLeft.x = 0;
+        screenRect.topLeft.y = 0;
+        screenRect.bottomRight.x = this.screenWidth;
+        screenRect.bottomRight.y = this.screenHeight;
+        s.drawSelf(ctx,realRect,screenRect);
     }
     paint(ctx){
         ctx.fillStyle="white";
@@ -363,6 +365,7 @@ export default class Screen extends React.Component {
             this.dragY0=this.curCoord.y;
             e.target.style.cursor="move";
             this.paint(ctx);
+            e.preventDefault();
         }
 
 
@@ -390,7 +393,9 @@ export default class Screen extends React.Component {
         }
         this.paint(ctx);
         
-        e.preventDefault();
+       e.preventDefault();
+        
+
     }
     onclick(e){
         if(e.button===0){

@@ -1,27 +1,20 @@
-import {Coord2D} from '../../utils/geometry/geometry';
+import Geometry from '../../utils/geometry/geometry';
 
 export default class LineShape {
-    p=[new Coord2D(0,0),new Coord2D(0,0)];
-    color;
-    i=0;
-    style;
     constructor(line){
         this.p=[];
         this.p[0]=line.p1;
         this.p[1]=line.p2;
+        this.line=line;
     }
-
-    isNext(){
-        return (this.i<this.p.length);
+    drawSelf(ctx,realRect, screenRect){
+        let p0=Geometry.realToScreen(this.line.p1,realRect,screenRect);
+        let p1 = Geometry.realToScreen(this.line.p2, realRect, screenRect);
+        ctx.beginPath();
+        ctx.moveTo(p0.x,p0.y);
+        ctx.lineTo(p1.x,p1.y);
+        ctx.stroke();
     }
-    canDrawn(){
-        return this.i>0;
-    }
-    next(){
-        return this.p[this.i++];
-
-    }
-    reset(){this.i=0;}
     setColor(color){
         this.color=color;
     }

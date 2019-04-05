@@ -103,6 +103,12 @@ class Vector {
     }
 }
 class Geometry {
+    static realToScreen(point, realRect, screenRect){
+        let ratio = (realRect.bottomRight.x - realRect.topLeft.x) / (screenRect.bottomRight.x - screenRect.topLeft.x);
+        let x = Math.round((point.x - realRect.topLeft.x) / ratio);
+        let y = -Math.round((point.y - realRect.topLeft.y) / ratio);
+        return new Point2D(x,y);
+    }
     static LineByTwoPoints(p1, p2) {
         return new StraightLine(p1, p2);
     }

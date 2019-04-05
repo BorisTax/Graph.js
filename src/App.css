@@ -47,9 +47,7 @@ body{
   padding: 5px;
   border-radius: 5px;
 }
-.toolBarCaption{
-  
-}
+
 .toolBarHeader{
   display: flex;
   justify-content: center;

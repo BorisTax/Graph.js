@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import '../App.css';
 import LangToggleButton from './LangToogleButton';
 import {setActiveLangButton} from '../actions/ComponentActions';
+import {setLanguage} from '../actions/AppActions';
+
 class LangToggleBar extends React.Component{
     render(){
         return <div className={"langToggleBar"}>
@@ -10,11 +12,13 @@ class LangToggleBar extends React.Component{
                 lang="RUS"
                 pressed={this.props.pressed=="RUS"}
                 setActiveLangButtonId={this.props.setActiveLangButtonId}
+                setLanguage={this.props.setLanguage}
                 />
             <LangToggleButton
                 lang="ENG"
                 pressed={this.props.pressed=="ENG"}
                 setActiveLangButtonId={this.props.setActiveLangButtonId}
+                setLanguage={this.props.setLanguage}
                 />
         </div>
     }
@@ -28,6 +32,7 @@ const mapStateToProps = store=>{
 const mapDispatchToProps = dispatch=>{
     return {
         setActiveLangButtonId:lang=>dispatch(setActiveLangButton(lang)),
+        setLanguage:capt=>dispatch(setLanguage(capt)),
     }
 };
 
