@@ -16,10 +16,10 @@ export default class LineShape {
         ctx.stroke();
     }
     setColor(color){
-        this.color=color;
+        this.style.setColor(color);
     }
     getColor(){
-        return this.color;
+        return this.style.getColor();
     }
     toString(){
         return "p1("+this.p[0].x+","+this.p[0].y+") p2("+this.p[1].x+","+this.p[1].y+")";

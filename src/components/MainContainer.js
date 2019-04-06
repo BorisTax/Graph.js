@@ -14,7 +14,7 @@ class MainContainer extends React.Component{
         <CreateToolBar/>
         <SnapToggleBar/>
         <ShowToggleBar/>
-        <Screen setBoundedCircle={this.props.setBoundedCircle} style={{borderWidth:1+'px',borderStyle:"solid"}}
+        <Screen style={{borderWidth:1+'px',borderStyle:"solid"}}
                 setStatus={this.props.setScreenStatus}
                 {...this.props.screen}/>
 
@@ -30,7 +30,6 @@ const mapStateToProps = store => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        setBoundedCircle:circle=>dispatch(setBoundedCircle(circle)),
         setLanguage:captions=>dispatch(setLanguage(captions)),
         setScreenStatus:(status,creator)=>dispatch(setScreenStatus(status,creator)),
     }

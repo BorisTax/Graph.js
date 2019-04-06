@@ -2,5 +2,9 @@
   "createToolBar":"Create",
   "createSLine2Ponts":"Straight line",
   "createRayLine2Points":"Ray line",
-  "createSegmentLine2Points":"Segment line"
+  "createSegmentLine2Points":"Segment line",
+  "createCircleCenter":"Circle by center",
+  "snapToggleBar":"Snap",
+  "snapGridPoints":"grid points",
+  "showGrid":"Show grid"
 }

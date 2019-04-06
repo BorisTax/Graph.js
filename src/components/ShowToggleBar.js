@@ -5,8 +5,10 @@ import OptionToggle from './OptionToggle';
 import {setGridVisible} from '../actions/ScreenActions';
 class ShowToggleBar extends React.Component{
     render(){
+        let cap=this.props.captions;
+        let showGrid=cap?cap.showGrid||"Show grid":"Show grid";
         return <div className={"toolBar"}>
-            <OptionToggle title={"Show grid"}
+            <OptionToggle title={showGrid}
                       action={this.props.setGridVisible}
                       checked={this.props.screen.show.grid}
         />
@@ -18,7 +20,7 @@ const mapStateToProps = store => {
 
     return {
             screen: store.screen,
-            captions:store.captions,
+            captions:store.options.captions,
     }
 };
 const mapDispatchToProps = dispatch => {

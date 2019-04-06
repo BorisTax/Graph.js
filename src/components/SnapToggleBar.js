@@ -6,12 +6,15 @@ import {setActiveSnapButton,clearActiveSnapButton} from '../actions/ComponentAct
 import OptionTogglePic from './OptionTogglePic';
 class SnapToggleBar extends React.Component{
     render(){
+        let cap=this.props.captions;
+        let snapToggleBar=cap?cap.snapToggleBar||"Snap":"Snap";
+        let snapGridPoints=cap?cap.snapGridPoints||"grid points":"grid points";
         return <div className={"optionToggleBar"}>
                  <div className={"toolBarHeader"}>
-                    <span className={"toolBarCaption noselect"}>{"Snap"}</span>
+                    <span className={"toolBarCaption noselect"}>{snapToggleBar}</span>
                 </div>
                 <br/>
-        <OptionTogglePic title={"grid points"}
+        <OptionTogglePic title={snapGridPoints}
                         id={"grid"}
                       setSnap={this.props.setSnap}
                       setActiveSnapButton={this.props.setActiveSnapButton}
@@ -26,7 +29,7 @@ const mapStateToProps = store => {
 
     return {
             screen: store.screen,
-            captions:store.captions,
+            captions:store.options.captions,
             activeButtons:store.components.activeSnapButtons,
     }
 };

@@ -13,8 +13,6 @@ export function screenReducer(state = initialState,action) {
             return{...state,show:{grid:action.payload}};
         case SET_SNAP:
             return{...state,snap:action.payload};
-        case SET_BOUNDED_CIRCLE:
-            return{...state,boundedCircle:action.payload};
         case SET_SCREEN_CONTEXT:
             return{...state,context:action.payload};
         case CREATE_SHAPE:

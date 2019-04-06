@@ -11,6 +11,7 @@ export default class Screen extends React.Component {
     static STATUS_CREATE='CREATE';
     static STATUS_DRAWING='DRAWING';
     static STATUS_CANCEL='CANCEL';
+    static MARKER_SIZE=0.005;
     status='';
     points=new Array(3);
     topLeft=new Coord2D();
@@ -50,7 +51,7 @@ export default class Screen extends React.Component {
         let c=this.screenToReal(this.screenWidth/2,this.screenHeight/2);
         let r=Math.sqrt(this.realWidth*this.realWidth+this.realHeight*this.realHeight)/2;
         this.boundedCircle=new Circle(c,r);
-        this.props.setBoundedCircle(this.boundedCircle);
+        if(this.shapeCreator!=null) this.shapeCreator.refresh(this.boundedCircle);
     }
     screenToReal(x,y){
         let rx=x/this.screenWidth*this.realWidth+this.topLeft.x;
@@ -124,7 +125,7 @@ export default class Screen extends React.Component {
         this.creationStep="";
         this.currentShape="";
     }
-    getBoundedCircle(){return this.this.boundedCircle;}
+    getBoundedCircle(){return this.boundedCircle;}
     setSnap(snap){
         this.snap=snap;
         //this.snap=snap;
@@ -134,7 +135,8 @@ export default class Screen extends React.Component {
     }
     newShape(creator){
         this.shapeCreator=creator;
-        this.shapeCreator.reset(this.boundedCircle);
+        this.shapeCreator.refresh(this.boundedCircle);
+        //this.shapeCreator.reset(this.boundedCircle);
         this.curShapes=this.shapeCreator.getShapes();
         this.curHelperShapes=this.shapeCreator.getHelperShapes();
         this.currentShape=this.shapeCreator.getShapeDescription();

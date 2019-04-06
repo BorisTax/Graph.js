@@ -26,10 +26,10 @@ export default class RayLineShape {
             }
     }
     setColor(color){
-        this.color=color;
+        this.style.setColor(color);
     }
     getColor(){
-        return this.color;
+        return this.style.getColor();
     }
 
     getStyle() {

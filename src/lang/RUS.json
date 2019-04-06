@@ -1,0 +1,10 @@
+{
+  "createToolBar":"Создать",
+  "createSLine2Ponts":"Прямая",
+  "createRayLine2Points":"Луч",
+  "createSegmentLine2Points":"Отрезок",
+  "createCircleCenter":"Окружность из центра",
+  "snapToggleBar":"Привязка",
+  "snapGridPoints":"к узлам сетки",
+  "showGrid":"Отобразить сетку"
+}

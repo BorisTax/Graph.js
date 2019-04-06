@@ -1,10 +1,13 @@
 import {Coord2D} from "../../utils/geometry/geometry";
 import Geometry from "../../utils/geometry/geometry";
+import {Color} from '../colors';
+import ShapeStyle from './ShapeStyle';
 export default class CircleShape {
  
     constructor(circle){
         this.p=new Coord2D();
         this.circle=circle;
+        this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
     }
 
     drawSelf(ctx, realRect, screenRect){
@@ -17,10 +20,10 @@ export default class CircleShape {
     }
 
     setColor(color){
-        this.color=color;
+        this.style.setColor(color);
     }
     getColor(){
-        return this.color;
+        return this.style.getColor();
     }
     toString(){
         return "Center("+this.circle.center.x+","+this.circle.center.y+") radius("+this.circle.radius+")";

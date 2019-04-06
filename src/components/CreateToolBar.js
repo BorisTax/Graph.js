@@ -63,7 +63,6 @@ class CreateToolBar extends React.Component{
 const mapStateToProps = store => {
 
     return {
-        boundedCircle:store.screen.boundedCircle,
         context:store.screen.context,
         captions:store.options.captions,
         activeButton:store.components.activeCreateButton,
