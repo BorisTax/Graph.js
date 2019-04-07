@@ -64,6 +64,12 @@
     width: 48px;
     height: 48px;
 }
+#Rect2p{
+    background: url("./images/icons/rectangle.png")  no-repeat;
+    background-size: 100%;
+    width: 48px;
+    height: 48px;
+}
 #grid{
     background: url("./images/icons/grid-snap.png")  no-repeat;
     background-size: 100%;

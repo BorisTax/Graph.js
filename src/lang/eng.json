@@ -4,6 +4,7 @@
   "createRayLine2Points":"Ray line",
   "createSegmentLine2Points":"Segment line",
   "createCircleCenter":"Circle by center",
+  "createRect":"Rectangle by 2 points",
   "snapToggleBar":"Snap",
   "snapGridPoints":"grid points",
   "showGrid":"Show grid"

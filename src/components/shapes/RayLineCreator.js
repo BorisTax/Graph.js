@@ -11,7 +11,7 @@ export default class RayLineCreator{
         this.points=new Array(2);
         this.boundedCircle=new Circle();
         this.shape=[];
-        this.shape.push(new RayLineShape(this.line,this.boundedCircle));
+        this.shape.push(new RayLineShape(this.line));
         this.style=style||new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
         this.shape[0].setStyle(style);
         this.helperShapes=[];
@@ -49,7 +49,7 @@ export default class RayLineCreator{
     setNextPoint(p){
         this.points[this.i++]=p;
     }
-    reset(boundedCircle){this.boundedCircle=boundedCircle;return new RayLineCreator(this.style);}
+    reset(){return new RayLineCreator(this.style);}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();

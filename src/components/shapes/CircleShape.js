@@ -3,7 +3,6 @@ import Geometry from "../../utils/geometry/geometry";
 import {Color} from '../colors';
 import ShapeStyle from './ShapeStyle';
 export default class CircleShape {
- 
     constructor(circle){
         this.p=new Coord2D();
         this.circle=circle;
@@ -11,14 +10,16 @@ export default class CircleShape {
     }
 
     drawSelf(ctx, realRect, screenRect){
-        let c=Geometry.realToScreen(this.circle.center,realRect,screenRect);
-        let r=this.circle.radius/((realRect.bottomRight.x-realRect.topLeft.x)/(screenRect.bottomRight.x-screenRect.topLeft.x));
-        //console.log(r,c);
+        this.refresh(realRect, screenRect);
+        //console.log(this.radius);
         ctx.beginPath();
-        ctx.arc(c.x,c.y,r,0,2*Math.PI);
+        ctx.arc(this.center.x,this.center.y,this.radius,0,2*Math.PI);
         ctx.stroke();
     }
-
+    refresh(realRect, screenRect){
+        this.center=Geometry.realToScreen(this.circle.center,realRect,screenRect);
+        this.radius=Geometry.realToScreenLength(this.circle.radius,realRect.width,screenRect.width);
+    }
     setColor(color){
         this.style.setColor(color);
     }

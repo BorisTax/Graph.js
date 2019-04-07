@@ -1,6 +1,6 @@
 import React from 'react';
 import '../App.css';
-import {StraightLine, Circle, Coord2D, Point2D} from '../utils/geometry/geometry.js';
+import {StraightLine, Circle, Coord2D, Point2D,Rectangle} from '../utils/geometry/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import StraightLineShape from "./shapes/StraightLineShape.js";
 export default class Screen extends React.Component {
@@ -62,6 +62,21 @@ export default class Screen extends React.Component {
         let x=Math.round((p.x-this.topLeft.x)/this.pixelRatio);
         let y=-Math.round((p.y-this.topLeft.y)/this.pixelRatio);
         return new Point2D(x,y);
+    }
+    getRealRect(){
+        let realRect = new Rectangle();
+        realRect.topLeft = this.topLeft;
+        realRect.width = this.bottomRight.x-this.topLeft.x;
+        realRect.height=this.topLeft.y-this.bottomRight.y;
+        return realRect;
+    }
+    getScreenRect(){
+        let screenRect = new Rectangle();
+        screenRect.topLeft.x = 0;
+        screenRect.topLeft.y = 0;
+        screenRect.width = this.screenWidth;
+        screenRect.height = this.screenHeight;
+        return screenRect;
     }
     setTopLeft(p){
         this.topLeft=p;
@@ -265,20 +280,9 @@ export default class Screen extends React.Component {
         }
     }
     drawShape(s, ctx){
-        if(s.refresh) s.refresh(this.boundedCircle);
         ctx.strokeStyle=s.getStyle().getColor();
         ctx.setLineDash(s.getStyle().getStroke());
-        let realRect = {};
-        realRect.topLeft = this.topLeft;
-        realRect.bottomRight = this.bottomRight;
-        let screenRect = {};
-        screenRect.topLeft={};
-        screenRect.bottomRight={};
-        screenRect.topLeft.x = 0;
-        screenRect.topLeft.y = 0;
-        screenRect.bottomRight.x = this.screenWidth;
-        screenRect.bottomRight.y = this.screenHeight;
-        s.drawSelf(ctx,realRect,screenRect);
+        s.drawSelf(ctx,this.getRealRect(), this.getScreenRect());
     }
     paint(ctx){
         ctx.fillStyle="white";

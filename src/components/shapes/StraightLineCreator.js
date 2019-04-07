@@ -11,8 +11,7 @@ export default class StraightLineCreator {
         this.points[0]=new Coord2D();
         this.points[1]=new Coord2D();
         this.line=new StraightLine(0,0,0);
-        this.boundedCircle=new Circle();
-        this.shape=[new StraightLineShape(this.line,this.boundedCircle)];
+        this.shape=[new StraightLineShape(this.line)];
         this.style=style||new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
         this.shape[0].setStyle(style);
         this.helperShapes=[];
@@ -33,7 +32,7 @@ export default class StraightLineCreator {
         this.points[this.i]=point;
         if(this.i==0)this.points[1]=this.points[0];
         if(this.i>0) this.line=new StraightLine(...this.points);
-        this.shape=[new StraightLineShape(this.line,this.boundedCircle)];
+        this.shape=[new StraightLineShape(this.line)];
         this.shape[0].setStyle(this.style);
         this.setControlPoints();
     }
@@ -50,7 +49,7 @@ export default class StraightLineCreator {
     setNextPoint(p){
         this.points[this.i++]=p;
     }
-    reset(boundedCircle){this.boundedCircle=boundedCircle;return new StraightLineCreator(this.style);}
+    reset(){return new StraightLineCreator(this.style);}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();

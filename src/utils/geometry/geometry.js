@@ -1,24 +1,24 @@
 
-class Coord2D{
+export class Coord2D{
     constructor(x=0,y=0){
         this.x=x;
         this.y=y;
     }
 }
-class Point2D {
+export class Point2D {
     constructor(x=0,y=0){
     this.x=x;
     this.y=y;
 }
 }
 
-class Line{
+export class Line{
     constructor(p1,p2){
         this.p1=p1;
         this.p2=p2;
     }
 }
-class StraightLine{
+export class StraightLine{
     constructor(){
         let param=arguments;
         let createLine=(p1,p2)=>{
@@ -42,7 +42,7 @@ class StraightLine{
     }
 }
 
-class RayLine {
+export class RayLine {
 
     constructor(p1=new Coord2D(), p2=new Coord2D()){
     this.origin=p1;
@@ -69,7 +69,7 @@ class RayLine {
     }
 }
 
-class Arc {
+export class Arc {
     constructor(first, second, third){
     this.first=first;
     this.second=second;
@@ -81,33 +81,42 @@ class Arc {
 }
 
 
-class Rectangle {
-    constructor(topLeft = new Coord2D(), bottomRight = new Coord2D()) {
-        this.topLeft = topLeft;
-        this.bottomRight = bottomRight;
+export class Rectangle {
+    constructor(topLeft=new Coord2D(),bottomRight=new Coord2D()){
+        this.topLeft={};
+        this.topLeft.x=topLeft.x>bottomRight.x?bottomRight.x:topLeft.x;
+        this.topLeft.y=topLeft.y<bottomRight.y?bottomRight.y:topLeft.y;
+        this.width=Math.abs(bottomRight.x-topLeft.x);
+        this.height=Math.abs(bottomRight.y-topLeft.y);
     }
+    
 }
 
-class Circle {
+export class Circle {
     constructor(center=new Coord2D(),radius=0){
     this.center=center;
     this.radius=radius;
 }
 }
 
-class Vector {
+
+
+export class Vector {
     constructor(p1=new Coord2D(),p2=new Coord2D()){
     this.x=p2.x-p1.x;
     this.y=p2.y-p1.y;
     this.modulus=Math.sqrt(this.x*this.x+this.y*this.y);
     }
 }
-class Geometry {
-    static realToScreen(point, realRect, screenRect){
-        let ratio = (realRect.bottomRight.x - realRect.topLeft.x) / (screenRect.bottomRight.x - screenRect.topLeft.x);
+export default class Geometry {
+    static realToScreen(point,realRect, screenRect){
+        let ratio = realRect.width / screenRect.width;
         let x = Math.round((point.x - realRect.topLeft.x) / ratio);
         let y = -Math.round((point.y - realRect.topLeft.y) / ratio);
         return new Point2D(x,y);
+    }
+    static realToScreenLength(value, realWidth, screenWidth){
+        return Math.round(value/(realWidth/screenWidth));
     }
     static LineByTwoPoints(p1, p2) {
         return new StraightLine(p1, p2);
@@ -319,5 +328,4 @@ class Geometry {
     }
 
 }
-export default Geometry;
-export {StraightLine, Line, Circle, Coord2D, Point2D, RayLine}
+

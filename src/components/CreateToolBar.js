@@ -6,6 +6,7 @@ import StraightLineCreator from "./shapes/StraightLineCreator";
 import RayLineCreator from "./shapes/RayLineCreator";
 import LineCreator from "./shapes/LineCreator";
 import CircleCRCreator from "./shapes/CircleCRCreator";
+import RectangleCreator from "./shapes/RectangleCreator";
 import {setActiveCreateButton} from "../actions/ComponentActions";
 import {setScreenStatus} from "../actions/ScreenActions";
 
@@ -19,6 +20,7 @@ class CreateToolBar extends React.Component{
         let rline=cap?cap.createRayLine2Points||"Ray line":"Ray line";
         let segline=cap?cap.createSegmentLine2Points||"Segment line":"Segment line";
         let circleRad=cap?cap.createCircleCenter||"Circle by center":"Circle by center";
+        let rect2p=cap?cap.createRect||"Rectangle by 2 points":"Rectangle by 2 points";
         return <div className={"toolBar"}>
                  <div className={"toolBarHeader"}>
                     <span className={"toolBarCaption noselect"}>{createCaption}</span>
@@ -54,7 +56,14 @@ class CreateToolBar extends React.Component{
                                creator={CircleCRCreator}
                                setScreenStatus={this.props.setScreenStatus}
                             />
-
+            <br/>
+            <CreateShapeButton title={rect2p}
+                               id={"Rect2p"}
+                               pressed={this.props.activeButton=="Rect2p"}
+                               setButtonId={this.props.setButtonId}
+                               creator={RectangleCreator}
+                               setScreenStatus={this.props.setScreenStatus}
+                            />
 
         </div>
     }
