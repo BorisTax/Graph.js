@@ -1,4 +1,5 @@
 import Geometry,{Coord2D,Circle} from "../../utils/geometry/geometry";
+import EndSnapMarker from './snapmarkers/EndSnapMarker';
 
 export default class RayLineShape {
     constructor(line){
@@ -32,6 +33,15 @@ export default class RayLineShape {
             this.p0=null;
             this.p1=null;
         }
+    }
+    getModel(){
+        return this.line;
+    }
+
+    getMarkers(){
+        let list=[];
+        list.push(new EndSnapMarker(this.line.origin));
+        return list;
     }
     setColor(color){
         this.style.setColor(color);

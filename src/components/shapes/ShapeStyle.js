@@ -2,9 +2,10 @@
 export default class ShapeStyle {
     static DASH=[1,3];
     static SOLID=[0];
-    constructor(color,stroke){
+    constructor(color,stroke,width=1){
         this.color=color;
         this.stroke=stroke;
+        this.width=width;
     }
     getColor() {
         return this.color;
@@ -20,6 +21,12 @@ export default class ShapeStyle {
 
     setStroke(stroke) {
         this.stroke = stroke;
+    }
+    getWidth(){
+        return this.width;
+    }
+    setWidth(width){
+        this.width=width;
     }
 
 }

@@ -7,5 +7,7 @@
   "createRect":"Прямоугольник по 2-м точкам",
   "snapToggleBar":"Привязка",
   "snapGridPoints":"к узлам сетки",
+  "snapEndPoints": "к конечным точкам",
+  "snapCenterPoints": "к центрам окружностей и дуг",
   "showGrid":"Отобразить сетку"
 }

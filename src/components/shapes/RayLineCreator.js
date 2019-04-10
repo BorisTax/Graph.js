@@ -10,10 +10,9 @@ export default class RayLineCreator{
         this.line=new RayLine(new Coord2D(),new Coord2D());
         this.points=new Array(2);
         this.boundedCircle=new Circle();
-        this.shape=[];
-        this.shape.push(new RayLineShape(this.line));
+        this.shape=new RayLineShape(this.line);
         this.style=style||new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
-        this.shape[0].setStyle(style);
+        this.shape.setStyle(style);
         this.helperShapes=[];
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
@@ -32,15 +31,15 @@ export default class RayLineCreator{
         this.points[this.i]=point;
         if(this.i==0)this.points[1]=this.points[0];
         if(this.i>0) this.line=new RayLine(...this.points);
-        this.shape[0]=new RayLineShape(this.line,this.boundedCircle);
-        this.shape[0].setStyle(this.style);
+        this.shape=new RayLineShape(this.line,this.boundedCircle);
+        this.shape.setStyle(this.style);
         this.setControlPoints();
     }
     next(){
         if(!this.isNext()) return;
         this.i++;
     }
-    getShapes(){
+    getShape(){
         return this.shape;
     }
     getHelperShapes(){

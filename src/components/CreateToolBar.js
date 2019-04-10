@@ -16,7 +16,7 @@ class CreateToolBar extends React.Component{
     render(){
         let cap=this.props.captions;
         let createCaption=cap?cap.createToolBar||"Create":"Create";
-        let strline=cap?cap.createSLine2Ponts||"Straight line":"Straight line";
+        let strline=cap?cap.createSLine2Points||"Straight line":"Straight line";
         let rline=cap?cap.createRayLine2Points||"Ray line":"Ray line";
         let segline=cap?cap.createSegmentLine2Points||"Segment line":"Segment line";
         let circleRad=cap?cap.createCircleCenter||"Circle by center":"Circle by center";

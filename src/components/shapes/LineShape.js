@@ -1,6 +1,7 @@
 import Geometry from '../../utils/geometry/geometry';
 import {Color} from '../colors';
 import ShapeStyle from './ShapeStyle';
+import EndSnapMarker from './snapmarkers/EndSnapMarker';
 
 export default class LineShape {
     constructor(line){
@@ -20,6 +21,15 @@ export default class LineShape {
     refresh(realRect, screenRect){
         this.p0 = Geometry.realToScreen(this.line.p1,realRect,screenRect);
         this.p1 = Geometry.realToScreen(this.line.p2, realRect, screenRect);
+    }
+    getModel(){
+        return this.line;
+    }
+    getMarkers(){
+        let list=[];
+        list.push(new EndSnapMarker(this.line.p1));
+        list.push(new EndSnapMarker(this.line.p2));
+        return list;
     }
     setColor(color){
         this.style.setColor(color);

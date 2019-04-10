@@ -1,11 +1,13 @@
 {
   "createToolBar":"Create",
-  "createSLine2Ponts":"Straight line",
+  "createSLine2Points":"Straight line",
   "createRayLine2Points":"Ray line",
   "createSegmentLine2Points":"Segment line",
   "createCircleCenter":"Circle by center",
   "createRect":"Rectangle by 2 points",
   "snapToggleBar":"Snap",
-  "snapGridPoints":"grid points",
+  "snapGridPoints":"to grid points",
+  "snapEndPoints": "to end points",
+  "snapCenterPoints": "to center points",
   "showGrid":"Show grid"
 }

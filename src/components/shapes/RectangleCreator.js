@@ -11,9 +11,8 @@ export default class RectangleCreator {
     points=new Array(2);
     constructor(style){
         this.style=style;
-        this.shape=[];
-        this.shape.push(new RectangleShape(this.rectangle));
-        this.shape[0].setStyle(style);
+        this.shape=new RectangleShape(this.rectangle);
+        this.shape.setStyle(style);
         this.helperShapes = [];
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
@@ -29,15 +28,15 @@ export default class RectangleCreator {
         this.points[this.i]=point;
         if(this.i==0)this.points[1]=this.points[0];
         if(this.i>0)this.rectangle=new Rectangle(this.points[0], this.points[1]);
-        this.shape[0]=new RectangleShape(this.rectangle);
-        this.shape[0].setStyle(this.style);
+        this.shape=new RectangleShape(this.rectangle);
+        this.shape.setStyle(this.style);
         this.setControlPoints();
     }
     next(){
         if(!this.isNext()) return;
         this.i++;
     }
-    getShapes(){
+    getShape(){
         return this.shape;
     }
     getHelperShapes(){

@@ -76,3 +76,15 @@
     width: 24px;
     height: 24px;
 }
+#endpoint{
+    background: url("./images/icons/vertex-snap.png")  no-repeat;
+    background-size: 100%;
+    width: 24px;
+    height: 24px;
+}
+#centerpoint{
+    background: url("./images/icons/center-snap.png")  no-repeat;
+    background-size: 100%;
+    width: 24px;
+    height: 24px;
+}

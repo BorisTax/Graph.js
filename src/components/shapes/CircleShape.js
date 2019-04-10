@@ -2,6 +2,7 @@ import {Coord2D} from "../../utils/geometry/geometry";
 import Geometry from "../../utils/geometry/geometry";
 import {Color} from '../colors';
 import ShapeStyle from './ShapeStyle';
+import CenterSnapMarker from './snapmarkers/CenterSnapMarker';
 export default class CircleShape {
     constructor(circle){
         this.p=new Coord2D();
@@ -19,6 +20,14 @@ export default class CircleShape {
     refresh(realRect, screenRect){
         this.center=Geometry.realToScreen(this.circle.center,realRect,screenRect);
         this.radius=Geometry.realToScreenLength(this.circle.radius,realRect.width,screenRect.width);
+    }
+    getModel(){
+        return this.circle;
+    }
+    getMarkers(){
+        let list=[];
+        list.push(new CenterSnapMarker(this.circle.center));
+        return list;
     }
     setColor(color){
         this.style.setColor(color);

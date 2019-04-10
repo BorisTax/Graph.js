@@ -35,7 +35,12 @@ export default class StraightLineShape {
             this.p1=null;
         }
     }
-
+    getModel(){
+        return this.line;
+    }
+    getMarkers(){
+        return null;
+    }
     setColor(color){
         this.style.setColor(color);
     }

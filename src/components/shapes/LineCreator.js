@@ -10,10 +10,9 @@ export default class LineCreator{
         this.line=new Line(new Coord2D(),new Coord2D());
         this.boundedCircle=new Circle(new Coord2D(),0);
         this.points=[new Coord2D(),new Coord2D()];
-        this.shape=[];
-        this.shape.push(new LineShape(this.line));
+        this.shape=new LineShape(this.line);
         this.style=style;
-        this.shape[0].setStyle(style);
+        this.shape.setStyle(style);
         this.helperShapes=[];
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
@@ -26,8 +25,8 @@ export default class LineCreator{
         this.points[this.i]=point;
         if(this.i==0)this.points[1]=this.points[0];
         if(this.i>0)this.line=new Line(this.points[0],this.points[1]);
-        this.shape[0]=new LineShape(this.line);
-        this.shape[0].setStyle(this.style);
+        this.shape=new LineShape(this.line);
+        this.shape.setStyle(this.style);
         this.setControlPoints();
     }
     setControlPoints(){
@@ -40,7 +39,7 @@ export default class LineCreator{
         if(!this.isNext()) return;
         this.i++;
     }
-    getShapes(){
+    getShape(){
         return this.shape;
     }
     getHelperShapes(){

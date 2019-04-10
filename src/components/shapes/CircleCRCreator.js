@@ -10,20 +10,18 @@ export default class CircleCRCreator {
         this.points=new Array(2);
         this.circle=new Circle(new Coord2D(),0);
         this.boundedCircle=new Circle();
-        this.shape=[];
         this.helperShapes = [];
-        this.shape.push(new CircleShape(this.circle));
+        this.shape=new CircleShape(this.circle);
         this.radiusLine=new Line(this.circle.center,this.circle.center);
         this.helperShapes.push(new LineShape(this.radiusLine));
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
         this.style=style;
-        this.shape[0].setStyle(style);
+        this.shape.setStyle(style);
         this.helperShapes[0].setStyle(new ShapeStyle(Color.GRAY,ShapeStyle.DASH));
         this.helperShapes[1].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
         this.helperShapes[2].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
         this.i=0;
-        
     }
     isNext(){
         return (this.i<this.points.length);
@@ -34,9 +32,9 @@ export default class CircleCRCreator {
         if(this.i==0)this.points[1]=this.points[0];
         if(this.i>0)this.circle=new Circle(this.points[0], Geometry.distance(this.points[0],this.points[this.i]));
         this.radiusLine=new Line(this.points[0],this.points[this.i]);
-        this.shape[0]=new CircleShape(this.circle);
+        this.shape=new CircleShape(this.circle);
         this.helperShapes[0]=new LineShape(this.radiusLine);
-        this.shape[0].setStyle(this.style);
+        this.shape.setStyle(this.style);
         this.helperShapes[0].setStyle(new ShapeStyle(Color.GRAY,ShapeStyle.DASH));
         this.setControlPoints();
     }
@@ -44,7 +42,7 @@ export default class CircleCRCreator {
         if(!this.isNext()) return;
         this.i++;
     }
-    getShapes(){
+    getShape(){
         return this.shape;
     }
     setControlPoints(){
