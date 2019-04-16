@@ -6,11 +6,12 @@ import Screen from './Screen';
 export default class CreateShapeButton extends React.Component{
     constructor(props){
         super(props);
-        this.state={pressed:props.pressed,id:props.id}
+        this.state={pressed:props.activeButtonId==props.id,id:props.id,index:this.props.index}
     }
     onclick(){
         if(!this.state.pressed) {
                 this.props.setScreenStatus(Screen.STATUS_CREATE,new this.props.creator(new ShapeStyle("black", ShapeStyle.SOLID)));
+                this.props.setButtonFirst(this.state.index);
                 this.props.setButtonId(this.state.id);
             }
             else {
@@ -23,17 +24,18 @@ export default class CreateShapeButton extends React.Component{
     }
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState(
-        {pressed:nextProps.pressed,id:nextProps.id}
+        {pressed:nextProps.activeButtonId==nextProps.id,id:nextProps.id,index:nextProps.index}
         );
     }
 
     render(){
-
+        let cls=!this.state.pressed?"createShapeButtonUp":"createShapeButtonDown";
+        cls=cls+" createShapeButton";
         return <div id={this.state.id}
-                    className={!this.state.pressed?"createShapeButtonUp":"createShapeButtonDown"}
+                    className={cls}
                        onClick={this.onclick.bind(this)}
                     title={this.props.title}
-
+                    
                     >
 
         </div>

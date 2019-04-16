@@ -12,12 +12,12 @@ class MainContainer extends React.Component{
     render(){
         return <div className={"mainContainer"}>
         <CreateToolBar/>
-        <SnapToggleBar/>
-        <ShowToggleBar/>
+        
         <Screen style={{borderWidth:1+'px',borderStyle:"solid"}}
                 setStatus={this.props.setScreenStatus}
                 {...this.props.screen}/>
-
+        <SnapToggleBar/>
+        <ShowToggleBar/>
     </div>
     }
 }

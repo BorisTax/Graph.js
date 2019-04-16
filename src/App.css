@@ -9,11 +9,20 @@ body{
   align-items: flex-start;
 }
 .toolBar{
+  display: inline-block;
   border:5px ridge;
   background-color: rgba(185, 202, 203, 0.8);
   padding: 5px;
   border-radius: 5px;
-
+  
+}
+.createToolBar{
+  display: inline-block;
+  border:5px ridge;
+  background-color: rgba(185, 202, 203, 0.8);
+  padding: 5px;
+  border-radius: 5px;
+  width:55px;
 }
 
 .langToggleButtonDown{
@@ -42,6 +51,7 @@ body{
 }
 
 .optionToggleBar{
+  display: inline-block;
   border:5px ridge;
   background-color: rgba(185, 202, 203, 0.8);
   padding: 5px;

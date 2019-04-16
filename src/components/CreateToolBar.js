@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
 import CreateShapeButton from "./CreateShapeButton";
+import CreateShapeButtonGroup from "./CreateShapeButtonGroup";
 import StraightLineCreator from "./shapes/StraightLineCreator";
 import RayLineCreator from "./shapes/RayLineCreator";
 import LineCreator from "./shapes/LineCreator";
@@ -21,49 +22,24 @@ class CreateToolBar extends React.Component{
         let segline=cap?cap.createSegmentLine2Points||"Segment line":"Segment line";
         let circleRad=cap?cap.createCircleCenter||"Circle by center":"Circle by center";
         let rect2p=cap?cap.createRect||"Rectangle by 2 points":"Rectangle by 2 points";
-        return <div className={"toolBar"}>
+        return <div className={"toolBar createToolBar"}>
                  <div className={"toolBarHeader"}>
                     <span className={"toolBarCaption noselect"}>{createCaption}</span>
                 </div>
-                <br/>
-            <CreateShapeButton title={strline}
-                               id={"SLine"}
-                               setButtonId={this.props.setButtonId}
-                               pressed={this.props.activeButton=="SLine"}
-                               creator={StraightLineCreator}
-                               setScreenStatus={this.props.setScreenStatus}
+            <CreateShapeButtonGroup 
+                                buttons={[{title:strline,id:"SLine",creator:StraightLineCreator},
+                                         {title:rline,id:"RLine",creator:RayLineCreator},
+                                         {title:segline,id:"Line",creator:LineCreator}
+                                            ]}
                                 />
-            <CreateShapeButton title={rline}
-                               id={"RLine"}
-                               pressed={this.props.activeButton=="RLine"}
-                               setButtonId={this.props.setButtonId}
-                               creator={RayLineCreator}
-                               setScreenStatus={this.props.setScreenStatus}
+            <CreateShapeButtonGroup 
+                                buttons={[{title:circleRad,id:"CircleRad",creator:CircleCRCreator}
+                                            ]}
                                 />
-            <br/>
-            <CreateShapeButton title={segline}
-                               id={"Line"}
-                               pressed={this.props.activeButton=="Line"}
-                               setButtonId={this.props.setButtonId}
-                               creator={LineCreator}
-                               setScreenStatus={this.props.setScreenStatus}
-                            />
-            <br/>
-            <CreateShapeButton title={circleRad}
-                               id={"CircleRad"}
-                               pressed={this.props.activeButton=="CircleRad"}
-                               setButtonId={this.props.setButtonId}
-                               creator={CircleCRCreator}
-                               setScreenStatus={this.props.setScreenStatus}
-                            />
-            <br/>
-            <CreateShapeButton title={rect2p}
-                               id={"Rect2p"}
-                               pressed={this.props.activeButton=="Rect2p"}
-                               setButtonId={this.props.setButtonId}
-                               creator={RectangleCreator}
-                               setScreenStatus={this.props.setScreenStatus}
-                            />
+            <CreateShapeButtonGroup 
+                                buttons={[{title:rect2p,id:"Rect2p",creator:RectangleCreator}
+                                            ]}
+                                />
 
         </div>
     }

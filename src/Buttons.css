@@ -1,90 +1,92 @@
-.createShapeButtonUp {
+.createShapeButtonGroup{
+    display: block;
+    height: 55px;
+    width: 55px;
+    overflow: hidden;
+    
+}
+
+.createShapeButtonGroupExpanded{
     position: relative;
+    width:100vw;
+}
+.createShapeButtonGroupCollapsed{
+    position: relative;
+    height: 55px;
+    overflow: hidden;
+
+}
+.createShapeButtonGroupCollapsed > *{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+}
+.createShapeButtonGroupExpanded > *{
+    position: relative;
+
+}
+.createShapeButton{
     display: inline-block;
-    width: 8em;
-    height: 2em;
-    line-height: 2em;
-    vertical-align: middle;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 -1px 1px #777;
-    color: #000;
-    outline: none;
+    position: relative;
+    background-repeat: no-repeat;
+    width: 48px;
+    height: 48px;
     border: 1px solid #69abc3;
     border-radius: 5px;
+    cursor:pointer;
+
+}
+.createShapeButtonUp {
     box-shadow: 0 0 0 60px rgba(0,0,0,0) inset, .1em .1em .2em #888;
     background: linear-gradient(#c8e0e9, #FFFFFF 25%, #c8e0e9 70%, #9dc8d8);
-    cursor:pointer;
 }
 .createShapeButtonUp:hover{
     box-shadow: 0 0 0 60px rgba(0,0,0,0.1) inset, .1em .1em .2em #888;
 }
 .createShapeButtonDown {
-    position: relative;
-    display: inline-block;
-    width: 8em;
-    height: 2em;
-    line-height: 2em;
-    vertical-align: middle;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 -1px 1px #777;
-    color: #fff;
-    outline: none;
-    border: 1px solid #93989a;
-    border-radius: 5px;
-    
     background: #4087a0;
-    cursor:pointer;
+    border-color: grey;
     top: .1em;
     left: .1em;
 }
 
 #SLine{
-    background: url("./images/icons/straight-line.png") no-repeat;
-    background-size: 100%;
-    width: 48px;
-    height: 48px;
+    background-image: url("./images/icons/straight-line.png");
+    background-size: cover;
 }
 #RLine{
-    background: url("./images/icons/ray-line.png")  no-repeat;
-    background-size: 100%;
-    width: 48px;
-    height: 48px;
+    background-image: url("./images/icons/ray-line.png");
+    background-size: cover;
 }
 #Line{
-    background: url("./images/icons/segment-line.png")  no-repeat;
-    background-size: 100%;
-    width: 48px;
-    height: 48px;
+    background-image: url("./images/icons/segment-line.png");
+    background-size: cover;
 }
 #CircleRad{
-    background: url("./images/icons/circle-center.png")  no-repeat;
-    background-size: 100%;
-    width: 48px;
-    height: 48px;
+    background-image: url("./images/icons/circle-center.png");
+    background-size: cover;
 }
 #Rect2p{
-    background: url("./images/icons/rectangle.png")  no-repeat;
-    background-size: 100%;
-    width: 48px;
-    height: 48px;
+    background-image: url("./images/icons/rectangle.png");
+    background-size: cover;
+}
+.snapButton{
+    width: 36px;
+    height: 36px;
 }
 #grid{
     background: url("./images/icons/grid-snap.png")  no-repeat;
-    background-size: 100%;
-    width: 24px;
-    height: 24px;
+    background-size: cover;
+    
 }
+
 #endpoint{
     background: url("./images/icons/vertex-snap.png")  no-repeat;
-    background-size: 100%;
-    width: 24px;
-    height: 24px;
+    background-size: cover;
 }
 #centerpoint{
     background: url("./images/icons/center-snap.png")  no-repeat;
-    background-size: 100%;
-    width: 24px;
-    height: 24px;
+    background-size: cover;
+
 }

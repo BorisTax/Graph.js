@@ -457,8 +457,9 @@ export default class Screen extends React.Component {
     }
 
     componentDidMount() {
-        let ctx=document.querySelector("#canvas").getContext("2d");
-        
+        let canvas=document.querySelector("#canvas");
+        let ctx=canvas.getContext("2d");
+        canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
         this.setDimentions(this.screenWidth,this.screenHeight,20,new Coord2D(-10,10));
         this.paint(ctx);
         
@@ -495,7 +496,7 @@ export default class Screen extends React.Component {
                 onMouseMove={this.mmove.bind(this)}
                 onMouseDown={this.mdown.bind(this)}
                 onMouseUp={this.mup.bind(this)}
-                onWheel={this.mwheel.bind(this)}
+                
                 onClick={this.onclick.bind(this)}
             >
 
