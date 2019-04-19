@@ -5,6 +5,7 @@ import ShapeStyle from '../ShapeStyle';
 import {Color} from '../../colors';
 import AbstractSnapMarker from './AbstractSnapMarker';
 export default class EndSnapMarker extends AbstractSnapMarker {
+    static caption = "end points";
     constructor(pos){
         super(pos);
         this.rect=new Rectangle();

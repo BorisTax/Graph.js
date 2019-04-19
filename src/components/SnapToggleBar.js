@@ -5,14 +5,16 @@ import {setSnap} from '../actions/ScreenActions';
 import {setActiveSnapButton,clearActiveSnapButton} from '../actions/ComponentActions';
 import OptionTogglePic from './OptionTogglePic';
 import EndSnapMarker from "./shapes/snapmarkers/EndSnapMarker";
+import MiddleSnapMarker from "./shapes/snapmarkers/MiddleSnapMarker";
 import CenterSnapMarker from "./shapes/snapmarkers/CenterSnapMarker";
 class SnapToggleBar extends React.Component{
     render(){
         let cap=this.props.captions;
         let snapToggleBar=cap?cap.snapToggleBar||"Snap":"Snap";
         let snapGridPoints=cap?cap.snapGridPoints||"grid points":"grid points";
-        let snapEndPoints=cap?cap.snapEndPoints||"end points":"end points";
-        let snapCenterPoints=cap?cap.snapCenterPoints||"center points":"end points";
+        let snapEndPoints=cap?cap.snapEndPoints||EndSnapMarker.caption:EndSnapMarker.caption;
+        let snapMiddlePoints=cap?cap.snapEndPoints||MiddleSnapMarker.caption:MiddleSnapMarker.caption;
+        let snapCenterPoints=cap?cap.snapCenterPoints||CenterSnapMarker.caption:CenterSnapMarker.caption;
         return <div className={"toolBar"}>
                  <div className={"toolBarHeader"}>
                     <span className={"toolBarCaption noselect"}>{snapToggleBar}</span>
@@ -33,6 +35,14 @@ class SnapToggleBar extends React.Component{
                              setActiveSnapButton={this.props.setActiveSnapButton}
                              clearActiveSnapButton={this.props.clearActiveSnapButton}
                              pressed={this.props.activeButtons.has("endpoint")}
+            />
+         <OptionTogglePic title={snapMiddlePoints}
+                             id={"middlepoint"}
+                             setSnap={this.props.setSnap}
+                             snapClass={MiddleSnapMarker}
+                             setActiveSnapButton={this.props.setActiveSnapButton}
+                             clearActiveSnapButton={this.props.clearActiveSnapButton}
+                             pressed={this.props.activeButtons.has("middlepoint")}
             />
         <OptionTogglePic title={snapCenterPoints}
                              id={"centerpoint"}

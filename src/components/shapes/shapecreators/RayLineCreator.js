@@ -1,10 +1,11 @@
-import RayLineShape from './RayLineShape';
-import CircleShape from './CircleShape';
-import ShapeStyle from './ShapeStyle';
-import {RayLine, Coord2D, Circle} from "../../utils/geometry/geometry";
-import {Color} from '../colors';
-import Screen from '../Screen';
+import RayLineShape from '../RayLineShape';
+import CircleShape from '../CircleShape';
+import ShapeStyle from '../ShapeStyle';
+import {RayLine, Coord2D, Circle} from "../../../utils/geometry/geometry";
+import {Color} from '../../colors';
+import Screen from '../../Screen';
 export default class RayLineCreator{
+    static caption="Ray line";
     constructor(style){
         this.i=0;
         this.line=new RayLine(new Coord2D(),new Coord2D());

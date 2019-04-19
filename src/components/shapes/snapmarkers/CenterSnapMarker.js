@@ -6,6 +6,7 @@ import {Color} from '../../colors';
 import AbstractSnapMarker from './AbstractSnapMarker';
 
 export default class EndSnapMarker extends AbstractSnapMarker {
+    static caption = "center points";
     constructor(pos){
         super(pos);
         this.circle=new Circle();

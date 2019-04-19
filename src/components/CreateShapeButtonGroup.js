@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
 import CreateShapeButton from "./CreateShapeButton";
-import StraightLineCreator from "./shapes/StraightLineCreator";
-import RayLineCreator from "./shapes/RayLineCreator";
-import LineCreator from "./shapes/LineCreator";
-import CircleCRCreator from "./shapes/CircleCRCreator";
-import RectangleCreator from "./shapes/RectangleCreator";
+import StraightLineCreator from "./shapes/shapecreators/StraightLineCreator";
+import RayLineCreator from "./shapes/shapecreators/RayLineCreator";
+import LineCreator from "./shapes/shapecreators/LineCreator";
+import CircleCRCreator from "./shapes/shapecreators/CircleCRCreator";
+import RectangleCreator from "./shapes/shapecreators/RectangleCreator";
 import {setActiveCreateButton} from "../actions/ComponentActions";
 import {setScreenStatus} from "../actions/ScreenActions";
 

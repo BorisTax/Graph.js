@@ -2,6 +2,7 @@ import Geometry from '../../utils/geometry/geometry';
 import {Color} from '../colors';
 import ShapeStyle from './ShapeStyle';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
+import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
 
 export default class LineShape {
     constructor(line){
@@ -29,6 +30,7 @@ export default class LineShape {
         let list=[];
         list.push(new EndSnapMarker(this.line.p1));
         list.push(new EndSnapMarker(this.line.p2));
+        list.push(new MiddleSnapMarker(Geometry.midPoint(this.line.p1,this.line.p2)))
         return list;
     }
     setColor(color){

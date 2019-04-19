@@ -1,10 +1,11 @@
-import LineShape from './LineShape';
-import CircleShape from './CircleShape';
-import ShapeStyle from './ShapeStyle';
-import {Line,Coord2D,Circle} from "../../utils/geometry/geometry";
-import {Color} from '../colors';
-import Screen from '../Screen';
+import LineShape from '../LineShape';
+import CircleShape from '../CircleShape';
+import ShapeStyle from './../ShapeStyle';
+import {Line,Coord2D,Circle} from "../../../utils/geometry/geometry";
+import {Color} from '../../colors';
+import Screen from '../../Screen';
 export default class LineCreator{
+    static caption="Segment line";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID)){
         this.i=0;
         this.line=new Line(new Coord2D(),new Coord2D());

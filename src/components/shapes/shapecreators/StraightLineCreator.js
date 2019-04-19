@@ -1,10 +1,11 @@
-import StraightLineShape from './StraightLineShape';
-import CircleShape from './CircleShape';
-import ShapeStyle from './ShapeStyle';
-import {StraightLine,Coord2D, Circle} from "../../utils/geometry/geometry";
-import {Color} from '../colors';
-import Screen from '../Screen';
+import StraightLineShape from '../StraightLineShape';
+import CircleShape from '../CircleShape';
+import ShapeStyle from '../ShapeStyle';
+import {StraightLine,Coord2D, Circle} from "../../../utils/geometry/geometry";
+import {Color} from '../../colors';
+import Screen from '../../Screen';
 export default class StraightLineCreator {
+    static caption="Straight line";
     constructor(style){
         this.i=0;
         this.points=new Array(2);

@@ -4,10 +4,14 @@
   "createRayLine2Points":"Ray line",
   "createSegmentLine2Points":"Segment line",
   "createCircleCenter":"Circle by center",
+  "createCircle2P":"Circle by 2 points",
+  "createCircle3P":"Circle by 3 points",
   "createRect":"Rectangle by 2 points",
+  "createTriangle":"Triangle by 3 points",
   "snapToggleBar":"Snap",
   "snapGridPoints":"to grid points",
   "snapEndPoints": "to end points",
   "snapCenterPoints": "to center points",
+  "snapMiddlePoints": "to middle points",
   "showGrid":"Show grid"
 }

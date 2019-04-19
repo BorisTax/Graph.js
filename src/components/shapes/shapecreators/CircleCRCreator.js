@@ -1,11 +1,12 @@
-import {Circle,Line,Coord2D} from "../../utils/geometry/geometry";
-import CircleShape from "./CircleShape";
-import LineShape from "./LineShape";
-import Geometry from "../../utils/geometry/geometry";
-import ShapeStyle from "./ShapeStyle";
-import {Color} from '../colors';
-import Screen from '../Screen';
+import {Circle,Line,Coord2D} from "../../../utils/geometry/geometry";
+import CircleShape from "../CircleShape";
+import LineShape from "../LineShape";
+import Geometry from "../../../utils/geometry/geometry";
+import ShapeStyle from "../ShapeStyle";
+import {Color} from '../../colors';
+import Screen from '../../Screen';
 export default class CircleCRCreator {
+    static caption="Circle by center";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID)){
         this.points=new Array(2);
         this.circle=new Circle(new Coord2D(),0);

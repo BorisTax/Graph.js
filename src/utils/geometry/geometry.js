@@ -99,7 +99,19 @@ export class Circle {
 }
 }
 
-
+export class Triangle {
+    constructor(points=[new Coord2D(),new Coord2D(),new Coord2D()]){
+        this.points=points;
+    }
+    getOuterCircle(){
+        let line1=Geometry.LinePerpOnPoint(new StraightLine(this.points[0],this.points[1]),Geometry.midPoint(this.points[0],this.points[1]));
+        let line2=Geometry.LinePerpOnPoint(new StraightLine(this.points[0],this.points[2]),Geometry.midPoint(this.points[0],this.points[2]));
+        let p=Geometry.LinesIntersectionPoint(line1,line2);
+        if(p==null) p=Geometry.midPoint(this.points[0],this.points[1]);
+        let circle=new Circle(p,Geometry.distance(p,this.points[0]));
+        return circle;
+    }
+}
 
 export class Vector {
     constructor(p1=new Coord2D(),p2=new Coord2D()){
@@ -326,6 +338,13 @@ export default class Geometry {
     static distance(p1,p2) {
         return Math.sqrt((p2.x-p1.x) * (p2.x-p1.x) + (p2.y-p1.y) * (p2.y-p1.y));
     }
+    static rotatePoint(point, angle, center){
+    let p=new Coord2D(point.x-center.x,point.y-center.y);
+    let res=new Coord2D();
+    res.x=p.x*Math.cos(angle)-p.y*Math.sin(angle)+center.x;
+    res.y=p.x*Math.sin(angle)+p.y*Math.cos(angle)+center.y;
+    return res;
+}
 
 }
 

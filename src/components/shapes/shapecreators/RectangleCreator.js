@@ -1,9 +1,9 @@
-import {Color} from '../colors';
-import {Rectangle,Coord2D,Circle} from '../../utils/geometry/geometry';
-import RectangleShape from './RectangleShape';
-import CircleShape from './CircleShape';
-import ShapeStyle from './ShapeStyle';
-import Screen from '../Screen';
+import {Color} from '../../colors';
+import {Rectangle,Coord2D,Circle} from '../../../utils/geometry/geometry';
+import RectangleShape from '../RectangleShape';
+import CircleShape from '../CircleShape';
+import ShapeStyle from '../ShapeStyle';
+import Screen from '../../Screen';
 
 export default class RectangleCreator {
     static caption="Rectangle";
