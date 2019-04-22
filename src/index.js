@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App'
-import {Provider} from 'react-redux'
-import {store} from './store/configureStore';
-
+import Graph from './GeomEditor/GeomEditor'
+import {BrowserRouter, Route} from 'react-router-dom';
 
 ReactDOM.render(
-    <Provider store={store}>
-    <App />
-    </Provider>,
+    <BrowserRouter>
+        <Route path={'/'} />
+        <Route path={'/graph'} component={Graph}/>
+    </BrowserRouter>
+    ,
     document.getElementById('root'));
