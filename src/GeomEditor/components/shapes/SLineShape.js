@@ -1,4 +1,4 @@
-import Geometry,{Circle,Coord2D} from "../../utils/geometry/geometry";
+import Geometry,{Circle,Coord2D} from "../../utils/geometry";
 import {Color} from '../colors';
 import ShapeStyle from './ShapeStyle';
 
