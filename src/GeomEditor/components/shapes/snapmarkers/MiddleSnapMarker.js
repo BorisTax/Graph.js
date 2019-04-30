@@ -1,5 +1,5 @@
 import Screen from '../../Screen';
-import Geometry,{Triangle,Coord2D} from '../../../utils/geometry/geometry';
+import Geometry,{Triangle,Coord2D} from '../../../utils/geometry';
 import TriangleShape from '../TriangleShape';
 import ShapeStyle from '../ShapeStyle';
 import {Color} from '../../colors';

@@ -9,7 +9,7 @@ import TriangleCreator from '../components/shapes/shapecreators/TriangleCreator'
 import EndSnapMarker from '../components/shapes/snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from '../components/shapes/snapmarkers/MiddleSnapMarker';
 import CenterSnapMarker from '../components/shapes/snapmarkers/CenterSnapMarker';
-export const engCaptions={
+export const captions={ENG:{
   createToolBar:"Create",
   createSLine2Points:StraightLineCreator.caption,
   createRayLine2Points:RayLineCreator.caption,
@@ -25,4 +25,21 @@ export const engCaptions={
   snapCenterPoints: CenterSnapMarker.caption,
   snapMiddlePoints: MiddleSnapMarker.caption,
   showGrid:"Show grid",
+},RUS:
+{createCircle2P: "Окружность по двум точкам",
+    createCircle3P: "Окружность по трем точкам",
+    createCircleCenter: "Окружность из центра",
+    createRayLine2Points: "Луч",
+    createRect: "Прямоугольник по 2-м точкам",
+    createSLine2Points: "Прямая",
+    createSegmentLine2Points: "Отрезок",
+    createToolBar: "Создать",
+    createTriangle: "Произвольный треугольник",
+    showGrid: "Отобразить сетку",
+    snapCenterPoints: "к центрам окружностей и дуг",
+    snapEndPoints: "к конечным точкам",
+    snapGridPoints: "к узлам сетки",
+    snapMiddlePoints: "к серединным точкам",
+    snapToggleBar: "Привязка",
+}
 }

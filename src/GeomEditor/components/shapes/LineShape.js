@@ -1,19 +1,21 @@
-import Geometry from '../../utils/geometry/geometry';
-import {Color} from '../colors';
-import ShapeStyle from './ShapeStyle';
+import Geometry from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
+import AbstractShape from "./AbstractShape";
 
-export default class LineShape {
+export default class LineShape extends AbstractShape{
     constructor(line){
+        super();
         this.p=[];
         this.p[0]=line.p1;
         this.p[1]=line.p2;
         this.line=line;
-        this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect, screenRect);
+        ctx.strokeStyle=this.getStyle().getColor();
+        ctx.setLineDash(this.getStyle().getStroke());
+        ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
         ctx.moveTo(this.p0.x,this.p0.y);
         ctx.lineTo(this.p1.x,this.p1.y);
@@ -33,21 +35,8 @@ export default class LineShape {
         list.push(new MiddleSnapMarker(Geometry.midPoint(this.line.p1,this.line.p2)))
         return list;
     }
-    setColor(color){
-        this.style.setColor(color);
-    }
-    getColor(){
-        return this.style.getColor();
-    }
     toString(){
         return "p1("+this.p[0].x+","+this.p[0].y+") p2("+this.p[1].x+","+this.p[1].y+")";
     }
 
-    getStyle() {
-        return this.style;
-    }
-
-    setStyle(style) {
-        this.style = style;
-    }
 }

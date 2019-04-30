@@ -1,12 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Graph from './GeomEditor/GeomEditor'
-import {BrowserRouter, Route} from 'react-router-dom';
+import GeomEditor from './GeomEditor/GeomEditor';
 
 ReactDOM.render(
-    <BrowserRouter>
-        <Route path={'/'} />
-        <Route path={'/graph'} component={Graph}/>
-    </BrowserRouter>
+    <GeomEditor/>
     ,
     document.getElementById('root'));

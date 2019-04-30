@@ -1,17 +1,19 @@
-import Geometry, {Coord2D} from '../../utils/geometry/geometry';
-import {Color} from '../colors';
-import ShapeStyle from './ShapeStyle';
+import Geometry, {Coord2D} from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
+import AbstractShape from "./AbstractShape";
 
-export default class TriangleShape  {
+export default class TriangleShape extends AbstractShape{
     constructor(triangle){
+        super();
         this.p=[new Coord2D(),new Coord2D(),new Coord2D()];
         this.triangle=triangle;
-        this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect,screenRect);
+        ctx.strokeStyle=this.getStyle().getColor();
+        ctx.setLineDash(this.getStyle().getStroke());
+        ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
         ctx.moveTo(this.p[0].x,this.p[0].y);
         ctx.lineTo(this.p[1].x,this.p[1].y);
@@ -35,19 +37,7 @@ export default class TriangleShape  {
         list.push(new MiddleSnapMarker(Geometry.midPoint(this.triangle.points[2],this.triangle.points[0])));
         return list;
     }
-    setColor(color){
-        this.style.setColor(color);
-    }
-    getColor(){
-        return this.style.getColor();
-    }
     toString(){
         return "Triangle";
-    }
-    getStyle() {
-        return this.style;
-    }
-    setStyle(style) {
-        this.style = style;
     }
 }

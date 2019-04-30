@@ -1,14 +1,18 @@
 import React from 'react';
 import '../Graph.css';
-import {StraightLine, Circle, Coord2D, Point2D,Rectangle} from '../utils/geometry/geometry.js';
+import {SLine, Circle, Coord2D, Point2D,Rectangle} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
-import StraightLineShape from "./shapes/StraightLineShape.js";
+import SLineShape from "./shapes/SLineShape.js";
 import SnapMarkersManager from './shapes/snapmarkers/SnapMarkersManager';
-
+import ShapeManager from "./shapes/ShapeManager";
+import FreeCursor from "./shapes/cursors/FreeCursor";
+import DrawCursor from "./shapes/cursors/DrawCursor";
+import {Color} from './colors';
 export default class Screen extends React.Component {
     showGrid=true;
     gridSnap=false;
     snapDist=20;snapMinDist=10;
+    selectDist=2;
     static STATUS_FREE='FREE';
     static STATUS_CREATE='CREATE';
     static STATUS_DRAWING='DRAWING';
@@ -43,6 +47,7 @@ export default class Screen extends React.Component {
         super(props);
         this.status=Screen.STATUS_FREE;
         this.snapMarkersManager =new SnapMarkersManager();
+        this.shapeManager=new ShapeManager();
         this.screenWidth=props.screenWidth;
         this.screenHeight=props.screenHeight;
         this.state={
@@ -54,6 +59,9 @@ export default class Screen extends React.Component {
         for(let s of this.shapes){
             this.snapMarkersManager.addSnapMarkers(s.getMarkers());
         }
+    }
+    refreshShapeManager(){
+        this.shapeManager=new ShapeManager(this.shapes);
     }
     setBoundedCircle(){
         let c=this.screenToReal(this.screenWidth/2,this.screenHeight/2);
@@ -131,16 +139,18 @@ export default class Screen extends React.Component {
         this.setTopLeft(topLeft);
         this.setBoundedCircle();
         this.shapes=[];
-        this.xAxe=new StraightLine(0,1,0);
-        this.yAxe=new StraightLine(1,0,0);
-        this.xAxeShape=new StraightLineShape(this.xAxe,this.boundedCircle);
-        this.yAxeShape=new StraightLineShape(this.yAxe,this.boundedCircle);
+        this.xAxe=new SLine(0,1,0);
+        this.yAxe=new SLine(1,0,0);
+        this.xAxeShape=new SLineShape(this.xAxe,this.boundedCircle);
+        this.yAxeShape=new SLineShape(this.yAxe,this.boundedCircle);
         this.xAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
         this.yAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
         this.shapes.push(this.xAxeShape);
         this.shapes.push(this.yAxeShape);
         this.centerToPoint(new Coord2D(0,0));
+        this.cursor=new FreeCursor(this.curCoord);
         this.refreshSnapMarkers();
+        this.refreshShapeManager();
     }
     cancel(){
         this.status=Screen.STATUS_FREE;
@@ -148,6 +158,7 @@ export default class Screen extends React.Component {
         this.curHelperShapes=null;
         this.creationStep="";
         this.currentShape="";
+        this.cursor=new FreeCursor(this.curCoord);
     }
     getBoundedCircle(){return this.boundedCircle;}
     setGridSnap(snap){
@@ -164,32 +175,22 @@ export default class Screen extends React.Component {
     newShape(creator){
         this.shapeCreator=creator;
         this.shapeCreator.refresh(this.boundedCircle);
-        //this.shapeCreator.reset(this.boundedCircle);
         this.curShape=this.shapeCreator.getShape();
         this.curHelperShapes=this.shapeCreator.getHelperShapes();
         this.currentShape=this.shapeCreator.getShapeDescription();
         this.creationStep=this.shapeCreator.getPointDescription();
         this.status=Screen.STATUS_CREATE;
-
+        this.cursor=new DrawCursor(this.curCoord);
     };
 
     drawCursor(ctx){
-        let size=10;
-        let x0=this.curPoint.x;
-        let y0=this.curPoint.y;
-        ctx.strokeStyle="black";
-        ctx.beginPath();
-        ctx.moveTo(x0-size,y0);
-        ctx.lineTo(x0+size,y0);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(x0,y0-size);
-        ctx.lineTo(x0,y0+size);
-        ctx.stroke();
+      this.cursor.setCoord(this.curCoord);
+      this.drawShape(this.cursor,ctx);
     }
     drawGrid(ctx){
         ctx.strokeStyle="#C0C0C0";
-
+        let solidStyle=new ShapeStyle(Color.GRAY,ShapeStyle.SOLID);
+        let dashStyle=new ShapeStyle(Color.GRAY,ShapeStyle.DASH);
         let firstX=Math.round(this.topLeft.x/this.gridStep)*this.gridStep;
         let firstY=Math.round(this.topLeft.y/this.gridStep)*this.gridStep;
         let hor=false;
@@ -208,7 +209,7 @@ export default class Screen extends React.Component {
             if(!hor){
                 let x=firstX+this.gridStep*ix;
                 let px=this.realToScreen(new Coord2D(x,this.topLeft.y));
-                if(xGridLineNumber%10===0) ctx.setLineDash(ShapeStyle.SOLID);else ctx.setLineDash(ShapeStyle.DASH);
+                if(xGridLineNumber%10===0) ctx.setLineDash(solidStyle.getStroke());else ctx.setLineDash(dashStyle.getStroke());
 
                 if(this.showGrid) {
                     ctx.beginPath();
@@ -225,7 +226,7 @@ export default class Screen extends React.Component {
             if(!vert){
                 let y=firstY-this.gridStep*iy;
                 let py=this.realToScreen(new Coord2D(this.topLeft.x,y));
-                if(yGridLineNumber%10===0) ctx.setLineDash(ShapeStyle.SOLID);else ctx.setLineDash(ShapeStyle.DASH);
+                if(yGridLineNumber%10===0) ctx.setLineDash(solidStyle.getStroke());else ctx.setLineDash(dashStyle.getStroke());
                 yGridLineNumber--;
                 if(this.showGrid) {
                     ctx.beginPath();
@@ -240,7 +241,7 @@ export default class Screen extends React.Component {
             }
 
         }
-        ctx.setLineDash(ShapeStyle.SOLID);
+        ctx.setLineDash(solidStyle.getStroke());
     }
     drawCoordinates(ctx){
         ctx.font="10px sans-serif";
@@ -293,9 +294,6 @@ export default class Screen extends React.Component {
         }
     }
     drawShape(s, ctx){
-        ctx.strokeStyle=s.getStyle().getColor();
-        ctx.setLineDash(s.getStyle().getStroke());
-        ctx.lineWidth=s.getStyle().getWidth();
         s.drawSelf(ctx,this.getRealRect(), this.getScreenRect());
     }
     paint(ctx){
@@ -333,7 +331,8 @@ export default class Screen extends React.Component {
             this.drawShape(marker.getMarker(), ctx);
         }
         ctx.lineWidth=1;
-        if(!this.dragGrid)this.drawCursor(ctx);
+        //if(!this.dragGrid)
+            this.drawCursor(ctx);
     }
 
     isOutRect(p){
@@ -382,6 +381,9 @@ export default class Screen extends React.Component {
             this.curPoint = this.realToScreen(temp);
         }
         this.curCoord=temp;
+        if(this.status===Screen.STATUS_FREE){
+            this.shapeManager.setShapeNearPoint(this.curCoord,this.selectDist*this.pixelRatio);
+        }
         if(this.status===Screen.STATUS_DRAWING){
             this.shapeCreator.setCurrent(this.curCoord);
             this.curShape=this.shapeCreator.getShape();
@@ -450,6 +452,7 @@ export default class Screen extends React.Component {
                     this.refreshSnapMarkers();
                     this.newShape(this.shapeCreator.reset(this.boundedCircle));
                     this.status=Screen.STATUS_CREATE;
+                    this.refreshShapeManager();
                 }
                 this.paint(ctx);
             }

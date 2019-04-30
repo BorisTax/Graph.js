@@ -1,7 +1,8 @@
 import TriangleShape from '../TriangleShape';
 import CircleShape from '../CircleShape';
-import {Triangle,Coord2D,Circle} from "../../../utils/geometry/geometry";
+import {Triangle,Coord2D,Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
+import ShapeStyle from '../ShapeStyle';
 import Screen from '../../Screen';
 export default class TriangleCreator{
      static caption="Triangle";
@@ -52,7 +53,7 @@ export default class TriangleCreator{
         this.setCurrent(p);
         this.i++;
     }
-    reset(){return new TriangleCreator(this.style);}
+    reset(){return new TriangleCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();

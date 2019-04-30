@@ -1,7 +1,7 @@
 import LineShape from '../LineShape';
 import CircleShape from '../CircleShape';
 import ShapeStyle from '../ShapeStyle';
-import {Line,Coord2D,Circle} from "../../../utils/geometry/geometry";
+import {Line,Coord2D,Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
 export default class LineCreator{
@@ -50,7 +50,7 @@ export default class LineCreator{
         this.setCurrent(p);
         this.i++;
     }
-    reset(){return new LineCreator(this.style);}
+    reset(){return new LineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();

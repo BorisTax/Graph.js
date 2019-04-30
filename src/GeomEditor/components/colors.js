@@ -5,4 +5,5 @@ export const Color={
     RED:"#FF0000",
     DARK_ORANGE:"#FFB000",
     GREEN:"#00FF00",
+
 }

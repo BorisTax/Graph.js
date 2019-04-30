@@ -1,4 +1,4 @@
-import {Circle,Triangle,Coord2D} from "../../../utils/geometry/geometry";
+import {Circle,Triangle,Coord2D} from "../../../utils/geometry";
 import CircleShape from "../CircleShape";
 import TriangleShape from "../TriangleShape";
 import ShapeStyle from "../ShapeStyle";
@@ -63,7 +63,7 @@ export default class Circle3PCreator{
         this.helperShapes[2].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
         this.helperShapes[3].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
     }
-    reset(){return new Circle3PCreator(this.style);}
+    reset(){return new Circle3PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();

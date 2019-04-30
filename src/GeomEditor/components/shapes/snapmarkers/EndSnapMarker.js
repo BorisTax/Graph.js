@@ -1,5 +1,5 @@
 import Screen from '../../Screen';
-import {Rectangle} from '../../../utils/geometry/geometry';
+import {Rectangle} from '../../../utils/geometry';
 import RectangleShape from '../RectangleShape';
 import ShapeStyle from '../ShapeStyle';
 import {Color} from '../../colors';

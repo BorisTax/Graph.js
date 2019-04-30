@@ -1,14 +1,19 @@
-import Geometry,{Coord2D,Circle} from "../../utils/geometry/geometry";
+import Geometry,{Coord2D,Circle} from "../../utils/geometry";
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
+import AbstractShape from "./AbstractShape";
 
-export default class RayLineShape {
+export default class RayLineShape extends AbstractShape{
     constructor(line){
+        super();
         this.line=line;
         
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect,screenRect);
         if(this.p0===null||this.p1===null) return;
+        ctx.strokeStyle=this.getStyle().getColor();
+        ctx.setLineDash(this.getStyle().getStroke());
+        ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
         ctx.moveTo(this.p0.x,this.p0.y);
         ctx.lineTo(this.p1.x,this.p1.y);
@@ -43,17 +48,5 @@ export default class RayLineShape {
         list.push(new EndSnapMarker(this.line.origin));
         return list;
     }
-    setColor(color){
-        this.style.setColor(color);
-    }
-    getColor(){
-        return this.style.getColor();
-    }
 
-    getStyle() {
-        return this.style;
-    }
-    setStyle(style) {
-    this.style = style;
-    }
 }

@@ -1,5 +1,5 @@
 import {Color} from '../../colors';
-import {Rectangle,Coord2D,Circle} from '../../../utils/geometry/geometry';
+import {Rectangle,Coord2D,Circle} from '../../../utils/geometry';
 import RectangleShape from '../RectangleShape';
 import CircleShape from '../CircleShape';
 import ShapeStyle from '../ShapeStyle';
@@ -53,7 +53,7 @@ export default class RectangleCreator {
         this.helperShapes[0].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
         this.helperShapes[1].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
     }
-    reset(){return new RectangleCreator(this.style);}
+    reset(){return new RectangleCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null)this.setControlPoints();

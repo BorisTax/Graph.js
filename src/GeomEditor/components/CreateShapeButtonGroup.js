@@ -18,15 +18,17 @@ class CreateShapeButtonGroup extends React.Component{
         this.setState({expanded:false});
     }
     setButtonFirst(index){
-            let buttons=Object.assign([],this.state.buttons);
-            let elem=buttons.splice(index,1);
-            if(elem.length>0)buttons.unshift(elem[0]);
-            this.setState({buttons:buttons,expanded:false});
+            let but=Object.assign([],this.state.buttons);
+            let elem=but.splice(index,1);
+            if(elem.length>0) but.unshift(elem[0]);
+            this.setState({buttons:but,expanded:false});
     }
 
-    static getDerivedStateFromProps(props, state){
-        return {buttons:props.buttons}
+    static getDerivedStateFromProps(props,state){
+        let buttons=state.buttons.map(stateButton=>props.buttons.find(propButton=>propButton.id===stateButton.id));
+        return {buttons:buttons,expanded:state.expanded};
     }
+
     render(){
         let buttons=this.state.buttons.map((item,index)=>{
             return <CreateShapeButton 
@@ -56,7 +58,6 @@ class CreateShapeButtonGroup extends React.Component{
 const mapStateToProps = store => {
 
     return {
-        captions:store.options.captions,
         activeButton:store.components.activeCreateButton,
     }
 };

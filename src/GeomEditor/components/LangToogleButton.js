@@ -4,10 +4,7 @@ import '../Graph.css';
 export default class LangToggleButton extends React.Component{
     onClick(){
         if(!this.props.pressed){
-            fetch('./locale/lang.php?lang='+this.props.lang)
-                .then(res=>res.json())
-                .then(capt=>this.props.setLanguage(capt))
-                .catch(e=>{console.error(e)});
+            this.props.requestLanguage(this.props.lang);
             this.props.setActiveLangButtonId(this.props.lang);
         }
     }

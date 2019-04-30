@@ -1,20 +1,21 @@
-import Geometry,{Rectangle,Coord2D} from '../../utils/geometry/geometry';
-import {Color} from '../colors';
-import ShapeStyle from './ShapeStyle';
+import Geometry,{Rectangle,Coord2D} from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
+import AbstractShape from "./AbstractShape";
 
-export default class RectangleShape {
+export default class RectangleShape extends AbstractShape{
     constructor(rectangle){
+        super();
         this.rectangle=rectangle;
         this.rect=new Rectangle()
-        this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
     }
 
     drawSelf(ctx, realRect, screenRect) {
         this.refresh(realRect, screenRect);
+        ctx.strokeStyle=this.getStyle().getColor();
+        ctx.setLineDash(this.getStyle().getStroke());
+        ctx.lineWidth=this.getStyle().getWidth();
         ctx.strokeRect(this.rect.topLeft.x,this.rect.topLeft.y,this.rect.width,this.rect.height);
-        //g.drawRect(rect.topLeft.x, rect.topLeft.y, rect.width, rect.height);
     }
     refresh(realRect, screenRect){
         this.rect.topLeft=Geometry.realToScreen(this.rectangle.topLeft,realRect,screenRect);
@@ -38,18 +39,7 @@ export default class RectangleShape {
 
         return list;
     }
-    setColor(color){
-        this.style.setColor(color);
-    }
-    getColor(){
-        return this.style.getColor();    }
     toString(){
         return "Rectangle";
-    }
-    getStyle() {
-        return this.style;
-    }
-    setStyle(style) {
-        this.style = style;
     }
 }

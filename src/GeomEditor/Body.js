@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Header from './components/Header';
-import {engCaptions} from './locale/eng';
+import {captions} from './locale/eng';
 import MainContainer from './components/MainContainer';
 import {setLanguage} from './actions/AppActions';
 
 class Body extends React.Component {
     constructor(props){
         super(props);
-        props.setLanguage(engCaptions);
+        props.setLanguage(captions["ENG"]);
     }
     render() {
         return <div className={"body"}>

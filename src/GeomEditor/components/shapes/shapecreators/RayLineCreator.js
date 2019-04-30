@@ -1,14 +1,14 @@
 import RayLineShape from '../RayLineShape';
 import CircleShape from '../CircleShape';
 import ShapeStyle from '../ShapeStyle';
-import {RayLine, Coord2D, Circle} from "../../../utils/geometry/geometry";
+import {RLine, Coord2D, Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
 export default class RayLineCreator{
     static caption="Ray line";
     constructor(style){
         this.i=0;
-        this.line=new RayLine(new Coord2D(),new Coord2D());
+        this.line=new RLine(new Coord2D(),new Coord2D());
         this.points=new Array(2);
         this.boundedCircle=new Circle();
         this.shape=new RayLineShape(this.line);
@@ -31,7 +31,7 @@ export default class RayLineCreator{
         if(!this.isNext()) return;
         this.points[this.i]=point;
         if(this.i===0)this.points[1]=this.points[0];
-        if(this.i>0) this.line=new RayLine(...this.points);
+        if(this.i>0) this.line=new RLine(...this.points);
         this.shape=new RayLineShape(this.line,this.boundedCircle);
         this.shape.setStyle(this.style);
         this.setControlPoints();
@@ -49,7 +49,7 @@ export default class RayLineCreator{
     setNextPoint(p){
         this.points[this.i++]=p;
     }
-    reset(){return new RayLineCreator(this.style);}
+    reset(){return new RayLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();

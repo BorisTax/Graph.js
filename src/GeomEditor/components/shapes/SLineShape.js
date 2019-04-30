@@ -1,15 +1,17 @@
 import Geometry,{Circle,Coord2D} from "../../utils/geometry";
-import {Color} from '../colors';
-import ShapeStyle from './ShapeStyle';
+import AbstractShape from "./AbstractShape";
 
-export default class StraightLineShape {
+export default class SLineShape extends AbstractShape{
     constructor(line){
+        super();
         this.line=line;
-        this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect, screenRect);
         if(this.p0===null||this.p1===null)return;
+        ctx.strokeStyle=this.getStyle().getColor();
+        ctx.setLineDash(this.getStyle().getStroke());
+        ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
         ctx.moveTo(this.p0.x,this.p0.y);
         ctx.lineTo(this.p1.x,this.p1.y);
@@ -40,17 +42,5 @@ export default class StraightLineShape {
     }
     getMarkers(){
         return null;
-    }
-    setColor(color){
-        this.style.setColor(color);
-    }
-    getColor(){
-        return this.style.getColor();
-    }
-    getStyle() {
-        return this.style;
-    }
-    setStyle(style) {
-        this.style = style;
     }
 }

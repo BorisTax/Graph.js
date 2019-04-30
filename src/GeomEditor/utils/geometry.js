@@ -17,8 +17,11 @@ export class Line{
         this.p1=p1;
         this.p2=p2;
     }
+    getDistance(point) {
+        return Geometry.PointToLineDistance(point,this);
+    }
 }
-export class StraightLine{
+export class SLine{
     constructor(){
         let param=arguments;
         let createLine=(p1,p2)=>{
@@ -40,9 +43,12 @@ export class StraightLine{
     getXbyY(y){
         if(this.a!==0)return -(this.b*y+this.c)/this.a;else return NaN;
     }
+    getDistance(point) {
+        return Geometry.PointToSLineDistance(point,this);
+    }
 }
 
-export class RayLine {
+export class RLine {
 
     constructor(p1=new Coord2D(), p2=new Coord2D()){
     this.origin=p1;
@@ -67,6 +73,9 @@ export class RayLine {
         return NaN;
     }else return NaN;
     }
+    getDistance(point) {
+        return Geometry.PointToRLineDistance(point,this);
+    }
 }
 
 export class Arc {
@@ -89,14 +98,30 @@ export class Rectangle {
         this.width=Math.abs(bottomRight.x-topLeft.x);
         this.height=Math.abs(bottomRight.y-topLeft.y);
     }
-    
+    getDistance(point) {
+        let tl=this.topLeft;
+        let tr=new Coord2D(tl.x+this.width,tl.y);
+        let bl=new Coord2D(tl.x,tl.y-this.height);
+        let br=new Coord2D(tl.x+this.width,tl.y-this.height);
+        let top=new Line(tl,tr);
+        let bottom=new Line(bl,br);
+        let right=new Line(tr,br);
+        let left=new Line(tl,bl);
+        return Math.min(Geometry.PointToLineDistance(point,top),
+        Geometry.PointToLineDistance(point,left),
+        Geometry.PointToLineDistance(point,bottom),
+        Geometry.PointToLineDistance(point,right));
+    }
 }
 
 export class Circle {
     constructor(center=new Coord2D(),radius=0){
-    this.center=center;
-    this.radius=radius;
-}
+        this.center=center;
+        this.radius=radius;
+    }
+    getDistance(point) {
+        return Math.abs(Geometry.distance(point,this.center)-this.radius);
+    }
 }
 
 export class Triangle {
@@ -104,12 +129,20 @@ export class Triangle {
         this.points=points;
     }
     getOuterCircle(){
-        let line1=Geometry.LinePerpOnPoint(new StraightLine(this.points[0],this.points[1]),Geometry.midPoint(this.points[0],this.points[1]));
-        let line2=Geometry.LinePerpOnPoint(new StraightLine(this.points[0],this.points[2]),Geometry.midPoint(this.points[0],this.points[2]));
-        let p=Geometry.LinesIntersectionPoint(line1,line2);
+        let line1=Geometry.SLinePerpOnPoint(new SLine(this.points[0],this.points[1]),Geometry.midPoint(this.points[0],this.points[1]));
+        let line2=Geometry.SLinePerpOnPoint(new SLine(this.points[0],this.points[2]),Geometry.midPoint(this.points[0],this.points[2]));
+        let p=Geometry.SLinesIntersectionPoint(line1,line2);
         if(p===null) p=Geometry.midPoint(this.points[0],this.points[1]);
         let circle=new Circle(p,Geometry.distance(p,this.points[0]));
         return circle;
+    }
+    getDistance(point) {
+        let l1=new Line(this.points[0],this.points[1]);
+        let l2=new Line(this.points[1],this.points[2]);
+        let l3=new Line(this.points[2],this.points[0]);
+        return Math.min(Geometry.PointToLineDistance(point,l1),
+        Geometry.PointToLineDistance(point,l2),
+        Geometry.PointToLineDistance(point,l3));
     }
 }
 
@@ -130,12 +163,18 @@ export default class Geometry {
     static realToScreenLength(value, realWidth, screenWidth){
         return Math.round(value/(realWidth/screenWidth));
     }
-    static LineByTwoPoints(p1, p2) {
-        return new StraightLine(p1, p2);
+    static SLineFromRLine(line){
+        return new SLine(line.origin,new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y));
+    }
+    static SLineFromLine(line){
+        return new SLine(line.p1,line.p2);
+    }
+    static SLineByTwoPoints(p1, p2) {
+        return new SLine(p1, p2);
     }
 
-    static LinePerpOnPoint(line, p) {
-        return new StraightLine(-line.b, line.a, -line.a * p.y + line.b * p.x);
+    static SLinePerpOnPoint(line, p) {
+        return new SLine(-line.b, line.a, -line.a * p.y + line.b * p.x);
     }
 
     static LineShifted(line, dx, dy) {
@@ -151,10 +190,10 @@ export default class Geometry {
             y = y + dy;
             p[i] = new Coord2D(x, y);
         }
-        return new StraightLine(p[0], p[1]);
+        return new SLine(p[0], p[1]);
     }
 
-    static LinesIntersectionPoint(line1, line2) {
+    static SLinesIntersectionPoint(line1, line2) {
         let d = line1.a * line2.b - line1.b * line2.a;
         if (d === 0) return null;
         let d1 = -line1.c * line2.b - (-line2.c * line1.b);
@@ -165,12 +204,16 @@ export default class Geometry {
     static pointInRect(p, rectTopLeft, rectBottomRight) {
         let sx = (p.x - rectBottomRight.x) * (p.x - rectTopLeft.x);
         let sy = (p.y - rectBottomRight.y) * (p.y - rectTopLeft.y);
-        //if(sx<0&&sy<0) return true;
+        return (sx <= 0 && sy <= 0);
+    }
+    static pointOnLine(p, p1, p2) {
+        let sx = Math.round((p.x - p1.x) * (p.x - p2.x)*100000)/100000;
+        let sy = Math.round((p.y - p1.y) * (p.y - p2.y)*100000)/100000;
         return (sx <= 0 && sy <= 0);
     }
 
-    static LinesIntersection(sLine, line) {
-        let p = Geometry.LinesIntersectionPoint(sLine, new StraightLine(line));
+    static SLineLineIntersection(sLine, line) {
+        let p = Geometry.SLinesIntersectionPoint(sLine, new SLine(line));
         if (p === null) return null;
         if (!Geometry.pointInRect(p, line.p1, line.p2)) return null;
         return p;
@@ -191,7 +234,27 @@ export default class Geometry {
         }
         return points;
     }
+    static pointOnSLineProjection(p, line){
+        return Geometry.SLinesIntersectionPoint(line,Geometry.SLinePerpOnPoint(line,p));
+    }
+    static  PointToSLineDistance( p,  line){
+        let res=Geometry.distance(p,Geometry.pointOnSLineProjection(p, line));
+        return res;
+    }
 
+    static PointToRLineDistance( p,  line){
+        let point=Geometry.pointOnSLineProjection(p, Geometry.SLineFromRLine(line));
+        let res;
+        if(Geometry.isPointOnRayLine(line,point)) res=Geometry.distance(p,point);else res=Geometry.distance(p,line.origin);
+        return res;
+    }
+    static PointToLineDistance(p, line){
+        let point=Geometry.pointOnSLineProjection(p, Geometry.SLineFromLine(line));
+        let res;
+        if(Geometry.pointOnLine(point,line.p1,line.p2)) res=Geometry.distance(p,point);
+        else res=Math.min(Geometry.distance(p,line.p1),Geometry.distance(p,line.p2));
+        return res;
+    }
     static midPoint(p1, p2) {
         return new Coord2D((p2.x + p1.x) / 2, (p2.y + p1.y) / 2);
     }
@@ -209,13 +272,13 @@ export default class Geometry {
     }
 
     static arcCenterPoint(p1, p2, p3) {
-        let line1 = new StraightLine(p1, p2);
-        let line2 = new StraightLine(p2, p3);
+        let line1 = new SLine(p1, p2);
+        let line2 = new SLine(p2, p3);
         let midp1 = Geometry.midPoint(p1, p2);
         let midp2 = Geometry.midPoint(p2, p3);
-        let pline1 = Geometry.LinePerpOnPoint(line1, midp1);
-        let pline2 = Geometry.LinePerpOnPoint(line2, midp2);
-        return Geometry.LinesIntersectionPoint(pline1, pline2);
+        let pline1 = Geometry.SLinePerpOnPoint(line1, midp1);
+        let pline2 = Geometry.SLinePerpOnPoint(line2, midp2);
+        return Geometry.SLinesIntersectionPoint(pline1, pline2);
     }
 
     static CircleLineIntersection(line, circle) {
@@ -259,7 +322,7 @@ export default class Geometry {
     }
 
     static CircleRayLineIntersection(line, circle) {
-        let points = Geometry.CircleLineIntersection(new StraightLine(line.origin, new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y)), circle);
+        let points = Geometry.CircleLineIntersection(new SLine(line.origin, new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y)), circle);
         if (points === null) return null;
         let k = 0;
         let i = 0;
@@ -339,12 +402,13 @@ export default class Geometry {
         return Math.sqrt((p2.x-p1.x) * (p2.x-p1.x) + (p2.y-p1.y) * (p2.y-p1.y));
     }
     static rotatePoint(point, angle, center){
-    let p=new Coord2D(point.x-center.x,point.y-center.y);
-    let res=new Coord2D();
-    res.x=p.x*Math.cos(angle)-p.y*Math.sin(angle)+center.x;
-    res.y=p.x*Math.sin(angle)+p.y*Math.cos(angle)+center.y;
-    return res;
-}
+        let p=new Coord2D(point.x-center.x,point.y-center.y);
+        let res=new Coord2D();
+        res.x=p.x*Math.cos(angle)-p.y*Math.sin(angle)+center.x;
+        res.y=p.x*Math.sin(angle)+p.y*Math.cos(angle)+center.y;
+        return res;
+    }
+
 
 }
 

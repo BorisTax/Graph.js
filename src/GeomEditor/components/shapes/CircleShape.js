@@ -1,18 +1,19 @@
-import {Coord2D} from "../../utils/geometry/geometry";
-import Geometry from "../../utils/geometry/geometry";
-import {Color} from '../colors';
-import ShapeStyle from './ShapeStyle';
+import {Coord2D} from "../../utils/geometry";
+import Geometry from "../../utils/geometry";
 import CenterSnapMarker from './snapmarkers/CenterSnapMarker';
-export default class CircleShape {
+import AbstractShape from "./AbstractShape";
+export default class CircleShape extends AbstractShape{
     constructor(circle){
+        super();
         this.p=new Coord2D();
         this.circle=circle;
-        this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
     }
 
     drawSelf(ctx, realRect, screenRect){
         this.refresh(realRect, screenRect);
-        //console.log(this.radius);
+        ctx.strokeStyle=this.getStyle().getColor();
+        ctx.setLineDash(this.getStyle().getStroke());
+        ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
         ctx.arc(this.center.x,this.center.y,this.radius,0,2*Math.PI);
         ctx.stroke();
@@ -29,21 +30,9 @@ export default class CircleShape {
         list.push(new CenterSnapMarker(this.circle.center));
         return list;
     }
-    setColor(color){
-        this.style.setColor(color);
-    }
-    getColor(){
-        return this.style.getColor();
-    }
+
     toString(){
         return "Center("+this.circle.center.x+","+this.circle.center.y+") radius("+this.circle.radius+")";
     }
 
-    getStyle() {
-        return this.style;
-    }
-
-    setStyle(style) {
-        this.style = style;
-    }
 }

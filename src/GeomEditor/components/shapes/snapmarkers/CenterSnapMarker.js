@@ -1,5 +1,5 @@
 import Screen from '../../Screen';
-import {Circle} from '../../../utils/geometry/geometry';
+import {Circle} from '../../../utils/geometry';
 import CircleShape from '../CircleShape';
 import ShapeStyle from '../ShapeStyle';
 import {Color} from '../../colors';

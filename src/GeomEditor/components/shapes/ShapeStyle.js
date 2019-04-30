@@ -1,11 +1,20 @@
 
 export default class ShapeStyle {
-    static DASH=[1,3];
-    static SOLID=[0];
+    static DASH=0;
+    static SOLID=1;
     constructor(color,stroke,width=1){
         this.color=color;
-        this.stroke=stroke;
         this.width=width;
+        this.type=stroke;
+        switch(stroke){
+            case ShapeStyle.DASH:
+                this.stroke=[1,3];
+                break;
+            case ShapeStyle.SOLID:
+                this.stroke=[0];
+                break;
+            default:
+        }
     }
     getColor() {
         return this.color;
@@ -14,7 +23,7 @@ export default class ShapeStyle {
     setColor(color) {
         this.color = color;
     }
-
+    getType(){return this.type;}
     getStroke() {
         return this.stroke;
     }

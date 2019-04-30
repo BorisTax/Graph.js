@@ -1,7 +1,7 @@
-import {Circle,Line,Coord2D} from "../../../utils/geometry/geometry";
+import {Circle,Line,Coord2D} from "../../../utils/geometry";
 import CircleShape from "../CircleShape";
 import LineShape from "../LineShape";
-import Geometry from "../../../utils/geometry/geometry";
+import Geometry from "../../../utils/geometry";
 import ShapeStyle from "../ShapeStyle";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
@@ -59,7 +59,7 @@ export default class CircleCRCreator {
         this.setCurrent(p);
         this.i++;
     }
-    reset(){return new CircleCRCreator(this.style);}
+    reset(){return new CircleCRCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();

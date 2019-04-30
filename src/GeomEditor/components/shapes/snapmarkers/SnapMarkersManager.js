@@ -1,4 +1,4 @@
-import Geometry from '../../../utils/geometry/geometry';
+import Geometry from '../../../utils/geometry';
 export default class SnapMarkersManager {
     constructor(){
         this.snapSet=new Set();

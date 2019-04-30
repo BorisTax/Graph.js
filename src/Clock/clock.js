@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
+import './clock.css';
 
-class Clock extends React.Component{
+export default class Clock extends React.Component{
   constructor (){
     super();
     this.state={clock:0};
   }
   componentDidMount(){
-    this.state.clock=setInterval(this.tick.bind(this),1000);
+    this.setState({clock:setInterval(this.tick.bind(this),1000)});
   }
   componentWillUnmount(){
     clearInterval(this.state.clock);
@@ -30,14 +30,10 @@ class Clock extends React.Component{
   var position={position:"absolute",left:(window.innerWidth - 400) / 2 + "px",top:(window.innerHeight - 400) / 2 + "px"};
 
     return <div id="clock" style={position}>
-    <img className="clock" src="images/clock-face.png"/>
-    <img id="hour_clock_hand" style={{transform: hour_rotate}} className="clock" src="images/hour-clock-hand.png"/>
-    <img id="minute_clock_hand" style={{transform: minute_rotate}} className="clock" src="images/minute-clock-hand.png"/>
-    <img id="second_clock_hand"  style={{transform: second_rotate}} className="clock" src="images/second-clock-hand.png"/>
+    <div id="main_clock" className="clock"/>
+    <div id="hour_clock_hand" style={{transform: hour_rotate}} className="clock"/>
+    <div id="minute_clock_hand" style={{transform: minute_rotate}} className="clock"/>
+    <div id="second_clock_hand"  style={{transform: second_rotate}} className="clock"/>
     </div>
   }
 }
-ReactDOM.render(
-<Clock />,
-document.getElementById('root')
-);
