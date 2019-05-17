@@ -8,6 +8,7 @@ import ShapeManager from "./shapes/ShapeManager";
 import FreeCursor from "./shapes/cursors/FreeCursor";
 import DrawCursor from "./shapes/cursors/DrawCursor";
 import {Color} from './colors';
+import DragCursor from './shapes/cursors/DragCursor';
 export default class Screen extends React.Component {
     showGrid=true;
     gridSnap=false;
@@ -17,9 +18,11 @@ export default class Screen extends React.Component {
     static STATUS_CREATE='CREATE';
     static STATUS_DRAWING='DRAWING';
     static STATUS_CANCEL='CANCEL';
+    static STATUS_PAN='PAN';
     static MARKER_SIZE=0.005;
     static SNAP_MARKER_SIZE=0.015;
     status='';
+    prevStatus='';
     points=new Array(3);
     topLeft=new Coord2D();
     bottomRight=new Coord2D();
@@ -160,6 +163,29 @@ export default class Screen extends React.Component {
         this.currentShape="";
         this.cursor=new FreeCursor(this.curCoord);
     }
+    setStatus(status,props){
+        this.prevStatus=this.status;
+        switch(status){
+            case Screen.STATUS_CREATE:
+                this.newShape(props.creator);
+                props.setStatus(Screen.STATUS_DRAWING,props.creator);
+                break;
+            case Screen.STATUS_CANCEL:
+                this.cancel();
+                break;
+            case Screen.STATUS_PAN:
+                this.dragGrid=true;
+                this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
+                this.dragX0=this.curCoord.x;
+                this.dragY0=this.curCoord.y;
+                this.prevCursor=this.cursor;
+                this.status=status;
+                this.cursor=new DragCursor(this.curCoord);
+            break;
+            default:
+        }
+
+    }
     getBoundedCircle(){return this.boundedCircle;}
     setGridSnap(snap){
         this.gridSnap=snap;
@@ -175,8 +201,8 @@ export default class Screen extends React.Component {
     newShape(creator){
         this.shapeCreator=creator;
         this.shapeCreator.refresh(this.boundedCircle);
-        this.curShape=this.shapeCreator.getShape();
-        this.curHelperShapes=this.shapeCreator.getHelperShapes();
+        this.curShape=null;//this.shapeCreator.getShape();
+        this.curHelperShapes=null;//this.shapeCreator.getHelperShapes();
         this.currentShape=this.shapeCreator.getShapeDescription();
         this.creationStep=this.shapeCreator.getPointDescription();
         this.status=Screen.STATUS_CREATE;
@@ -301,18 +327,19 @@ export default class Screen extends React.Component {
         ctx.lineWidth=1;
         ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
         this.drawGrid(ctx);
-        let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}
-             ${this.status}: ${this.currentShape} : ${this.creationStep}`;
+        let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}     `;
+        if(this.status===Screen.STATUS_CREATE||this.status===Screen.STATUS_DRAWING)   
+                status_bar=status_bar+`${this.status}: ${this.currentShape} : ${this.creationStep}`;
+                else status_bar=status_bar+this.status;
         for(let shape of this.shapes){
                 this.drawShape(shape,ctx);
             }
             
-        if(this.status===Screen.STATUS_DRAWING) {
-            if(this.curHelperShapes!=null)
+        if(this.curHelperShapes!=null)
                 for(let shape of this.curHelperShapes)
                     this.drawShape(shape, ctx);
-            this.drawShape(this.curShape, ctx);
-            }
+        if(this.curShape!=null) this.drawShape(this.curShape, ctx);
+            
         ctx.lineWidth=1;
         ctx.fillStyle="white";
         //fill margin
@@ -332,7 +359,7 @@ export default class Screen extends React.Component {
         }
         ctx.lineWidth=1;
         //if(!this.dragGrid)
-            this.drawCursor(ctx);
+        this.drawCursor(ctx);
     }
 
     isOutRect(p){
@@ -400,11 +427,15 @@ export default class Screen extends React.Component {
             let rect=e.target.getBoundingClientRect();
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
-            this.dragGrid=true;
-            this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
-            this.dragX0=this.curCoord.x;
-            this.dragY0=this.curCoord.y;
-            e.target.style.cursor="move";
+            this.setStatus(Screen.STATUS_PAN,this.props);
+            // this.dragGrid=true;
+            // this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
+            // this.dragX0=this.curCoord.x;
+            // this.dragY0=this.curCoord.y;
+            // this.prevCursor=this.cursor;
+            // this.prevStatus=this.status;
+            // this.cursor=new DragCursor(this.curCoord);
+
             this.paint(ctx);
             e.preventDefault();
         }
@@ -416,6 +447,8 @@ export default class Screen extends React.Component {
             let ctx=e.target.getContext("2d");
             this.dragGrid=false;
             e.target.style.cursor="none";
+            this.cursor=this.prevCursor;
+            this.status=this.prevStatus;
             this.paint(ctx);
         }
     }
@@ -437,6 +470,13 @@ export default class Screen extends React.Component {
        e.preventDefault();
         
 
+    }
+    mleave(e){
+        if(this.dragGrid===true){
+            this.dragGrid=false;
+            this.status=this.prevStatus;
+            this.cursor=this.prevCursor;
+        }
     }
     onclick(e){
         if(e.button===0){
@@ -478,16 +518,7 @@ export default class Screen extends React.Component {
                 this.setSnap(nextProps.snap.snapClass,nextProps.snap.snap);
 
         }
-        switch(nextProps.status) {
-            case Screen.STATUS_CREATE:
-                this.newShape(nextProps.creator);
-                nextProps.setStatus(Screen.STATUS_DRAWING,nextProps.creator);
-                break;
-            case Screen.STATUS_CANCEL:
-                this.cancel();
-                break;
-            default:
-        }
+        this.setStatus(nextProps.status,nextProps);
         this.paint(ctx);
         //console.log(this.snapMarkersManager);
     }
@@ -499,7 +530,7 @@ export default class Screen extends React.Component {
                 onMouseMove={this.mmove.bind(this)}
                 onMouseDown={this.mdown.bind(this)}
                 onMouseUp={this.mup.bind(this)}
-                
+                onMouseLeave={this.mleave.bind(this)}
                 onClick={this.onclick.bind(this)}
             >
 

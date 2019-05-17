@@ -10,7 +10,7 @@ export function setLanguage(captions) {
 }
 export function requestLanguage(lang) {
     return dispatch=> {
-        if(!true)
+        if(true)
         fetch('./locale/lang.php?lang=' + lang)
             .then(res => res.json())
             .then(capt => dispatch(setLanguage(capt)))
