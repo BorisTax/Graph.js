@@ -33,7 +33,7 @@ export default class Screen extends React.Component {
     ratio=1;
     pixelRatio=1;
     marginTop=15;marginLeft=40;marginBottom=15;marginRight=10;
-    screenWidth=500;screenHeight=500;
+    screenWidth=900;screenHeight=500;
     statusBar=5;
     xAxe=null;yAxe=null;
     curPoint=new Point2D();
@@ -75,12 +75,12 @@ export default class Screen extends React.Component {
     screenToReal(x,y){
         let rx=x/this.screenWidth*this.realWidth+this.topLeft.x;
         let ry=this.topLeft.y-y/this.screenHeight*this.realHeight;
-        return new Coord2D(rx,ry);
+        return {x:rx,y:ry};
     }
     realToScreen(p){
         let x=Math.round((p.x-this.topLeft.x)/this.pixelRatio);
         let y=-Math.round((p.y-this.topLeft.y)/this.pixelRatio);
-        return new Point2D(x,y);
+        return {x,y};
     }
     getRealRect(){
         let realRect = new Rectangle();
@@ -366,19 +366,17 @@ export default class Screen extends React.Component {
        return p.x<this.marginLeft||p.x>this.screenWidth-this.marginRight
         ||p.y<this.marginTop||p.y>this.screenHeight-this.marginBottom;
     }
+
     mmove(e){
         let ctx=e.target.getContext("2d");
-
         let rect=e.target.getBoundingClientRect();
-        
         this.curPoint.x=e.clientX-rect.left;
         this.curPoint.y=e.clientY-rect.top;
-
         if(this.dragGrid){
             this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
             let dx=this.curCoord.x-this.dragX0;
             let dy=this.curCoord.y-this.dragY0;
-            this.setTopLeft(new Coord2D(this.topLeft.x-dx,this.topLeft.y-dy));
+            this.setTopLeft({x:this.topLeft.x-dx,y:this.topLeft.y-dy});
             this.setBoundedCircle();
         }
         if(this.isOutRect(this.curPoint)){
@@ -388,24 +386,24 @@ export default class Screen extends React.Component {
         this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
         this.prevPoint.x=this.curPoint.x;
         this.prevPoint.y=this.curPoint.y;
-        let temp=new Coord2D(this.curCoord.x,this.curCoord.y);
+        let temp={x:this.curCoord.x,y:this.curCoord.y};
         if(this.gridSnap){
             let x=Math.round(temp.x/this.gridStep)*this.gridStep;
             let y=Math.round(temp.y/this.gridStep)*this.gridStep;
             let dx=x-temp.x;
             let dy=y-temp.y;
             if((Math.sqrt(dx*dx+dy*dy)<=this.snapMinDist*this.pixelRatio)){
-                if(!this.isOutRect(this.realToScreen(new Coord2D(x,y)))) {
+                if(!this.isOutRect(this.realToScreen({x,y}))) {
                     temp.x = x;
                     temp.y = y;
-                    this.curPoint = this.realToScreen(temp);
+                    this.curPoint = this.realToScreen({...temp});
                 }
                 }
         }
         let d = this.snapMarkersManager.getDistanceToNearestMarker(temp,this.snapDist*this.pixelRatio);
         if(d>=0&&d<=this.snapMinDist*this.pixelRatio){
             temp=this.snapMarkersManager.getActiveMarker().getPos();
-            this.curPoint = this.realToScreen(temp);
+            this.curPoint = this.realToScreen({...temp});
         }
         this.curCoord=temp;
         if(this.status===Screen.STATUS_FREE){
@@ -417,7 +415,7 @@ export default class Screen extends React.Component {
             this.curHelperShapes=this.shapeCreator.getHelperShapes();
         }
 
-
+        //console.log(this.curCoord);
         this.paint(ctx);
         
     }
@@ -520,7 +518,6 @@ export default class Screen extends React.Component {
         }
         this.setStatus(nextProps.status,nextProps);
         this.paint(ctx);
-        //console.log(this.snapMarkersManager);
     }
 
     render(){

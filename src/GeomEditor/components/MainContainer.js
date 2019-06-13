@@ -16,8 +16,8 @@ class MainContainer extends React.Component{
         <Screen style={{borderWidth:1+'px',borderStyle:"solid"}}
                 setStatus={this.props.setScreenStatus}
                 {...this.props.screen}/>
-        <SnapToggleBar/>
         <ShowToggleBar/>
+        <SnapToggleBar/>
     </div>
     }
 }

@@ -15,11 +15,8 @@ class SnapToggleBar extends React.Component{
         let snapEndPoints=cap?cap.snapEndPoints:EndSnapMarker.caption;
         let snapMiddlePoints=cap?cap.snapMiddlePoints:MiddleSnapMarker.caption;
         let snapCenterPoints=cap?cap.snapCenterPoints:CenterSnapMarker.caption;
-        return <div className={"toolBar"}>
-                 <div className={"toolBarHeader"}>
-                    <span className={"toolBarCaption noselect"}>{snapToggleBar}</span>
-                </div>
-                <br/>
+        return <div className={"toolBar snapToolBar"}>
+                               
         <OptionTogglePic title={snapGridPoints}
                            id={"grid"}
                            setSnap={this.props.setSnap}

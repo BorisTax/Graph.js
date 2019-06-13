@@ -1,7 +1,7 @@
 import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE,SET_STATUS} from "../actions/ScreenActions";
 
 const initialState = {
-    screenWidth:550,
+    screenWidth:900,
     screenHeight:550,
     show:{grid:true},
     gridSnap:false,
