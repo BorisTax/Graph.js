@@ -47,11 +47,11 @@ body{
   width:35px;
   height:19px;
 }
-#RUS{
+#ru{
   background: url('images/icons/rus.png') no-repeat;
   background-size: 100%;
 }
-#ENG{
+#en{
   background: url('images/icons/eng.png') no-repeat;
   background-size: 100%;
 }

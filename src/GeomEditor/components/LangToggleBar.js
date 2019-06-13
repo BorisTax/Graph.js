@@ -9,14 +9,14 @@ class LangToggleBar extends React.Component{
     render(){
         return <div className={"langToggleBar"}>
             <LangToggleButton 
-                lang="RUS"
-                pressed={this.props.pressed==="RUS"}
+                lang="ru"
+                pressed={this.props.pressed==="ru"}
                 setActiveLangButtonId={this.props.setActiveLangButtonId}
                 requestLanguage={this.props.requestLanguage}
                 />
             <LangToggleButton
-                lang="ENG"
-                pressed={this.props.pressed==="ENG"}
+                lang="en"
+                pressed={this.props.pressed==="en"}
                 setActiveLangButtonId={this.props.setActiveLangButtonId}
                 requestLanguage={this.props.requestLanguage}
                 />
