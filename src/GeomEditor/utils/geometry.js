@@ -93,10 +93,13 @@ export class Arc {
 export class Rectangle {
     constructor(topLeft=new Coord2D(),bottomRight=new Coord2D()){
         this.topLeft={};
+        this.bottomRight={};
         this.topLeft.x=topLeft.x>bottomRight.x?bottomRight.x:topLeft.x;
         this.topLeft.y=topLeft.y<bottomRight.y?bottomRight.y:topLeft.y;
         this.width=Math.abs(bottomRight.x-topLeft.x);
         this.height=Math.abs(bottomRight.y-topLeft.y);
+        this.bottomRight.x=this.topLeft.x+this.width;
+        this.bottomRight.y=this.topLeft.y-this.height;
     }
     getDistance(point) {
         let tl=this.topLeft;

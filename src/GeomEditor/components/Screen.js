@@ -494,7 +494,12 @@ export default class Screen extends React.Component {
                 }
                 this.paint(ctx);
             }
+            if(this.status===Screen.STATUS_FREE){
+                    this.shapeManager.toggleShapeSelected();
+                }
         }
+        this.props.selectShapes(this.shapeManager.getSelectedShapes());
+        this.paint(e.target.getContext("2d"));
     }
 
     componentDidMount() {

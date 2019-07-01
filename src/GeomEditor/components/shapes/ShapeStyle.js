@@ -4,6 +4,7 @@ export default class ShapeStyle {
     static SOLID=1;
     constructor(color,stroke,width=1){
         this.color=color;
+        this.originColor=this.color;
         this.width=width;
         this.type=stroke;
         switch(stroke){

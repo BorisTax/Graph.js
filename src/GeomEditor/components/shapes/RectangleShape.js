@@ -39,6 +39,28 @@ export default class RectangleShape extends AbstractShape{
 
         return list;
     }
+    getProperties(){
+        let prop=new Map();
+        prop.set('Title','Rectangle');
+        prop.set('X1',this.rectangle.topLeft.x);
+        prop.set('Y1',this.rectangle.topLeft.y);
+        prop.set('X2',this.rectangle.bottomRight.x);
+        prop.set('Y2',this.rectangle.bottomRight.y);
+        return prop;
+    }
+    setProperties(prop){
+        super.setProperties(prop);
+        let x1=prop.get('X1');
+        let y1=prop.get('Y1');
+        let x2=prop.get('X2');
+        let y2=prop.get('Y2');
+        if (x1) this.rectangle.topLeft.x=x1;
+        if (y1) this.rectangle.topLeft.y=y1;
+        if (x2) this.rectangle.bottomRight.x=x2;
+        if (y2) this.rectangle.bottomRight.y=y2;
+        this.rectangle.width=this.rectangle.bottomRight.x-this.rectangle.topLeft.x;
+        this.rectangle.height=this.rectangle.topLeft.y-this.rectangle.bottomRight.y;
+    }
     toString(){
         return "Rectangle";
     }

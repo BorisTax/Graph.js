@@ -30,7 +30,23 @@ export default class CircleShape extends AbstractShape{
         list.push(new CenterSnapMarker(this.circle.center));
         return list;
     }
-
+    getProperties(){
+        let prop=new Map();
+        prop.set('Title','Circle');
+        prop.set('CX',this.circle.center.x);
+        prop.set('CY',this.circle.center.y);
+        prop.set('Radius',this.circle.radius);
+        return prop;
+    }
+    setProperties(prop){
+        super.setProperties(prop);
+        let cx=prop.get('CX');
+        let cy=prop.get('CY');
+        let rad=prop.get('Radius');
+        if (cx) this.circle.center.x=cx;
+        if (cy) this.circle.center.y=cy;
+        if (rad) this.circle.radius=rad;
+    }
     toString(){
         return "Center("+this.circle.center.x+","+this.circle.center.y+") radius("+this.circle.radius+")";
     }

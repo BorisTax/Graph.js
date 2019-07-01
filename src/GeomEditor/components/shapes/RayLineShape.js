@@ -48,5 +48,28 @@ export default class RayLineShape extends AbstractShape{
         list.push(new EndSnapMarker(this.line.origin));
         return list;
     }
+    getProperties(){
+        let prop=new Map();
+        prop.set('Title','Ray line');
+        prop.set('X', this.line.origin.x);
+        prop.set('Y', this.line.origin.y);
+        prop.set('VX',this.line.vector.x);
+        prop.set('VY',this.line.vector.y);
+        return prop;
+    }
+    setProperties(prop){
+        super.setProperties(prop);
+        let x=prop.get('X');
+        let y=prop.get('Y');
+        let vx=prop.get('VX');
+        let vy=prop.get('VY');
+        if (x)  this.line.origin.x=x;
+        if (y)  this.line.origin.y=y;
+        if (vx) this.line.vector.x=vx;
+        if (vy) this.line.vector.y=vy;
+    }
+    toString(){
+        return `Ray origin (${this.line.origin.x},${this.line.origin.y}) vector(${this.line.vector.x},${this.line.vector.y})`;
+    }
 
 }

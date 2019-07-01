@@ -35,8 +35,28 @@ export default class LineShape extends AbstractShape{
         list.push(new MiddleSnapMarker(Geometry.midPoint(this.line.p1,this.line.p2)))
         return list;
     }
+    getProperties(){
+        let prop=new Map();
+        prop.set('Title','Line');
+        prop.set('X1',this.line.p1.x);
+        prop.set('Y1',this.line.p1.y);
+        prop.set('X2',this.line.p2.x);
+        prop.set('Y2',this.line.p2.y);
+        return prop;
+    }
+    setProperties(prop){
+        super.setProperties(prop);
+        let x1=prop.get('X1');
+        let y1=prop.get('Y1');
+        let x2=prop.get('X2');
+        let y2=prop.get('Y2');
+        if (x1) this.line.p1.x=x1;
+        if (y1) this.line.p1.y=y1;
+        if (x2) this.line.p2.x=x2;
+        if (y2) this.line.p2.y=y2;
+    }
     toString(){
-        return "p1("+this.p[0].x+","+this.p[0].y+") p2("+this.p[1].x+","+this.p[1].y+")";
+            return `Line P1(${this.line.p1.x},${this.line.p1.y}) P2(${this.line.p2.x},${this.line.p2.y})`;
     }
 
 }

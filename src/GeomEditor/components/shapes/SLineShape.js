@@ -43,4 +43,24 @@ export default class SLineShape extends AbstractShape{
     getMarkers(){
         return null;
     }
+    getProperties(){
+        let prop=new Map();
+        prop.set('Title','Straight line Ax+By+C=0');
+        prop.set('A',this.line.a);
+        prop.set('B',this.line.b);
+        prop.set('C',this.line.c);
+        return prop;
+    }
+    setProperties(prop){
+        super.setProperties(prop);
+        let a=prop.get('A');
+        let b=prop.get('B');
+        let c=prop.get('C');
+        if (a) this.line.a=a;
+        if (b) this.line.b=b;
+        if (c) this.line.c=c;
+    }
+    toString(){
+        return `Line ${this.line.a}X+${this.line.b}Y+${this.line.c}=0`;
+    }
 }

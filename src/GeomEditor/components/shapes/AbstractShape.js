@@ -4,6 +4,7 @@ import ShapeStyle from './ShapeStyle';
 export default class AbstractShape {
     constructor(){
         this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
+        this.state={selected:false,highlighted:false};
     }
 
     setColor(color){
@@ -19,9 +20,18 @@ export default class AbstractShape {
     setStyle(style) {
         this.style = style;
     }
-    setSelected(selected) {
-        this.selected = selected;
-        if(selected===true) this.getStyle().setWidth(2);
-            else this.getStyle().setWidth(1);
+    setState(state){
+        this.state={...this.state,...state};
+        if(this.state.highlighted===true) this.getStyle().setWidth(2);
+                    else this.getStyle().setWidth(1);
+        if(this.state.selected===true) this.getStyle().setColor(Color.SELECTED);
+                    else this.getStyle().setColor(this.getStyle().originColor);
+    }
+    getState(){
+        return this.state;
+    }
+    setProperties(prop){
+        let color=prop.get('Color');
+        if(color) this.setColor(color);
     }
 }

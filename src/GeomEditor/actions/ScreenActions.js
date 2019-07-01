@@ -4,6 +4,7 @@ export const SET_GRID_SNAP = 'SET_GRID_SNAP';
 export const SET_SNAP = 'SET_SNAP';
 export const SET_SCREEN_CONTEXT='SET_SCREEN_CONTEXT';
 export const CREATE_SHAPE='CREATE_SHAPE';
+export const SELECT_SHAPE='SELECT_SHAPE';
 export const SET_STATUS='SET_STATUS';
 
 
@@ -35,6 +36,12 @@ export function createNewShape(creator){
     return {
         type: CREATE_SHAPE,
         payload:creator,
+    }
+}
+export function selectShapes(selectedShapes) {
+    return {
+        type: SELECT_SHAPE,
+        payload: selectedShapes,
     }
 }
 export function setScreenStatus(status=Screen.STATUS_FREE,creator){

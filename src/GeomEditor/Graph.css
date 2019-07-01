@@ -2,35 +2,38 @@ body{
   background-color: whitesmoke;
   background-image: url("images/background.png");
 }
-.mainContainer{
+.screenContainer{
   display:flex;
   flex-direction:row;
   justify-content:center;
   align-items: flex-start;
 }
+.mainContainer{
+ position: relative;
+}
 .toolBar{
   display: inline-block;
   
-  bottom: 0px;
   border:5px ridge;
   background-color: rgba(185, 202, 203, 0.8);
   padding: 5px;
   border-radius: 5px;
-  
 }
 .createToolBar{
-  display: inline-block;
-  
-  border:5px ridge;
-  background-color: rgba(185, 202, 203, 0.8);
-  padding: 5px;
-  border-radius: 5px;
+  display: block;
+  position: absolute;
+  top: 0px;
   width:55px;
 }
 .snapToolBar{
   position: fixed;
+  bottom: 0px;
 }
-
+.propertiesBar{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
 .langToggleButtonDown{
   display: inline-block;
   border: 2px inset;

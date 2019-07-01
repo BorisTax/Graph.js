@@ -37,6 +37,32 @@ export default class TriangleShape extends AbstractShape{
         list.push(new MiddleSnapMarker(Geometry.midPoint(this.triangle.points[2],this.triangle.points[0])));
         return list;
     }
+    getProperties(){
+        let prop=new Map();
+        prop.set('Title','Triangle');
+        prop.set('X1',this.triangle.points[0].x);
+        prop.set('Y1',this.triangle.points[0].y);
+        prop.set('X2',this.triangle.points[1].x);
+        prop.set('Y2',this.triangle.points[1].y);
+        prop.set('X3',this.triangle.points[2].x);
+        prop.set('Y3',this.triangle.points[2].y);
+        return prop;
+    }
+    setProperties(prop){
+        super.setProperties(prop);
+        let x1=prop.get('X1');
+        let y1=prop.get('Y1');
+        let x2=prop.get('X2');
+        let y2=prop.get('Y2');
+        let x3=prop.get('X3');
+        let y3=prop.get('Y3');
+        if (x1) this.triangle.points[0].x=x1;
+        if (y1) this.triangle.points[0].y=y1;
+        if (x2) this.triangle.points[1].x=x2;
+        if (y2) this.triangle.points[1].y=y2;
+        if (x3) this.triangle.points[2].x=x3;
+        if (y3) this.triangle.points[2].y=y3;
+    }
     toString(){
         return "Triangle";
     }
