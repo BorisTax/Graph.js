@@ -30,8 +30,7 @@ export default class AbstractShape {
     getState(){
         return this.state;
     }
-    setProperties(prop){
-        let color=prop.get('Color');
-        if(color) this.setColor(color);
+    setProperty(prop){
+        if(prop.key=='Color') this.setColor(prop.value);
     }
 }

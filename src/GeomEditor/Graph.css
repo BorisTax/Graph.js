@@ -33,7 +33,12 @@ body{
   position: absolute;
   top: 0px;
   right: 0px;
+  font-size: smaller; 
 }
+.propertyFieldIncorrect{
+  border: red;
+}
+
 .langToggleButtonDown{
   display: inline-block;
   border: 2px inset;

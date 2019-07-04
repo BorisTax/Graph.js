@@ -48,16 +48,23 @@ export default class RectangleShape extends AbstractShape{
         prop.set('Y2',this.rectangle.bottomRight.y);
         return prop;
     }
-    setProperties(prop){
-        super.setProperties(prop);
-        let x1=prop.get('X1');
-        let y1=prop.get('Y1');
-        let x2=prop.get('X2');
-        let y2=prop.get('Y2');
-        if (x1) this.rectangle.topLeft.x=x1;
-        if (y1) this.rectangle.topLeft.y=y1;
-        if (x2) this.rectangle.bottomRight.x=x2;
-        if (y2) this.rectangle.bottomRight.y=y2;
+    setProperty(prop){
+        super.setProperty(prop);
+        switch(prop.key){
+            case 'X1':
+                this.rectangle.topLeft.x=prop.value;
+                break;
+            case 'Y1':
+                this.rectangle.topLeft.y=prop.value;
+                break;
+            case 'X2':
+                this.rectangle.bottomRight.x=prop.value;
+                break;
+            case 'Y2':
+                this.rectangle.bottomRight.y=prop.value;
+                break;
+            default:
+        }
         this.rectangle.width=this.rectangle.bottomRight.x-this.rectangle.topLeft.x;
         this.rectangle.height=this.rectangle.topLeft.y-this.rectangle.bottomRight.y;
     }

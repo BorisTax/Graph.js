@@ -1,4 +1,5 @@
 import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE,SELECT_SHAPE,SET_STATUS} from "../actions/ScreenActions";
+import {SET_PROPERTY}  from '../actions/ShapeActions';
 
 const initialState = {
     screenWidth:900,
@@ -25,6 +26,11 @@ export function screenReducer(state = initialState,action) {
             return{...state,selectedShapes:action.payload};
         case SET_STATUS:
             return{...state,status:action.payload,creator:action.creator};
+        case SET_PROPERTY:
+            for(let shape of state.selectedShapes){
+                if(shape.getProperties().has(action.payload.key)) shape.setProperty({key:action.payload.key,value:action.payload.value});
+            }
+            return{...state};
         default:
             return state
     }

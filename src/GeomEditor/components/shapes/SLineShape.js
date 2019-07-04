@@ -51,14 +51,20 @@ export default class SLineShape extends AbstractShape{
         prop.set('C',this.line.c);
         return prop;
     }
-    setProperties(prop){
-        super.setProperties(prop);
-        let a=prop.get('A');
-        let b=prop.get('B');
-        let c=prop.get('C');
-        if (a) this.line.a=a;
-        if (b) this.line.b=b;
-        if (c) this.line.c=c;
+    setProperty(prop){
+        super.setProperty(prop);
+        switch(prop.key){
+            case 'A':
+                if(!(this.line.b==0&&prop.value==0)) this.line.a=prop.value;
+                break;
+            case 'B':
+                if(!(this.line.a==0&&prop.value==0)) this.line.b=prop.value;
+                break;
+            case 'C':
+                this.line.c=prop.value;
+                break;
+            default:
+        }
     }
     toString(){
         return `Line ${this.line.a}X+${this.line.b}Y+${this.line.c}=0`;

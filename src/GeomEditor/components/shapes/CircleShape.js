@@ -38,14 +38,20 @@ export default class CircleShape extends AbstractShape{
         prop.set('Radius',this.circle.radius);
         return prop;
     }
-    setProperties(prop){
-        super.setProperties(prop);
-        let cx=prop.get('CX');
-        let cy=prop.get('CY');
-        let rad=prop.get('Radius');
-        if (cx) this.circle.center.x=cx;
-        if (cy) this.circle.center.y=cy;
-        if (rad) this.circle.radius=rad;
+    setProperty(prop){
+        super.setProperty(prop);
+        switch(prop.key){
+            case 'CX':
+                this.circle.center.x=prop.value;
+                break;
+            case 'CY':
+                this.circle.center.y=prop.value;
+                break;
+            case 'Radius':
+                this.circle.radius=prop.value;
+                break;
+            default:
+        }
     }
     toString(){
         return "Center("+this.circle.center.x+","+this.circle.center.y+") radius("+this.circle.radius+")";

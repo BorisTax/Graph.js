@@ -504,35 +504,26 @@ export default class Screen extends React.Component {
 
     componentDidMount() {
         let canvas=document.querySelector("#canvas");
-        this.ctx=canvas.getContext("2d");
+        let ctx=canvas.getContext("2d");
         canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
         this.setDimentions(this.screenWidth,this.screenHeight,20,new Coord2D(-10,10));
+        this.paint(ctx);
+        
     }
-    componentDidUpdate(){
-        if(this.props.snap.snapClass!=null) {
+    componentWillReceiveProps(nextProps, nextContext) {
+        let ctx=document.querySelector("#canvas").getContext("2d");
+        this.showGrid=nextProps.show.grid;
 
-            if (this.props.snap.snapClass === "grid") this.gridSnap = this.props.snap.snap;
+        if(nextProps.snap.snapClass!=null) {
+
+            if (nextProps.snap.snapClass === "grid") this.gridSnap = nextProps.snap.snap;
                 else
-                this.setSnap(this.props.snap.snapClass,this.props.snap.snap);
+                this.setSnap(nextProps.snap.snapClass,nextProps.snap.snap);
 
         }
-        this.setStatus(this.props.status,this.props);
-        this.paint(this.ctx);
+        this.setStatus(nextProps.status,nextProps);
+        this.paint(ctx);
     }
-    // componentWillReceiveProps(nextProps, nextContext) {
-    //     let ctx=document.querySelector("#canvas").getContext("2d");
-    //     this.showGrid=nextProps.show.grid;
-
-    //     if(nextProps.snap.snapClass!=null) {
-
-    //         if (nextProps.snap.snapClass === "grid") this.gridSnap = nextProps.snap.snap;
-    //             else
-    //             this.setSnap(nextProps.snap.snapClass,nextProps.snap.snap);
-
-    //     }
-    //     this.setStatus(nextProps.status,nextProps);
-    //     this.paint(ctx);
-    // }
 
     render(){
         return <div>

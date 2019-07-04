@@ -44,16 +44,23 @@ export default class LineShape extends AbstractShape{
         prop.set('Y2',this.line.p2.y);
         return prop;
     }
-    setProperties(prop){
-        super.setProperties(prop);
-        let x1=prop.get('X1');
-        let y1=prop.get('Y1');
-        let x2=prop.get('X2');
-        let y2=prop.get('Y2');
-        if (x1) this.line.p1.x=x1;
-        if (y1) this.line.p1.y=y1;
-        if (x2) this.line.p2.x=x2;
-        if (y2) this.line.p2.y=y2;
+    setProperty(prop){
+        super.setProperty(prop);
+        switch(prop.key){
+            case 'X1':
+                this.line.p1.x=prop.value;
+                break;
+            case 'Y1':
+                this.line.p1.y=prop.value;
+                break;
+            case 'X2':
+                this.line.p2.x=prop.value;
+                break;
+            case 'Y2':
+                this.line.p2.y=prop.value;
+                break;
+            default:
+        }
     }
     toString(){
             return `Line P1(${this.line.p1.x},${this.line.p1.y}) P2(${this.line.p2.x},${this.line.p2.y})`;

@@ -57,16 +57,23 @@ export default class RayLineShape extends AbstractShape{
         prop.set('VY',this.line.vector.y);
         return prop;
     }
-    setProperties(prop){
-        super.setProperties(prop);
-        let x=prop.get('X');
-        let y=prop.get('Y');
-        let vx=prop.get('VX');
-        let vy=prop.get('VY');
-        if (x)  this.line.origin.x=x;
-        if (y)  this.line.origin.y=y;
-        if (vx) this.line.vector.x=vx;
-        if (vy) this.line.vector.y=vy;
+    setProperty(prop){
+        super.setProperty(prop);
+        switch(prop.key){
+            case 'X':
+                this.line.origin.x=prop.value;
+                break;
+            case 'Y':
+                this.line.origin.y=prop.value;
+                break;
+            case 'VX':
+                this.line.vector.x=prop.value;
+                break;
+            case 'VY':
+                this.line.vector.y=prop.value;
+                break;
+            default:
+        }
     }
     toString(){
         return `Ray origin (${this.line.origin.x},${this.line.origin.y}) vector(${this.line.vector.x},${this.line.vector.y})`;
