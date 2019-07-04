@@ -37,11 +37,11 @@ export default class LineShape extends AbstractShape{
     }
     getProperties(){
         let prop=new Map();
-        prop.set('Title','Line');
-        prop.set('X1',this.line.p1.x);
-        prop.set('Y1',this.line.p1.y);
-        prop.set('X2',this.line.p2.x);
-        prop.set('Y2',this.line.p2.y);
+         prop.set('Title',{value:'Line',regexp:/\s*/});
+        prop.set('X1',{value:this.line.p1.x,regexp:/^-?\d+\.?\d*$/});
+        prop.set('Y1',{value:this.line.p1.y,regexp:/^-?\d+\.?\d*$/});
+        prop.set('X2',{value:this.line.p2.x,regexp:/^-?\d+\.?\d*$/});
+        prop.set('Y2',{value:this.line.p2.y,regexp:/^-?\d+\.?\d*$/});
         return prop;
     }
     setProperty(prop){

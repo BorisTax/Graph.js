@@ -39,13 +39,13 @@ export default class TriangleShape extends AbstractShape{
     }
     getProperties(){
         let prop=new Map();
-        prop.set('Title','Triangle');
-        prop.set('X1',this.triangle.points[0].x);
-        prop.set('Y1',this.triangle.points[0].y);
-        prop.set('X2',this.triangle.points[1].x);
-        prop.set('Y2',this.triangle.points[1].y);
-        prop.set('X3',this.triangle.points[2].x);
-        prop.set('Y3',this.triangle.points[2].y);
+        prop.set('Title',{value:'Triangle',regexp:/\s*/});
+        prop.set('X1',{value:this.triangle.points[0].x,regexp:/^-?\d+\.?\d*$/});
+        prop.set('Y1',{value:this.triangle.points[0].y,regexp:/^-?\d+\.?\d*$/});
+        prop.set('X2',{value:this.triangle.points[1].x,regexp:/^-?\d+\.?\d*$/});
+        prop.set('Y2',{value:this.triangle.points[1].y,regexp:/^-?\d+\.?\d*$/});
+        prop.set('X3',{value:this.triangle.points[2].x,regexp:/^-?\d+\.?\d*$/});
+        prop.set('Y3',{value:this.triangle.points[2].y,regexp:/^-?\d+\.?\d*$/});
         return prop;
     }
     setProperty(prop){

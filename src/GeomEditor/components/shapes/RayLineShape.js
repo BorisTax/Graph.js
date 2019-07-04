@@ -50,11 +50,11 @@ export default class RayLineShape extends AbstractShape{
     }
     getProperties(){
         let prop=new Map();
-        prop.set('Title','Ray line');
-        prop.set('X', this.line.origin.x);
-        prop.set('Y', this.line.origin.y);
-        prop.set('VX',this.line.vector.x);
-        prop.set('VY',this.line.vector.y);
+        prop.set('Title',{value:'Ray line',regexp:/\s*/});
+        prop.set('X',{value:this.line.origin.x,regexp:/^-?\d+\.?\d*$/});
+        prop.set('Y', {value:this.line.origin.y,regexp:/^-?\d+\.?\d*$/});
+        prop.set('VX',{value:this.line.vector.x,regexp:/^-?\d+\.?\d*$/});
+        prop.set('VY',{value:this.line.vector.y,regexp:/^-?\d+\.?\d*$/});
         return prop;
     }
     setProperty(prop){

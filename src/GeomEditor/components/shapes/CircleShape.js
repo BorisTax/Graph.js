@@ -32,10 +32,10 @@ export default class CircleShape extends AbstractShape{
     }
     getProperties(){
         let prop=new Map();
-        prop.set('Title','Circle');
-        prop.set('CX',this.circle.center.x);
-        prop.set('CY',this.circle.center.y);
-        prop.set('Radius',this.circle.radius);
+        prop.set('Title',{value:'Circle',regexp:/\s*/});
+        prop.set('CX',{value:this.circle.center.x,regexp:/^-?\d+\.?\d*$/});
+        prop.set('CY',{value:this.circle.center.y,regexp:/^-?\d+\.?\d*$/});
+        prop.set('Radius',{value:this.circle.radius,regexp:/^\d+\.?\d*$/});
         return prop;
     }
     setProperty(prop){
