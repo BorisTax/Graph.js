@@ -8,14 +8,14 @@ class PropertyField extends React.Component{
     }
     change(e){
         let v=e.target.value;
-        const r=/^[0-9]+\.[0-9]+$/
+        const r=/^\d+\.?\d*$/
         const corr=v.match(r)!=null;
         this.setState({value:v,correct:corr});
     }
     onKeyPress(e){
         if(e.charCode==13){
             let v=e.target.value;
-            const r=/^[0-9]+\.[0-9]+$/
+            const r=/^\d+\.?\d*$/
             if(v.match(r)!=null) {
                 this.props.setProperty(this.state.label,Number.parseFloat(v));
                 this.setState({value:Number.parseFloat(v),correct:true});
