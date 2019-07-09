@@ -2,6 +2,7 @@
 export default class ShapeStyle {
     static DASH=0;
     static SOLID=1;
+    static SELECTION=2;
     constructor(color,stroke,width=1){
         this.color=color;
         this.originColor=this.color;
@@ -13,6 +14,9 @@ export default class ShapeStyle {
                 break;
             case ShapeStyle.SOLID:
                 this.stroke=[0];
+                break;
+            case ShapeStyle.SELECTION:
+                this.stroke=[1,1];
                 break;
             default:
         }

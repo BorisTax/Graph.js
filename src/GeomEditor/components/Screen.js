@@ -9,12 +9,15 @@ import FreeCursor from "./shapes/cursors/FreeCursor";
 import DrawCursor from "./shapes/cursors/DrawCursor";
 import {Color} from './colors';
 import DragCursor from './shapes/cursors/DragCursor';
+import SelectionManager from './shapes/SelectionManager';
+import SelectRectCreator from './shapes/shapecreators/SelectRectCreator';
 export default class Screen extends React.Component {
     showGrid=true;
     gridSnap=false;
     snapDist=20;snapMinDist=10;
     selectDist=2;
     static STATUS_FREE='FREE';
+    static STATUS_SELECT='SELECT';
     static STATUS_CREATE='CREATE';
     static STATUS_DRAWING='DRAWING';
     static STATUS_CANCEL='CANCEL';
@@ -214,7 +217,7 @@ export default class Screen extends React.Component {
       this.drawShape(this.cursor,ctx);
     }
     drawGrid(ctx){
-        ctx.strokeStyle="#C0C0C0";
+        ctx.strokeStyle=Color.GRID;
         let solidStyle=new ShapeStyle(Color.GRAY,ShapeStyle.SOLID);
         let dashStyle=new ShapeStyle(Color.GRAY,ShapeStyle.DASH);
         let firstX=Math.round(this.topLeft.x/this.gridStep)*this.gridStep;
@@ -359,6 +362,9 @@ export default class Screen extends React.Component {
         }
         ctx.lineWidth=1;
         //if(!this.dragGrid)
+        if(this.status===Screen.STATUS_SELECT){
+            this.drawShape(this.selectionShape,ctx);
+        }
         this.drawCursor(ctx);
     }
 
@@ -408,6 +414,11 @@ export default class Screen extends React.Component {
         this.curCoord=temp;
         if(this.status===Screen.STATUS_FREE){
             this.shapeManager.setShapeNearPoint(this.curCoord,this.selectDist*this.pixelRatio);
+            
+        }
+        if(this.status===Screen.STATUS_SELECT){
+            this.selectionManager.setCurrent(this.curCoord);
+            this.selectionShape=this.selectionManager.getSelectionShape();
         }
         if(this.status===Screen.STATUS_DRAWING){
             this.shapeCreator.setCurrent(this.curCoord);
@@ -426,14 +437,21 @@ export default class Screen extends React.Component {
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
             this.setStatus(Screen.STATUS_PAN,this.props);
-            // this.dragGrid=true;
-            // this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
-            // this.dragX0=this.curCoord.x;
-            // this.dragY0=this.curCoord.y;
-            // this.prevCursor=this.cursor;
-            // this.prevStatus=this.status;
-            // this.cursor=new DragCursor(this.curCoord);
-
+            this.paint(ctx);
+            e.preventDefault();
+        }
+        if(e.button===0){
+            let ctx=e.target.getContext("2d");
+            let rect=e.target.getBoundingClientRect();
+            this.curPoint.x=e.clientX-rect.left;
+            this.curPoint.y=e.clientY-rect.top;
+            if(this.status===Screen.STATUS_FREE){
+                this.prevPoint={...this.curPoint};
+                this.selectionManager=new SelectionManager(SelectRectCreator);
+                this.selectionManager.setNext(this.screenToReal(this.curPoint.x,this.curPoint.y));
+                this.selectionShape=this.selectionManager.getSelectionShape();
+                this.status=Screen.STATUS_SELECT;
+            }
             this.paint(ctx);
             e.preventDefault();
         }
@@ -448,6 +466,11 @@ export default class Screen extends React.Component {
             this.cursor=this.prevCursor;
             this.status=this.prevStatus;
             this.paint(ctx);
+        }
+        if(e.button===0){
+            if(this.status===Screen.STATUS_SELECT){
+                this.status=Screen.STATUS_FREE;
+            }
         }
     }
     mwheel(e){
@@ -496,6 +519,7 @@ export default class Screen extends React.Component {
             }
             if(this.status===Screen.STATUS_FREE){
                     this.shapeManager.toggleShapeSelected();
+
                 }
         }
         this.props.selectShapes(this.shapeManager.getSelectedShapes());
@@ -519,20 +543,6 @@ export default class Screen extends React.Component {
         this.setStatus(this.props.status,this.props);
         this.paint(this.ctx);
     }
-    // componentWillReceiveProps(nextProps, nextContext) {
-    //     let ctx=document.querySelector("#canvas").getContext("2d");
-    //     this.showGrid=nextProps.show.grid;
-
-    //     if(nextProps.snap.snapClass!=null) {
-
-    //         if (nextProps.snap.snapClass === "grid") this.gridSnap = nextProps.snap.snap;
-    //             else
-    //             this.setSnap(nextProps.snap.snapClass,nextProps.snap.snap);
-
-    //     }
-    //     this.setStatus(nextProps.status,nextProps);
-    //     this.paint(ctx);
-    // }
 
     render(){
         return <div>

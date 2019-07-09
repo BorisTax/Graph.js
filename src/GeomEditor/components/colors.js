@@ -6,4 +6,6 @@ export const Color={
     DARK_ORANGE:"#FFB000",
     GREEN:"#00FF00",
     SELECTED:"#0000FF",
+    SELECTION_AREA:'#000000',
+    GRID:"#909090",
 }
