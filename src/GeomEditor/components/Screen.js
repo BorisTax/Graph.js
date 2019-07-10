@@ -23,7 +23,7 @@ export default class Screen extends React.Component {
     static STATUS_CANCEL='CANCEL';
     static STATUS_PAN='PAN';
     static MARKER_SIZE=0.005;
-    static SNAP_MARKER_SIZE=0.015;
+    static SNAP_MARKER_SIZE=5;
     status='';
     prevStatus='';
     points=new Array(3);
@@ -140,10 +140,9 @@ export default class Screen extends React.Component {
     setDimentions(width, height, realWidth, topLeft){
         this.screenHeight=height;
         this.screenWidth=width;
-        this.ratio=width/height;
-        this.setRealWidth(realWidth);
-        this.setTopLeft(topLeft);
-        this.setBoundedCircle();
+        this.realWidth=realWidth;
+        this.realHeight=this.realHeight;
+        this.resize();
         this.shapes=[];
         this.xAxe=new SLine(0,1,0);
         this.yAxe=new SLine(1,0,0);
@@ -525,13 +524,34 @@ export default class Screen extends React.Component {
         this.props.selectShapes(this.shapeManager.getSelectedShapes());
         this.paint(e.target.getContext("2d"));
     }
-
-    componentDidMount() {
-        let canvas=document.querySelector("#canvas");
-        this.ctx=canvas.getContext("2d");
-        canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
-        this.setDimentions(this.screenWidth,this.screenHeight,20,new Coord2D(-10,10));
+    resize(){
+        const style=window.getComputedStyle(document.querySelector('.screenContainer'));
+        this.screenWidth=Number.parseInt(style.width);
+        this.screenHeight=Number.parseInt(style.height);
+        this.canvas.width=this.screenWidth;
+        this.canvas.height=this.screenHeight;
+        this.ratio=this.screenWidth/this.screenHeight;
+        this.setRealWidth(this.realWidth);
+        this.setTopLeft(this.topLeft);
+        this.setBoundedCircle();
     }
+    componentDidMount() {
+        this.canvas=document.querySelector("#canvas");
+        this.ctx=this.canvas.getContext("2d");
+        this.canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
+        this.setDimentions(this.screenWidth,this.screenHeight,20,new Coord2D(-10,10));
+        this.paint(this.ctx);
+        window.addEventListener('load',()=>{
+            this.resize();
+            this.paint(this.ctx);
+        });
+        window.addEventListener('resize',()=>{
+            this.resize();
+            this.paint(this.ctx);
+        })
+        
+    }
+
     componentDidUpdate(){
         if(this.props.snap.snapClass!=null) {
 
@@ -542,12 +562,11 @@ export default class Screen extends React.Component {
         }
         this.setStatus(this.props.status,this.props);
         this.paint(this.ctx);
+        
     }
 
     render(){
-        return <div>
-            <div>
-            <canvas id="canvas" width={this.props.screenWidth} height={this.props.screenHeight}
+        return <canvas id="canvas" width={this.screenWidth} height={this.screenHeight}
                 onMouseMove={this.mmove.bind(this)}
                 onMouseDown={this.mdown.bind(this)}
                 onMouseUp={this.mup.bind(this)}
@@ -556,7 +575,6 @@ export default class Screen extends React.Component {
             >
 
             </canvas>
-            </div>
-        </div>
+        
     }
 }

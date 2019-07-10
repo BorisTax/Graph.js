@@ -13,7 +13,7 @@ export default class EndSnapMarker extends AbstractSnapMarker {
     }
     refresh(realRect, screenRect){
         this.circle.center=this.getPos();
-        this.circle.radius=realRect.width*Screen.SNAP_MARKER_SIZE;
+        this.circle.radius=realRect.width/screenRect.width*Screen.SNAP_MARKER_SIZE;
         let markerShape=new CircleShape(this.circle);
         markerShape.setStyle(new ShapeStyle(Color.GREEN,ShapeStyle.SOLID));
         this.setMarker(this.circle.center,markerShape);

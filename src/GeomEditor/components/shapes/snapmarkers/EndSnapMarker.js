@@ -12,7 +12,7 @@ export default class EndSnapMarker extends AbstractSnapMarker {
     }
     refresh(realRect, screenRect){
         let pos=this.getPos();
-        this.rect.width=realRect.width*Screen.SNAP_MARKER_SIZE;
+        this.rect.width=realRect.width/screenRect.width*Screen.SNAP_MARKER_SIZE;
         this.rect.height=this.rect.width;
         this.rect.topLeft.x=pos.x-this.rect.width/2;
         this.rect.topLeft.y=pos.y+this.rect.height/2;

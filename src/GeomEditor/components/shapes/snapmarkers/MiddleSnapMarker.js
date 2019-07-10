@@ -13,7 +13,7 @@ export default class MiddleSnapMarker extends AbstractSnapMarker {
 }
     refresh(realRect, screenRect){
         let pos=this.getPos();
-        let r=realRect.width*Screen.SNAP_MARKER_SIZE*2/3;
+        let r=realRect.width/screenRect.width*Screen.SNAP_MARKER_SIZE;
         let p=new Array(3);
         p[0]=new Coord2D(pos.x,pos.y+r);
         p[1]=Geometry.rotatePoint(p[0],Math.PI*2/3,pos);

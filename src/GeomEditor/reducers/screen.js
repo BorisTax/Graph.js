@@ -2,7 +2,7 @@ import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE,
 import {SET_PROPERTY}  from '../actions/ShapeActions';
 
 const initialState = {
-    screenWidth:900,
+    screenWidth:550,
     screenHeight:550,
     show:{grid:true},
     gridSnap:false,

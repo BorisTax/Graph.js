@@ -12,13 +12,14 @@ import PropertyEditorBar from './PropertyEditorBar';
 class MainContainer extends React.Component{
     render(){
         return <div className={'mainContainer'}>
-        <CreateToolBar/>
+        
         <div className={'screenContainer'}>
             <Screen style={{borderWidth:1+'px',borderStyle:"solid"}}
                 setStatus={this.props.setScreenStatus}
                 selectShapes={this.props.selectShapes}
                 {...this.props.screen}/>
                 </div>
+        <CreateToolBar/>
         <PropertyEditorBar/>
         <SnapToggleBar/>
     </div>
