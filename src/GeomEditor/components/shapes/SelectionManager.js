@@ -10,6 +10,7 @@ export default class SelectionManager {
     }
     setCurrent(point){
         this.selectionCreator.setCurrent(point);
+        
     }
     getSelectionShape(){
         return this.selectionCreator.getShape();

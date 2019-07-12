@@ -125,6 +125,24 @@ export class Circle {
     getDistance(point) {
         return Math.abs(Geometry.distance(point,this.center)-this.radius);
     }
+    isInRect(topLeft,bottomRight){
+        const outRectX1=topLeft.x-this.radius;
+        const outRectY1=topLeft.y+this.radius;
+        const outRectX2=bottomRight.x+this.radius;
+        const outRectY2=bottomRight.y-this.radius;
+        const inRectX1=topLeft.x+this.radius;
+        const inRectY1=topLeft.y-this.radius;
+        const inRectX2=bottomRight.x-this.radius;
+        const inRectY2=bottomRight.y+this.radius;
+        const c=this.center;
+        let cross=false;
+        let full=Geometry.pointInRectByPoints(c.x,c.y,inRectX1,inRectY1,inRectX2,inRectY2);
+        if(!full&&
+            Geometry.pointInRectByPoints(c.x,c.y,outRectX1,outRectY1,outRectX2,outRectY2)){
+                cross=true;
+            }
+        return {cross,full}
+    }
 }
 
 export class Triangle {
@@ -208,6 +226,10 @@ export default class Geometry {
         let sx = (p.x - rectBottomRight.x) * (p.x - rectTopLeft.x);
         let sy = (p.y - rectBottomRight.y) * (p.y - rectTopLeft.y);
         return (sx <= 0 && sy <= 0);
+    }
+    static pointInRectByPoints(x,y, x1,y1,x2,y2) {
+        if((x>=x1&&x<=x2)&&(y<=y1&&y>=y2)) return true;
+        return false;
     }
     static pointOnLine(p, p1, p2) {
         let sx = Math.round((p.x - p1.x) * (p.x - p2.x)*100000)/100000;

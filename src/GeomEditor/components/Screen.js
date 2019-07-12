@@ -417,6 +417,7 @@ export default class Screen extends React.Component {
         }
         if(this.status===Screen.STATUS_SELECT){
             this.selectionManager.setCurrent(this.curCoord);
+            this.shapeManager.setShapeInRect(this.prevCoord,this.curCoord);
             this.selectionShape=this.selectionManager.getSelectionShape();
         }
         if(this.status===Screen.STATUS_DRAWING){
@@ -445,7 +446,7 @@ export default class Screen extends React.Component {
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
             if(this.status===Screen.STATUS_FREE){
-                this.prevPoint={...this.curPoint};
+                this.prevCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
                 this.selectionManager=new SelectionManager(SelectRectCreator);
                 this.selectionManager.setNext(this.screenToReal(this.curPoint.x,this.curPoint.y));
                 this.selectionShape=this.selectionManager.getSelectionShape();

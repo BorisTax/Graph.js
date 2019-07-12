@@ -53,6 +53,7 @@ export default class CircleShape extends AbstractShape{
             default:
         }
     }
+    
     toString(){
         return "Center("+this.circle.center.x+","+this.circle.center.y+") radius("+this.circle.radius+")";
     }
