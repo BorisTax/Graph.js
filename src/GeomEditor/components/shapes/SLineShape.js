@@ -1,10 +1,11 @@
 import Geometry,{Circle,Coord2D} from "../../utils/geometry";
-import AbstractShape from "./AbstractShape";
+import Shape from "./Shape";
 
-export default class SLineShape extends AbstractShape{
+export default class SLineShape extends Shape{
     constructor(line){
         super();
         this.line=line;
+        this.model=line;
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect, screenRect);
@@ -37,9 +38,7 @@ export default class SLineShape extends AbstractShape{
             this.p1=null;
         }
     }
-    getModel(){
-        return this.line;
-    }
+
     getMarkers(){
         return null;
     }
@@ -65,6 +64,9 @@ export default class SLineShape extends AbstractShape{
                 break;
             default:
         }
+    }
+    getDistance(point) {
+        return Geometry.PointToSLineDistance(point,this.line);
     }
     toString(){
         return `Line ${this.line.a}X+${this.line.b}Y+${this.line.c}=0`;

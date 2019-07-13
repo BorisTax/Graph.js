@@ -1,7 +1,7 @@
-import AbstractShape from "../AbstractShape";
+import Shape from "../Shape";
 import Geometry from "../../../utils/geometry";
 
-export default class DragCursor extends AbstractShape{
+export default class DragCursor extends Shape{
     constructor(point){
         super();
         this.p=point;

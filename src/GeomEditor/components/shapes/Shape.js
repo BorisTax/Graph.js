@@ -1,12 +1,14 @@
 import {Color} from '../colors';
 import ShapeStyle from './ShapeStyle';
 
-export default class AbstractShape {
+export default class Shape {
     constructor(){
         this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
         this.state={selected:false,highlighted:false};
     }
-
+    getModel(){
+        return this.model;
+    }
     setColor(color){
         this.style.setColor(color);
     }

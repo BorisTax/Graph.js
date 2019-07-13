@@ -1,12 +1,12 @@
 import Geometry,{Coord2D,Circle} from "../../utils/geometry";
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
-import AbstractShape from "./AbstractShape";
+import Shape from "./Shape";
 
-export default class RayLineShape extends AbstractShape{
+export default class RayLineShape extends Shape{
     constructor(line){
         super();
         this.line=line;
-        
+        this.model=line;
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect,screenRect);
@@ -39,10 +39,6 @@ export default class RayLineShape extends AbstractShape{
             this.p1=null;
         }
     }
-    getModel(){
-        return this.line;
-    }
-
     getMarkers(){
         let list=[];
         list.push(new EndSnapMarker(this.line.origin));
@@ -74,6 +70,9 @@ export default class RayLineShape extends AbstractShape{
                 break;
             default:
         }
+    }
+    getDistance(point) {
+        return Geometry.PointToRLineDistance(point,this.line);
     }
     toString(){
         return `Ray origin (${this.line.origin.x},${this.line.origin.y}) vector(${this.line.vector.x},${this.line.vector.y})`;

@@ -1,12 +1,13 @@
 import {Coord2D} from "../../utils/geometry";
 import Geometry from "../../utils/geometry";
 import CenterSnapMarker from './snapmarkers/CenterSnapMarker';
-import AbstractShape from "./AbstractShape";
-export default class CircleShape extends AbstractShape{
+import Shape from "./Shape";
+export default class CircleShape extends Shape{
     constructor(circle){
         super();
         this.p=new Coord2D();
         this.circle=circle;
+        this.model=circle;
     }
 
     drawSelf(ctx, realRect, screenRect){
@@ -15,15 +16,12 @@ export default class CircleShape extends AbstractShape{
         ctx.setLineDash(this.getStyle().getStroke());
         ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
-        ctx.arc(this.center.x,this.center.y,this.radius,0,2*Math.PI);
+        ctx.arc(this.screenCenter.x,this.screenCenter.y,this.screenRadius,0,2*Math.PI);
         ctx.stroke();
     }
     refresh(realRect, screenRect){
-        this.center=Geometry.realToScreen(this.circle.center,realRect,screenRect);
-        this.radius=Geometry.realToScreenLength(this.circle.radius,realRect.width,screenRect.width);
-    }
-    getModel(){
-        return this.circle;
+        this.screenCenter=Geometry.realToScreen(this.circle.center,realRect,screenRect);
+        this.screenRadius=Geometry.realToScreenLength(this.circle.radius,realRect.width,screenRect.width);
     }
     getMarkers(){
         let list=[];
@@ -53,7 +51,44 @@ export default class CircleShape extends AbstractShape{
             default:
         }
     }
-    
+    getDistance(point) {
+        return Math.abs(Geometry.distance(point,this.circle.center)-this.circle.radius);
+    }
+    isInRect(topLeft,bottomRight){
+        const outRectX1=topLeft.x-this.circle.radius;
+        const outRectY1=topLeft.y+this.circle.radius;
+        const outRectX2=bottomRight.x+this.circle.radius;
+        const outRectY2=bottomRight.y-this.circle.radius;
+        const inRectX1=topLeft.x+this.circle.radius;
+        const inRectY1=topLeft.y-this.circle.radius;
+        const inRectX2=bottomRight.x-this.circle.radius;
+        const inRectY2=bottomRight.y+this.circle.radius;
+        const c=this.circle.center;
+        let cross=false;
+        const signs=[Math.sign(Geometry.distance(c,{x:topLeft.x,y:topLeft.y})-this.circle.radius),
+                     Math.sign(Geometry.distance(c,{x:bottomRight.x,y:topLeft.y})-this.circle.radius),
+                     Math.sign(Geometry.distance(c,{x:bottomRight.x,y:bottomRight.y})-this.circle.radius),
+                     Math.sign(Geometry.distance(c,{x:topLeft.x,y:bottomRight.y})-this.circle.radius)];
+        if(signs.every(x=>x<0)) return {cross:false,full:false};
+        let full=Geometry.pointInRectByPoints(c.x,c.y,inRectX1,inRectY1,inRectX2,inRectY2);
+        if(full===true) return {cross:false,full:true}
+        if(Geometry.pointInRectByPoints(c.x,c.y,outRectX1,outRectY1,outRectX2,outRectY2)){
+                cross=true;
+                if(Geometry.pointInRectByPoints(c.x,c.y,outRectX1,outRectY1,topLeft.x,topLeft.y)){
+                    if(Geometry.distance(c,{x:topLeft.x,y:topLeft.y})>this.circle.radius) cross=false;
+                }
+                if(Geometry.pointInRectByPoints(c.x,c.y,bottomRight.x,outRectY1,outRectX2,topLeft.y)){
+                    if(Geometry.distance(c,{x:bottomRight.x,y:topLeft.y})>this.circle.radius) cross=false;
+                }
+                if(Geometry.pointInRectByPoints(c.x,c.y,bottomRight.x,bottomRight.y,outRectX2,outRectY2)){
+                    if(Geometry.distance(c,{x:bottomRight.x,y:bottomRight.y})>this.circle.radius) cross=false;
+                }
+                if(Geometry.pointInRectByPoints(c.x,c.y,outRectX1,bottomRight.y,topLeft.x,outRectY2)){
+                    if(Geometry.distance(c,{x:topLeft.x,y:bottomRight.y})>this.circle.radius) cross=false;
+                }
+            }
+        return {cross:cross,full:false}
+    }
     toString(){
         return "Center("+this.circle.center.x+","+this.circle.center.y+") radius("+this.circle.radius+")";
     }

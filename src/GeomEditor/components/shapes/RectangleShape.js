@@ -1,12 +1,13 @@
-import Geometry,{Rectangle,Coord2D} from '../../utils/geometry';
+import Geometry,{Rectangle,Coord2D,Line} from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
-import AbstractShape from "./AbstractShape";
+import Shape from "./Shape";
 
-export default class RectangleShape extends AbstractShape{
+export default class RectangleShape extends Shape{
     constructor(rectangle){
         super();
         this.rectangle=rectangle;
+        this.model=rectangle;
         this.rect=new Rectangle()
     }
 
@@ -21,9 +22,6 @@ export default class RectangleShape extends AbstractShape{
         this.rect.topLeft=Geometry.realToScreen(this.rectangle.topLeft,realRect,screenRect);
         this.rect.width=Geometry.realToScreenLength(this.rectangle.width,realRect.width,screenRect.width);
         this.rect.height=Geometry.realToScreenLength(this.rectangle.height,realRect.height,screenRect.height);
-    }
-    getModel(){
-        return this.rectangle;
     }
     getMarkers(){
         let list=[];
@@ -67,6 +65,20 @@ export default class RectangleShape extends AbstractShape{
         }
         this.rectangle.width=this.rectangle.bottomRight.x-this.rectangle.topLeft.x;
         this.rectangle.height=this.rectangle.topLeft.y-this.rectangle.bottomRight.y;
+    }
+    getDistance(point) {
+        let tl=this.rectangle.topLeft;
+        let tr=new Coord2D(tl.x+this.rectangle.width,tl.y);
+        let bl=new Coord2D(tl.x,tl.y-this.rectangle.height);
+        let br=new Coord2D(tl.x+this.rectangle.width,tl.y-this.rectangle.height);
+        let top=new Line(tl,tr);
+        let bottom=new Line(bl,br);
+        let right=new Line(tr,br);
+        let left=new Line(tl,bl);
+        return Math.min(Geometry.PointToLineDistance(point,top),
+        Geometry.PointToLineDistance(point,left),
+        Geometry.PointToLineDistance(point,bottom),
+        Geometry.PointToLineDistance(point,right));
     }
     toString(){
         return "Rectangle";

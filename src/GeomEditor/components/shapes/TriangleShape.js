@@ -1,13 +1,14 @@
-import Geometry, {Coord2D} from '../../utils/geometry';
+import Geometry, {Coord2D,Line} from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
-import AbstractShape from "./AbstractShape";
+import Shape from "./Shape";
 
-export default class TriangleShape extends AbstractShape{
+export default class TriangleShape extends Shape{
     constructor(triangle){
         super();
         this.p=[new Coord2D(),new Coord2D(),new Coord2D()];
         this.triangle=triangle;
+        this.model=triangle;
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect,screenRect);
@@ -23,9 +24,6 @@ export default class TriangleShape extends AbstractShape{
     }
     refresh(realRect, screenRect){
         for (let i=0;i<3;i++) this.p[i]=Geometry.realToScreen(this.triangle.points[i],realRect,screenRect);
-    }
-    getModel(){
-        return this.triangle;
     }
     getMarkers(){
         let list=[];
@@ -71,6 +69,14 @@ export default class TriangleShape extends AbstractShape{
                 break;
             default:
         }
+    }
+    getDistance(point) {
+        let l1=new Line(this.points[0],this.points[1]);
+        let l2=new Line(this.points[1],this.points[2]);
+        let l3=new Line(this.points[2],this.points[0]);
+        return Math.min(Geometry.PointToLineDistance(point,l1),
+        Geometry.PointToLineDistance(point,l2),
+        Geometry.PointToLineDistance(point,l3));
     }
     toString(){
         return "Triangle";

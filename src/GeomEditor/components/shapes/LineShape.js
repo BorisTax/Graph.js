@@ -1,15 +1,16 @@
 import Geometry from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
-import AbstractShape from "./AbstractShape";
+import Shape from "./Shape";
 
-export default class LineShape extends AbstractShape{
+export default class LineShape extends Shape{
     constructor(line){
         super();
         this.p=[];
         this.p[0]=line.p1;
         this.p[1]=line.p2;
         this.line=line;
+        this.model=line;
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect, screenRect);
@@ -24,9 +25,6 @@ export default class LineShape extends AbstractShape{
     refresh(realRect, screenRect){
         this.p0 = Geometry.realToScreen(this.line.p1,realRect,screenRect);
         this.p1 = Geometry.realToScreen(this.line.p2, realRect, screenRect);
-    }
-    getModel(){
-        return this.line;
     }
     getMarkers(){
         let list=[];
@@ -61,6 +59,9 @@ export default class LineShape extends AbstractShape{
                 break;
             default:
         }
+    }
+    getDistance(point) {
+        return Geometry.PointToLineDistance(point,this.line);
     }
     toString(){
             return `Line P1(${this.line.p1.x},${this.line.p1.y}) P2(${this.line.p2.x},${this.line.p2.y})`;

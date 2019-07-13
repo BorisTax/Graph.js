@@ -1,9 +1,9 @@
 import Geometry,{Rectangle,Coord2D} from '../../utils/geometry';
 import {Color} from '../colors';
-import AbstractShape from "./AbstractShape";
+import Shape from "./Shape";
 import ShapeStyle from './ShapeStyle';
 
-export default class SelectRectShape extends AbstractShape{
+export default class SelectRectShape extends Shape{
     constructor(rectangle){
         super();
         this.rectangle=rectangle;

@@ -17,9 +17,7 @@ export class Line{
         this.p1=p1;
         this.p2=p2;
     }
-    getDistance(point) {
-        return Geometry.PointToLineDistance(point,this);
-    }
+
 }
 export class SLine{
     constructor(){
@@ -43,9 +41,7 @@ export class SLine{
     getXbyY(y){
         if(this.a!==0)return -(this.b*y+this.c)/this.a;else return NaN;
     }
-    getDistance(point) {
-        return Geometry.PointToSLineDistance(point,this);
-    }
+
 }
 
 export class RLine {
@@ -73,9 +69,7 @@ export class RLine {
         return NaN;
     }else return NaN;
     }
-    getDistance(point) {
-        return Geometry.PointToRLineDistance(point,this);
-    }
+
 }
 
 export class Arc {
@@ -101,20 +95,7 @@ export class Rectangle {
         this.bottomRight.x=this.topLeft.x+this.width;
         this.bottomRight.y=this.topLeft.y-this.height;
     }
-    getDistance(point) {
-        let tl=this.topLeft;
-        let tr=new Coord2D(tl.x+this.width,tl.y);
-        let bl=new Coord2D(tl.x,tl.y-this.height);
-        let br=new Coord2D(tl.x+this.width,tl.y-this.height);
-        let top=new Line(tl,tr);
-        let bottom=new Line(bl,br);
-        let right=new Line(tr,br);
-        let left=new Line(tl,bl);
-        return Math.min(Geometry.PointToLineDistance(point,top),
-        Geometry.PointToLineDistance(point,left),
-        Geometry.PointToLineDistance(point,bottom),
-        Geometry.PointToLineDistance(point,right));
-    }
+    
 }
 
 export class Circle {
@@ -122,27 +103,7 @@ export class Circle {
         this.center=center;
         this.radius=radius;
     }
-    getDistance(point) {
-        return Math.abs(Geometry.distance(point,this.center)-this.radius);
-    }
-    isInRect(topLeft,bottomRight){
-        const outRectX1=topLeft.x-this.radius;
-        const outRectY1=topLeft.y+this.radius;
-        const outRectX2=bottomRight.x+this.radius;
-        const outRectY2=bottomRight.y-this.radius;
-        const inRectX1=topLeft.x+this.radius;
-        const inRectY1=topLeft.y-this.radius;
-        const inRectX2=bottomRight.x-this.radius;
-        const inRectY2=bottomRight.y+this.radius;
-        const c=this.center;
-        let cross=false;
-        let full=Geometry.pointInRectByPoints(c.x,c.y,inRectX1,inRectY1,inRectX2,inRectY2);
-        if(!full&&
-            Geometry.pointInRectByPoints(c.x,c.y,outRectX1,outRectY1,outRectX2,outRectY2)){
-                cross=true;
-            }
-        return {cross,full}
-    }
+    
 }
 
 export class Triangle {
@@ -157,14 +118,7 @@ export class Triangle {
         let circle=new Circle(p,Geometry.distance(p,this.points[0]));
         return circle;
     }
-    getDistance(point) {
-        let l1=new Line(this.points[0],this.points[1]);
-        let l2=new Line(this.points[1],this.points[2]);
-        let l3=new Line(this.points[2],this.points[0]);
-        return Math.min(Geometry.PointToLineDistance(point,l1),
-        Geometry.PointToLineDistance(point,l2),
-        Geometry.PointToLineDistance(point,l3));
-    }
+
 }
 
 export class Vector {
