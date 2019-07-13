@@ -74,6 +74,11 @@ export default class RayLineShape extends Shape{
     getDistance(point) {
         return Geometry.PointToRLineDistance(point,this.line);
     }
+    isInRect(topLeft,bottomRight){
+        const full=false;
+        const cross=Geometry.RayLineRectangleIntersection(this.line,topLeft,bottomRight).length>0;
+        return {cross,full};    
+    }
     toString(){
         return `Ray origin (${this.line.origin.x},${this.line.origin.y}) vector(${this.line.vector.x},${this.line.vector.y})`;
     }

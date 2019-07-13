@@ -45,7 +45,11 @@ body{
 .propertyFieldIncorrect{
   border: red;
 }
-
+.propertyGroup{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 .langToggleButtonDown{
   display: inline-block;
   border: 2px inset;

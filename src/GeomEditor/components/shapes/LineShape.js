@@ -63,6 +63,13 @@ export default class LineShape extends Shape{
     getDistance(point) {
         return Geometry.PointToLineDistance(point,this.line);
     }
+    isInRect(topLeft,bottomRight){
+        const inRect=[Geometry.pointInRect(this.line.p1,topLeft,bottomRight),
+                        Geometry.pointInRect(this.line.p2,topLeft,bottomRight)];
+        const full=inRect.every(i=>i===true);
+        const cross=Geometry.LineRectangleIntersection(this.line,topLeft,bottomRight).length>0;
+        return {cross,full};    
+    }
     toString(){
             return `Line P1(${this.line.p1.x},${this.line.p1.y}) P2(${this.line.p2.x},${this.line.p2.y})`;
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Graph.css';
-import {SLine, Circle, Coord2D, Point2D,Rectangle} from '../utils/geometry.js';
+import Geometry, {SLine, Circle, Coord2D, Point2D,Rectangle, Line} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import SLineShape from "./shapes/SLineShape.js";
 import SnapMarkersManager from './shapes/snapmarkers/SnapMarkersManager';
@@ -11,6 +11,9 @@ import {Color} from './colors';
 import DragCursor from './shapes/cursors/DragCursor';
 import SelectionManager from './shapes/SelectionManager';
 import SelectRectCreator from './shapes/shapecreators/SelectRectCreator';
+import CircleShape from './shapes/CircleShape';
+import LineShape from './shapes/LineShape';
+import RectangleShape from './shapes/RectangleShape';
 export default class Screen extends React.Component {
     showGrid=true;
     gridSnap=false;
@@ -137,6 +140,16 @@ export default class Screen extends React.Component {
         this.setBoundedCircle();
         this.setState(this.state);
     }
+    test(){
+        const l1=new Line({x:-3,y:-2},{x:3,y:4});
+        const rect=new Rectangle({x:-2.733663785740287,y:3.1722877614255762},{x:2.5563594161158623,y:-1.1432574821939125});
+        const ps=Geometry.LineRectangleIntersection(l1,rect.topLeft,rect.bottomRight);
+        
+        const cs=ps.map(p=>new CircleShape({center:{x:p.x,y:p.y},radius:0.1}))
+        this.shapes.push(new LineShape(l1));
+        this.shapes.push(new RectangleShape(rect));
+        cs.forEach(c=>this.shapes.push(c));
+    }
     setDimentions(width, height, realWidth, topLeft){
         this.screenHeight=height;
         this.screenWidth=width;
@@ -152,6 +165,9 @@ export default class Screen extends React.Component {
         this.yAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
         this.shapes.push(this.xAxeShape);
         this.shapes.push(this.yAxeShape);
+
+        //this.test();
+
         this.centerToPoint(new Coord2D(0,0));
         this.cursor=new FreeCursor(this.curCoord);
         this.refreshSnapMarkers();

@@ -9,9 +9,9 @@
   "createRect":"Rectangle by 2 points",
   "createTriangle":"Triangle by 3 points",
   "snapToggleBar":"Snap",
-  "snapGridPoints":"to grid points",
-  "snapEndPoints": "to end points",
-  "snapCenterPoints": "to center points",
-  "snapMiddlePoints": "to middle points",
+  "snapGridPoints":" Snap to grid points",
+  "snapEndPoints": "Snap to end points",
+  "snapCenterPoints": "Snap to center points",
+  "snapMiddlePoints": "Snap to middle points",
   "showGrid":"Show grid"
 }

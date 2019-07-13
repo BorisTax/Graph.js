@@ -36,7 +36,9 @@ class PropertyEditorBar extends React.Component{
         return <div className={"toolBar propertiesBar"}>
             <div className='toolBarHeader noselect'>Properties</div>
             {shapeTitle?shapeTitle:""}
+            <div className='propertyGroup'>
             {propElements}
+            </div>
         </div>
     }
 }

@@ -9,9 +9,9 @@
 "createToolBar": "Создать",
 "createTriangle": "Произвольный треугольник",
 "showGrid": "Отобразить сетку",
-"snapCenterPoints": "к центрам окружностей и дуг",
-"snapEndPoints": "к конечным точкам",
-"snapGridPoints": "к узлам сетки",
-"snapMiddlePoints": "к серединным точкам",
+"snapCenterPoints": "Привязка к центрам окружностей и дуг",
+"snapEndPoints": "Привязка к конечным точкам",
+"snapGridPoints": "Привязка к узлам сетки",
+"snapMiddlePoints": "Привязка к серединным точкам",
 "snapToggleBar": "Привязка"
 }

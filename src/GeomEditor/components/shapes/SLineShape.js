@@ -68,6 +68,11 @@ export default class SLineShape extends Shape{
     getDistance(point) {
         return Geometry.PointToSLineDistance(point,this.line);
     }
+    isInRect(topLeft,bottomRight){
+        const full=false;
+        const cross=Geometry.SLineRectangleIntersection(this.line,topLeft,bottomRight).length>0;
+        return {cross,full};    
+    }
     toString(){
         return `Line ${this.line.a}X+${this.line.b}Y+${this.line.c}=0`;
     }
