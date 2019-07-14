@@ -168,6 +168,22 @@ export class Intersection{
         ps.forEach(p=>{if(Geometry.isPointOnRayLine(line,p)) points.push(p)});
         return points;
     }
+    static RectangleRectangle(rectTopLeft1,rectBottomRight1,rectTopLeft2,rectBottomRight2){
+        const lines1=[new Line(rectTopLeft1.x,rectTopLeft1.y,rectBottomRight1.x,rectTopLeft1.y),
+                      new Line(rectBottomRight1.x,rectTopLeft1.y,rectBottomRight1.x,rectBottomRight1.y),
+                      new Line(rectTopLeft1.x,rectBottomRight1.y,rectBottomRight1.x,rectBottomRight1.y),
+                      new Line(rectTopLeft1.x,rectTopLeft1.y,rectTopLeft1.x,rectBottomRight1.y)];
+        const lines2=[new Line(rectTopLeft2.x,rectTopLeft2.y,rectBottomRight2.x,rectTopLeft2.y),
+                      new Line(rectBottomRight2.x,rectTopLeft2.y,rectBottomRight2.x,rectBottomRight2.y),
+                      new Line(rectTopLeft2.x,rectBottomRight2.y,rectBottomRight2.x,rectBottomRight2.y),
+                      new Line(rectTopLeft2.x,rectTopLeft2.y,rectTopLeft2.x,rectBottomRight2.y)];
+        const ps=[];
+        lines1.forEach(l1=>{lines2.forEach((l2)=>{
+                const p=Intersection.LineLine(l1,l2);
+                if(p) ps.push(p);
+        })})   
+        return ps; 
+    }
     static LineRectangle(line, rectTopLeft, rectBottomRight) {
         let lines = new Array(4);
         let points = [];

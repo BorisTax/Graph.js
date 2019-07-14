@@ -1,4 +1,4 @@
-import Geometry,{Rectangle,Coord2D,Line} from '../../utils/geometry';
+import Geometry,{Rectangle,Coord2D,Line, Intersection} from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
 import Shape from "./Shape";
@@ -84,7 +84,7 @@ export default class RectangleShape extends Shape{
         const inRect=[Geometry.pointInRect(this.rectangle.topLeft,topLeft,bottomRight),
                         Geometry.pointInRect(this.rectangle.bottomRight,topLeft,bottomRight)];
         const full=inRect.every(i=>i===true);
-        const cross=false;
+        const cross=Intersection.RectangleRectangle(topLeft,bottomRight,this.rectangle.topLeft,this.rectangle.bottomRight).length>0;
         return {cross,full};    
     }
     toString(){

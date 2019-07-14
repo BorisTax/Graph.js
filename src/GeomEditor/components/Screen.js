@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Graph.css';
-import Geometry, {SLine, Circle, Coord2D, Point2D,Rectangle, Line} from '../utils/geometry.js';
+import Geometry, {SLine, Circle, Coord2D, Point2D,Rectangle, Line, Intersection} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import SLineShape from "./shapes/SLineShape.js";
 import SnapMarkersManager from './shapes/snapmarkers/SnapMarkersManager';
@@ -141,13 +141,13 @@ export default class Screen extends React.Component {
         this.setState(this.state);
     }
     test(){
-        const l1=new Line({x:-3,y:-2},{x:3,y:4});
-        const rect=new Rectangle({x:-2.733663785740287,y:3.1722877614255762},{x:2.5563594161158623,y:-1.1432574821939125});
-        const ps=Geometry.LineRectangleIntersection(l1,rect.topLeft,rect.bottomRight);
+        const r1=new Rectangle({x:-3,y:-2},{x:3,y:4});
+        const r2=new Rectangle({x:-6,y:3},{x:-3,y:-2});
+        const ps=Intersection.RectangleRectangle(r1.topLeft,r1.bottomRight,r2.topLeft,r2.bottomRight);
         
         const cs=ps.map(p=>new CircleShape({center:{x:p.x,y:p.y},radius:0.1}))
-        this.shapes.push(new LineShape(l1));
-        this.shapes.push(new RectangleShape(rect));
+        this.shapes.push(new RectangleShape(r1));
+        this.shapes.push(new RectangleShape(r2));
         cs.forEach(c=>this.shapes.push(c));
     }
     setDimentions(width, height, realWidth, topLeft){

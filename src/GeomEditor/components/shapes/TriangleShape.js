@@ -1,4 +1,4 @@
-import Geometry, {Coord2D,Line} from '../../utils/geometry';
+import Geometry, {Coord2D,Line,Intersection} from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
 import Shape from "./Shape";
@@ -77,6 +77,17 @@ export default class TriangleShape extends Shape{
         return Math.min(Geometry.PointToLineDistance(point,l1),
         Geometry.PointToLineDistance(point,l2),
         Geometry.PointToLineDistance(point,l3));
+    }
+    isInRect(topLeft,bottomRight){
+        const inRect=[Geometry.pointInRect(this.triangle.points[0],topLeft,bottomRight),
+                        Geometry.pointInRect(this.triangle.points[1],topLeft,bottomRight),
+                        Geometry.pointInRect(this.triangle.points[2],topLeft,bottomRight)];
+        const full=inRect.every(i=>i===true);
+        const ps=[Intersection.LineRectangle(new Line(this.triangle.points[0],this.triangle.points[1]),topLeft,bottomRight),
+                    Intersection.LineRectangle(new Line(this.triangle.points[1],this.triangle.points[2]),topLeft,bottomRight),
+                    Intersection.LineRectangle(new Line(this.triangle.points[2],this.triangle.points[0]),topLeft,bottomRight)];
+        const cross=ps.some(p=>p.length>0);
+        return {cross,full};    
     }
     toString(){
         return "Triangle";
