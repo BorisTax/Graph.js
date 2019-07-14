@@ -1,4 +1,4 @@
-import Geometry,{Coord2D,Circle} from "../../utils/geometry";
+import Geometry,{Coord2D,Circle, Intersection} from "../../utils/geometry";
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import Shape from "./Shape";
 
@@ -24,7 +24,7 @@ export default class RayLineShape extends Shape{
         let c=Geometry.midPoint(realRect.topLeft,br);
         let rad=Geometry.distance(realRect.topLeft,br)/2;
         let circle=new Circle(c,rad);
-        let p=Geometry.CircleRayLineIntersection(this.line,circle);
+        let p=Intersection.CircleRLine(circle,this.line);
         if(p!=null){
             if(p.length===1){
                 let r=p[0];
@@ -76,7 +76,7 @@ export default class RayLineShape extends Shape{
     }
     isInRect(topLeft,bottomRight){
         const full=false;
-        const cross=Geometry.RayLineRectangleIntersection(this.line,topLeft,bottomRight).length>0;
+        const cross=Intersection.RectangleRLine(topLeft,bottomRight,this.line).length>0;
         return {cross,full};    
     }
     toString(){

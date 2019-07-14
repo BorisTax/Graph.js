@@ -1,4 +1,4 @@
-import Geometry,{Circle,Coord2D} from "../../utils/geometry";
+import Geometry,{Circle,Coord2D, Intersection} from "../../utils/geometry";
 import Shape from "./Shape";
 
 export default class SLineShape extends Shape{
@@ -23,7 +23,7 @@ export default class SLineShape extends Shape{
         let c=Geometry.midPoint(realRect.topLeft,br);
         let rad=Geometry.distance(realRect.topLeft,br)/2;
         let circle=new Circle(c,rad);
-        let p=Geometry.CircleLineIntersection(this.line,circle);
+        let p=Intersection.CircleSLine(circle,this.line);
         if(p!=null){
             if(p.length===1){
                 let r=this.p[0];
@@ -70,7 +70,7 @@ export default class SLineShape extends Shape{
     }
     isInRect(topLeft,bottomRight){
         const full=false;
-        const cross=Geometry.SLineRectangleIntersection(this.line,topLeft,bottomRight).length>0;
+        const cross=Intersection.RectangleSLine(topLeft,bottomRight,this.line).length>0;
         return {cross,full};    
     }
     toString(){

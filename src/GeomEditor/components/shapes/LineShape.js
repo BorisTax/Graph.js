@@ -1,4 +1,4 @@
-import Geometry from '../../utils/geometry';
+import Geometry, { Intersection } from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
 import Shape from "./Shape";
@@ -67,7 +67,7 @@ export default class LineShape extends Shape{
         const inRect=[Geometry.pointInRect(this.line.p1,topLeft,bottomRight),
                         Geometry.pointInRect(this.line.p2,topLeft,bottomRight)];
         const full=inRect.every(i=>i===true);
-        const cross=Geometry.LineRectangleIntersection(this.line,topLeft,bottomRight).length>0;
+        const cross=Intersection.LineRectangle(this.line,topLeft,bottomRight).length>0;
         return {cross,full};    
     }
     toString(){

@@ -71,9 +71,9 @@ export default class TriangleShape extends Shape{
         }
     }
     getDistance(point) {
-        let l1=new Line(this.points[0],this.points[1]);
-        let l2=new Line(this.points[1],this.points[2]);
-        let l3=new Line(this.points[2],this.points[0]);
+        let l1=new Line(this.triangle.points[0],this.triangle.points[1]);
+        let l2=new Line(this.triangle.points[1],this.triangle.points[2]);
+        let l3=new Line(this.triangle.points[2],this.triangle.points[0]);
         return Math.min(Geometry.PointToLineDistance(point,l1),
         Geometry.PointToLineDistance(point,l2),
         Geometry.PointToLineDistance(point,l3));

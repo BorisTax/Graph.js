@@ -119,7 +119,7 @@ export class Triangle {
     getOuterCircle(){
         let line1=Geometry.SLinePerpOnPoint(new SLine(this.points[0],this.points[1]),Geometry.midPoint(this.points[0],this.points[1]));
         let line2=Geometry.SLinePerpOnPoint(new SLine(this.points[0],this.points[2]),Geometry.midPoint(this.points[0],this.points[2]));
-        let p=Intersection.SLineSLine(line1,line2);
+        let p=Geometry.SLinesIntersectionPoint(line1,line2);
         if(p===null) p=Geometry.midPoint(this.points[0],this.points[1]);
         let circle=new Circle(p,Geometry.distance(p,this.points[0]));
         return circle;
@@ -132,112 +132,6 @@ export class Vector {
     this.x=p2.x-p1.x;
     this.y=p2.y-p1.y;
     this.modulus=Math.sqrt(this.x*this.x+this.y*this.y);
-    }
-}
-export class Intersection{
-    static SLineSLine(line1, line2) {
-        let d = line1.a * line2.b - line1.b * line2.a;
-        if (d === 0) return null;
-        let d1 = -line1.c * line2.b - (-line2.c * line1.b);
-        let d2 = -line2.c * line1.a - (-line1.c * line2.a);
-        return new Coord2D(d1 / d, d2 / d);
-    }
-    static LineSLine(line, sline) {
-        let p = Intersection.SLineSLine(sline, new SLine(line));
-        if (p === null) return null;
-        if (!Geometry.pointOnLine(p, line.p1, line.p2)) return null;
-        return p;
-    }
-    static RectangleSLine(rectTopLeft, rectBottomRight,line) {
-        let lines = new Array(4);
-        let points = [];
-        lines[0] = new Line(rectTopLeft.x, rectTopLeft.y, rectBottomRight.x, rectTopLeft.y);
-        lines[1] = new Line(rectTopLeft.x, rectBottomRight.y, rectBottomRight.x, rectBottomRight.y);
-        lines[2] = new Line(rectTopLeft.x, rectTopLeft.y, rectTopLeft.x, rectBottomRight.y);
-        lines[3] = new Line(rectBottomRight.x, rectTopLeft.y, rectBottomRight.x, rectBottomRight.y);
-        let i = 0;
-        lines.forEach(l=> {
-            const p=Intersection.LineSLine(l, line)
-            if(p&&points.length<2) points.push(p);
-            i++;});
-        return points;
-    }
-    static RectangleRLine(rectTopLeft, rectBottomRight,line) {
-        const ps=Intersection.RectangleSLine(rectTopLeft, rectBottomRight,Geometry.SLineFromRLine(line));
-        const points=[];
-        ps.forEach(p=>{if(Geometry.isPointOnRayLine(line,p)) points.push(p)});
-        return points;
-    }
-    static LineRectangle(line, rectTopLeft, rectBottomRight) {
-        let lines = new Array(4);
-        let points = [];
-        lines[0] = new Line(rectTopLeft.x, rectTopLeft.y, rectBottomRight.x, rectTopLeft.y);
-        lines[1] = new Line(rectTopLeft.x, rectBottomRight.y, rectBottomRight.x, rectBottomRight.y);
-        lines[2] = new Line(rectTopLeft.x, rectTopLeft.y, rectTopLeft.x, rectBottomRight.y);
-        lines[3] = new Line(rectBottomRight.x, rectTopLeft.y, rectBottomRight.x, rectBottomRight.y);
-        let i = 0;
-        lines.forEach(l=> {
-            const p=Intersection.LineLine(line, l)
-            if(p&&points.length<2) points.push(p);
-            i++;});
-        return points;
-    }
-    static LineLine(l1,l2){
-        const p=Intersection.SLineSLine(new SLine(l1),new SLine(l2));
-        if(p){
-            if(Geometry.pointOnLine(p, l1.p1, l1.p2)&&Geometry.pointOnLine(p, l2.p1, l2.p2)) return p;
-        }
-        return null;
-    }
-    static CircleSLine(circle,line) {
-        let dx = -circle.center.x;
-        let dy = -circle.center.y;
-        let sline = Geometry.LineShifted(line, dx, dy);
-        let a = sline.a;
-        let b = sline.b;
-        let c = sline.c;
-        let r = circle.radius;
-        if (b === 0) {
-            a = sline.b;
-            b = sline.a;
-        }
-        let A = a * a + b * b;
-        let B = 2 * a * c;
-        let C = c * c - r * r * b * b;
-        let x = Geometry.QuadEquation(A, B, C);
-        if (x === null) return null;
-        let res = new Array(x.length);
-        for (let i = 0; i < x.length; i++) {
-            res[i] = new Coord2D();
-            if (sline.b === 0) {
-                res[i].y = x[i];
-                res[i].x = -(a * x[i] + c) / b;
-            } else {
-                res[i].x = x[i];
-                res[i].y = -(a * x[i] + c) / b;
-            }
-            res[i].x = res[i].x - dx;
-            res[i].y = res[i].y - dy;
-        }
-        return res;
-    }
-    static CircleRLine(circle,line) {
-        let points = Intersection.CircleSLine(circle, new SLine(line.origin, new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y)));
-        if (points === null) return null;
-        let k = 0;
-        let i = 0;
-        for (let p of points) {
-
-            if (Geometry.isPointOnRayLine(line, p)) k++; else points[i] = null;
-            i++;
-        }
-        if (k === 0) return null;
-        let res = new Array(k);
-        k = 0;
-        for (let p of points) if (p != null) {
-            res[k++] = p;
-        }
-        return res;
     }
 }
 export default class Geometry {
@@ -280,13 +174,13 @@ export default class Geometry {
         return new SLine(p[0], p[1]);
     }
 
-    // static SLinesIntersectionPoint(line1, line2) {
-    //     let d = line1.a * line2.b - line1.b * line2.a;
-    //     if (d === 0) return null;
-    //     let d1 = -line1.c * line2.b - (-line2.c * line1.b);
-    //     let d2 = -line2.c * line1.a - (-line1.c * line2.a);
-    //     return new Coord2D(d1 / d, d2 / d);
-    // }
+    static SLinesIntersectionPoint(line1, line2) {
+        let d = line1.a * line2.b - line1.b * line2.a;
+        if (d === 0) return null;
+        let d1 = -line1.c * line2.b - (-line2.c * line1.b);
+        let d2 = -line2.c * line1.a - (-line1.c * line2.a);
+        return new Coord2D(d1 / d, d2 / d);
+    }
 
     static pointInRect(p, rectTopLeft, rectBottomRight) {
         let sx = (p.x - rectBottomRight.x) * (p.x - rectTopLeft.x);
@@ -303,56 +197,56 @@ export default class Geometry {
         return (sx <= 0 && sy <= 0);
     }
 
-    // static SLineLineIntersection(sLine, line) {
-    //     let p = Geometry.SLinesIntersectionPoint(sLine, new SLine(line));
-    //     if (p === null) return null;
-    //     if (!Geometry.pointOnLine(p, line.p1, line.p2)) return null;
-    //     return p;
-    // }
-    // static SLineRectangleIntersection(line, rectTopLeft, rectBottomRight) {
-    //     let lines = new Array(4);
-    //     let points = [];
-    //     lines[0] = new Line(rectTopLeft.x, rectTopLeft.y, rectBottomRight.x, rectTopLeft.y);
-    //     lines[1] = new Line(rectTopLeft.x, rectBottomRight.y, rectBottomRight.x, rectBottomRight.y);
-    //     lines[2] = new Line(rectTopLeft.x, rectTopLeft.y, rectTopLeft.x, rectBottomRight.y);
-    //     lines[3] = new Line(rectBottomRight.x, rectTopLeft.y, rectBottomRight.x, rectBottomRight.y);
-    //     let i = 0;
-    //     lines.forEach(l=> {
-    //         const p=Geometry.SLineLineIntersection(line, l)
-    //         if(p&&points.length<2) points.push(p);
-    //         i++;});
-    //     return points;
-    // }
-    // static RayLineRectangleIntersection(line, rectTopLeft, rectBottomRight) {
-    //     const ps=Geometry.SLineRectangleIntersection(new SLine(line.origin,{x:line.origin.x+line.vector.x,y:line.origin.y+line.vector.y}),rectTopLeft, rectBottomRight)
+    static SLineLineIntersection(sLine, line) {
+        let p = Geometry.SLinesIntersectionPoint(sLine, new SLine(line));
+        if (p === null) return null;
+        if (!Geometry.pointOnLine(p, line.p1, line.p2)) return null;
+        return p;
+    }
+    static SLineRectangleIntersection(line, rectTopLeft, rectBottomRight) {
+        let lines = new Array(4);
+        let points = [];
+        lines[0] = new Line(rectTopLeft.x, rectTopLeft.y, rectBottomRight.x, rectTopLeft.y);
+        lines[1] = new Line(rectTopLeft.x, rectBottomRight.y, rectBottomRight.x, rectBottomRight.y);
+        lines[2] = new Line(rectTopLeft.x, rectTopLeft.y, rectTopLeft.x, rectBottomRight.y);
+        lines[3] = new Line(rectBottomRight.x, rectTopLeft.y, rectBottomRight.x, rectBottomRight.y);
+        let i = 0;
+        lines.forEach(l=> {
+            const p=Geometry.SLineLineIntersection(line, l)
+            if(p&&points.length<2) points.push(p);
+            i++;});
+        return points;
+    }
+    static RayLineRectangleIntersection(line, rectTopLeft, rectBottomRight) {
+        const ps=Geometry.SLineRectangleIntersection(new SLine(line.origin,{x:line.origin.x+line.vector.x,y:line.origin.y+line.vector.y}),rectTopLeft, rectBottomRight)
         
-    //     const points=[];
-    //     ps.forEach(p=>{if(Geometry.isPointOnRayLine(line,p)) points.push(p)});
-    //     return points;
-    // }
-    // static LineRectangleIntersection(line, rectTopLeft, rectBottomRight) {
-    //     let lines = new Array(4);
-    //     let points = [];
-    //     lines[0] = new Line(rectTopLeft.x, rectTopLeft.y, rectBottomRight.x, rectTopLeft.y);
-    //     lines[1] = new Line(rectTopLeft.x, rectBottomRight.y, rectBottomRight.x, rectBottomRight.y);
-    //     lines[2] = new Line(rectTopLeft.x, rectTopLeft.y, rectTopLeft.x, rectBottomRight.y);
-    //     lines[3] = new Line(rectBottomRight.x, rectTopLeft.y, rectBottomRight.x, rectBottomRight.y);
-    //     let i = 0;
-    //     lines.forEach(l=> {
-    //         const p=Geometry.LinesIntersection(line, l)
-    //         if(p&&points.length<2) points.push(p);
-    //         i++;});
-    //     return points;
-    // }
-    // static LinesIntersection(l1,l2){
-    //     const p=Geometry.SLinesIntersectionPoint(new SLine(l1),new SLine(l2));
-    //     if(p){
-    //         if(Geometry.pointOnLine(p, l1.p1, l1.p2)&&Geometry.pointOnLine(p, l2.p1, l2.p2)) return p;
-    //     }
-    //     return null;
-    // }
+        const points=[];
+        ps.forEach(p=>{if(Geometry.isPointOnRayLine(line,p)) points.push(p)});
+        return points;
+    }
+    static LineRectangleIntersection(line, rectTopLeft, rectBottomRight) {
+        let lines = new Array(4);
+        let points = [];
+        lines[0] = new Line(rectTopLeft.x, rectTopLeft.y, rectBottomRight.x, rectTopLeft.y);
+        lines[1] = new Line(rectTopLeft.x, rectBottomRight.y, rectBottomRight.x, rectBottomRight.y);
+        lines[2] = new Line(rectTopLeft.x, rectTopLeft.y, rectTopLeft.x, rectBottomRight.y);
+        lines[3] = new Line(rectBottomRight.x, rectTopLeft.y, rectBottomRight.x, rectBottomRight.y);
+        let i = 0;
+        lines.forEach(l=> {
+            const p=Geometry.LinesIntersection(line, l)
+            if(p&&points.length<2) points.push(p);
+            i++;});
+        return points;
+    }
+    static LinesIntersection(l1,l2){
+        const p=Geometry.SLinesIntersectionPoint(new SLine(l1),new SLine(l2));
+        if(p){
+            if(Geometry.pointOnLine(p, l1.p1, l1.p2)&&Geometry.pointOnLine(p, l2.p1, l2.p2)) return p;
+        }
+        return null;
+    }
     static pointOnSLineProjection(p, line){
-        return Intersection.SLineSLine(line,Geometry.SLinePerpOnPoint(line,p));
+        return Geometry.SLinesIntersectionPoint(line,Geometry.SLinePerpOnPoint(line,p));
     }
     static  PointToSLineDistance(p, line){
         let res=Geometry.distance(p,Geometry.pointOnSLineProjection(p, line));
@@ -395,65 +289,67 @@ export default class Geometry {
         let midp2 = Geometry.midPoint(p2, p3);
         let pline1 = Geometry.SLinePerpOnPoint(line1, midp1);
         let pline2 = Geometry.SLinePerpOnPoint(line2, midp2);
-        return Intersection.SLineSLine(pline1, pline2);
+        return Geometry.SLinesIntersectionPoint(pline1, pline2);
     }
 
-    // static CircleLineIntersection(line, circle) {
-    //     let dx = -circle.center.x;
-    //     let dy = -circle.center.y;
+    static CircleLineIntersection(line, circle) {
+        let dx = -circle.center.x;
+        let dy = -circle.center.y;
 
-    //     let sline = Geometry.LineShifted(line, dx, dy);
-    //     let a = sline.a;
-    //     let b = sline.b;
-    //     let c = sline.c;
-    //     let r = circle.radius;
-    //     if (b === 0) {
-    //         a = sline.b;
-    //         b = sline.a;
-    //     }
-    //     let A = a * a + b * b;
-    //     let B = 2 * a * c;
-    //     let C = c * c - r * r * b * b;
-    //     let x = Geometry.QuadEquation(A, B, C);
-    //     if (x === null) return null;
-    //     let res = new Array(x.length);
-    //     for (let i = 0; i < x.length; i++) {
-    //         res[i] = new Coord2D();
-    //         if (sline.b === 0) {
-    //             res[i].y = x[i];
-    //             res[i].x = -(a * x[i] + c) / b;
-    //         } else {
-    //             res[i].x = x[i];
-    //             res[i].y = -(a * x[i] + c) / b;
-    //         }
-    //         res[i].x = res[i].x - dx;
-    //         res[i].y = res[i].y - dy;
-    //     }
-    //     return res;
-    // }
+        let sline = Geometry.LineShifted(line, dx, dy);
+        let a = sline.a;
+        let b = sline.b;
+        let c = sline.c;
+        let r = circle.radius;
+        if (b === 0) {
+            a = sline.b;
+            b = sline.a;
+        }
+        let A = a * a + b * b;
+        let B = 2 * a * c;
+        let C = c * c - r * r * b * b;
+        let x = Geometry.QuadEquation(A, B, C);
+        if (x === null) return null;
+        let res = new Array(x.length);
+        for (let i = 0; i < x.length; i++) {
+            res[i] = new Coord2D();
+            if (sline.b === 0) {
+                res[i].y = x[i];
+                res[i].x = -(a * x[i] + c) / b;
+            } else {
+                res[i].x = x[i];
+                res[i].y = -(a * x[i] + c) / b;
+            }
+            res[i].x = res[i].x - dx;
+            res[i].y = res[i].y - dy;
+        }
+
+        return res;
+
+    }
 
     static isPointOnRayLine(line, point) {
         return (((point.x - line.origin.x) * line.vector.x) >= 0 && ((point.y - line.origin.y) * line.vector.y) >= 0);
     }
 
-    // static CircleRayLineIntersection(line, circle) {
-    //     let points = Geometry.CircleLineIntersection(new SLine(line.origin, new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y)), circle);
-    //     if (points === null) return null;
-    //     let k = 0;
-    //     let i = 0;
-    //     for (let p of points) {
+    static CircleRayLineIntersection(line, circle) {
+        let points = Geometry.CircleLineIntersection(new SLine(line.origin, new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y)), circle);
+        if (points === null) return null;
+        let k = 0;
+        let i = 0;
+        for (let p of points) {
 
-    //         if (Geometry.isPointOnRayLine(line, p)) k++; else points[i] = null;
-    //         i++;
-    //     }
-    //     if (k === 0) return null;
-    //     let res = new Array(k);
-    //     k = 0;
-    //     for (let p of points) if (p != null) {
-    //         res[k++] = p;
-    //     }
-    //     return res;
-    // }
+            if (Geometry.isPointOnRayLine(line, p)) k++; else points[i] = null;
+            i++;
+        }
+        if (k === 0) return null;
+        let res = new Array(k);
+        k = 0;
+        for (let p of points) if (p != null) {
+            res[k++] = p;
+        }
+        return res;
+    }
 
     static arcMiddlePoint(arc) {
         let mp = Geometry.midPoint(arc.first, arc.third);
@@ -488,6 +384,10 @@ export default class Geometry {
     }
 
     static arcLength(arc) {
+        //double[] c=arcCenterPoint(p1,p2,p3);
+
+        //double r=Math.sqrt((p1[0]-c[0])*(p1[1]-c[1]));
+
         let v1 = new Vector(arc.center, arc.first);
         let v2 = new Vector(arc.center, arc.third);
         let a = Geometry.angleVectors(v1, v2);
