@@ -65,12 +65,12 @@ export default class Screen extends React.Component {
     }
     refreshSnapMarkers(){
         this.snapMarkersManager.clear();
-        for(let s of this.shapes){
+        for(let s of this.props.shapes){
             this.snapMarkersManager.addSnapMarkers(s.getMarkers());
         }
     }
     refreshShapeManager(){
-        this.shapeManager=new ShapeManager(this.shapes);
+        this.shapeManager=new ShapeManager(this.props.shapes);
     }
     setBoundedCircle(){
         let c=this.screenToReal(this.screenWidth/2,this.screenHeight/2);
@@ -146,9 +146,9 @@ export default class Screen extends React.Component {
         const ps=Intersection.RectangleRectangle(r1.topLeft,r1.bottomRight,r2.topLeft,r2.bottomRight);
         
         const cs=ps.map(p=>new CircleShape({center:{x:p.x,y:p.y},radius:0.1}))
-        this.shapes.push(new RectangleShape(r1));
-        this.shapes.push(new RectangleShape(r2));
-        cs.forEach(c=>this.shapes.push(c));
+        this.props.shapes.push(new RectangleShape(r1));
+        this.props.shapes.push(new RectangleShape(r2));
+        cs.forEach(c=>this.props.shapes.push(c));
     }
     setDimentions(width, height, realWidth, topLeft){
         this.screenHeight=height;
@@ -156,15 +156,17 @@ export default class Screen extends React.Component {
         this.realWidth=realWidth;
         this.realHeight=this.realHeight;
         this.resize();
-        this.shapes=[];
+        //this.props.shapes=[];
         this.xAxe=new SLine(0,1,0);
         this.yAxe=new SLine(1,0,0);
         this.xAxeShape=new SLineShape(this.xAxe,this.boundedCircle);
         this.yAxeShape=new SLineShape(this.yAxe,this.boundedCircle);
         this.xAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
         this.yAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
-        this.shapes.push(this.xAxeShape);
-        this.shapes.push(this.yAxeShape);
+        this.props.addShape(this.xAxeShape)
+        this.props.addShape(this.yAxeShape)
+        //this.props.shapes.push(this.xAxeShape);
+        //this.props.shapes.push(this.yAxeShape);
 
         //this.test();
 
@@ -349,7 +351,7 @@ export default class Screen extends React.Component {
         if(this.status===Screen.STATUS_CREATE||this.status===Screen.STATUS_DRAWING)   
                 status_bar=status_bar+`${this.status}: ${this.currentShape} : ${this.creationStep}`;
                 else status_bar=status_bar+this.status;
-        for(let shape of this.shapes){
+        for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
             }
             
@@ -525,7 +527,7 @@ export default class Screen extends React.Component {
                 this.props.setStatus(Screen.STATUS_DRAWING);
                 if(!this.shapeCreator.isNext())
                 {
-                    this.shapes.push(this.curShape);
+                    this.props.shapes.push(this.curShape);
                     this.refreshSnapMarkers();
                     this.newShape(this.shapeCreator.reset(this.boundedCircle));
                     this.status=Screen.STATUS_CREATE;
@@ -560,6 +562,7 @@ export default class Screen extends React.Component {
         this.paint(this.ctx);
         window.addEventListener('load',()=>{
             this.resize();
+            this.centerToPoint(new Coord2D(0,0));
             this.paint(this.ctx);
         });
         window.addEventListener('resize',()=>{

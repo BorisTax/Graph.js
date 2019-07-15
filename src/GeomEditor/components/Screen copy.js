@@ -59,12 +59,12 @@ export default class Screen extends React.Component {
     }
     refreshSnapMarkers(){
         this.snapMarkersManager.clear();
-        for(let s of this.shapes){
+        for(let s of this.props.shapes){
             this.snapMarkersManager.addSnapMarkers(s.getMarkers());
         }
     }
     refreshShapeManager(){
-        this.shapeManager=new ShapeManager(this.shapes);
+        this.shapeManager=new ShapeManager(this.props.shapes);
     }
     setBoundedCircle(){
         let c=this.screenToReal(this.screenWidth/2,this.screenHeight/2);
@@ -141,15 +141,15 @@ export default class Screen extends React.Component {
         this.setRealWidth(realWidth);
         this.setTopLeft(topLeft);
         this.setBoundedCircle();
-        this.shapes=[];
+        this.props.shapes=[];
         this.xAxe=new SLine(0,1,0);
         this.yAxe=new SLine(1,0,0);
         this.xAxeShape=new SLineShape(this.xAxe,this.boundedCircle);
         this.yAxeShape=new SLineShape(this.yAxe,this.boundedCircle);
         this.xAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
         this.yAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
-        this.shapes.push(this.xAxeShape);
-        this.shapes.push(this.yAxeShape);
+        this.props.shapes.push(this.xAxeShape);
+        this.props.shapes.push(this.yAxeShape);
         this.centerToPoint(new Coord2D(0,0));
         this.cursor=new FreeCursor(this.curCoord);
         this.refreshSnapMarkers();
@@ -331,7 +331,7 @@ export default class Screen extends React.Component {
         if(this.status===Screen.STATUS_CREATE||this.status===Screen.STATUS_DRAWING)   
                 status_bar=status_bar+`${this.status}: ${this.currentShape} : ${this.creationStep}`;
                 else status_bar=status_bar+this.status;
-        for(let shape of this.shapes){
+        for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
             }
             
@@ -486,7 +486,8 @@ export default class Screen extends React.Component {
                 this.props.setStatus(Screen.STATUS_DRAWING);
                 if(!this.shapeCreator.isNext())
                 {
-                    this.shapes.push(this.curShape);
+                    //this.props.shapes.push(this.curShape);
+                    this.props.addShape(this.curShape);
                     this.refreshSnapMarkers();
                     this.newShape(this.shapeCreator.reset(this.boundedCircle));
                     this.status=Screen.STATUS_CREATE;

@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE,SELECT_SHAPE,SET_STATUS} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE,SELECT_SHAPE,DELETE_SHAPE,SET_STATUS, ADD_SHAPE} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
     gridSnap:false,
     snap:{snapClass:null,snap:false},
     status:"FREE",
+    shapes:[],
     selectedShapes:[],
 };
 export function screenReducer(state = initialState,action) {
@@ -24,6 +25,11 @@ export function screenReducer(state = initialState,action) {
             return{...state,status:"CREATE",creator:action.payload};
         case SELECT_SHAPE:
             return{...state,selectedShapes:action.payload};
+        case DELETE_SHAPE:
+            return{...state,shapes:state.shapes.filter((s)=>!s.getState().selected),selectedShapes:[]};
+        case ADD_SHAPE:
+            state.shapes.push(action.payload);
+            return{...state};
         case SET_STATUS:
             return{...state,status:action.payload,creator:action.creator};
         case SET_PROPERTY:

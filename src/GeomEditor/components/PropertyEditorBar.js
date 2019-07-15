@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import '../Graph.css';
 import {setProperty} from '../actions/ShapeActions'
 import PropertyField from './PropertyField';
+import PropertyEditButtonsBar from './PropertyEditButtonsBar';
+import { deleteSelectedShapes } from '../actions/ScreenActions';
 class PropertyEditorBar extends React.Component{
     prop;
     shape;
@@ -39,6 +41,8 @@ class PropertyEditorBar extends React.Component{
             <div className='propertyGroup'>
             {propElements}
             </div>
+            <PropertyEditButtonsBar shapes={this.props.screen.selectedShapes}
+                                    delete={this.props.deleteSelectedShapes}/>
         </div>
     }
 }
@@ -52,7 +56,8 @@ const mapStateToProps = store => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        setProperty:(prop)=>{dispatch(setProperty(prop))}
+        setProperty:(prop)=>dispatch(setProperty(prop)),
+        deleteSelectedShapes:()=>dispatch(deleteSelectedShapes())
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(PropertyEditorBar)
