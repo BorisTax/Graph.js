@@ -21,28 +21,30 @@ class PropertyEditorBar extends React.Component{
         if(shapes.length==1){
             this.shape=shapes[0];
             this.prop=shapes[0].getProperties();
-            shapeTitle=this.prop.get('Title').value;
+            let shapeType=this.prop.get('Title').value;
+            shapeTitle=this.props.captions.shapes[shapeType].Title;
             for(let key of this.prop.keys()){
                 if(key!=='Title')propElements.push(<PropertyField 
-                                                                  key={key}
-                                                                  label={key} 
-                                                                  value={this.prop.get(key).value}
-                                                                  regexp={this.prop.get(key).regexp}
-                                                                  setProperty={this.setProperty.bind(this)}  />)
+                                                     key={key}
+                                                     label={this.props.captions.shapes[shapeType][key]} 
+                                                     value={this.prop.get(key).value}
+                                                     regexp={this.prop.get(key).regexp}
+                                                     setProperty={this.setProperty.bind(this)}  />)
             }
         }
         if(shapes.length>1){
-            propElements=`${shapes.length} shapes selected`;
+            propElements=shapes.length+this.props.captions.NShapesSelected;
         }    
-        if(shapes.length==0) propElements='No shapes selected';
+        if(shapes.length==0) propElements=this.props.captions.noShapesSelected;
         return <div className={"toolBar propertiesBar"}>
-            <div className='toolBarHeader noselect'>Properties</div>
+            <div className='toolBarHeader noselect'>{this.props.captions.propBar}</div>
             {shapeTitle?shapeTitle:""}
             <div className='propertyGroup'>
             {propElements}
             </div>
-            <PropertyEditButtonsBar shapes={this.props.screen.selectedShapes}
-                                    delete={this.props.deleteSelectedShapes}/>
+            {this.props.screen.selectedShapes.length>0?<PropertyEditButtonsBar
+                                    delete={this.props.deleteSelectedShapes}
+                                    caption={this.props.captions.deleteButton}/>:<></>}
         </div>
     }
 }

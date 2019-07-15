@@ -2,6 +2,9 @@ export default class ShapeManager {
     constructor(shapes){
         this.allShapes=shapes;
     }
+    setShapes(shapes){
+        this.allShapes=shapes;
+    }
     setShapeNearPoint(p, dist){
         let shape=null;
         this.allShapes.forEach((s,index)=>{

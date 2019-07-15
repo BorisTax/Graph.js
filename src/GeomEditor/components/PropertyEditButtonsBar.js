@@ -12,7 +12,7 @@ class PropertyEditButtonsBar extends React.Component{
 
     render(){
         return <div className="propEditBar">
-            <button className="deleteButton" disabled={this.props.shapes.length===0} onClick={this.onClick.bind(this)}>Delete</button>
+            <button className="deleteButton" onClick={this.onClick.bind(this)}>{this.props.caption}</button>
             
         </div>
     }

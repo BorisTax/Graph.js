@@ -31,7 +31,6 @@ const mapStateToProps = store => {
 
     return {
             screen: store.screen,
-            captions:store.captions,
     }
 };
 const mapDispatchToProps = dispatch => {

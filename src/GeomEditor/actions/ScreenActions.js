@@ -5,7 +5,7 @@ export const SET_SNAP = 'SET_SNAP';
 export const SET_SCREEN_CONTEXT='SET_SCREEN_CONTEXT';
 export const CREATE_SHAPE='CREATE_SHAPE';
 export const SELECT_SHAPE='SELECT_SHAPE';
-export const DELETE_SHAPE='DELETE_SHAPE';
+export const DELETE_SELECTED_SHAPES='DELETE_SELECTED_SHAPES';
 export const ADD_SHAPE='ADD_SHAPE';
 export const SET_STATUS='SET_STATUS';
 
@@ -48,7 +48,7 @@ export function selectShapes(selectedShapes) {
 }
 export function deleteSelectedShapes() {
     return {
-        type: DELETE_SHAPE
+        type: DELETE_SELECTED_SHAPES
     }
 }
 export function addShape(shape){

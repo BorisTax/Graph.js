@@ -13,5 +13,53 @@
 "snapEndPoints": "Привязка к конечным точкам",
 "snapGridPoints": "Привязка к узлам сетки",
 "snapMiddlePoints": "Привязка к серединным точкам",
-"snapToggleBar": "Привязка"
+"snapToggleBar": "Привязка",
+"propBar":"Свойства",
+"noShapesSelected":"Нет выделенных фигур",
+"NShapesSelected":" фигур выделено",
+"deleteButton":"Удалить",
+"shapes":{
+    "Circle":{
+      "Title":"Окружность",
+      "Radius":"Радиус",
+      "CX":"ЦентрX",
+      "CY":"ЦентрY"
+    },
+    "Rectangle":{
+      "Title":"Прямоугольник",
+      "X1":"X1",
+      "Y1":"Y1",
+      "X2":"X2",
+      "Y2":"Y2"
+    },
+    "Line":{
+      "Title":"Отрезок",
+      "X1":"X1",
+      "Y1":"Y1",
+      "X2":"X2",
+      "Y2":"Y2"
+    },
+    "SLine":{
+      "Title":"Прямая AX+BY+C=0",
+      "A":"A",
+      "B":"B",
+      "C":"C"
+    },
+    "RLine":{
+      "Title":"Луч",
+      "X":"X",
+      "Y":"Y",
+      "VX":"VX",
+      "VY":"VY"
+    },
+    "Triangle":{
+      "Title":"Треугольник",
+      "X1":"X1",
+      "Y1":"Y1",
+      "X2":"X2",
+      "Y2":"Y2",
+      "X3":"X3",
+      "Y3":"Y3"
+    }
+  }
 }

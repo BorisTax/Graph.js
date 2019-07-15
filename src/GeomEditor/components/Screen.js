@@ -580,6 +580,7 @@ export default class Screen extends React.Component {
                 this.setSnap(this.props.snap.snapClass,this.props.snap.snap);
 
         }
+        this.shapeManager.setShapes(this.props.shapes);
         this.setStatus(this.props.status,this.props);
         this.paint(this.ctx);
         

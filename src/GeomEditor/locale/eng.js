@@ -25,6 +25,54 @@ export const captions={ENG:{
   snapCenterPoints: CenterSnapMarker.caption,
   snapMiddlePoints: MiddleSnapMarker.caption,
   showGrid:"Show grid",
+  propBar:"Properties",
+  noShapesSelected:"No shapes selected",
+  NShapesSelected:" shapes selected",
+  deleteButton:"Delete",
+  shapes:{
+    Circle:{
+      Title:"Circle",
+      Radius:"Radius",
+      CX:"CenterX",
+      CY:"CenterY"
+    },
+    Rectangle:{
+      Title:"Rectangle",
+      X1:"X1",
+      Y1:"Y1",
+      X2:"X2",
+      Y2:"Y2"
+    },
+    Line:{
+      Title:"Line",
+      X1:"X1",
+      Y1:"Y1",
+      X2:"X2",
+      Y2:"Y2"
+    },
+    SLine:{
+      Title:"Straight Line AX+BY+C=0",
+      A:"A",
+      B:"B",
+      C:"C"
+    },
+    RLine:{
+      Title:"Ray Line",
+      X:"X",
+      Y:"Y",
+      VX:"VX",
+      VY:"VY"
+    },
+    Triangle:{
+      Title:"Triangle",
+      X1:"X1",
+      Y1:"Y1",
+      X2:"X2",
+      Y2:"Y2",
+      X3:"X3",
+      Y3:"Y3"
+    }
+  }
 },RUS:
 {createCircle2P: "Окружность по двум точкам",
     createCircle3P: "Окружность по трем точкам",

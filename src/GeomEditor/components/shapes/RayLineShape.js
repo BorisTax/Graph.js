@@ -46,7 +46,7 @@ export default class RayLineShape extends Shape{
     }
     getProperties(){
         let prop=new Map();
-        prop.set('Title',{value:'Ray line',regexp:/\s*/});
+        prop.set('Title',{value:'RLine',regexp:/\s*/});
         prop.set('X',{value:this.line.origin.x,regexp:/^-?\d+\.?\d*$/});
         prop.set('Y', {value:this.line.origin.y,regexp:/^-?\d+\.?\d*$/});
         prop.set('VX',{value:this.line.vector.x,regexp:/^-?\d+\.?\d*$/});
