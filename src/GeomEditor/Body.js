@@ -8,7 +8,7 @@ import {setLanguage} from './actions/AppActions';
 class Body extends React.Component {
     constructor(props){
         super(props);
-        props.setLanguage(captions["ENG"]);
+        props.setLanguage(captions["RUS"]);
     }
     render() {
         return <div className={"body"}>

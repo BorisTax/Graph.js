@@ -21,7 +21,7 @@ class PropertyField extends React.Component{
             const r=this.props.regexp;
             if(v.match(r)!=null) {
                 const n=Number.parseFloat(v);
-                this.props.setProperty(this.props.label,n);
+                this.props.setProperty(this.props.propKey,n);
                 this.setState({value:n,correct:true,prevValue:n});
                 return;
                 }

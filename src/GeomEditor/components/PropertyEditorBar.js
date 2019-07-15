@@ -26,6 +26,7 @@ class PropertyEditorBar extends React.Component{
             for(let key of this.prop.keys()){
                 if(key!=='Title')propElements.push(<PropertyField 
                                                      key={key}
+                                                     propKey={key}
                                                      label={this.props.captions.shapes[shapeType][key]} 
                                                      value={this.prop.get(key).value}
                                                      regexp={this.prop.get(key).regexp}
