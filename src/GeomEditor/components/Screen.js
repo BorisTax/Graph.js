@@ -163,8 +163,8 @@ export default class Screen extends React.Component {
         this.yAxeShape=new SLineShape(this.yAxe,this.boundedCircle);
         this.xAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
         this.yAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
-        this.props.addShape(this.xAxeShape)
-        this.props.addShape(this.yAxeShape)
+        this.props.actions.addShape(this.xAxeShape)
+        this.props.actions.addShape(this.yAxeShape)
         //this.props.shapes.push(this.xAxeShape);
         //this.props.shapes.push(this.yAxeShape);
 
@@ -188,7 +188,7 @@ export default class Screen extends React.Component {
         switch(status){
             case Screen.STATUS_CREATE:
                 this.newShape(props.creator);
-                props.setStatus(Screen.STATUS_DRAWING,props.creator);
+                props.actions.setScreenStatus(Screen.STATUS_DRAWING,props.creator);
                 break;
             case Screen.STATUS_CANCEL:
                 this.cancel();
@@ -524,7 +524,7 @@ export default class Screen extends React.Component {
                 this.shapeCreator.setNextPoint(this.curCoord);
                 this.creationStep=this.shapeCreator.getPointDescription();
                 this.status=Screen.STATUS_DRAWING;
-                this.props.setStatus(Screen.STATUS_DRAWING);
+                this.props.actions.setScreenStatus(Screen.STATUS_DRAWING);
                 if(!this.shapeCreator.isNext())
                 {
                     this.props.shapes.push(this.curShape);
@@ -540,9 +540,10 @@ export default class Screen extends React.Component {
 
                 }
         }
-        this.props.selectShapes(this.shapeManager.getSelectedShapes());
+        this.props.actions.selectShapes(this.shapeManager.getSelectedShapes());
         this.paint(e.target.getContext("2d"));
     }
+
     resize(){
         const style=window.getComputedStyle(document.querySelector('.screenContainer'));
         this.screenWidth=Number.parseInt(style.width);
@@ -569,6 +570,19 @@ export default class Screen extends React.Component {
             this.resize();
             this.paint(this.ctx);
         })
+        window.addEventListener('keypress',(e)=>{
+            console.log(e);
+            if(e.keyCode==99){
+                this.props.actions.centerToPoint({do:true,point:{x:0,y:0}});
+            }
+            
+        })
+        window.addEventListener('keydown',(e)=>{
+            if(e.ctrlKey==true||e.keyCode==17){
+                this.props.actions.selectAll();
+                e.preventDefault();
+            }
+        })
         
     }
 
@@ -582,6 +596,10 @@ export default class Screen extends React.Component {
         }
         this.shapeManager.setShapes(this.props.shapes);
         this.setStatus(this.props.status,this.props);
+        if(this.props.centerPoint.do){
+            this.centerToPoint(this.props.centerPoint.point);
+            this.props.actions.centerToPoint({do:false,point:this.props.centerPoint.point});
+            };
         this.paint(this.ctx);
         
     }

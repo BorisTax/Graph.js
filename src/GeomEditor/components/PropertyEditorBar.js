@@ -37,7 +37,7 @@ class PropertyEditorBar extends React.Component{
             propElements=shapes.length+this.props.captions.NShapesSelected;
         }    
         if(shapes.length==0) propElements=this.props.captions.noShapesSelected;
-        return <div className={"toolBar propertiesBar"}>
+        return <div className={"toolBar propertiesBar noselect"}>
             <div className='toolBarHeader noselect'>{this.props.captions.propBar}</div>
             {shapeTitle?shapeTitle:""}
             <div className='propertyGroup'>

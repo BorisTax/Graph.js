@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../Graph.css';
-import {setScreenStatus,selectShapes,addShape} from "../actions/ScreenActions";
+import {setScreenStatus,selectShapes,selectAll,addShape,centerToPoint} from "../actions/ScreenActions";
 import {setLanguage} from "../actions/AppActions";
 import CreateToolBar from "./CreateToolBar";
 import Screen from "./Screen.js";
@@ -15,9 +15,7 @@ class MainContainer extends React.Component{
         
         <div className={'screenContainer'}>
             <Screen style={{borderWidth:1+'px',borderStyle:"solid"}}
-                setStatus={this.props.setScreenStatus}
-                selectShapes={this.props.selectShapes}
-                addShape={this.props.addShape}
+                actions={this.props.actions}
                 {...this.props.screen}/>
                 </div>
         <CreateToolBar/>
@@ -34,11 +32,13 @@ const mapStateToProps = store => {
     }
 };
 const mapDispatchToProps = dispatch => {
-    return {
+    return {actions:{
         setLanguage:captions=>dispatch(setLanguage(captions)),
         setScreenStatus:(status,creator)=>dispatch(setScreenStatus(status,creator)),
         selectShapes:(selectedShapes)=>dispatch(selectShapes(selectedShapes)),
-        addShape:(shape)=>dispatch(addShape(shape))
-    }
+        addShape:(shape)=>dispatch(addShape(shape)),
+        centerToPoint:(action)=>dispatch(centerToPoint(action)),
+        selectAll:()=>dispatch(selectAll()),
+    }}
 };
 export default connect(mapStateToProps,mapDispatchToProps)(MainContainer)
