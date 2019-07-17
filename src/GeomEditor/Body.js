@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Header from './components/Header';
 import {captions} from './locale/eng';
 import MainContainer from './components/MainContainer';
+import HelpSection from './components/HelpSection';
 import {setLanguage} from './actions/AppActions';
 
 class Body extends React.Component {
@@ -12,6 +13,7 @@ class Body extends React.Component {
     }
     render() {
         return <div className={"body"}>
+            <HelpSection/>
             <Header/>
             <MainContainer/>
             </div>
