@@ -10,12 +10,11 @@ export default class LangToggleButton extends React.Component{
     }
     render(){
         let className=this.props.pressed?"langToggleButtonDown":"langToggleButtonUp";
-        return <div 
+        return <div
                 id={this.props.lang}
                 className={className+" noselect"}
                 onClick={this.onClick.bind(this)}
                 >
-            
         </div>
     }
 }

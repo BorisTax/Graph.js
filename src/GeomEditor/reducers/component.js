@@ -1,10 +1,12 @@
 
 import {SET_ACTIVE_SNAP_BUTTON,CLEAR_ACTIVE_SNAP_BUTTON} from "../actions/ComponentActions";
 import {SET_ACTIVE_CREATE_BUTTON,SET_ACTIVE_LANG_BUTTON} from "../actions/ComponentActions";
+import {SHOW_HELP} from '../actions/AppActions';
 const initialState={
     activeLangButton:"en",
     defaultLang:"en",
     activeSnapButtons:new Set(),
+    showHelp:false,
 }
 export function componentReducer(state=initialState,action) {
     let newState=Object.assign({},state);
@@ -22,6 +24,8 @@ export function componentReducer(state=initialState,action) {
         case CLEAR_ACTIVE_SNAP_BUTTON:
             newState.activeSnapButtons.delete(action.payload);
             return newState;
+        case SHOW_HELP:
+            return {...state,showHelp:action.payload};        
         default:
             return newState;
     }

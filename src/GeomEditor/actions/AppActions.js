@@ -1,5 +1,6 @@
 export const SET_LANGUAGE='SET_LANGUAGE';
 export const REQUEST_LANGUAGE='REQUEST_LANGUAGE';
+export const SHOW_HELP='SHOW_HELP';
 
 export function setLanguage(captions) {
     return {
@@ -20,4 +21,10 @@ export function requestLanguage(lang) {
             });
     }
 
+}
+export function showHelp(show){
+    return {
+        type:SHOW_HELP,
+        payload:show
+    }
 }

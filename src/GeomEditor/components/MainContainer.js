@@ -26,7 +26,6 @@ class MainContainer extends React.Component{
     }
 }
 const mapStateToProps = store => {
-
     return {
             screen: store.screen,
     }

@@ -13,17 +13,16 @@ class Body extends React.Component {
     }
     render() {
         return <div className={"body"}>
-            <HelpSection/>
             <Header/>
             <MainContainer/>
+            {this.props.showHelp?<HelpSection/>:<></>}
             </div>
     }
 }
 
 const mapStateToProps = store => {
-
     return {
-            
+            showHelp:store.components.showHelp,
     }
 };
 const mapDispatchToProps = dispatch => {

@@ -1,9 +1,11 @@
 import React from 'react';
 import '../Graph.css';
+import {connect} from 'react-redux';
+import {showHelp} from '../actions/AppActions';
 
-export default class HelpButton extends React.Component{
+class HelpButton extends React.Component{
     onClick(){
-        
+        this.props.showHelp(true);
     }
     render(){
         return <button 
@@ -14,3 +16,9 @@ export default class HelpButton extends React.Component{
         </button>
     }
 }
+const mapDispatchToProps=dispatch=>{
+    return{
+        showHelp:show=>{dispatch(showHelp(show))}
+    }
+}
+export default connect(null,mapDispatchToProps)(HelpButton);
