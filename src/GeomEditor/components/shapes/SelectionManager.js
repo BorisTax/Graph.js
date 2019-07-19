@@ -1,6 +1,3 @@
-import SelectRectShape from "./SelectRectShape";
-import { Rectangle } from "../../utils/geometry";
-
 export default class SelectionManager {
     constructor(creator){
         this.selectionCreator=new creator();

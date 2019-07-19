@@ -2,11 +2,8 @@ import "../Graph.css";
 import React from "react";
 
 class PropertyEditButtonsBar extends React.Component{
-    constructor(props){
-        super(props);
-        
-    }
-    onClick(e){
+
+    onClick(){
         this.props.delete();
     }
 

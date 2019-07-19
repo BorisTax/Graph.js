@@ -75,10 +75,13 @@ export const captions={ENG:{
   },
   help:{
     title:'Help',
-    ctrlA:'Select all',
-    del:'Delete selected',
-    mouseZoom:'Zoom in/out',
-    mouseDrag:'Move screen'
+    hotKeys:[
+    {key:"Ctrl-A",desc:'Select all'},
+    {key:"Del",desc:'Delete selected'},
+    {key:"C",desc:'View to origin'},
+    {key:"Mouse wheel",desc:'Zoom +/-'},
+    {key:"Mouse middle button",desc:'Move screen'}
+    ]
   }
 }
 }

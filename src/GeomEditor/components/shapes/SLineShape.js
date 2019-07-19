@@ -24,7 +24,7 @@ export default class SLineShape extends Shape{
         let rad=Geometry.distance(realRect.topLeft,br)/2;
         let circle=new Circle(c,rad);
         let p=Intersection.CircleSLine(circle,this.line);
-        if(p!=null){
+        if(p!==null){
             if(p.length===1){
                 let r=this.p[0];
                 p=new Array(2);
@@ -54,10 +54,10 @@ export default class SLineShape extends Shape{
         super.setProperty(prop);
         switch(prop.key){
             case 'A':
-                if(!(this.line.b==0&&prop.value==0)) this.line.a=prop.value;
+                if(!(this.line.b===0&&prop.value===0)) this.line.a=prop.value;
                 break;
             case 'B':
-                if(!(this.line.a==0&&prop.value==0)) this.line.b=prop.value;
+                if(!(this.line.a===0&&prop.value===0)) this.line.b=prop.value;
                 break;
             case 'C':
                 this.line.c=prop.value;

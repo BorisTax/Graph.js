@@ -1,6 +1,5 @@
 import React from 'react';
 import '../Graph.css';
-import { relative } from 'path';
 import {showHelp} from '../actions/AppActions';
 import { connect } from 'react-redux';
 
@@ -27,16 +26,14 @@ class HelpSection extends React.Component{
         this.forceUpdate();
     }
     render(){
+        const keys=this.props.captions.help.hotKeys.map((item,i)=><><span className='helpHotKey' key={i}>{item.key} </span> - {item.desc}<br/></>);
         return <div className='helpContainer  noselect' onClick={this.props.showHelp.bind(null,false)}>
             <div style={{display:"inline-block",zIndex:101}}>
             <div id='help' className={"toolBar helpSectionShow"}>
                  <div className={"toolBarHeader"}>
                     <span className={"toolBarCaption"}>{this.props.captions.help.title}</span>
                 </div>
-            <span className='helpHotKey'>Ctrl-A </span>{this.props.captions.help.ctrlA}<br/>
-            <span className='helpHotKey'>Del </span> {this.props.captions.help.del}<br/>
-            <span className='helpHotKey'>Mouse wheel +/- </span> {this.props.captions.help.mouseZoom}<br/>
-            <span className='helpHotKey'>Mouse middle button down </span>{this.props.captions.help.mouseDrag}<br/>
+            {keys}
             
         </div>
         </div>

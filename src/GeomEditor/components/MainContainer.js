@@ -6,17 +6,17 @@ import {setLanguage} from "../actions/AppActions";
 import CreateToolBar from "./CreateToolBar";
 import Screen from "./Screen.js";
 import SnapToggleBar from './SnapToggleBar';
-import ShowToggleBar from './ShowToggleBar';
 import PropertyEditorBar from './PropertyEditorBar';
 
 class MainContainer extends React.Component{
     render(){
         return <div className={'mainContainer'}>
-        
         <div className={'screenContainer'}>
             <Screen style={{borderWidth:1+'px',borderStyle:"solid"}}
                 actions={this.props.actions}
-                {...this.props.screen}/>
+                keyDownHandler={this.props.keyDownHandler}
+                {...this.props.screen}
+                />
                 </div>
         <CreateToolBar/>
         <PropertyEditorBar/>
@@ -28,6 +28,7 @@ class MainContainer extends React.Component{
 const mapStateToProps = store => {
     return {
             screen: store.screen,
+            keyDownHandler:store.options.keyDownHandler,
     }
 };
 const mapDispatchToProps = dispatch => {
@@ -38,7 +39,7 @@ const mapDispatchToProps = dispatch => {
         addShape:(shape)=>dispatch(addShape(shape)),
         centerToPoint:(action)=>dispatch(centerToPoint(action)),
         selectAll:()=>dispatch(selectAll()),
-        delete:()=>dispatch(deleteSelectedShapes()),
+        deleteSelectedShapes:()=>dispatch(deleteSelectedShapes()),
     }}
 };
 export default connect(mapStateToProps,mapDispatchToProps)(MainContainer)

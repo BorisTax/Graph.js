@@ -12,13 +12,10 @@ class PropertyEditorBar extends React.Component{
         this.props.setProperty({key:k,value:v});
         }
     render(){
-        let cap=this.props.captions;
-        //let propEditorBar=cap?cap.propEditorBar||"Properties":"Properties";
         const shapes=this.props.screen.selectedShapes;
-        //const properties=this.props.screen.selectedShapes.map(shape=>shape.getProperties());
         let propElements=[];
         let shapeTitle;
-        if(shapes.length==1){
+        if(shapes.length===1){
             this.shape=shapes[0];
             this.prop=shapes[0].getProperties();
             let shapeType=this.prop.get('Title').value;
@@ -36,7 +33,7 @@ class PropertyEditorBar extends React.Component{
         if(shapes.length>1){
             propElements=shapes.length+this.props.captions.NShapesSelected;
         }    
-        if(shapes.length==0) propElements=this.props.captions.noShapesSelected;
+        if(shapes.length===0) propElements=this.props.captions.noShapesSelected;
         return <div className={"toolBar propertiesBar noselect"}>
             <div className='toolBarHeader noselect'>{this.props.captions.propBar}</div>
             {shapeTitle?shapeTitle:""}

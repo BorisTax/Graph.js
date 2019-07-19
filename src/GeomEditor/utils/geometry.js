@@ -14,11 +14,11 @@ export class Point2D {
 
 export class Line{
     constructor(p1,p2){
-        if(arguments.length==2){
+        if(arguments.length===2){
         this.p1=p1;
         this.p2=p2;
         }
-        if(arguments.length==4){
+        if(arguments.length===4){
             this.p1={x:arguments[0],y:arguments[1]}
             this.p2={x:arguments[2],y:arguments[3]}
         }
@@ -155,11 +155,10 @@ export class Intersection{
         lines[1] = new Line(rectTopLeft.x, rectBottomRight.y, rectBottomRight.x, rectBottomRight.y);
         lines[2] = new Line(rectTopLeft.x, rectTopLeft.y, rectTopLeft.x, rectBottomRight.y);
         lines[3] = new Line(rectBottomRight.x, rectTopLeft.y, rectBottomRight.x, rectBottomRight.y);
-        let i = 0;
         lines.forEach(l=> {
             const p=Intersection.LineSLine(l, line)
             if(p&&points.length<2) points.push(p);
-            i++;});
+            });
         return points;
     }
     static RectangleRLine(rectTopLeft, rectBottomRight,line) {
@@ -191,11 +190,10 @@ export class Intersection{
         lines[1] = new Line(rectTopLeft.x, rectBottomRight.y, rectBottomRight.x, rectBottomRight.y);
         lines[2] = new Line(rectTopLeft.x, rectTopLeft.y, rectTopLeft.x, rectBottomRight.y);
         lines[3] = new Line(rectBottomRight.x, rectTopLeft.y, rectBottomRight.x, rectBottomRight.y);
-        let i = 0;
         lines.forEach(l=> {
             const p=Intersection.LineLine(line, l)
             if(p&&points.length<2) points.push(p);
-            i++;});
+            });
         return points;
     }
     static LineLine(l1,l2){

@@ -25,7 +25,7 @@ export default class ShapeManager {
             if(index<=1) return;
             if(!s.isInRect)return;//if method isInRect isn't implemented
             const {cross,full}=s.isInRect(tl,br);
-            if(cross==true||full==true) {shape.push(s);}
+            if(cross===true||full===true) {shape.push(s);}
             s.setState({highlighted:false});
         });
         if(shape.length!==0)shape.forEach(s=>{s.setState({highlighted:true})});

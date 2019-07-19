@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Graph.css';
-import Geometry, {SLine, Circle, Coord2D, Point2D,Rectangle, Line, Intersection} from '../utils/geometry.js';
+import {SLine, Circle, Coord2D, Point2D,Rectangle, Intersection} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import SLineShape from "./shapes/SLineShape.js";
 import SnapMarkersManager from './shapes/snapmarkers/SnapMarkersManager';
@@ -12,7 +12,6 @@ import DragCursor from './shapes/cursors/DragCursor';
 import SelectionManager from './shapes/SelectionManager';
 import SelectRectCreator from './shapes/shapecreators/SelectRectCreator';
 import CircleShape from './shapes/CircleShape';
-import LineShape from './shapes/LineShape';
 import RectangleShape from './shapes/RectangleShape';
 export default class Screen extends React.Component {
     showGrid=true;
@@ -574,22 +573,13 @@ export default class Screen extends React.Component {
             this.resize();
             this.paint(this.ctx);
         })
-        window.addEventListener('keypress',(e)=>{
-            console.log(e);
-            if(e.keyCode==99){
-                this.props.actions.centerToPoint({do:true,point:{x:0,y:0}});
-            }
-            
-        })
         window.addEventListener('keydown',(e)=>{
-            if(e.ctrlKey==true||e.keyCode==17){
-                this.props.actions.selectAll();
-               
-            }
-            if(e.keyCode==46){
-                this.props.actions.delete();
-            }
-            e.preventDefault();
+            this.props.keyDownHandler.forEach(key=>{
+                if(e.ctrlKey===key.ctrlKey&&e.shiftKey===key.shiftKey&&e.altKey===key.altKey&&e.keyCode===key.keyCode){
+                    if(this.props.actions[key.action]) this.props.actions[key.action](key.param);
+                    e.preventDefault();
+                }
+            })
         })
         
     }

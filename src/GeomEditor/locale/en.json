@@ -60,6 +60,16 @@
       "Y2":"Y2",
       "X3":"X3",
       "Y3":"Y3"
+    },
+    "help":{
+      "title":"Help",
+      "hotKeys":[
+      {"key":"Ctrl-A","desc":"Select all"},
+      {"key":"Del","desc":"Delete selected"},
+      {"key":"C","desc":"View to origin"},
+      {"key":"Mouse wheel","desc":"Zoom +/-"},
+      {"key":"Mouse middle button","desc":"Move screen"}
+      ]
     }
   }
 }

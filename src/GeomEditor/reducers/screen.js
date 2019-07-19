@@ -35,7 +35,10 @@ export function screenReducer(state = initialState,action) {
                             }});
             return{...state,selectedShapes};
         case DELETE_SELECTED_SHAPES:
-            return{...state,shapes:state.shapes.filter((s)=>!s.getState().selected),selectedShapes:[]};
+            if(state.selectedShapes.length===0) return {...state}
+            if(window.confirm('Delete shapes?'))
+                 return{...state,shapes:state.shapes.filter((s)=>!s.getState().selected),selectedShapes:[]};
+                 else return{...state}
         case ADD_SHAPE:
             state.shapes.push(action.payload);
             return{...state};

@@ -12,14 +12,14 @@ class PropertyField extends React.Component{
         const corr=v.match(r)!=null;
         if(corr)this.setState({value:v,prevValue:v}); 
           else
-          this.setState({value:v==''?'':this.state.prevValue})
+          this.setState({value:v===''?'':this.state.prevValue})
     }
     onKeyPress(e){
-        if(e.charCode==13){
+        if(e.charCode===13){
             let v=e.target.value;
-            v=v==''?"0":v;
+            v=v===''?"0":v;
             const r=this.props.regexp;
-            if(v.match(r)!=null) {
+            if(v.match(r)!==null) {
                 const n=Number.parseFloat(v);
                 this.props.setProperty(this.props.propKey,n);
                 this.setState({value:n,correct:true,prevValue:n});

@@ -1,4 +1,4 @@
-import Geometry,{Rectangle,Coord2D} from '../../utils/geometry';
+import Geometry,{Rectangle} from '../../utils/geometry';
 import {Color} from '../colors';
 import Shape from "./Shape";
 import ShapeStyle from './ShapeStyle';

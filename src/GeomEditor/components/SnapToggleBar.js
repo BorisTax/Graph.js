@@ -10,7 +10,6 @@ import CenterSnapMarker from "./shapes/snapmarkers/CenterSnapMarker";
 class SnapToggleBar extends React.Component{
     render(){
         let cap=this.props.captions;
-        let snapToggleBar=cap?cap.snapToggleBar:"Snap";
         let snapGridPoints=cap?cap.snapGridPoints:"grid points";
         let snapEndPoints=cap?cap.snapEndPoints:EndSnapMarker.caption;
         let snapMiddlePoints=cap?cap.snapMiddlePoints:MiddleSnapMarker.caption;

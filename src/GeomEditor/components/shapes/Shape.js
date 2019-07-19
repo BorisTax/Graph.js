@@ -33,6 +33,6 @@ export default class Shape {
         return this.state;
     }
     setProperty(prop){
-        if(prop.key=='Color') this.setColor(prop.value);
+        if(prop.key==='Color') this.setColor(prop.value);
     }
 }
