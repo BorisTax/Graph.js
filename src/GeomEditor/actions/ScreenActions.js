@@ -53,6 +53,7 @@ export function selectAll() {
         type: SELECT_ALL
     }
 }
+
 export function deleteSelectedShapes() {
     return {
         type: DELETE_SELECTED_SHAPES

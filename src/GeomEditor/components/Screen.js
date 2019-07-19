@@ -542,6 +542,7 @@ export default class Screen extends React.Component {
         }
         this.props.actions.selectShapes(this.shapeManager.getSelectedShapes());
         this.paint(e.target.getContext("2d"));
+        e.preventDefault();
     }
 
     resize(){
@@ -559,6 +560,9 @@ export default class Screen extends React.Component {
         this.canvas=document.querySelector("#canvas");
         this.ctx=this.canvas.getContext("2d");
         this.canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
+        //this.canvas.addEventListener("click",this.onclick.bind(this),{passive:false})
+        //this.canvas.addEventListener("mouseup",this.mup.bind(this),{passive:false})
+        //this.canvas.addEventListener("mousedown",this.mdown.bind(this),{passive:false})
         this.setDimentions(this.screenWidth,this.screenHeight,20,new Coord2D(-10,10));
         this.paint(this.ctx);
         window.addEventListener('load',()=>{
@@ -580,8 +584,12 @@ export default class Screen extends React.Component {
         window.addEventListener('keydown',(e)=>{
             if(e.ctrlKey==true||e.keyCode==17){
                 this.props.actions.selectAll();
-                e.preventDefault();
+               
             }
+            if(e.keyCode==46){
+                this.props.actions.delete();
+            }
+            e.preventDefault();
         })
         
     }

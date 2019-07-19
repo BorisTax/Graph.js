@@ -13,9 +13,10 @@ class Body extends React.Component {
     }
     render() {
         return <div className={"body"}>
+            {this.props.showHelp?<HelpSection/>:<></>}
             <Header/>
             <MainContainer/>
-            {this.props.showHelp?<HelpSection/>:<></>}
+            
             </div>
     }
 }

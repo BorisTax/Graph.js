@@ -9,9 +9,11 @@ class HelpSection extends React.Component{
     el;
     state={width:0,height:0}
     animate=()=>{
-        if(this.state.width<500) this.el.style.width=`${this.state.width}px`;
-        if(this.state.height<500) this.el.style.height=`${this.state.height}px`;
-        if(this.state.width<500||this.state.height<500) this.setState({width:this.state.width+10,height:this.state.height+10});
+        const w=document.body.clientWidth/1.1;
+        const h=document.body.clientHeight/1.1;
+        if(this.state.width<w) this.el.style.width=`${this.state.width}px`;
+        if(this.state.height<h) this.el.style.height=`${this.state.height}px`;
+        if(this.state.width<w||this.state.height<h) this.setState({width:this.state.width+20,height:this.state.height+20});
     }
     componentDidUpdate(){
        this.t=setTimeout(this.animate,1);
@@ -25,16 +27,17 @@ class HelpSection extends React.Component{
         this.forceUpdate();
     }
     render(){
-        return <div className='helpContainer'>
-            <div style={{display:"inline-block",zIndex:101,border:"1px solid red"}}>
+        return <div className='helpContainer  noselect' onClick={this.props.showHelp.bind(null,false)}>
+            <div style={{display:"inline-block",zIndex:101}}>
             <div id='help' className={"toolBar helpSectionShow"}>
                  <div className={"toolBarHeader"}>
-                    <span className={"toolBarCaption noselect"}>Help</span>
+                    <span className={"toolBarCaption"}>{this.props.captions.help.title}</span>
                 </div>
-            Help
-            Help
-            Help
-            <button onClick={this.props.showHelp.bind(null,false)}>X</button>
+            <span className='helpHotKey'>Ctrl-A </span>{this.props.captions.help.ctrlA}<br/>
+            <span className='helpHotKey'>Del </span> {this.props.captions.help.del}<br/>
+            <span className='helpHotKey'>Mouse wheel +/- </span> {this.props.captions.help.mouseZoom}<br/>
+            <span className='helpHotKey'>Mouse middle button down </span>{this.props.captions.help.mouseDrag}<br/>
+            
         </div>
         </div>
         </div>
@@ -42,7 +45,7 @@ class HelpSection extends React.Component{
 }
 const mapStateToProps=store=>{
     return {
-        show:store.components.showHelp,
+        captions:store.options.captions,
     }
 };
 const mapDispatchToProps=dispatch=>{

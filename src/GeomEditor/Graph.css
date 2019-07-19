@@ -128,6 +128,10 @@ body{
   padding:"50px";
   z-index: 100;
 }
+.helpHotKey{
+  font-weight: bold;
+  
+}
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
