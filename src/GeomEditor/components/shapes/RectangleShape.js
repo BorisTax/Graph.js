@@ -40,10 +40,10 @@ export default class RectangleShape extends Shape{
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'Rectangle',regexp:/\s*/});
-        prop.set('X1',{value:this.rectangle.topLeft.x,regexp:/^-?\d+\.?\d*$/});
-        prop.set('Y1',{value:this.rectangle.topLeft.y,regexp:/^-?\d+\.?\d*$/});
-        prop.set('X2',{value:this.rectangle.bottomRight.x,regexp:/^-?\d+\.?\d*$/});
-        prop.set('Y2',{value:this.rectangle.bottomRight.y,regexp:/^-?\d+\.?\d*$/});
+        prop.set('X1',{value:this.rectangle.topLeft.x,regexp:/^-?\d*\.?\d*$/});
+        prop.set('Y1',{value:this.rectangle.topLeft.y,regexp:/^-?\d*\.?\d*$/});
+        prop.set('X2',{value:this.rectangle.bottomRight.x,regexp:/^-?\d*\.?\d*$/});
+        prop.set('Y2',{value:this.rectangle.bottomRight.y,regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){

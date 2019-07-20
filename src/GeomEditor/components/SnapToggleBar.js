@@ -9,14 +9,10 @@ import MiddleSnapMarker from "./shapes/snapmarkers/MiddleSnapMarker";
 import CenterSnapMarker from "./shapes/snapmarkers/CenterSnapMarker";
 class SnapToggleBar extends React.Component{
     render(){
-        let cap=this.props.captions;
-        let snapGridPoints=cap?cap.snapGridPoints:"grid points";
-        let snapEndPoints=cap?cap.snapEndPoints:EndSnapMarker.caption;
-        let snapMiddlePoints=cap?cap.snapMiddlePoints:MiddleSnapMarker.caption;
-        let snapCenterPoints=cap?cap.snapCenterPoints:CenterSnapMarker.caption;
+        let cap=this.props.captions.snap;
         return <div className={"toolBar snapToolBar"}>
                                
-        <OptionTogglePic title={snapGridPoints}
+        <OptionTogglePic title={cap.snapGridPoints}
                            id={"grid"}
                            setSnap={this.props.setSnap}
                            snapClass={"grid"}
@@ -24,7 +20,7 @@ class SnapToggleBar extends React.Component{
                            clearActiveSnapButton={this.props.clearActiveSnapButton}
                            pressed={this.props.activeButtons.has("grid")}
         />
-        <OptionTogglePic title={snapEndPoints}
+        <OptionTogglePic title={cap.snapEndPoints}
                              id={"endpoint"}
                              setSnap={this.props.setSnap}
                              snapClass={EndSnapMarker}
@@ -32,7 +28,7 @@ class SnapToggleBar extends React.Component{
                              clearActiveSnapButton={this.props.clearActiveSnapButton}
                              pressed={this.props.activeButtons.has("endpoint")}
             />
-         <OptionTogglePic title={snapMiddlePoints}
+         <OptionTogglePic title={cap.snapMiddlePoints}
                              id={"middlepoint"}
                              setSnap={this.props.setSnap}
                              snapClass={MiddleSnapMarker}
@@ -40,7 +36,7 @@ class SnapToggleBar extends React.Component{
                              clearActiveSnapButton={this.props.clearActiveSnapButton}
                              pressed={this.props.activeButtons.has("middlepoint")}
             />
-        <OptionTogglePic title={snapCenterPoints}
+        <OptionTogglePic title={cap.snapCenterPoints}
                              id={"centerpoint"}
                              setSnap={this.props.setSnap}
                              snapClass={CenterSnapMarker}

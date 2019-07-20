@@ -4,7 +4,7 @@ import React from "react";
 class PropertyField extends React.Component{
     constructor(props){
         super(props);
-        this.state={value:props.value.toFixed(4),correct:true,prevValue:props.value}
+        this.state={value:props.value.toFixed(4),correct:true,prevValue:props.value,originValue:props.value.toFixed(4)}
     }
     change(e){
         let v=e.target.value;
@@ -13,6 +13,9 @@ class PropertyField extends React.Component{
         if(corr)this.setState({value:v,prevValue:v}); 
           else
           this.setState({value:v===''?'':this.state.prevValue})
+    }
+    blur(){
+        this.setState({value:this.state.originValue})
     }
     onKeyPress(e){
         if(e.charCode===13){
@@ -32,16 +35,20 @@ class PropertyField extends React.Component{
     }
     static getDerivedStateFromProps(nextProps,prevState){
         if(nextProps.value===prevState.value)
-        return {...nextProps,correct:true};
-        else return {...prevState}
+            return {...nextProps,originValue:nextProps.value,correct:true};
+            else return {...prevState}
     }
     render(){
         return <div className={"noselect"}>
             {this.props.label}=
             <input style={!this.state.correct?{backgroundColor:'red'}:{}}
                     type="text" value={this.state.value} 
+                    id={this.props.label}
                     onChange={this.change.bind(this)}
-                    onKeyPress={this.onKeyPress.bind(this)}/>
+                    onKeyPress={this.onKeyPress.bind(this)}
+                    onKeyDown={(e)=>{e.stopPropagation()}}
+                    onBlur={this.blur.bind(this)}
+                    />
         </div>
     }
 }

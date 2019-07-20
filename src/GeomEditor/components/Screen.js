@@ -155,7 +155,6 @@ export default class Screen extends React.Component {
         this.realWidth=realWidth;
         this.realHeight=this.realHeight;
         this.resize();
-        //this.props.shapes=[];
         this.xAxe=new SLine(0,1,0);
         this.yAxe=new SLine(1,0,0);
         this.xAxeShape=new SLineShape(this.xAxe,this.boundedCircle);
@@ -164,8 +163,6 @@ export default class Screen extends React.Component {
         this.yAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
         this.props.actions.addShape(this.xAxeShape)
         this.props.actions.addShape(this.yAxeShape)
-        //this.props.shapes.push(this.xAxeShape);
-        //this.props.shapes.push(this.yAxeShape);
 
         //this.test();
 
@@ -176,6 +173,7 @@ export default class Screen extends React.Component {
     }
     cancel(){
         this.status=Screen.STATUS_FREE;
+        this.props.actions.setScreenStatus(Screen.STATUS_FREE);
         this.curShape=null;
         this.curHelperShapes=null;
         this.creationStep="";
@@ -348,8 +346,7 @@ export default class Screen extends React.Component {
         this.drawGrid(ctx);
         let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}     `;
         if(this.status===Screen.STATUS_CREATE||this.status===Screen.STATUS_DRAWING)   
-                status_bar=status_bar+`${this.status}: ${this.currentShape} : ${this.creationStep}`;
-                else status_bar=status_bar+this.status;
+                status_bar=status_bar+`${this.currentShape} : ${this.creationStep}`;
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
             }
@@ -377,7 +374,6 @@ export default class Screen extends React.Component {
             this.drawShape(marker.getMarker(), ctx);
         }
         ctx.lineWidth=1;
-        //if(!this.dragGrid)
         if(this.status===Screen.STATUS_SELECT){
             this.drawShape(this.selectionShape,ctx);
         }
@@ -442,8 +438,6 @@ export default class Screen extends React.Component {
             this.curShape=this.shapeCreator.getShape();
             this.curHelperShapes=this.shapeCreator.getHelperShapes();
         }
-
-        //console.log(this.curCoord);
         this.paint(ctx);
         
     }
@@ -528,9 +522,14 @@ export default class Screen extends React.Component {
                 {
                     this.props.shapes.push(this.curShape);
                     this.refreshSnapMarkers();
-                    this.newShape(this.shapeCreator.reset(this.boundedCircle));
-                    this.status=Screen.STATUS_CREATE;
                     this.refreshShapeManager();
+                    if(this.props.cyclicCreation){
+                        this.newShape(this.shapeCreator.reset(this.boundedCircle));
+                        this.status=Screen.STATUS_CREATE;
+                    }else {
+                        this.cancel();
+                    }
+                    
                 }
                 this.paint(ctx);
             }
@@ -559,9 +558,6 @@ export default class Screen extends React.Component {
         this.canvas=document.querySelector("#canvas");
         this.ctx=this.canvas.getContext("2d");
         this.canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
-        //this.canvas.addEventListener("click",this.onclick.bind(this),{passive:false})
-        //this.canvas.addEventListener("mouseup",this.mup.bind(this),{passive:false})
-        //this.canvas.addEventListener("mousedown",this.mdown.bind(this),{passive:false})
         this.setDimentions(this.screenWidth,this.screenHeight,20,new Coord2D(-10,10));
         this.paint(this.ctx);
         window.addEventListener('load',()=>{

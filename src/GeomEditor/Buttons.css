@@ -1,7 +1,7 @@
 .createShapeButtonGroup{
     display: block;
-    height: 55px;
-    width: 55px;
+    height: 35px;
+    width: 40px;
     overflow: hidden;
     
 }
@@ -12,7 +12,7 @@
 }
 .createShapeButtonGroupCollapsed{
     position: relative;
-    height: 55px;
+    height: 35px;
     overflow: hidden;
 
 }
@@ -30,8 +30,8 @@
     display: inline-block;
     position: relative;
     background-repeat: no-repeat;
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
     border: 1px solid #69abc3;
     border-radius: 5px;
     cursor:pointer;
@@ -52,35 +52,35 @@
 }
 
 #SLine{
-    background-image: url("images/icons/straight-line.png");
+    background-image: url("images/icons/straight-line.svg");
     background-size: cover;
 }
 #RLine{
-    background-image: url("images/icons/ray-line.png");
+    background-image: url("images/icons/ray-line.svg");
     background-size: cover;
 }
 #Line{
-    background-image: url("images/icons/segment-line.png");
+    background-image: url("images/icons/segment-line.svg");
     background-size: cover;
 }
 #CircleRad{
-    background-image: url("images/icons/circle-center.png");
+    background-image: url("images/icons/circle-center.svg");
     background-size: cover;
 }
 #Circle2p{
-    background-image: url("images/icons/circle-2p.png");
+    background-image: url("images/icons/circle-2p.svg");
     background-size: cover;
 }
 #Circle3p{
-    background-image: url("images/icons/circle-3p.png");
+    background-image: url("images/icons/circle-3p.svg");
     background-size: cover;
 }
 #Rect2p{
-    background-image: url("images/icons/rectangle.png");
+    background-image: url("images/icons/rectangle.svg");
     background-size: cover;
 }
 #Triangle{
-    background-image: url("images/icons/triangle.png");
+    background-image: url("images/icons/triangle.svg");
     background-size: cover;
 }
 .snapButton{
@@ -88,21 +88,21 @@
     height: 36px;
 }
 #grid{
-    background: url("images/icons/grid-snap.png")  no-repeat;
+    background: url("images/icons/grid-snap.svg")  no-repeat;
     background-size: cover;
     
 }
 
 #endpoint{
-    background: url("images/icons/vertex-snap.png")  no-repeat;
+    background: url("images/icons/vertex-snap.svg")  no-repeat;
     background-size: cover;
 }
 #middlepoint{
-    background: url("images/icons/middle-snap.png")  no-repeat;
+    background: url("images/icons/middle-snap.svg")  no-repeat;
     background-size: cover;
 }
 #centerpoint{
-    background: url("images/icons/center-snap.png")  no-repeat;
+    background: url("images/icons/center-snap.svg")  no-repeat;
     background-size: cover;
 }
 .helpButton{

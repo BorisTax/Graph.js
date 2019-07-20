@@ -1,18 +1,21 @@
 {
-  "createToolBar":"Create",
-  "createSLine2Points":"Straight line",
-  "createRayLine2Points":"Ray line",
-  "createSegmentLine2Points":"Segment line",
-  "createCircleCenter":"Circle by center",
-  "createCircle2P":"Circle by 2 points",
-  "createCircle3P":"Circle by 3 points",
-  "createRect":"Rectangle by 2 points",
-  "createTriangle":"Triangle by 3 points",
-  "snapToggleBar":"Snap",
-  "snapGridPoints":" Snap to grid points",
-  "snapEndPoints": "Snap to end points",
-  "snapCenterPoints": "Snap to center points",
-  "snapMiddlePoints": "Snap to middle points",
+  "create":{
+    "createToolBar":"Create",
+    "createCheckBox":"Cyclic",
+    "createSLine2Points":"Straight line",
+    "createRayLine2Points":"Ray line",
+    "createSegmentLine2Points":"Segment line",
+    "createCircleCenter":"Circle by center",
+    "createCircle2P":"Circle by 2 points",
+    "createCircle3P":"Circle by 3 points",
+    "createRect":"Rectangle by 2 points",
+    "createTriangle":"Triangle by 3 points"},
+  "snap":{
+    "snapToggleBar":"Snap",
+    "snapGridPoints":" Snap to grid points",
+    "snapEndPoints": "Snap to end points",
+    "snapCenterPoints": "Snap to center points",
+    "snapMiddlePoints": "Snap to middle points"},
   "showGrid":"Show grid",
   "propBar":"Properties",
   "noShapesSelected":"No shapes selected",
@@ -60,16 +63,16 @@
       "Y2":"Y2",
       "X3":"X3",
       "Y3":"Y3"
-    },
-    "help":{
-      "title":"Help",
-      "hotKeys":[
-      {"key":"Ctrl-A","desc":"Select all"},
-      {"key":"Del","desc":"Delete selected"},
-      {"key":"C","desc":"View to origin"},
-      {"key":"Mouse wheel","desc":"Zoom +/-"},
-      {"key":"Mouse middle button","desc":"Move screen"}
-      ]
     }
+  },
+  "help":{
+    "title":"Help",
+    "hotKeys":[
+    {"key":"Ctrl-A","desc":"Select all"},
+    {"key":"Del","desc":"Delete selected"},
+    {"key":"C","desc":"View to origin"},
+    {"key":"Mouse wheel","desc":"Zoom +/-"},
+    {"key":"Mouse middle button","desc":"Move screen"}
+    ]
   }
 }

@@ -12,7 +12,7 @@ class HelpSection extends React.Component{
         const h=document.body.clientHeight/1.1;
         if(this.state.width<w) this.el.style.width=`${this.state.width}px`;
         if(this.state.height<h) this.el.style.height=`${this.state.height}px`;
-        if(this.state.width<w||this.state.height<h) this.setState({width:this.state.width+20,height:this.state.height+20});
+        if(this.state.width<w||this.state.height<h) this.setState({width:this.state.width+50,height:this.state.height+50});
     }
     componentDidUpdate(){
        this.t=setTimeout(this.animate,1);

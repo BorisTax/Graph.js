@@ -10,8 +10,14 @@ export const DELETE_SELECTED_SHAPES='DELETE_SELECTED_SHAPES';
 export const ADD_SHAPE='ADD_SHAPE';
 export const CENTER_TO_POINT='CENTER_TO_POINT';
 export const SET_STATUS='SET_STATUS';
+export const SET_CYCLIC_FLAG='SET_CYCLIC_FLAG';
 
-
+export function setCyclicFlag(flag) {
+    return {
+        type: SET_CYCLIC_FLAG,
+        payload: flag,
+    }
+}
 export function setGridVisible(visible) {
     return {
         type: SET_GRID_VISIBLE,

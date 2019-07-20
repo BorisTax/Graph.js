@@ -11,44 +11,39 @@ import Circle3PCreator from "./shapes/shapecreators/Circle3PCreator";
 import TriangleCreator from "./shapes/shapecreators/TriangleCreator";
 import RectangleCreator from "./shapes/shapecreators/RectangleCreator";
 import {setActiveCreateButton} from "../actions/ComponentActions";
-import {setScreenStatus} from "../actions/ScreenActions";
+import {setScreenStatus, setCyclicFlag} from "../actions/ScreenActions";
 
 
 class CreateToolBar extends React.Component{
 
     render(){
-        let cap=this.props.captions;
-        let createCaption=cap?cap.createToolBar:"Create";
-        let strline=cap?cap.createSLine2Points:StraightLineCreator.caption;
-        let rline=cap?cap.createRayLine2Points:RayLineCreator.caption;
-        let segline=cap?cap.createSegmentLine2Points:LineCreator.caption;
-        let circleRad=cap?cap.createCircleCenter:CircleCRCreator.caption;
-        let circle2p=cap?cap.createCircle2P:Circle2PCreator.caption;
-        let circle3p=cap?cap.createCircle3P:Circle3PCreator.caption;
-        let rect2p=cap?cap.createRect:RectangleCreator.caption;
-        let triangle=cap?cap.createTriangle:TriangleCreator.caption;
+        const cap=this.props.captions.create;
         return <div className={"toolBar createToolBar"}>
                  <div className={"toolBarHeader"}>
-                    <span className={"toolBarCaption noselect"}>{createCaption}</span>
+                    <span className={"toolBarCaption noselect"}>{cap.createToolBar}</span>
+                </div>
+                <div style={{display:"flex",alignItems:"center"}}>
+                    <input type="checkbox" onChange={(e)=>{this.props.setCyclicFlag(e.target.checked)}}/>
+                    <span style={{fontSize:"small"}}>{cap.createCheckBox}</span>
                 </div>
             <CreateShapeButtonGroup 
-                                buttons={[{title:strline,id:"SLine",creator:StraightLineCreator},
-                                         {title:rline,id:"RLine",creator:RayLineCreator},
-                                         {title:segline,id:"Line",creator:LineCreator}
+                                buttons={[{title:cap.createSLine2Points,id:"SLine",creator:StraightLineCreator},
+                                         {title:cap.createRayLine2Points,id:"RLine",creator:RayLineCreator},
+                                         {title:cap.createSegmentLine2Points,id:"Line",creator:LineCreator}
                                             ]}
                                 />
             <CreateShapeButtonGroup 
-                                buttons={[{title:circleRad,id:"CircleRad",creator:CircleCRCreator},
-                                          {title:circle2p,id:"Circle2p",creator:Circle2PCreator},
-                                          {title:circle3p,id:"Circle3p",creator:Circle3PCreator}
+                                buttons={[{title:cap.createCircleCenter,id:"CircleRad",creator:CircleCRCreator},
+                                          {title:cap.createCircle2P,id:"Circle2p",creator:Circle2PCreator},
+                                          {title:cap.createCircle3P,id:"Circle3p",creator:Circle3PCreator}
                                             ]}
                                 />
             <CreateShapeButtonGroup 
-                                buttons={[{title:rect2p,id:"Rect2p",creator:RectangleCreator}
+                                buttons={[{title:cap.createRect,id:"Rect2p",creator:RectangleCreator}
                                             ]}
                                 />
             <CreateShapeButtonGroup
-                buttons={[{title:triangle,id:"Triangle",creator:TriangleCreator}
+                buttons={[{title:cap.createTriangle,id:"Triangle",creator:TriangleCreator}
                 ]}
             />
 
@@ -68,6 +63,7 @@ const mapDispatchToProps = dispatch => {
     return {
         setButtonId:id=>dispatch(setActiveCreateButton(id)),
         setScreenStatus:(status,creator)=>dispatch(setScreenStatus(status,creator)),
+        setCyclicFlag:(flag)=>dispatch(setCyclicFlag(flag)),
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(CreateToolBar)

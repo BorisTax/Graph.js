@@ -6,9 +6,8 @@ import {setGridVisible} from '../actions/ScreenActions';
 class ShowToggleBar extends React.Component{
     render(){
         let cap=this.props.captions;
-        let showGrid=cap?cap.showGrid||"Show grid":"Show grid";
         return <div className={"toolBar"}>
-            <OptionToggle title={showGrid}
+            <OptionToggle title={cap.showGrid}
                       action={this.props.setGridVisible}
                       checked={this.props.screen.show.grid}
         />

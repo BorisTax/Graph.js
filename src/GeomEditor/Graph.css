@@ -115,6 +115,7 @@ body{
   z-index: 102;
   width:0px;
   height:0px;
+  overflow-x: scroll;
 }
 
 .helpContainer{

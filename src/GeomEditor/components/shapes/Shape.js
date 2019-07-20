@@ -24,10 +24,13 @@ export default class Shape {
     }
     setState(state){
         this.state={...this.state,...state};
-        if(this.state.highlighted===true) this.getStyle().setWidth(2);
-                    else this.getStyle().setWidth(1);
-        if(this.state.selected===true) this.getStyle().setColor(Color.SELECTED);
-                    else this.getStyle().setColor(this.getStyle().originColor);
+        if(this.state.selected===true) {
+            this.setStyle(new ShapeStyle(Color.SELECTED,ShapeStyle.SOLID,2));
+            return;
+        }else this.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,1));
+        if(this.state.highlighted===true) this.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,2));
+                    //else this.getStyle().setWidth(1);
+        
     }
     getState(){
         return this.state;

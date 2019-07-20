@@ -1,19 +1,24 @@
 {
-"createCircle2P": "Окружность по двум точкам",
-"createCircle3P": "Окружность по трем точкам",
-"createCircleCenter": "Окружность из центра",
-"createRayLine2Points": "Луч",
-"createRect": "Прямоугольник по 2-м точкам",
-"createSLine2Points": "Прямая",
-"createSegmentLine2Points": "Отрезок",
-"createToolBar": "Создать",
-"createTriangle": "Произвольный треугольник",
-"showGrid": "Отобразить сетку",
-"snapCenterPoints": "Привязка к центрам окружностей и дуг",
-"snapEndPoints": "Привязка к конечным точкам",
-"snapGridPoints": "Привязка к узлам сетки",
-"snapMiddlePoints": "Привязка к серединным точкам",
-"snapToggleBar": "Привязка",
+"create":{
+  "createToolBar": "Создать",
+  "createCheckBox":"Непрерывно",
+  "createCircle2P": "Окружность по двум точкам",
+  "createCircle3P": "Окружность по трем точкам",
+  "createCircleCenter": "Окружность из центра",
+  "createRayLine2Points": "Луч",
+  "createRect": "Прямоугольник по 2-м точкам",
+  "createSLine2Points": "Прямая",
+  "createSegmentLine2Points": "Отрезок",
+  "createTriangle": "Произвольный треугольник",
+},
+"snap":{
+  "snapCenterPoints": "Привязка к центрам окружностей и дуг",
+  "snapEndPoints": "Привязка к конечным точкам",
+  "snapGridPoints": "Привязка к узлам сетки",
+  "snapMiddlePoints": "Привязка к серединным точкам",
+  "snapToggleBar": "Привязка",
+},
+"showGrid": "Отобразить сетку",  
 "propBar":"Свойства",
 "noShapesSelected":"Нет выделенных фигур",
 "NShapesSelected":" фигур выделено",
@@ -60,16 +65,16 @@
       "Y2":"Y2",
       "X3":"X3",
       "Y3":"Y3"
-    },
-    "help":{
-      "title":"Справка",
-      "hotKeys":[
-      {"key":"Ctrl-A","desc":"Выделить все"},
-      {"key":"Del","desc":"Удалить выделенные"},
-      {"key":"C","desc":"Центрировать к началу координат"},
-      {"key":"Колесико мыши","desc":"Масштаб +/-"},
-      {"key":"Средняя кнопка мыши","desc":"Двигать экран"}
-      ]
     }
+  },
+  "help":{
+    "title":"Справка",
+    "hotKeys":[
+    {"key":"Ctrl-A","desc":"Выделить все"},
+    {"key":"Del","desc":"Удалить выделенные"},
+    {"key":"C","desc":"Центрировать к началу координат"},
+    {"key":"Колесико мыши","desc":"Масштаб +/-"},
+    {"key":"Средняя кнопка мыши","desc":"Двигать экран"}
+    ]
   }
 }

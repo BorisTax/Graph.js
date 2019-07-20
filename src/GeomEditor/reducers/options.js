@@ -6,7 +6,7 @@ const keys=[
     {ctrlKey:false,shiftKey:false,altKey:false,keyCode:46,action:"deleteSelectedShapes",param:null},
     {ctrlKey:false,shiftKey:false,altKey:false,keyCode:67,action:"centerToPoint",param:{do:true,point:{x:0,y:0}}},
 ]
-export function optionsReducer(state={captions:captions['ENG'],keyDownHandler:keys},action) {
+export function optionsReducer(state={captions:captions,keyDownHandler:keys},action) {
     switch (action.type) {
         case SET_LANGUAGE:
             return{...state,captions:action.payload};

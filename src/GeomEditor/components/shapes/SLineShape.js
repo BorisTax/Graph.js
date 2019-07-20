@@ -45,9 +45,9 @@ export default class SLineShape extends Shape{
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'SLine',regexp:/\s*/});
-        prop.set('A',{value:this.line.a,regexp:/^-?\d+\.?\d*$/});
-        prop.set('B',{value:this.line.b,regexp:/^-?\d+\.?\d*$/});
-        prop.set('C',{value:this.line.c,regexp:/^-?\d+\.?\d*$/});
+        prop.set('A',{value:this.line.a,regexp:/^-?\d*\.?\d*$/});
+        prop.set('B',{value:this.line.b,regexp:/^-?\d*\.?\d*$/});
+        prop.set('C',{value:this.line.c,regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){

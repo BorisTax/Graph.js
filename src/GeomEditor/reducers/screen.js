@@ -1,4 +1,6 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE,SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE} from "../actions/ScreenActions";
+import {SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
+import {SET_CYCLIC_FLAG} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
 
 const initialState = {
@@ -7,6 +9,7 @@ const initialState = {
     show:{grid:true},
     gridSnap:false,
     snap:{snapClass:null,snap:false},
+    cyclicCreation:false,
     status:"FREE",
     shapes:[],
     selectedShapes:[],
@@ -14,6 +17,8 @@ const initialState = {
 };
 export function screenReducer(state = initialState,action) {
     switch (action.type) {
+        case SET_CYCLIC_FLAG:
+            return {...state,cyclicCreation:action.payload}
         case SET_GRID_VISIBLE:
             return{...state,show:{grid:action.payload}};
         case SET_GRID_SNAP:

@@ -9,21 +9,23 @@ import TriangleCreator from '../components/shapes/shapecreators/TriangleCreator'
 import EndSnapMarker from '../components/shapes/snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from '../components/shapes/snapmarkers/MiddleSnapMarker';
 import CenterSnapMarker from '../components/shapes/snapmarkers/CenterSnapMarker';
-export const captions={ENG:{
-  createToolBar:"Create",
-  createSLine2Points:StraightLineCreator.caption,
-  createRayLine2Points:RayLineCreator.caption,
-  createSegmentLine2Points:LineCreator.caption,
-  createCircleCenter:CircleCRCreator.caption,
-  createCircle2P:Circle2PCreator.caption,
-  createCircle3P:Circle3PCreator.caption,
-  createRect:RectangleCreator.caption,
-  createTriangle:TriangleCreator.caption,
-  snapToggleBar:"Snap",
-  snapGridPoints:"to grid points",
-  snapEndPoints: EndSnapMarker.caption,
-  snapCenterPoints: CenterSnapMarker.caption,
-  snapMiddlePoints: MiddleSnapMarker.caption,
+export const captions={
+  create:{
+    createToolBar:"Create",
+    createCheckBox:"Cyclic",
+    createSLine2Points:StraightLineCreator.caption,
+    createRayLine2Points:RayLineCreator.caption,
+    createSegmentLine2Points:LineCreator.caption,
+    createCircleCenter:CircleCRCreator.caption,
+    createCircle2P:Circle2PCreator.caption,
+    createCircle3P:Circle3PCreator.caption,
+    createRect:RectangleCreator.caption,
+    createTriangle:TriangleCreator.caption},
+  snap:{snapToggleBar:"Snap",
+    snapGridPoints:"to grid points",
+    snapEndPoints: EndSnapMarker.caption,
+    snapCenterPoints: CenterSnapMarker.caption,
+    snapMiddlePoints: MiddleSnapMarker.caption},
   showGrid:"Show grid",
   propBar:"Properties",
   noShapesSelected:"No shapes selected",
@@ -83,5 +85,4 @@ export const captions={ENG:{
     {key:"Mouse middle button",desc:'Move screen'}
     ]
   }
-}
 }
