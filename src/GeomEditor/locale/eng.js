@@ -6,10 +6,11 @@ import Circle2PCreator from '../components/shapes/shapecreators/Circle2PCreator'
 import Circle3PCreator from '../components/shapes/shapecreators/Circle3PCreator';
 import RectangleCreator from '../components/shapes/shapecreators/RectangleCreator';
 import TriangleCreator from '../components/shapes/shapecreators/TriangleCreator';
-import EndSnapMarker from '../components/shapes/snapmarkers/EndSnapMarker';
-import MiddleSnapMarker from '../components/shapes/snapmarkers/MiddleSnapMarker';
-import CenterSnapMarker from '../components/shapes/snapmarkers/CenterSnapMarker';
 export const captions={
+  title:"Geometry editor",
+  messages:{
+    deleteShapes:"Delete selected shapes?",
+  },
   create:{
     createToolBar:"Create",
     createCheckBox:"Cyclic",
@@ -21,11 +22,16 @@ export const captions={
     createCircle3P:Circle3PCreator.caption,
     createRect:RectangleCreator.caption,
     createTriangle:TriangleCreator.caption},
+  modify:{
+    crossSelect:"Partial selection",
+    fullSelect:"Full selection",
+  },
   snap:{snapToggleBar:"Snap",
-    snapGridPoints:"to grid points",
-    snapEndPoints: EndSnapMarker.caption,
-    snapCenterPoints: CenterSnapMarker.caption,
-    snapMiddlePoints: MiddleSnapMarker.caption},
+    snapGridPoints:"Snap to grid points",
+    snapEndPoints: "Snap to end points",
+    snapCenterPoints: "Snap to center points",
+    snapMiddlePoints: "Snap to middle points"
+  },
   showGrid:"Show grid",
   propBar:"Properties",
   noShapesSelected:"No shapes selected",

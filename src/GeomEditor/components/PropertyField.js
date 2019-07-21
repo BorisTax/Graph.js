@@ -4,7 +4,7 @@ import React from "react";
 class PropertyField extends React.Component{
     constructor(props){
         super(props);
-        this.state={value:props.value.toFixed(4),correct:true,prevValue:props.value,originValue:props.value.toFixed(4)}
+        this.state={value:props.value.toFixed(4),correct:true,prevValue:props.value.toFixed(4),originValue:props.value.toFixed(4)}
     }
     change(e){
         let v=e.target.value;

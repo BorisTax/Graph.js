@@ -13,8 +13,8 @@ export default class OptionTogglePic extends React.Component{
             }
     }
     render(){
-        let cls=!this.props.pressed?"createShapeButtonUp":"createShapeButtonDown";
-        cls=cls+" createShapeButton snapButton";
+        let cls=!this.props.pressed?"toolButtonUp":"toolButtonDown";
+        cls=cls+" toolButton snapButton";
         return <div id={this.props.id}
                     className={cls}
                        onClick={this.onclick.bind(this)}

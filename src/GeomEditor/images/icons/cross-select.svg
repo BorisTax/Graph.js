@@ -6,8 +6,8 @@
 	.st0{fill:url(#SVGID_1_);}
 	.st1{fill:#FFFFFF;stroke:#0000FF;stroke-miterlimit:10;}
 	.st2{fill:none;stroke:#808080;stroke-miterlimit:10;}
-	.st3{fill:none;stroke:#808080;stroke-miterlimit:10;stroke-dasharray:1.6876,1.6876;}
-	.st4{fill:none;stroke:#808080;stroke-miterlimit:10;stroke-dasharray:1.7209,1.7209;}
+	.st3{fill:none;stroke:#303030;stroke-miterlimit:10;stroke-dasharray:1.6876,1.6876;}
+	.st4{fill:none;stroke:#303030;stroke-miterlimit:10;stroke-dasharray:1.7209,1.7209;}
 	.st5{fill:none;stroke:#000000;stroke-miterlimit:10;}
 </style>
 <g>
@@ -25,7 +25,7 @@
 	</radialGradient>
 	<rect class="st0" width="48" height="48"/>
 </g>
-<circle class="st1" cx="34.2" cy="24.2" r="8.3"/>
+<circle class="st1" cx="30.2" cy="24.2" r="8.3"/>
 <g>
 	<g>
 		<polyline class="st2" points="30,36.9 30,37.8 29.2,37.8 		"/>

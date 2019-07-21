@@ -28,11 +28,16 @@ body{
   padding: 5px;
   border-radius: 5px;
 }
-.createToolBar{
+#createToolBar{
   display: block;
-  position: absolute;
+  position: relative;
   top: 0px;
   left:0px;
+  width:55px;
+}
+#selectionToolBar{
+  display: block;
+  position: relative;
   width:55px;
 }
 .snapToolBar{
@@ -81,6 +86,10 @@ body{
   background: url('images/icons/eng.png') no-repeat;
   background-size: 100%;
 }
+#fr{
+  background: url('images/icons/fra.png') no-repeat;
+  background-size: 100%;
+}
 
 .optionToggleBar{
   display: inline-block;
@@ -112,6 +121,7 @@ body{
 }
 .helpSectionShow{
   display:block;
+  position: relative;
   z-index: 102;
   width:0px;
   height:0px;

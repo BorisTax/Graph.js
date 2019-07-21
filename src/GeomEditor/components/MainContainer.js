@@ -7,6 +7,7 @@ import CreateToolBar from "./CreateToolBar";
 import Screen from "./Screen.js";
 import SnapToggleBar from './SnapToggleBar';
 import PropertyEditorBar from './PropertyEditorBar';
+import SelectionToolBar from './SelectionToolBar';
 
 class MainContainer extends React.Component{
     render(){
@@ -19,6 +20,7 @@ class MainContainer extends React.Component{
                 />
                 </div>
         <CreateToolBar/>
+        <SelectionToolBar/>
         <PropertyEditorBar/>
         <SnapToggleBar/>
         
@@ -27,7 +29,7 @@ class MainContainer extends React.Component{
 }
 const mapStateToProps = store => {
     return {
-            screen: store.screen,
+            screen: {...store.screen,captions:store.options.captions},
             keyDownHandler:store.options.keyDownHandler,
     }
 };
@@ -39,7 +41,7 @@ const mapDispatchToProps = dispatch => {
         addShape:(shape)=>dispatch(addShape(shape)),
         centerToPoint:(action)=>dispatch(centerToPoint(action)),
         selectAll:()=>dispatch(selectAll()),
-        deleteSelectedShapes:()=>dispatch(deleteSelectedShapes()),
+        deleteSelectedShapes:({messages})=>dispatch(deleteSelectedShapes(messages.deleteShapes)),
     }}
 };
 export default connect(mapStateToProps,mapDispatchToProps)(MainContainer)

@@ -41,8 +41,9 @@ class PropertyEditorBar extends React.Component{
             {propElements}
             </div>
             {this.props.screen.selectedShapes.length>0?<PropertyEditButtonsBar
-                                    delete={this.props.deleteSelectedShapes}
+                                    delete={this.props.deleteSelectedShapes.bind(null,this.props.captions.messages.deleteShapes)}
                                     caption={this.props.captions.deleteButton}/>:<></>}
+                                    
         </div>
     }
 }
@@ -57,7 +58,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
     return {
         setProperty:(prop)=>dispatch(setProperty(prop)),
-        deleteSelectedShapes:()=>dispatch(deleteSelectedShapes())
+        deleteSelectedShapes:(messages)=>dispatch(deleteSelectedShapes(messages))
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(PropertyEditorBar)

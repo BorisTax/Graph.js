@@ -10,7 +10,7 @@ const initialState={
     showHelp:false,
 }
 export function componentReducer(state=initialState,action) {
-    let newState=Object.assign({},state);
+    let newState={...state};
     if(!newState.activeButtons) newState.activeButtons=new Set();
     switch (action.type) {
         case SET_ACTIVE_CREATE_BUTTON:

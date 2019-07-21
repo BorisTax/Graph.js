@@ -342,6 +342,7 @@ export default class Screen extends React.Component {
     paint(ctx){
         ctx.fillStyle="white";
         ctx.lineWidth=1;
+        ctx.lineJoin='round';
         ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
         this.drawGrid(ctx);
         let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}     `;
@@ -572,7 +573,8 @@ export default class Screen extends React.Component {
         window.addEventListener('keydown',(e)=>{
             this.props.keyDownHandler.forEach(key=>{
                 if(e.ctrlKey===key.ctrlKey&&e.shiftKey===key.shiftKey&&e.altKey===key.altKey&&e.keyCode===key.keyCode){
-                    if(this.props.actions[key.action]) this.props.actions[key.action](key.param);
+                    const param={...key.param,messages:this.props.captions.messages}
+                    if(this.props.actions[key.action]) this.props.actions[key.action](param);
                     e.preventDefault();
                 }
             })
@@ -588,12 +590,13 @@ export default class Screen extends React.Component {
                 this.setSnap(this.props.snap.snapClass,this.props.snap.snap);
 
         }
-        this.shapeManager.setShapes(this.props.shapes);
+        this.shapeManager.setShapes(this.props.shapes,this.props.selectionType);
         this.setStatus(this.props.status,this.props);
         if(this.props.centerPoint.do){
             this.centerToPoint(this.props.centerPoint.point);
             this.props.actions.centerToPoint({do:false,point:this.props.centerPoint.point});
             };
+        this.refreshSnapMarkers();
         this.paint(this.ctx);
         
     }

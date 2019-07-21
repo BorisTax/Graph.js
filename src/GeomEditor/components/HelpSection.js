@@ -1,5 +1,6 @@
-import React from 'react';
+import React,{Fragment} from 'react';
 import '../Graph.css';
+import '../Buttons.css';
 import {showHelp} from '../actions/AppActions';
 import { connect } from 'react-redux';
 
@@ -26,17 +27,18 @@ class HelpSection extends React.Component{
         this.forceUpdate();
     }
     render(){
-        const keys=this.props.captions.help.hotKeys.map((item,i)=><><span className='helpHotKey' key={i}>{item.key} </span> - {item.desc}<br/></>);
+        const keys=this.props.captions.help.hotKeys.map((item,i)=><Fragment key={i}><span className='helpHotKey'>{item.key} </span> - {item.desc}<br/></Fragment>);
         return <div className='helpContainer  noselect' onClick={this.props.showHelp.bind(null,false)}>
-            <div style={{display:"inline-block",zIndex:101}}>
-            <div id='help' className={"toolBar helpSectionShow"}>
-                 <div className={"toolBarHeader"}>
-                    <span className={"toolBarCaption"}>{this.props.captions.help.title}</span>
+                <div style={{display:"inline-block",zIndex:101,position:"relative"}}>
+                    <div id='help' className={"toolBar helpSectionShow"}>
+                        <div className={"toolBarHeader"}>
+                            <span className={"toolBarCaption"}>{this.props.captions.help.title}</span>
+                        </div>
+                    {keys}
+                    <div id="pifagor"></div>
+                    <div id="evklid"></div>
+                    </div>
                 </div>
-            {keys}
-            
-        </div>
-        </div>
         </div>
     }
 }

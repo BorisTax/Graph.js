@@ -1,0 +1,86 @@
+{  "title":"Éditeur de géométrie",
+  "messages":{
+    "deleteShapes":"Supprimer les formes sélectionnées?"
+  },
+  "create":{
+    "createToolBar":"Créer",
+    "createCheckBox":"Cyclique",
+    "createSLine2Points":"Ligne droite",
+    "createRayLine2Points":"Ligne de rayon",
+    "createSegmentLine2Points":"Ligne de segment",
+    "createCircleCenter":"Cercle par centre",
+    "createCircle2P":"Cercle par 2 points",
+    "createCircle3P":"Cercle par 3 points",
+    "createRect":"Rectangle par 2 points",
+    "createTriangle":"Triangle par 3 points"
+  },
+  "modify":{
+    "crossSelect":"Sélection partielle",
+    "fullSelect":"Sélection complète"
+  },
+  "snap":{
+    "snapToggleBar":"Snap",
+    "snapGridPoints":"Aligner sur les points de la grille",
+    "snapEndPoints": "Aligner sur les points de sommet",
+    "snapCenterPoints": "Aligner sur les points centraux",
+    "snapMiddlePoints": "Aligner sur les points médians"},
+  "showGrid":"Afficher la grille",
+  "propBar":"Propriétés",
+  "noShapesSelected":"Aucune forme sélectionnée",
+  "NShapesSelected":" formes sélectionnées",
+  "deleteButton":"Supprimer",
+  "shapes":{
+    "Circle":{
+      "Title":"Cercle",
+      "Radius":"Rayon",
+      "CX":"CentreX",
+      "CY":"CentreY"
+    },
+    "Rectangle":{
+      "Title":"Rectangle",
+      "X1":"X1",
+      "Y1":"Y1",
+      "X2":"X2",
+      "Y2":"Y2"
+    },
+    "Line":{
+      "Title":"Ligne",
+      "X1":"X1",
+      "Y1":"Y1",
+      "X2":"X2",
+      "Y2":"Y2"
+    },
+    "SLine":{
+      "Title":"Ligne droite AX+BY+C=0",
+      "A":"A",
+      "B":"B",
+      "C":"C"
+    },
+    "RLine":{
+      "Title":"Ligne de rayon",
+      "X":"X",
+      "Y":"Y",
+      "VX":"VX",
+      "VY":"VY"
+    },
+    "Triangle":{
+      "Title":"Triangle",
+      "X1":"X1",
+      "Y1":"Y1",
+      "X2":"X2",
+      "Y2":"Y2",
+      "X3":"X3",
+      "Y3":"Y3"
+    }
+  },
+  "help":{
+    "title":"Référence",
+    "hotKeys":[
+    {"key":"Ctrl-A","desc":"Tout sélectionner"},
+    {"key":"Del","desc":"Supprimer sélectionnée"},
+    {"key":"C","desc":"Centre vue à l'origine"},
+    {"key":"Mouse wheel","desc":"Zoom +/-"},
+    {"key":"Mouse middle button","desc":"Déplacer l'écran"}
+    ]
+  }
+}

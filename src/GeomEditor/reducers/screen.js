@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE} from "../actions/ScreenActions";
 import {SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
 import {SET_CYCLIC_FLAG} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
@@ -10,6 +10,7 @@ const initialState = {
     gridSnap:false,
     snap:{snapClass:null,snap:false},
     cyclicCreation:false,
+    selectionType:'crossSelect',
     status:"FREE",
     shapes:[],
     selectedShapes:[],
@@ -17,6 +18,8 @@ const initialState = {
 };
 export function screenReducer(state = initialState,action) {
     switch (action.type) {
+        case SET_SELECTION_TYPE:
+            return {...state,selectionType:action.payload}
         case SET_CYCLIC_FLAG:
             return {...state,cyclicCreation:action.payload}
         case SET_GRID_VISIBLE:
@@ -41,7 +44,7 @@ export function screenReducer(state = initialState,action) {
             return{...state,selectedShapes};
         case DELETE_SELECTED_SHAPES:
             if(state.selectedShapes.length===0) return {...state}
-            if(window.confirm('Delete shapes?'))
+            if(window.confirm(action.payload))
                  return{...state,shapes:state.shapes.filter((s)=>!s.getState().selected),selectedShapes:[]};
                  else return{...state}
         case ADD_SHAPE:

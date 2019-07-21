@@ -1,4 +1,7 @@
-{
+{"title":"Геометрический редактор",
+  "messages":{
+    "deleteShapes":"Удалить выделенные фигуры?"
+  },
 "create":{
   "createToolBar": "Создать",
   "createCheckBox":"Непрерывно",
@@ -9,14 +12,18 @@
   "createRect": "Прямоугольник по 2-м точкам",
   "createSLine2Points": "Прямая",
   "createSegmentLine2Points": "Отрезок",
-  "createTriangle": "Произвольный треугольник",
+  "createTriangle": "Произвольный треугольник"
+},
+"modify":{
+  "crossSelect":"Частичное выделение",
+  "fullSelect":"Полное выделение"
 },
 "snap":{
   "snapCenterPoints": "Привязка к центрам окружностей и дуг",
   "snapEndPoints": "Привязка к конечным точкам",
   "snapGridPoints": "Привязка к узлам сетки",
   "snapMiddlePoints": "Привязка к серединным точкам",
-  "snapToggleBar": "Привязка",
+  "snapToggleBar": "Привязка"
 },
 "showGrid": "Отобразить сетку",  
 "propBar":"Свойства",

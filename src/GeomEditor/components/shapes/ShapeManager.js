@@ -2,8 +2,9 @@ export default class ShapeManager {
     constructor(shapes){
         this.allShapes=shapes;
     }
-    setShapes(shapes){
+    setShapes(shapes,selType){
         this.allShapes=shapes;
+        this.selType=selType;
     }
     setShapeNearPoint(p, dist){
         let shape=null;
@@ -25,7 +26,11 @@ export default class ShapeManager {
             if(index<=1) return;
             if(!s.isInRect)return;//if method isInRect isn't implemented
             const {cross,full}=s.isInRect(tl,br);
-            if(cross===true||full===true) {shape.push(s);}
+            let ok=false;
+            if(this.selType==='fullSelect'&&full===true) ok=true;
+            if(this.selType==='crossSelect'&&cross===true) ok=true;
+            if(this.selType==='crossSelect'&&full===true) ok=true;
+            if(ok) {shape.push(s);}
             s.setState({highlighted:false});
         });
         if(shape.length!==0)shape.forEach(s=>{s.setState({highlighted:true})});

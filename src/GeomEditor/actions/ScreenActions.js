@@ -11,11 +11,17 @@ export const ADD_SHAPE='ADD_SHAPE';
 export const CENTER_TO_POINT='CENTER_TO_POINT';
 export const SET_STATUS='SET_STATUS';
 export const SET_CYCLIC_FLAG='SET_CYCLIC_FLAG';
-
+export const SET_SELECTION_TYPE='SET_SELECTION_TYPE';
 export function setCyclicFlag(flag) {
     return {
         type: SET_CYCLIC_FLAG,
         payload: flag,
+    }
+}
+export function setSelectionType(selType) {
+    return {
+        type: SET_SELECTION_TYPE,
+        payload: selType,
     }
 }
 export function setGridVisible(visible) {
@@ -60,9 +66,10 @@ export function selectAll() {
     }
 }
 
-export function deleteSelectedShapes() {
+export function deleteSelectedShapes(message) {
     return {
-        type: DELETE_SELECTED_SHAPES
+        type: DELETE_SELECTED_SHAPES,
+        payload:message
     }
 }
 export function addShape(shape){

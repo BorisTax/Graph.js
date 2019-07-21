@@ -1,4 +1,4 @@
-.createShapeButtonGroup{
+.toolButtonGroup{
     display: block;
     height: 35px;
     width: 40px;
@@ -6,27 +6,26 @@
     
 }
 
-.createShapeButtonGroupExpanded{
+.toolButtonGroupExpanded{
     position: relative;
-    width:100vw;
+    width:105px;
 }
-.createShapeButtonGroupCollapsed{
+.toolButtonGroupCollapsed{
     position: relative;
     height: 35px;
     overflow: hidden;
 
 }
-.createShapeButtonGroupCollapsed > *{
+.toolButtonGroupCollapsed > *{
     position: absolute;
     top: 0px;
     left: 0px;
-
 }
-.createShapeButtonGroupExpanded > *{
+.toolButtonGroupExpanded > *{
     position: relative;
-
+    left:auto;
 }
-.createShapeButton{
+.toolButton{
     display: inline-block;
     position: relative;
     background-repeat: no-repeat;
@@ -35,16 +34,15 @@
     border: 1px solid #69abc3;
     border-radius: 5px;
     cursor:pointer;
-
 }
-.createShapeButtonUp {
+.toolButtonUp {
     box-shadow: 0 0 0 60px rgba(0,0,0,0) inset, .1em .1em .2em #888;
     background: linear-gradient(#c8e0e9, #FFFFFF 25%, #c8e0e9 70%, #9dc8d8);
 }
-.createShapeButtonUp:hover{
+.toolButtonUp:hover{
     box-shadow: 0 0 0 60px rgba(0,0,0,0.1) inset, .1em .1em .2em #888;
 }
-.createShapeButtonDown {
+.toolButtonDown {
     background: #4087a0;
     border-color: grey;
     top: .1em;
@@ -105,10 +103,37 @@
     background: url("images/icons/center-snap.svg")  no-repeat;
     background-size: cover;
 }
+#crossSelect{
+    background: url("images/icons/cross-select.svg")  no-repeat;
+    background-size: cover;
+}
+#fullSelect{
+    background: url("images/icons/full-select.svg")  no-repeat;
+    background-size: cover;
+}
+#evklid{
+    background: url("images/evklid.png")  no-repeat;
+    background-size: cover;
+    position: absolute;
+    bottom: 0px;
+    right:0px;
+    width:150px;
+    height:150px;
+}
+#pifagor{
+    background: url("images/pifagor.png")  no-repeat;
+    background-size: cover;
+    position: absolute;
+    bottom: 0px;
+    left:0px;
+    width:150px;
+    height:150px;
+}
+
 .helpButton{
     display: inline-block;
     font-size: large;
     font-weight: bold;
     margin-left: 10px;
-    padding:2px 5px;
+    padding:1px 5px;
 }
