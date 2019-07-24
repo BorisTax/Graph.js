@@ -77,8 +77,32 @@
     background-image: url("images/icons/rectangle.svg");
     background-size: cover;
 }
+#RectCenter{
+    background-image: url("images/icons/rectangle-center.svg");
+    background-size: cover;
+}
 #Triangle{
     background-image: url("images/icons/triangle.svg");
+    background-size: cover;
+}
+#TriangleInscribed{
+    background-image: url("images/icons/triangle-inscribed.svg");
+    background-size: cover;
+}
+#TriangleDescribed{
+    background-image: url("images/icons/triangle-described.svg");
+    background-size: cover;
+}
+#Parabola{
+    background-image: url("images/icons/parabola.svg");
+    background-size: cover;
+}
+#Hyperbola{
+    background-image: url("images/icons/hyperbola.svg");
+    background-size: cover;
+}
+#Function{
+    background-image: url("images/icons/fx.svg");
     background-size: cover;
 }
 .snapButton{

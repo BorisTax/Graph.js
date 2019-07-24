@@ -58,13 +58,29 @@ class CreateToolBar extends React.Component{
                                 onClick={this.onClick.bind(this)}
                                 />
             <ToolButtonGroup 
-                                buttons={[{title:cap.createRect,id:"Rect2p",params:{creator:RectangleCreator}}
+                                buttons={[{title:cap.createRect,id:"Rect2p",params:{creator:RectangleCreator}},
+                                          {title:cap.createRectCenter,id:"RectCenter",params:{creator:null,dev:cap.development}}    
                                             ]}
                                 activeButton={this.props.activeButton}
                                 onClick={this.onClick.bind(this)}            
                                 />
             <ToolButtonGroup
-                buttons={[{title:cap.createTriangle,id:"Triangle",params:{creator:TriangleCreator}}
+                buttons={[{title:cap.createTriangle,id:"Triangle",params:{creator:TriangleCreator}},
+                        {title:cap.createTriangleInscribed,id:"TriangleInscribed",params:{creator:null,dev:cap.development}},
+                        {title:cap.createTriangleDescribed,id:"TriangleDescribed",params:{creator:null,dev:cap.development}}
+                ]}
+                activeButton={this.props.activeButton}
+                onClick={this.onClick.bind(this)}
+            />
+            <ToolButtonGroup
+                buttons={[{title:cap.createParabola,id:"Parabola",params:{creator:null,dev:cap.development}},
+                        {title:cap.createHyperbola,id:"Hyperbola",params:{creator:null,dev:cap.development}},
+                ]}
+                activeButton={this.props.activeButton}
+                onClick={this.onClick.bind(this)}
+            />
+            <ToolButtonGroup
+                buttons={[{title:cap.createFunction,id:"Function",params:{creator:null,dev:cap.development}}
                 ]}
                 activeButton={this.props.activeButton}
                 onClick={this.onClick.bind(this)}

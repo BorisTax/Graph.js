@@ -12,7 +12,14 @@
     "createCircle2P":"Circle by 2 points",
     "createCircle3P":"Circle by 3 points",
     "createRect":"Rectangle by 2 points",
-    "createTriangle":"Triangle by 3 points"
+    "createRectCenter":"Rectangle by center",
+    "createTriangle":"Triangle",
+    "createTriangleInscribed":"Triangle inscribed in circle",
+    "createTriangleDescribed":"Triangle described about circle",
+    "createParabola":"Parabola",
+    "createHyperbola":"Hyperbola",
+    "createFunction":"User defined function",
+    "development":"(under development)"
   },
   "modify":{
     "crossSelect":"Partial selection",

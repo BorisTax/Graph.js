@@ -10,9 +10,16 @@
   "createCircleCenter": "Окружность из центра",
   "createRayLine2Points": "Луч",
   "createRect": "Прямоугольник по 2-м точкам",
+  "createRectCenter":"Прямоугольник из центра",
   "createSLine2Points": "Прямая",
   "createSegmentLine2Points": "Отрезок",
-  "createTriangle": "Произвольный треугольник"
+  "createTriangle": "Произвольный треугольник",
+  "createTriangleInscribed":"Вписанный треугольник",
+  "createTriangleDescribed":"Описанный треугольник",
+  "createParabola":"Парабола",
+  "createHyperbola":"Гипербола",
+  "createFunction":"Произвольная функция",
+  "development":"(в разработке)"
 },
 "modify":{
   "crossSelect":"Частичное выделение",

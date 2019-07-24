@@ -6,10 +6,17 @@ import Circle2PCreator from '../components/shapes/shapecreators/Circle2PCreator'
 import Circle3PCreator from '../components/shapes/shapecreators/Circle3PCreator';
 import RectangleCreator from '../components/shapes/shapecreators/RectangleCreator';
 import TriangleCreator from '../components/shapes/shapecreators/TriangleCreator';
+import EndSnapMarker from '../components/shapes/snapmarkers/EndSnapMarker';
+import MiddleSnapMarker from '../components/shapes/snapmarkers/MiddleSnapMarker';
+import CenterSnapMarker from '../components/shapes/snapmarkers/CenterSnapMarker';
 export const captions={
+  about:{
+    name:"Takhmazov Borys",
+    email:"tboris1983@gmail.com",
+  },
   title:"Geometry editor",
   messages:{
-    deleteShapes:"Delete selected shapes?",
+    deleteShapes:"Delete selected shapes?"
   },
   create:{
     createToolBar:"Create",
@@ -21,17 +28,24 @@ export const captions={
     createCircle2P:Circle2PCreator.caption,
     createCircle3P:Circle3PCreator.caption,
     createRect:RectangleCreator.caption,
-    createTriangle:TriangleCreator.caption},
+    createRectCenter:"Rectangle by center",
+    createTriangle:TriangleCreator.caption,
+    createTriangleInscribed:"Triangle inscribed in circle",
+    createTriangleDescribed:"Triangle described about circle",
+    createParabola:"Parabola",
+    createHyperbola:"Hyperbola",
+    createFunction:"User defined function",
+    development:"(under development)",
+  },
   modify:{
     crossSelect:"Partial selection",
-    fullSelect:"Full selection",
+    fullSelect:"Full selection"
   },
   snap:{snapToggleBar:"Snap",
-    snapGridPoints:"Snap to grid points",
-    snapEndPoints: "Snap to end points",
-    snapCenterPoints: "Snap to center points",
-    snapMiddlePoints: "Snap to middle points"
-  },
+    snapGridPoints:"to grid points",
+    snapEndPoints: EndSnapMarker.caption,
+    snapCenterPoints: CenterSnapMarker.caption,
+    snapMiddlePoints: MiddleSnapMarker.caption},
   showGrid:"Show grid",
   propBar:"Properties",
   noShapesSelected:"No shapes selected",

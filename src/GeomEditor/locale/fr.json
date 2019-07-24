@@ -12,7 +12,14 @@
     "createCircle2P":"Cercle par 2 points",
     "createCircle3P":"Cercle par 3 points",
     "createRect":"Rectangle par 2 points",
-    "createTriangle":"Triangle par 3 points"
+    "createRectCenter":"Rectangle par centre",
+    "createTriangle":"Triangle par 3 points",
+    "createTriangleInscribed":"Triangle inscrit en cercle",
+    "createTriangleDescribed":"Triangle décrit autour du cercle",
+    "createParabola":"Parabole",
+    "createHyperbola":"Hyperbole",
+    "createFunction":"Fonction auto définie",
+    "development":"(en développement)"
   },
   "modify":{
     "crossSelect":"Sélection partielle",
