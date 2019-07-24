@@ -3,26 +3,35 @@ import '../Graph.css';
 import {connect} from 'react-redux';
 
 class MySelf extends React.Component{
-    constructor(props){
-    super(props);
-    this.state={title:`                                                               Author: ${props.name}  E-Mail:${props.email}`}
+    constructor(){
+        super();
+     this.ref=React.createRef()
+     this.ref2=React.createRef()
     }
     componentDidMount(){
+        let first=true;
         this.interval=setInterval(()=>{
-            let newTitle=this.state.title.slice(1,this.state.title.length);
-            newTitle+=this.state.title[0];    
-            this.setState({title:newTitle});
-        },500);
+            const width=this.ref.current.offsetWidth;
+            const width2=this.ref2.current.offsetWidth;
+            let left=Number.parseInt(window.getComputedStyle(this.ref2.current).left);
+            if(first){left=width;first=false}
+            left-=1;
+            if(left<-width2) left=width;
+            this.ref2.current.style.left=`${left}px`;
+        },20);
     }
     componentWillUnmount(){
         clearInterval(this.interval);
     }
     render(){
-        return <span 
-                className={"about noselect"}
+        return <div ref={this.ref} style={{overflow:"hidden"}}>
+        <span   ref={this.ref2}
+                className={"noselect"}
+                style={{position:"relative",whiteSpace:"pre"}}
                 >
-            {this.state.title}
+            {`${this.props.cap.name}          ${this.props.cap.email}`}
         </span>
+        </div>
     }
 }
 const mapStateToProps=store=>{

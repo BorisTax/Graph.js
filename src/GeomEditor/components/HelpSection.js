@@ -3,37 +3,41 @@ import '../Graph.css';
 import '../Buttons.css';
 import {showHelp} from '../actions/AppActions';
 import { connect } from 'react-redux';
+import MySelf from './MySelf';
 
 class HelpSection extends React.Component{
-    t;
-    el;
-    state={width:0,height:0}
-    animate=()=>{
-        const w=document.body.clientWidth/1.1;
-        const h=document.body.clientHeight/1.1;
-        if(this.state.width<w) this.el.style.width=`${this.state.width}px`;
-        if(this.state.height<h) this.el.style.height=`${this.state.height}px`;
-        if(this.state.width<w||this.state.height<h) this.setState({width:this.state.width+50,height:this.state.height+50});
+    constructor(){
+        super();
+        this.ref=React.createRef()
+        this.state={done:false}
     }
-    componentDidUpdate(){
-       this.t=setTimeout(this.animate,1);
+    
+    animate=()=>{
+        if(this.w<this.maxw) this.ref.current.style.width=`${this.w}px`;
+        if(this.h<this.maxh) this.ref.current.style.height=`${this.h}px`;
+        if(this.w>=this.maxw&&this.h>=this.maxh) this.setState({done:true});
+        this.w+=50;
+        this.h+=50;
     }
     componentWillUnmount(){
-        clearTimeout(this.t);
+        clearInterval(this.t);
     }
     componentDidMount(){
-        this.el=document.getElementById('help');
-        this.canv=document.getElementById('canvas');
-        this.forceUpdate();
+        this.maxw=document.body.clientWidth/1.1;
+        this.maxh=document.body.clientHeight/1.1;
+        this.w=0;
+        this.h=0;
+        this.t=setInterval(this.animate,1);
     }
     render(){
         const keys=this.props.captions.help.hotKeys.map((item,i)=><Fragment key={i}><span className='helpHotKey'>{item.key} </span> - {item.desc}<br/></Fragment>);
         return <div className='helpContainer  noselect' onClick={this.props.showHelp.bind(null,false)}>
                 <div style={{display:"inline-block",zIndex:101,position:"relative"}}>
-                    <div id='help' className={"toolBar helpSectionShow"}>
+                    <div id='help' ref={this.ref} className={"toolBar helpSectionShow"}>
                         <div className={"toolBarHeader"}>
                             <span className={"toolBarCaption"}>{this.props.captions.help.title}</span>
                         </div>
+                    {this.state.done?<MySelf/>:<></>}
                     {keys}
                     <div id="pifagor"></div>
                     <div id="evklid"></div>

@@ -143,12 +143,7 @@ body{
   font-weight: bold;
   
 }
-.about{
-  border:1px solid red;
-  font-size: small;
-  width:200px;
-  overflow: hidden;
-}
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */

@@ -11,8 +11,8 @@ import MiddleSnapMarker from '../components/shapes/snapmarkers/MiddleSnapMarker'
 import CenterSnapMarker from '../components/shapes/snapmarkers/CenterSnapMarker';
 export const captions={
   about:{
-    name:"Takhmazov Borys",
-    email:"tboris1983@gmail.com",
+    name:"Author: Takhmazov Borys",
+    email:"E-Mail: tboris1983@gmail.com",
   },
   title:"Geometry editor",
   messages:{
