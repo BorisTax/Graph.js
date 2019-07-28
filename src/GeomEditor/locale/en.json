@@ -1,4 +1,9 @@
-{  "title":"Geometry editor",
+{  
+  "about":{
+    "name":"Author: Takhmazov Borys",
+    "email":"E-Mail: tboris1983@gmail.com"
+    },
+  "title":"Geometry editor",
   "messages":{
     "deleteShapes":"Delete selected shapes?"
   },
@@ -19,7 +24,7 @@
     "createParabola":"Parabola",
     "createHyperbola":"Hyperbola",
     "createFunction":"User defined function",
-    "development":"(under development)"
+    "development":"(in development)"
   },
   "modify":{
     "crossSelect":"Partial selection",

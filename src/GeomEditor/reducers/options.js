@@ -9,6 +9,7 @@ const keys=[
 export function optionsReducer(state={captions:captions,keyDownHandler:keys},action) {
     switch (action.type) {
         case SET_LANGUAGE:
+            document.title=action.payload.title;
             return{...state,captions:action.payload};
         default:
             return state

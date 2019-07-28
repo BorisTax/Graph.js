@@ -13,6 +13,7 @@ export default class LangToggleButton extends React.Component{
         return <div
                 id={this.props.lang}
                 className={className+" noselect"}
+                title={this.props.title}
                 onClick={this.onClick.bind(this)}
                 >
         </div>

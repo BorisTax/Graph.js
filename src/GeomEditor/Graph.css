@@ -60,7 +60,9 @@ body{
 }
 
 .langToggleBar{
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 }
 .langToggleButtonDown{
   display: inline-block;
@@ -74,7 +76,7 @@ body{
   display: inline-block;
   border: 2px outset;
   cursor: pointer;
-  box-shadow: 0 0 0 60px rgba(0,0,0,0) inset, .1em .1em .2em #888;
+  dbox-shadow: 0 0 0 60px rgba(0,0,0,0) inset, .1em .1em .2em #888;
   width:35px;
   height:19px;
 }

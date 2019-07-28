@@ -11,7 +11,7 @@ import MiddleSnapMarker from '../components/shapes/snapmarkers/MiddleSnapMarker'
 import CenterSnapMarker from '../components/shapes/snapmarkers/CenterSnapMarker';
 export const captions={
   about:{
-    name:"Author: Takhmazov Borys",
+    name:"© Takhmazov Borys, 2018-2019",
     email:"E-Mail: tboris1983@gmail.com",
   },
   title:"Geometry editor",
@@ -35,7 +35,7 @@ export const captions={
     createParabola:"Parabola",
     createHyperbola:"Hyperbola",
     createFunction:"User defined function",
-    development:"(under development)",
+    development:"(in development)",
   },
   modify:{
     crossSelect:"Partial selection",
@@ -96,7 +96,7 @@ export const captions={
     }
   },
   help:{
-    title:'Help',
+    title:'Reference',
     hotKeys:[
     {key:"Ctrl-A",desc:'Select all'},
     {key:"Del",desc:'Delete selected'},

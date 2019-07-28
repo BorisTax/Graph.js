@@ -1,4 +1,9 @@
-{  "title":"Éditeur de géométrie",
+{  
+  "about":{
+    "name":"L'Auteur: Takhmazov Borys",
+    "email":"E-Mail: tboris1983@gmail.com"
+    },
+  "title":"Éditeur de géométrie",
   "messages":{
     "deleteShapes":"Supprimer les formes sélectionnées?"
   },
