@@ -5,7 +5,6 @@ import {store} from './store/configureStore';
 import Body from './Body';
 import Login from './components/Login'
 import Register from './components/Register';
-
 export default class GeomEditor extends React.Component {
     render() {
         return <Provider store={store}>

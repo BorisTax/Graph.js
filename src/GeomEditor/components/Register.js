@@ -4,16 +4,17 @@ import {connect} from 'react-redux';
 
 class Register extends React.Component{
     render(){
+        const cap=this.props.cap;
         return <div className='modalContainer  noselect'>
                     <div id='help' className={"toolBar"}>
                         <div className={"toolBarHeader"}>
-                            <span className={"toolBarCaption"}>Registration</span>
+                            <span className={"toolBarCaption"}>{cap.title}</span>
                         </div>
                         <div className='loginInputsGroup'>
-                            <div>Nickname:<input/></div>
-                            <div>E-mail:<input/></div>
-                            <div>Password:<input/></div>
-                            <div>Password again:<input/></div>
+                            <input placeholder={cap.name}/>
+                            <input placeholder={cap.email}/>
+                            <input placeholder={cap.password} type="password"/>
+                            <input placeholder={cap.passwordAgain} type="password"/>
                         </div>
                         <input type='submit' value='OK'/>
                         <span></span>
@@ -23,7 +24,7 @@ class Register extends React.Component{
 }
 const mapStateToProps=store=>{
     return {
-        cap:store.options.captions.about
+        cap:store.options.captions.registerForm
     }
 }
 export default connect(mapStateToProps)(Register);

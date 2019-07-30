@@ -17,7 +17,7 @@ class Body extends React.Component {
             <Header/>
             <MainContainer/>
             
-            </div>
+           </div>
     }
 }
 

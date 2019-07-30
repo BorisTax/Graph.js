@@ -3,6 +3,19 @@
   "name":"Автор: Тахмазов Борис",
   "email":"E-Mail: tboris1983@gmail.com"
   },
+  "registerForm":{
+    "title":"Регистрация",
+    "name":"Имя",
+    "email":"E-Mail",
+    "password":"Пароль",
+    "passwordAgain":"Пароль снова"
+  },
+  "loginForm":{
+    "title":"Вход",
+    "name":"Имя или E-Mail",
+    "password":"Пароль",
+    "regForm":"Регистрация"
+  },
   "title":"Геометрический редактор",
   "messages":{
     "deleteShapes":"Удалить выделенные фигуры?"

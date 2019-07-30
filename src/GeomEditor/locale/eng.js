@@ -14,6 +14,19 @@ export const captions={
     name:"© Takhmazov Borys, 2018-2019",
     email:"E-Mail: tboris1983@gmail.com",
   },
+  registerForm:{
+    title:"Sign up",
+    name:"Nickname",
+    email:"E-Mail",
+    password:"Password",
+    passwordAgain:"Password again"
+  },
+  loginForm:{
+    title:"Sign in",
+    name:"Name or E-Mail",
+    password:"Password",
+    regForm:"Sign up"
+  },
   title:"Geometry editor",
   messages:{
     deleteShapes:"Delete selected shapes?"

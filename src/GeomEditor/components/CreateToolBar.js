@@ -90,7 +90,7 @@ class CreateToolBar extends React.Component{
     }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = (store,ownProps) => {
 
     return {
         context:store.screen.context,

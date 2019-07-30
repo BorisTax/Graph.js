@@ -70,6 +70,7 @@ body{
   cursor: pointer;
   width:35px;
   height:19px;
+  z-index: 101;
 }
 
 .langToggleButtonUp{
@@ -79,6 +80,7 @@ body{
   dbox-shadow: 0 0 0 60px rgba(0,0,0,0) inset, .1em .1em .2em #888;
   width:35px;
   height:19px;
+  z-index: 101;
 }
 #ru{
   background: url('images/icons/rus.png') no-repeat;
@@ -119,12 +121,12 @@ body{
   display:none;
   width:0px;
   height:0px;
-  z-index: 101;
+  z-index: 103;
 }
 .helpSectionShow{
   display:block;
   position: relative;
-  z-index: 102;
+  z-index: 103;
   width:0px;
   height:0px;
   overflow-x: scroll;
@@ -143,6 +145,7 @@ body{
 }
 .modalContainer{
   position:absolute;
+  top:0px;
   display: flex;
   flex-direction: column;
   justify-content: center;

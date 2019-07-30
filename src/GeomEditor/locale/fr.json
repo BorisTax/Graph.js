@@ -3,6 +3,19 @@
     "name":"L'Auteur: Takhmazov Borys",
     "email":"E-Mail: tboris1983@gmail.com"
     },
+    "registerForm":{
+      "title":"Créer le compte",
+      "name":"Nom",
+      "email":"E-Mail",
+      "password":"Mot de passe",
+      "passwordAgain":"Confirmation du mot de passe"
+    },
+    "loginForm":{
+      "title":"Connexion",
+      "name":"Nom ou E-Mail",
+      "password":"Mot de passe",
+      "regForm":"Créer le compte"
+    },
   "title":"Éditeur de géométrie",
   "messages":{
     "deleteShapes":"Supprimer les formes sélectionnées?"
