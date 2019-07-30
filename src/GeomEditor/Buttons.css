@@ -161,4 +161,5 @@
     height: auto;
     margin-left: 10px;
     fpadding:1px 5px;
+    z-index: 99;
 }
