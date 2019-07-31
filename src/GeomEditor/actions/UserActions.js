@@ -1,9 +1,16 @@
-export const SET_USER='SET_USER';
+export const SET_TOKEN='SET_TOKEN';
+export const LOGOUT='LOGOUT';
 
-export function setUser(user) {
+export function setToken(token) {
     return {
-        type: SET_USER,
-        payload: user,
+        type: SET_TOKEN,
+        payload: token,
+    }
+}
+export function logout(guestName) {
+    return {
+        type: LOGOUT,
+        payload:guestName
     }
 }
 
