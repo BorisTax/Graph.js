@@ -4,6 +4,6 @@ export default class Test extends React.Component{
         super();
     }
     render(props){
-        return <div><h1>Test {props}</h1></div>
+        return <div><h1>Test  {props}</h1></div>
     }
 }

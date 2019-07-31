@@ -6,9 +6,6 @@ import Circle2PCreator from '../components/shapes/shapecreators/Circle2PCreator'
 import Circle3PCreator from '../components/shapes/shapecreators/Circle3PCreator';
 import RectangleCreator from '../components/shapes/shapecreators/RectangleCreator';
 import TriangleCreator from '../components/shapes/shapecreators/TriangleCreator';
-import EndSnapMarker from '../components/shapes/snapmarkers/EndSnapMarker';
-import MiddleSnapMarker from '../components/shapes/snapmarkers/MiddleSnapMarker';
-import CenterSnapMarker from '../components/shapes/snapmarkers/CenterSnapMarker';
 export const captions={
   about:{
     name:"© Takhmazov Borys, 2018-2019",
@@ -28,11 +25,13 @@ export const captions={
     title:"Sign in",
     name:"Name or E-Mail",
     password:"Password",
-    regForm:"Sign up"
+    regForm:"Sign up",
+    loginFail:"User data incorrect"
   },
   title:"Geometry editor",
   messages:{
-    deleteShapes:"Delete selected shapes?"
+    deleteShapes:"Delete selected shapes?",
+    
   },
   create:{
     createToolBar:"Create",
@@ -58,10 +57,11 @@ export const captions={
     fullSelect:"Full selection"
   },
   snap:{snapToggleBar:"Snap",
-    snapGridPoints:"to grid points",
-    snapEndPoints: EndSnapMarker.caption,
-    snapCenterPoints: CenterSnapMarker.caption,
-    snapMiddlePoints: MiddleSnapMarker.caption},
+    snapGridPoints:"Snap to grid points",
+    snapEndPoints: "Snap to end points",
+    snapCenterPoints: "Snap to center points",
+    snapMiddlePoints: "Snap to middle points"
+  },
   showGrid:"Show grid",
   propBar:"Properties",
   noShapesSelected:"No shapes selected",

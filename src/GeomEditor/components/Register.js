@@ -3,6 +3,9 @@ import '../Graph.css';
 import {connect} from 'react-redux';
 
 class Register extends React.Component{
+    onSubmit(e){
+        e.preventDefault();
+    }
     render(){
         const cap=this.props.cap;
         return <div className='modalContainer  noselect'>
@@ -10,13 +13,14 @@ class Register extends React.Component{
                         <div className={"toolBarHeader"}>
                             <span className={"toolBarCaption"}>{cap.title}</span>
                         </div>
-                        <div className='loginInputsGroup'>
-                            <input placeholder={cap.name}/>
-                            <input placeholder={cap.email}/>
-                            <input placeholder={cap.password} type="password"/>
-                            <input placeholder={cap.passwordAgain} type="password"/>
-                        </div>
-                        <input type='submit' value='OK'/>
+                        <form onSubmit={this.onSubmit.bind(this)} className='loginForm'>
+                            <input required placeholder={cap.name}/>
+                            <input required placeholder={cap.email}/>
+                            <input required placeholder={cap.password} type="password"/>
+                            <input required placeholder={cap.passwordAgain} type="password"/>
+                            <input type='submit' value='OK'/>
+                        </form>
+                        
                         <span></span>
                     </div>
                 </div>
