@@ -15,6 +15,7 @@ class Body extends React.Component {
         return <div className={"body"}>
             {this.props.showHelp?<HelpSection/>:<></>}
             <Header/>
+            <hr/>
             <MainContainer/>
             
            </div>

@@ -16,6 +16,7 @@ body{
  position: absolute;
  width:100%;
  height:100%;
+ padding:-10px;
 }
 .header{
   display: flex;
@@ -47,7 +48,8 @@ body{
 .propertiesBar{
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: 10px;
+
   font-size: smaller; 
 }
 .propertyFieldIncorrect{
@@ -165,7 +167,11 @@ body{
   font-weight: bold;
   
 }
-
+.user{
+  font-weight: bold;
+  position: absolute;
+  right:10px;
+}
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
