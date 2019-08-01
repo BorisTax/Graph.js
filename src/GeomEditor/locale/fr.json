@@ -1,7 +1,11 @@
 {  
   "about":{
-    "name":"L'Auteur: Takhmazov Borys",
+    "name":"© Takhmazov Borys, 2018-2019",
     "email":"E-Mail: tboris1983@gmail.com"
+    },
+    "buttons":{
+      "cancel":"Annuler",
+      "logout":"Sortie"
     },
     "registerForm":{
       "title":"Créer le compte",
@@ -14,11 +18,13 @@
       "title":"Connexion",
       "name":"Nom ou E-Mail",
       "password":"Mot de passe",
-      "regForm":"Créer le compte"
+      "regForm":"Créer le compte",
+      "messages":["","Données utilisateur incorrectes","Erreur interne du serveur"]  
     },
   "title":"Éditeur de géométrie",
   "messages":{
-    "deleteShapes":"Supprimer les formes sélectionnées?"
+    "deleteShapes":"Supprimer les formes sélectionnées?",
+    "logout":"Voulez-vous sortir?"
   },
   "create":{
     "createToolBar":"Créer",

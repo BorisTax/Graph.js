@@ -1,7 +1,11 @@
 {
   "about":{
-  "name":"Автор: Тахмазов Борис",
+  "name":"© Тахмазов Борис, 2018-2019",
   "email":"E-Mail: tboris1983@gmail.com"
+  },
+  "buttons":{
+    "cancel":"Отмена",
+    "logout":"Выход"
   },
   "registerForm":{
     "title":"Регистрация",
@@ -14,11 +18,13 @@
     "title":"Вход",
     "name":"Имя или E-Mail",
     "password":"Пароль",
-    "regForm":"Регистрация"
+    "regForm":"Регистрация",
+    "messages":["","Неверные данные","Ошибка сервера"]  
   },
   "title":"Геометрический редактор",
   "messages":{
-    "deleteShapes":"Удалить выделенные фигуры?"
+    "deleteShapes":"Удалить выделенные фигуры?",
+    "logout":"Вы хотите выйти?"
   },
 "create":{
   "createToolBar": "Создать",

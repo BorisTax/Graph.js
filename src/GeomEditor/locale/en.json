@@ -1,7 +1,11 @@
 {  
   "about":{
-    "name":"Author: Takhmazov Borys",
+    "name":"© Takhmazov Borys, 2018-2019",
     "email":"E-Mail: tboris1983@gmail.com"
+    },
+    "buttons":{
+      "cancel":"Cancel",
+      "logout":"Log out"
     },
     "registerForm":{
       "title":"Registration",
@@ -14,11 +18,13 @@
       "title":"Login",
       "name":"Name or E-Mail",
       "password":"Password",
-      "regForm":"Registration"
+      "regForm":"Registration",
+      "messages":["","User data incorrect","Server internal error"]      
     },
   "title":"Geometry editor",
   "messages":{
-    "deleteShapes":"Delete selected shapes?"
+    "deleteShapes":"Delete selected shapes?",
+    "logout":"Do you want to log out?"
   },
   "create":{
     "createToolBar":"Create",

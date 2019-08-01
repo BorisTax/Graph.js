@@ -66,10 +66,10 @@ export function selectAll() {
     }
 }
 
-export function deleteSelectedShapes(message) {
+export function deleteSelectedShapes(ask) {
     return {
         type: DELETE_SELECTED_SHAPES,
-        payload:message
+        payload:{ask}
     }
 }
 export function addShape(shape){

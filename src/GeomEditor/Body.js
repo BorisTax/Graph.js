@@ -5,6 +5,7 @@ import {captions} from './locale/eng';
 import MainContainer from './components/MainContainer';
 import HelpSection from './components/HelpSection';
 import {setLanguage} from './actions/AppActions';
+import Confirm from './components/Confirm';
 
 class Body extends React.Component {
     constructor(props){
@@ -13,8 +14,9 @@ class Body extends React.Component {
     }
     render() {
         return <div className={"body"}>
-            {this.props.showHelp?<HelpSection/>:<></>}
+            {this.props.showConfirm.show?<Confirm messageKey={this.props.showConfirm.messageKey} onOk={this.props.showConfirm.okAction}/>:<></>}
             <Header/>
+            {this.props.showHelp?<HelpSection/>:<></>}
             <hr/>
             <MainContainer/>
             
@@ -25,6 +27,7 @@ class Body extends React.Component {
 const mapStateToProps = store => {
     return {
             showHelp:store.components.showHelp,
+            showConfirm:store.components.showConfirm,
     }
 };
 const mapDispatchToProps = dispatch => {

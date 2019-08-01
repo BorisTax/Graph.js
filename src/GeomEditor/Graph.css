@@ -65,6 +65,7 @@ body{
   display: flex;
   flex-direction: row;
   align-items: stretch;
+  z-index:110;
 }
 .langToggleButtonDown{
   display: inline-block;
@@ -72,17 +73,15 @@ body{
   cursor: pointer;
   width:35px;
   height:19px;
-  z-index: 101;
 }
 
 .langToggleButtonUp{
   display: inline-block;
   border: 2px outset;
   cursor: pointer;
-  dbox-shadow: 0 0 0 60px rgba(0,0,0,0) inset, .1em .1em .2em #888;
+  box-shadow: 0 0 0 60px rgba(0,0,0,0) inset, .1em .1em .2em #888;
   width:35px;
   height:19px;
-  z-index: 101;
 }
 #ru{
   background: url('images/icons/rus.png') no-repeat;

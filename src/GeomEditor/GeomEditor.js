@@ -9,7 +9,7 @@ export default class GeomEditor extends React.Component {
     render() {
         return <Provider store={store}>
             <BrowserRouter>
-                <Route exact path='/' component={Body}/>
+                <Route path='/' component={Body}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/register' component={Register}/>
             </BrowserRouter>

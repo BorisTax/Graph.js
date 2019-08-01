@@ -12,26 +12,31 @@ export const captions={
     email:"E-Mail: tboris1983@gmail.com",
   },
   user:{
-    name:"Guest"
+    name:""
+  },
+  buttons:{
+    cancel:"Cancel",
+    logout:"Log out"
   },
   registerForm:{
     title:"Sign up",
     name:"Nickname",
     email:"E-Mail",
     password:"Password",
-    passwordAgain:"Password again"
+    passwordAgain:"Password again",
+    messages:["","User already exists","E-Mail already exists","Internal server error"]
   },
   loginForm:{
     title:"Sign in",
     name:"Name or E-Mail",
     password:"Password",
     regForm:"Sign up",
-    loginFail:"User data incorrect"
+    messages:["","User data incorrect","Server internal error"]
   },
   title:"Geometry editor",
   messages:{
     deleteShapes:"Delete selected shapes?",
-    
+    logout:"Do you want to log out?"
   },
   create:{
     createToolBar:"Create",
