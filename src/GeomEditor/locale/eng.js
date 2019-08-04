@@ -31,7 +31,12 @@ export const captions={
     name:"Name or E-Mail",
     password:"Password",
     regForm:"Sign up",
-    messages:["","User data incorrect","Server internal error"]
+    messages:["","User data incorrect","User isn't activated yet","","","Server internal error"]
+  },
+  activation:{
+    title:"Activation",
+    messages:["Activation succeeded. You can now sign in with your login and password.",
+              "Activation code is incorrect or expired","","","","Server internal error"]
   },
   title:"Geometry editor",
   messages:{
