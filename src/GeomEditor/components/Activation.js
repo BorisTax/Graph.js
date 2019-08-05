@@ -29,8 +29,12 @@ class Activation extends React.Component{
             })
             .catch(e=>{console.error(e); this.setState({activated:false,logging:false,errCode:5});});
     }
+    componentWillUnmount(){
+        window.KEYDOWNHANDLE=true
+    }
     componentDidMount(){
         this.activate(this.props.match.params.id)
+        window.KEYDOWNHANDLE=false
     }
     render(){
         const cap=this.props.cap;

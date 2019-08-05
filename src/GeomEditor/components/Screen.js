@@ -53,11 +53,13 @@ export default class Screen extends React.Component {
     drag=false;lbut=0o00;mbut=0o01;
     constructor(props){
         super(props);
+        window.KEYDOWNHANDLE=true
         this.status=Screen.STATUS_FREE;
         this.snapMarkersManager =new SnapMarkersManager();
         this.shapeManager=new ShapeManager();
         this.screenWidth=props.screenWidth;
         this.screenHeight=props.screenHeight;
+        this.refCanvas=React.createRef()
         this.state={
 
         }
@@ -556,6 +558,7 @@ export default class Screen extends React.Component {
         this.setBoundedCircle();
     }
     componentDidMount() {
+        
         this.canvas=document.querySelector("#canvas");
         this.ctx=this.canvas.getContext("2d");
         this.canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
@@ -571,6 +574,7 @@ export default class Screen extends React.Component {
             this.paint(this.ctx);
         })
         window.addEventListener('keydown',(e)=>{
+            if(window.KEYDOWNHANDLE===false) return;
             this.props.keyDownHandler.forEach(key=>{
                 if(e.ctrlKey===key.ctrlKey&&e.shiftKey===key.shiftKey&&e.altKey===key.altKey&&e.keyCode===key.keyCode){
                     const param={...key.param,messages:this.props.captions.messages}
@@ -602,7 +606,7 @@ export default class Screen extends React.Component {
     }
 
     render(){
-        return <canvas id="canvas" width={this.screenWidth} height={this.screenHeight}
+        return <canvas ref={this.refCanvas} id="canvas" width={this.screenWidth} height={this.screenHeight}
                 onMouseMove={this.mmove.bind(this)}
                 onMouseDown={this.mdown.bind(this)}
                 onMouseUp={this.mup.bind(this)}

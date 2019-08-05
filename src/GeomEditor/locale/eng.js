@@ -24,14 +24,16 @@ export const captions={
     email:"E-Mail",
     password:"Password",
     passwordAgain:"Password again",
-    messages:["","User already exists","E-Mail already exists","Internal server error"]
+    serverMessages:["","User already exists","E-Mail already exists","Internal server error"],
+    inputMessages:["Name length too short (4 char at least)","Name can contain only letters, digits and _",
+                    "Password too short (6 char at least)","Passwords aren't equal","E-mail format incorrect"]
   },
   loginForm:{
     title:"Sign in",
     name:"Name or E-Mail",
     password:"Password",
     regForm:"Sign up",
-    messages:["","User data incorrect","User isn't activated yet","","","Server internal error"]
+    messages:["Registration succeeded. Please activate your account by link sent on your e-mail","User data incorrect","User isn't activated yet","","","Internal error"]
   },
   activation:{
     title:"Activation",

@@ -38,6 +38,12 @@ class Login extends React.Component{
             })
             .catch(e=>{console.error(e); this.setState({correct:false,logging:false,errCode:3});});
     }
+    componentWillUnmount(){
+        window.KEYDOWNHANDLE=true
+    }
+    componentDidMount(){
+        window.KEYDOWNHANDLE=false
+    }
     render(){
         const cap=this.props.cap;
         return <div className='modalContainer noselect'>

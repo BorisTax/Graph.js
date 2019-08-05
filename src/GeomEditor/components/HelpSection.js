@@ -21,6 +21,7 @@ class HelpSection extends React.Component{
     }
     componentWillUnmount(){
         clearInterval(this.t);
+        window.KEYDOWNHANDLE=true
     }
     componentDidMount(){
         this.maxw=document.body.clientWidth/1.1;
@@ -28,6 +29,7 @@ class HelpSection extends React.Component{
         this.w=0;
         this.h=0;
         this.t=setInterval(this.animate,1);
+        window.KEYDOWNHANDLE=false
     }
     render(){
         const keys=this.props.captions.help.hotKeys.map((item,i)=><Fragment key={i}><span className='helpHotKey'>{item.key} </span> - {item.desc}<br/></Fragment>);

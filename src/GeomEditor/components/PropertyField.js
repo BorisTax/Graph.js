@@ -16,6 +16,7 @@ class PropertyField extends React.Component{
     }
     blur(){
         this.setState({value:this.state.originValue})
+        window.KEYDOWNHANDLE=true
     }
     onKeyPress(e){
         if(e.charCode===13){
@@ -48,6 +49,7 @@ class PropertyField extends React.Component{
                     onKeyPress={this.onKeyPress.bind(this)}
                     onKeyDown={(e)=>{e.stopPropagation()}}
                     onBlur={this.blur.bind(this)}
+                    onFocus={()=>{window.KEYDOWNHANDLE=false}}
                     />
         </div>
     }
