@@ -14,7 +14,7 @@ class User extends React.Component{
             <NavLink to="/login"><span className="link">{this.props.cap.loginForm.title}</span></NavLink>
             <NavLink to="/register"><span className="link">{this.props.cap.registerForm.title}</span></NavLink>
             </>
-            :<NavLink onClick={this.logout.bind(this)}><span className="link">{this.props.cap.buttons.logout}</span></NavLink>
+            :<NavLink to='/' onClick={this.logout.bind(this)}><span className="link">{this.props.cap.buttons.logout}</span></NavLink>
         return <div className="user noselect">
             {this.props.user.name?this.props.user.name:''}
             

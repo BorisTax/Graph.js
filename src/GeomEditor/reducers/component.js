@@ -2,13 +2,14 @@
 import {SET_ACTIVE_SNAP_BUTTON,CLEAR_ACTIVE_SNAP_BUTTON} from "../actions/ComponentActions";
 import {SET_ACTIVE_CREATE_BUTTON,SET_ACTIVE_LANG_BUTTON} from "../actions/ComponentActions";
 import {SET_STATUS, DELETE_SELECTED_SHAPES, deleteSelectedShapes} from "../actions/ScreenActions";
-import {SHOW_HELP, SHOW_CONFIRM} from '../actions/AppActions';
+import {SHOW_HELP, SHOW_CONFIRM, SHOW_ALERT} from '../actions/AppActions';
 const initialState={
     activeLangButton:"en",
     defaultLang:"en",
     activeSnapButtons:new Set(),
     showHelp:false,
     showConfirm:{show:false,message:""},
+    showAlert:{show:false,message:""}
 }
 export function componentReducer(state=initialState,action) {
     let newState={...state};
@@ -34,6 +35,8 @@ export function componentReducer(state=initialState,action) {
             return {...state,showHelp:data};  
         case SHOW_CONFIRM:
             return {...state,showConfirm:data};  
+        case SHOW_ALERT:
+            return {...state,showAlert:data}; 
         case DELETE_SELECTED_SHAPES:
             if(data.ask) return{...state,showConfirm:{show:true,messageKey:"deleteShapes",okAction:deleteSelectedShapes.bind(null,false)}}    
              else return state; 

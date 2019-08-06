@@ -3,6 +3,7 @@ export const SET_LANGUAGE='SET_LANGUAGE';
 export const REQUEST_LANGUAGE='REQUEST_LANGUAGE';
 export const SHOW_HELP='SHOW_HELP';
 export const SHOW_CONFIRM='SHOW_CONFIRM';
+export const SHOW_ALERT='SHOW_ALERT';
 
 export function setLanguage(captions) {
     return {
@@ -34,6 +35,12 @@ export function showConfirm(show,messageKey,okAction){
     return {
         type:SHOW_CONFIRM,
         payload:{show,messageKey,okAction}
+    }
+}
+export function showAlert(show,messageKey){
+    return {
+        type:SHOW_ALERT,
+        payload:{show,messageKey}
     }
 }
 

@@ -8,7 +8,7 @@ class Login extends React.Component{
         super();
         this.refName=React.createRef();
         this.refPass=React.createRef();
-        this.state={correct:true,logging:false,errCode:0}
+        this.state={correct:true,logging:false,errCode:0,showPass:false}
     }
     onRegClick(){
         this.props.history.push('/register')
@@ -46,6 +46,7 @@ class Login extends React.Component{
     }
     render(){
         const cap=this.props.cap;
+        const showPass=this.state.showPass?"text":"password"
         return <div className='modalContainer noselect'>
                     <div id='help' className={"toolBar"}>
                         <div className={"toolBarHeader"}>
@@ -53,11 +54,12 @@ class Login extends React.Component{
                         </div>
                         <form onSubmit={this.onSubmit.bind(this)} className='loginForm'>
                             <input name="nameOrEmail" ref={this.refName} required placeholder={cap.loginForm.name}/>
-                            <input name="password" ref={this.refPass} required placeholder={cap.loginForm.password} type="password"/>
+                            <input name="password" ref={this.refPass} required placeholder={cap.loginForm.password} type={showPass}/>
                             <input type='submit' value='OK'/>
                             <input type='button' value={cap.loginForm.regForm} onClick={this.onRegClick.bind(this)}/>
                             <input type='button' value={cap.buttons.cancel} onClick={this.cancel.bind(this)}/>
                         </form>
+                    <div><input type="checkbox" onChange={(e)=>{this.setState({showPass:e.target.checked})}}/><span>{cap.buttons.showPass}</span></div>
                     {this.state.correct===false?<span className="errorMessage">{cap.loginForm.messages[this.state.errCode]}</span>:<></>}
                     {this.state.logging?'Logging...':<></>}
                     </div>

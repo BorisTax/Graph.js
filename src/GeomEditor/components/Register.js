@@ -2,6 +2,8 @@ import React from 'react';
 import '../Graph.css';
 import {connect} from 'react-redux';
 import options from '../config'
+import Spinner from './Spinner';
+import { showAlert } from '../actions/AppActions';
 
 class Register extends React.Component{
     constructor(){
@@ -10,7 +12,7 @@ class Register extends React.Component{
         this.refEmail=React.createRef()
         this.refPass1=React.createRef()
         this.refPass2=React.createRef()
-        this.state={correct:false,message:"",registering:false}
+        this.state={correct:false,message:"",fetching:false,showPass:false}
     }
     check(name,email,pass1,pass2){
         const cap=this.props.cap.registerForm;
@@ -36,11 +38,15 @@ class Register extends React.Component{
                     body:JSON.stringify({name:name,email:email,password:pass1})})
                     .then(res=>res.json())
                     .then(res=>{
-                        this.setState({correct:res.registered,message:cap.serverMessages[res.errCode]})
+                        if(res.registered) {
+                            this.props.showAlert('regSucceed');
+                            this.props.history.push('/');
+                        }
+                        this.setState({correct:res.registered,fetching:false,message:cap.serverMessages[res.errCode]})
                     })
-                    .catch(err=>{this.setState({correct:false,message:cap.serverMessages[5]})})
+                    .catch(err=>{this.setState({correct:false,fetching:false,message:cap.serverMessages[5]})})
         }
-        this.setState(state);
+        this.setState({...state,fetching:true});
         e.preventDefault();
     }
     cancel(){
@@ -54,6 +60,7 @@ class Register extends React.Component{
     }
     render(){
         const cap=this.props.cap;
+        const showPass=this.state.showPass?"text":"password"
         return <div className='modalContainer noselect'>
                     <div id='help' className={"toolBar"}>
                         <div className={"toolBarHeader"}>
@@ -62,12 +69,13 @@ class Register extends React.Component{
                         <form onSubmit={this.onSubmit.bind(this)} className='loginForm'>
                             <input required ref={this.refName} placeholder={cap.registerForm.name}/>
                             <input required ref={this.refEmail} placeholder={cap.registerForm.email} type="email"/>
-                            <input required ref={this.refPass1} placeholder={cap.registerForm.password} type="password"/>
-                            <input required ref={this.refPass2} placeholder={cap.registerForm.passwordAgain} type="password"/>
+                            <input required ref={this.refPass1} placeholder={cap.registerForm.password} type={showPass}/>
+                            <input required ref={this.refPass2} placeholder={cap.registerForm.passwordAgain} type={showPass}/>
                             <input type='submit' value='OK'/>
                             <input type='button' value={cap.buttons.cancel} onClick={this.cancel.bind(this)}/>
                         </form>
-                        
+                        <input type="checkbox" onChange={(e)=>{this.setState({showPass:e.target.checked})}}/><span>{cap.buttons.showPass}</span>
+                        {this.state.fetching?<Spinner/>:<></>}
                         {!this.state.correct?<span className="errorMessages">{this.state.message}</span>:<></>}
                     </div>
                 </div>
@@ -78,4 +86,9 @@ const mapStateToProps=store=>{
         cap:store.options.captions
     }
 }
-export default connect(mapStateToProps)(Register);
+const mapDispatchToProps=dispatch=>{
+    return {
+        showAlert:(messageKey)=>dispatch(showAlert(true,messageKey))
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Register);

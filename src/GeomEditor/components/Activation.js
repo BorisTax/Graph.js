@@ -2,6 +2,7 @@ import React from 'react';
 import '../Graph.css';
 import {connect} from 'react-redux';
 import options from '../config';
+import Spinner from './Spinner';
 
 class Activation extends React.Component{
     constructor(){
@@ -46,7 +47,7 @@ class Activation extends React.Component{
                             <span className={"toolBarCaption"}>{cap.activation.title}</span>
                         </div>
                         
-                        {this.state.logging?<div className="spinner"></div>: 
+                        {this.state.logging?<Spinner/>: 
                         <div>   
                          <div>{text}</div>
                          <input type='button' value={cap.loginForm.title} onClick={this.onLoginClick.bind(this)}/>

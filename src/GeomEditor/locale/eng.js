@@ -16,7 +16,8 @@ export const captions={
   },
   buttons:{
     cancel:"Cancel",
-    logout:"Log out"
+    logout:"Log out",
+    showPass:"Show password"
   },
   registerForm:{
     title:"Sign up",
@@ -24,7 +25,7 @@ export const captions={
     email:"E-Mail",
     password:"Password",
     passwordAgain:"Password again",
-    serverMessages:["","User already exists","E-Mail already exists","Internal server error"],
+    serverMessages:["","User already exists","E-Mail already exists","","","Internal server error"],
     inputMessages:["Name length too short (4 char at least)","Name can contain only letters, digits and _",
                     "Password too short (6 char at least)","Passwords aren't equal","E-mail format incorrect"]
   },
@@ -33,7 +34,7 @@ export const captions={
     name:"Name or E-Mail",
     password:"Password",
     regForm:"Sign up",
-    messages:["Registration succeeded. Please activate your account by link sent on your e-mail","User data incorrect","User isn't activated yet","","","Internal error"]
+    messages:["Registration succeeded. Please activate your account by link sent on your e-mail","User data incorrect","User isn't activated yet","","","Internal server error. Please try again"]
   },
   activation:{
     title:"Activation",
@@ -43,7 +44,8 @@ export const captions={
   title:"Geometry editor",
   messages:{
     deleteShapes:"Delete selected shapes?",
-    logout:"Do you want to log out?"
+    logout:"Do you want to log out?",
+    regSucceed:"Registration succeeded. Please check you mailbox to activate account"
   },
   create:{
     createToolBar:"Create",
