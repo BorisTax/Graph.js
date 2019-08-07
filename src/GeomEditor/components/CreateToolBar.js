@@ -37,9 +37,10 @@ class CreateToolBar extends React.Component{
                  <div className={"toolBarHeader"}>
                     <span className={"toolBarCaption noselect"}>{cap.createToolBar}</span>
                 </div>
-                <div style={{display:"flex",justifyContent:"flex-start",alignItems:"center",position:"relative",left:-7}}>
-                    <input type="checkbox" onChange={(e)=>{this.props.setCyclicFlag(e.target.checked)}}/>
-                    <span style={{fontSize:"small"}}>{cap.createCheckBox}</span>
+                <hr/>
+                <div className="checkbox">
+                    <input type="checkbox" id="cyclic" onChange={(e)=>{this.props.setCyclicFlag(e.target.checked)}}/>
+                    <label htmlFor="cyclic">{cap.createCheckBox}</label>
                 </div>
             <ToolButtonGroup 
                                 buttons={[{title:cap.createSLine2Points,id:"SLine",params:{creator:StraightLineCreator}},

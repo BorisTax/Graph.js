@@ -1,10 +1,10 @@
 export const SET_TOKEN='SET_TOKEN';
 export const LOGOUT='LOGOUT';
 
-export function setToken(token) {
+export function setToken(token,remember) {
     return {
         type: SET_TOKEN,
-        payload: token,
+        payload: {token,remember},
     }
 }
 export function logout() {

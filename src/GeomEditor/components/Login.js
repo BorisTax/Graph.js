@@ -1,19 +1,22 @@
 import React from 'react';
 import '../Graph.css';
+import '../Buttons.css';
 import {connect} from 'react-redux';
 import { setToken } from '../actions/UserActions';
 import options from '../config'
+import Spinner from './Spinner';
 class Login extends React.Component{
     constructor(){
         super();
         this.refName=React.createRef();
         this.refPass=React.createRef();
-        this.state={correct:true,logging:false,errCode:0,showPass:false}
+        this.state={correct:true,logging:false,errCode:0,showPass:false,remember:false}
     }
     onRegClick(){
         this.props.history.push('/register')
     }
     onSubmit(e){
+        if(this.state.logging)return;
         const name=this.refName.current.value;
         const pass=this.refPass.current.value;
         this.requestLogin(name,pass);
@@ -32,7 +35,7 @@ class Login extends React.Component{
             .then(res=>{
                 this.setState({correct:res.success,logging:false,errCode:res.errCode});
                 if(res.success===true) {
-                    this.props.setToken(res.token);
+                    this.props.setToken(res.token,this.state.remember);
                     this.props.history.push('/');
                 }
             })
@@ -43,12 +46,16 @@ class Login extends React.Component{
     }
     componentDidMount(){
         window.KEYDOWNHANDLE=false
+        this.ref.style.overflow="hidden"
+        this.ref.style.width="0px"
+        this.ref.style.transition="width 200ms linear"
+        setTimeout(()=>{this.ref.style.width="200px"},10)
     }
     render(){
         const cap=this.props.cap;
         const showPass=this.state.showPass?"text":"password"
         return <div className='modalContainer noselect'>
-                    <div id='help' className={"toolBar"}>
+                    <div ref={(ref)=>{this.ref=ref}}className={"toolBar"}>
                         <div className={"toolBarHeader"}>
                             <span className={"toolBarCaption"}>{cap.loginForm.title}</span>
                         </div>
@@ -59,9 +66,16 @@ class Login extends React.Component{
                             <input type='button' value={cap.loginForm.regForm} onClick={this.onRegClick.bind(this)}/>
                             <input type='button' value={cap.buttons.cancel} onClick={this.cancel.bind(this)}/>
                         </form>
-                    <div><input type="checkbox" onChange={(e)=>{this.setState({showPass:e.target.checked})}}/><span>{cap.buttons.showPass}</span></div>
+                        <div className="checkbox">
+                            <input type="checkbox" id="show" onChange={(e)=>{this.setState({showPass:e.target.checked})}}/>
+                            <label htmlFor="show">{cap.buttons.showPass}</label>
+                        </div>
+                        <div className="checkbox">
+                            <input type="checkbox" id="remember" onChange={(e)=>{this.setState({remember:e.target.checked})}}/>
+                            <label htmlFor="remember">{cap.loginForm.rememberMe}</label>
+                        </div>
                     {this.state.correct===false?<span className="errorMessage">{cap.loginForm.messages[this.state.errCode]}</span>:<></>}
-                    {this.state.logging?'Logging...':<></>}
+                    <div className="flexCenter">{this.state.logging?<Spinner/>:<></>}</div>
                     </div>
                 </div>
     }

@@ -9,8 +9,10 @@ class Alert extends React.Component{
         return <div className='modalContainer  noselect'>
                     <div className={"toolBar"}>
                         <div>{this.props.captions.messages[this.props.messageKey]}</div>
+                        <div className="flexCenter">
                         <button onClick={()=>{
                             this.props.hideAlert()}}>OK</button>
+                        </div>    
                     </div>
                 </div>
     }

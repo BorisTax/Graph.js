@@ -57,12 +57,16 @@ class Register extends React.Component{
     }
     componentDidMount(){
         window.KEYDOWNHANDLE=false
+        this.ref.style.overflow="hidden"
+        this.ref.style.width="0px"
+        this.ref.style.transition="width 200ms linear"
+        setTimeout(()=>{this.ref.style.width="200px"},10)
     }
     render(){
         const cap=this.props.cap;
         const showPass=this.state.showPass?"text":"password"
         return <div className='modalContainer noselect'>
-                    <div id='help' className={"toolBar"}>
+                    <div ref={(ref)=>{this.ref=ref}} className={"toolBar center"}>
                         <div className={"toolBarHeader"}>
                             <span className={"toolBarCaption"}>{cap.registerForm.title}</span>
                         </div>
@@ -74,8 +78,10 @@ class Register extends React.Component{
                             <input type='submit' value='OK'/>
                             <input type='button' value={cap.buttons.cancel} onClick={this.cancel.bind(this)}/>
                         </form>
-                        <input type="checkbox" onChange={(e)=>{this.setState({showPass:e.target.checked})}}/><span>{cap.buttons.showPass}</span>
-                        {this.state.fetching?<Spinner/>:<></>}
+                        <div className="checkbox">
+                        <input type="checkbox" id="show" onChange={(e)=>{this.setState({showPass:e.target.checked})}}/><label htmlFor="show">{cap.buttons.showPass}</label>
+                        </div>
+                        <div className="flexCenter">{this.state.fetching?<Spinner/>:<></>}</div>
                         {!this.state.correct?<span className="errorMessages">{this.state.message}</span>:<></>}
                     </div>
                 </div>

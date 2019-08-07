@@ -19,10 +19,11 @@
                     "Password too short (6 char at least)","Passwords aren't equal","E-mail format incorrect"]
     },
     "loginForm":{
-      "title":"Login",
+      "title":"Sign in",
       "name":"Name or E-Mail",
       "password":"Password",
       "regForm":"Sign Up",
+      "rememberMe":"Remember me on this device",
       "messages":["","User data incorrect","","","","Server internal error"]      
     },
     "activation":{

@@ -34,6 +34,7 @@ export const captions={
     name:"Name or E-Mail",
     password:"Password",
     regForm:"Sign up",
+    rememberMe:"Remember me on this device",
     messages:["","User data incorrect","User isn't activated yet","","","Internal server error. Please try again"]
   },
   activation:{

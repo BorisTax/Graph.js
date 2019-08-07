@@ -23,6 +23,7 @@
       "name":"Nom ou E-Mail",
       "password":"Mot de passe",
       "regForm":"Créer le compte",
+      "rememberMe":"Souvenir de moi sur cet appareil",
       "messages":["","Données utilisateur incorrectes","L'utilisateur n'est pas encore activé","","","Erreur interne du serveur"]  
     },
     "activation":{

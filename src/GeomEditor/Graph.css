@@ -1,10 +1,15 @@
 html{
   height:100vh;
+  overflow: hidden;
 }
 body{
   background-color: whitesmoke;
   background-image: url("images/background.png");
   min-height:100%;
+}
+hr{
+  margin-bottom: 5px;
+  margin-top: 0px;
 }
 .screenContainer{
   position:absolute;
@@ -107,8 +112,8 @@ body{
 .toolBarHeader{
   display: flex;
   justify-content: center;
-  border:1px dashed;
-  
+  font-weight: bold;
+  font-size: small;
 }
 #canvas{
   position: absolute;
@@ -189,7 +194,11 @@ body{
   background-size: cover;
   animation: rotation infinite 1s linear;
 }
-
+.flexCenter{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
