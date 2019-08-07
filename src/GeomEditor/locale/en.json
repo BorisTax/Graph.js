@@ -5,26 +5,36 @@
     },
     "buttons":{
       "cancel":"Cancel",
-      "logout":"Log out"
+      "logout":"Log out",
+      "showPass":"Show password"
     },
     "registerForm":{
-      "title":"Registration",
+      "title":"Sign Up",
       "name":"Nickname",
       "email":"E-Mail",
       "password":"Password",
-      "passwordAgain":"Password again"
+      "passwordAgain":"Password again",
+      "serverMessages":["","User already exists","E-Mail already exists","","","Internal server error"],
+      "inputMessages":["Name length too short (4 char at least)","Name can contain only letters, digits and _",
+                    "Password too short (6 char at least)","Passwords aren't equal","E-mail format incorrect"]
     },
     "loginForm":{
       "title":"Login",
       "name":"Name or E-Mail",
       "password":"Password",
-      "regForm":"Registration",
-      "messages":["","User data incorrect","Server internal error"]      
+      "regForm":"Sign Up",
+      "messages":["","User data incorrect","","","","Server internal error"]      
+    },
+    "activation":{
+      "title":"Activation",
+      "messages":["Activation succeeded. You can now sign in with your login and password.",
+                "Activation code is incorrect or expired","","","","Server internal error"]
     },
   "title":"Geometry editor",
   "messages":{
     "deleteShapes":"Delete selected shapes?",
-    "logout":"Do you want to log out?"
+    "logout":"Do you want to log out?",
+    "regSucceed":"Registration succeeded. Please check you mailbox to activate account"
   },
   "create":{
     "createToolBar":"Create",

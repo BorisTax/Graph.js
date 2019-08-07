@@ -34,7 +34,7 @@ export const captions={
     name:"Name or E-Mail",
     password:"Password",
     regForm:"Sign up",
-    messages:["Registration succeeded. Please activate your account by link sent on your e-mail","User data incorrect","User isn't activated yet","","","Internal server error. Please try again"]
+    messages:["","User data incorrect","User isn't activated yet","","","Internal server error. Please try again"]
   },
   activation:{
     title:"Activation",

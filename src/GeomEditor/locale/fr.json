@@ -5,26 +5,36 @@
     },
     "buttons":{
       "cancel":"Annuler",
-      "logout":"Sortie"
+      "logout":"Sortie",
+      "showPass":"Montrer le mot de passe"
     },
     "registerForm":{
       "title":"Créer le compte",
       "name":"Nom",
       "email":"E-Mail",
       "password":"Mot de passe",
-      "passwordAgain":"Confirmation du mot de passe"
+      "passwordAgain":"Confirmation du mot de passe",
+      "serverMessages":["","Ce nom d'utilisateur existe déjà","Ce E-Mail d'utilisateur existe déjà","","","Erreur interne du serveur"],
+      "inputMessages":["Longueur du nom trop courte (4 caractères au moins)","Le nom ne peut contenir que des lettres, des chiffres et _",
+                    "Mot de passe trop court (6 caractères au moins)","Les mots de passe ne sont pas égaux","Format de courrier électronique incorrect"]
     },
     "loginForm":{
       "title":"Connexion",
       "name":"Nom ou E-Mail",
       "password":"Mot de passe",
       "regForm":"Créer le compte",
-      "messages":["","Données utilisateur incorrectes","Erreur interne du serveur"]  
+      "messages":["","Données utilisateur incorrectes","L'utilisateur n'est pas encore activé","","","Erreur interne du serveur"]  
+    },
+    "activation":{
+      "title":"Activation",
+      "messages":["L'activation a réussi. Vous pouvez maintenant vous connecter avec votre identifiant et votre mot de passe.",
+                "Le code d'activation est incorrect ou a expiré","","","","Erreur interne du serveur"]
     },
   "title":"Éditeur de géométrie",
   "messages":{
     "deleteShapes":"Supprimer les formes sélectionnées?",
-    "logout":"Voulez-vous sortir?"
+    "logout":"Voulez-vous sortir?",
+    "regSucceed":"L'inscription a réussi. Veuillez vérifier votre mail pour activer votre compte"
   },
   "create":{
     "createToolBar":"Créer",
