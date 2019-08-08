@@ -87,7 +87,7 @@ const mapStateToProps=(store)=>{
 }
 const mapDispatchToProps=dispatch=>{
     return{
-        setToken:token=>{dispatch(setToken(token))}
+        setToken:(token,remember)=>{dispatch(setToken(token,remember))}
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Login);
