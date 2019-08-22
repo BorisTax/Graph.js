@@ -10,6 +10,7 @@ export default class Circle2PCreator extends AbstractCreator{
      static caption="Circle by 2 points";
      constructor(style){
         super()
+        this.name="Circle2PCreator"
         this.style=style;
         this.circle=new Circle(new Coord2D(),0);
         this.shape=new CircleShape(this.circle);

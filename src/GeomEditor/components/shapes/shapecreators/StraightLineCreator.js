@@ -9,6 +9,7 @@ export default class StraightLineCreator extends AbstractCreator{
     static caption="Straight line";
     constructor(style){
         super()
+        this.name="StraightLineCreator"
         this.points=new Array(2);
         this.points[0]=new Coord2D();
         this.points[1]=new Coord2D();

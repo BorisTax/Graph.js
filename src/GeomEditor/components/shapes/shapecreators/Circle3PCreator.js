@@ -9,6 +9,7 @@ export default class Circle3PCreator extends AbstractCreator{
     static caption="Circle by 3 points";
     constructor(style){
         super()
+        this.name="Circle3PCreator"
         this.style=style;
         this.circle=new Circle(new Coord2D(),0);
         this.shape=new CircleShape(this.circle);

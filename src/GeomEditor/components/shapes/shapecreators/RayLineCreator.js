@@ -9,6 +9,7 @@ export default class RayLineCreator extends AbstractCreator{
     static caption="Ray line";
     constructor(style){
         super()
+        this.name="RayLineCreator"
         this.line=new RLine(new Coord2D(),new Coord2D());
         this.points=new Array(2);
         this.boundedCircle=new Circle();

@@ -9,6 +9,7 @@ export default class TriangleCreator extends AbstractCreator{
      static caption="Triangle";
      constructor(style){
         super()
+        this.name="TriangleCreator"
         this.style=style;
         this.triangle=new Triangle();
         this.shape=new TriangleShape(this.triangle);

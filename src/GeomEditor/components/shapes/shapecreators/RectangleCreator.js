@@ -11,6 +11,7 @@ export default class RectangleCreator extends AbstractCreator{
     points=new Array(2);
     constructor(style){
         super()
+        this.name="RectangleCreator"
         this.style=style;
         this.shape=new RectangleShape(this.rectangle);
         this.shape.setStyle(style);

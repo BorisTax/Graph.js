@@ -10,6 +10,7 @@ export default class CircleCRCreator extends AbstractCreator{
     static caption="Circle by center";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID)){
         super()
+        this.name="CircleCRCreator"
         this.points=new Array(2);
         this.circle=new Circle(new Coord2D(),0);
         this.boundedCircle=new Circle();

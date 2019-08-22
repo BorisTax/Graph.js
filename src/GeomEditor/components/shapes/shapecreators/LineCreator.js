@@ -9,6 +9,7 @@ export default class LineCreator extends AbstractCreator{
     static caption="Segment line";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID)){
         super()
+        this.name="LineCreator"
         this.line=new Line(new Coord2D(),new Coord2D());
         this.boundedCircle=new Circle(new Coord2D(),0);
         this.points=[new Coord2D(),new Coord2D()];

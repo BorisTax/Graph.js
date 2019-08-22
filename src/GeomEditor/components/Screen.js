@@ -222,8 +222,8 @@ export default class Screen extends React.Component {
         this.shapeCreator.refresh(this.boundedCircle);
         this.curShape=null;//this.shapeCreator.getShape();
         this.curHelperShapes=null;//this.shapeCreator.getHelperShapes();
-        this.currentShape=this.props.captions.creators[this.shapeCreator.constructor.name].description;
-        this.creationStep=this.props.captions.creators[this.shapeCreator.constructor.name].steps[this.shapeCreator.getCurrentStep()];
+        this.currentShape=this.props.captions.creators[this.shapeCreator.getName()].description;
+        this.creationStep=this.props.captions.creators[this.shapeCreator.getName()].steps[this.shapeCreator.getCurrentStep()];
         this.status=Screen.STATUS_CREATE;
         this.cursor=new DrawCursor(this.curCoord);
     };
@@ -513,7 +513,7 @@ export default class Screen extends React.Component {
             if(this.status===Screen.STATUS_CREATE||this.status===Screen.STATUS_DRAWING){
                 let ctx=document.querySelector("#canvas").getContext("2d");
                 this.shapeCreator.setNextPoint(this.curCoord);
-                this.creationStep=this.props.captions.creators[this.shapeCreator.constructor.name].steps[this.shapeCreator.getCurrentStep()];
+                this.creationStep=this.props.captions.creators[this.shapeCreator.getName()].steps[this.shapeCreator.getCurrentStep()];
                 this.status=Screen.STATUS_DRAWING;
                 this.props.actions.setScreenStatus(Screen.STATUS_DRAWING);
                 if(!this.shapeCreator.isNext())

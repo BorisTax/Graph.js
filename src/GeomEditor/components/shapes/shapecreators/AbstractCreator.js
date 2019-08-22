@@ -27,4 +27,7 @@ export default class AbstractCreator {
     getCurrentStep(){
         return this.i;
     }
+    getName(){
+        return this.name;
+    }
 }
