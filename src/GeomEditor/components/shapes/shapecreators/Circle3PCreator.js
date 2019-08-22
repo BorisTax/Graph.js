@@ -4,9 +4,11 @@ import TriangleShape from "../TriangleShape";
 import ShapeStyle from "../ShapeStyle";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-export default class Circle3PCreator{
+import AbstractCreator from "./AbstractCreator";
+export default class Circle3PCreator extends AbstractCreator{
     static caption="Circle by 3 points";
     constructor(style){
+        super()
         this.style=style;
         this.circle=new Circle(new Coord2D(),0);
         this.shape=new CircleShape(this.circle);
@@ -22,13 +24,9 @@ export default class Circle3PCreator{
         this.helperShapes[2].setStyle(new ShapeStyle(Color.blue,ShapeStyle.SOLID));
         this.helperShapes[3].setStyle(new ShapeStyle(Color.blue,ShapeStyle.SOLID));
         this.points=new Array(3);
-        this.i=0;
     }
-    isNext(){
-        return (this.i<this.points.length);
-    }
-    setCurrent(point){
 
+    setCurrent(point){
         if(!this.isNext()) return;
         this.points[this.i]=point;
         if(this.i===0)this.points[1]=this.points[0];
@@ -39,20 +37,7 @@ export default class Circle3PCreator{
         this.shape.setStyle(this.style);
         this.setControlPoints();
     }
-    next(){
-        if(!this.isNext()) return;
-        this.i++;
-    }
-    getShape(){
-        return this.shape;
-    }
-    getHelperShapes(){
-        return this.helperShapes;
-    }
-    setNextPoint(p){
-        this.setCurrent(p);
-        this.i++;
-    }
+
     setControlPoints(){
         this.helperShapes[0]=new TriangleShape(new Triangle(this.points));
         this.helperShapes[1]=new CircleShape(new Circle(this.points[0],this.boundedCircle.radius* Screen.MARKER_SIZE));
@@ -68,21 +53,5 @@ export default class Circle3PCreator{
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();
     }
-    setStyle(style){
-        this.style=style;
-    }
-    getPointDescription(){
-        let s="";
-        switch(this.i){
-            case 0:s="first";break;
-            case 1:s="second";break;
-            case 2:s="third";break;
-            default:
-        }
 
-        return "Select "+s+" point";
-    }
-    getShapeDescription(){
-        return Circle3PCreator.caption;
-    }
 }

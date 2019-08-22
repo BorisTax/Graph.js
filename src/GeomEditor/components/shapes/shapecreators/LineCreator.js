@@ -4,10 +4,11 @@ import ShapeStyle from '../ShapeStyle';
 import {Line,Coord2D,Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-export default class LineCreator{
+import AbstractCreator from './AbstractCreator';
+export default class LineCreator extends AbstractCreator{
     static caption="Segment line";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID)){
-        this.i=0;
+        super()
         this.line=new Line(new Coord2D(),new Coord2D());
         this.boundedCircle=new Circle(new Coord2D(),0);
         this.points=[new Coord2D(),new Coord2D()];
@@ -17,9 +18,6 @@ export default class LineCreator{
         this.helperShapes=[];
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
-    }
-    isNext(){
-        return (this.i<this.points.length);
     }
     setCurrent(point){
         if(!this.isNext()) return;
@@ -36,32 +34,5 @@ export default class LineCreator{
         this.helperShapes[0].setColor(Color.BLUE);
         this.helperShapes[1].setColor(Color.BLUE);
     }
-    next(){
-        if(!this.isNext()) return;
-        this.i++;
-    }
-    getShape(){
-        return this.shape;
-    }
-    getHelperShapes(){
-        return this.helperShapes;
-    }
-    setNextPoint(p){
-        this.setCurrent(p);
-        this.i++;
-    }
     reset(){return new LineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
-    refresh(boundedCircle){
-        this.boundedCircle=boundedCircle;
-        if(this.points[this.i]!=null) this.setControlPoints();
-    }
-    getPointDescription(){
-        let s="";
-        if (this.i===0) s="first";else s="last";
-
-        return "Select "+s+" point";
-    }
-    getShapeDescription(){
-        return "Segment line";
-    }
 }

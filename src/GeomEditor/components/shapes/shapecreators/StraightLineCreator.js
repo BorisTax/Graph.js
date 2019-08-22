@@ -4,10 +4,11 @@ import ShapeStyle from '../ShapeStyle';
 import {SLine,Coord2D, Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-export default class StraightLineCreator {
+import AbstractCreator from './AbstractCreator';
+export default class StraightLineCreator extends AbstractCreator{
     static caption="Straight line";
     constructor(style){
-        this.i=0;
+        super()
         this.points=new Array(2);
         this.points[0]=new Coord2D();
         this.points[1]=new Coord2D();
@@ -25,9 +26,6 @@ export default class StraightLineCreator {
         this.helperShapes[0].setColor(Color.BLUE);
         this.helperShapes[1].setColor(Color.BLUE);
     }
-    isNext(){
-        return (this.i<this.points.length);
-    }
     setCurrent(point){
         if(!this.isNext()) return;
         this.points[this.i]=point;
@@ -37,30 +35,5 @@ export default class StraightLineCreator {
         this.shape.setStyle(this.style);
         this.setControlPoints();
     }
-    next(){
-        if(!this.isNext()) return;
-        this.i++;
-    }
-    getShape(){
-        return this.shape;
-    }
-    getHelperShapes(){
-        return this.helperShapes;
-    }
-    setNextPoint(p){
-        this.points[this.i++]=p;
-    }
     reset(){return new StraightLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
-    refresh(boundedCircle){
-        this.boundedCircle=boundedCircle;
-        if(this.points[this.i]!=null) this.setControlPoints();
-    }
-    getPointDescription(){
-        let s="";
-        if (this.i===0) s="first";else s="second";
-        return `Select ${s} point`;
-    }
-    getShapeDescription(){
-        return "Straight line";
-    }
 }

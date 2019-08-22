@@ -5,9 +5,11 @@ import Geometry from "../../../utils/geometry";
 import ShapeStyle from "../ShapeStyle";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-export default class CircleCRCreator {
+import AbstractCreator from "./AbstractCreator";
+export default class CircleCRCreator extends AbstractCreator{
     static caption="Circle by center";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID)){
+        super()
         this.points=new Array(2);
         this.circle=new Circle(new Coord2D(),0);
         this.boundedCircle=new Circle();
@@ -22,11 +24,8 @@ export default class CircleCRCreator {
         this.helperShapes[0].setStyle(new ShapeStyle(Color.GRAY,ShapeStyle.DASH));
         this.helperShapes[1].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
         this.helperShapes[2].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
-        this.i=0;
     }
-    isNext(){
-        return (this.i<this.points.length);
-    }
+
     setCurrent(point){
         if(!this.isNext()) return;
         this.points[this.i]=point;
@@ -39,41 +38,12 @@ export default class CircleCRCreator {
         this.helperShapes[0].setStyle(new ShapeStyle(Color.GRAY,ShapeStyle.DASH));
         this.setControlPoints();
     }
-    next(){
-        if(!this.isNext()) return;
-        this.i++;
-    }
-    getShape(){
-        return this.shape;
-    }
+
     setControlPoints(){
         this.helperShapes[1]=new CircleShape(new Circle(this.points[0],this.boundedCircle.radius*Screen.MARKER_SIZE));
         this.helperShapes[2]=new CircleShape(new Circle(this.points[1],this.boundedCircle.radius*Screen.MARKER_SIZE));
         this.helperShapes[1].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));                     
         this.helperShapes[2].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
     }
-    getHelperShapes(){
-        return this.helperShapes;
-    }
-    setNextPoint(p){
-        this.setCurrent(p);
-        this.i++;
-    }
     reset(){return new CircleCRCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
-    refresh(boundedCircle){
-        this.boundedCircle=boundedCircle;
-        if(this.points[this.i]!=null) this.setControlPoints();
-    }
-    setStyle(style){
-        this.style=style;
-    }
-    getPointDescription(){
-        let s="";
-        if (this.i===0) s="center point";else s="radiusLine";
-
-        return "Select "+s;
-    }
-    getShapeDescription(){
-        return "Circle";
-    }
 }

@@ -222,8 +222,8 @@ export default class Screen extends React.Component {
         this.shapeCreator.refresh(this.boundedCircle);
         this.curShape=null;//this.shapeCreator.getShape();
         this.curHelperShapes=null;//this.shapeCreator.getHelperShapes();
-        this.currentShape=this.shapeCreator.getShapeDescription();
-        this.creationStep=this.shapeCreator.getPointDescription();
+        this.currentShape=this.props.captions.creators[this.shapeCreator.constructor.name].description;
+        this.creationStep=this.props.captions.creators[this.shapeCreator.constructor.name].steps[this.shapeCreator.getCurrentStep()];
         this.status=Screen.STATUS_CREATE;
         this.cursor=new DrawCursor(this.curCoord);
     };
@@ -349,7 +349,7 @@ export default class Screen extends React.Component {
         this.drawGrid(ctx);
         let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}     `;
         if(this.status===Screen.STATUS_CREATE||this.status===Screen.STATUS_DRAWING)   
-                status_bar=status_bar+`${this.currentShape} : ${this.creationStep}`;
+                status_bar=status_bar+`${this.currentShape}: ${this.creationStep}`;
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
             }
@@ -469,8 +469,6 @@ export default class Screen extends React.Component {
             this.paint(ctx);
             e.preventDefault();
         }
-
-
     }
     mup(e){
         if(e.button===1){
@@ -501,10 +499,7 @@ export default class Screen extends React.Component {
                 this.setScale(1/1.2,p);
         }
         this.paint(ctx);
-        
        e.preventDefault();
-        
-
     }
     mleave(e){
         if(this.dragGrid===true){
@@ -518,7 +513,7 @@ export default class Screen extends React.Component {
             if(this.status===Screen.STATUS_CREATE||this.status===Screen.STATUS_DRAWING){
                 let ctx=document.querySelector("#canvas").getContext("2d");
                 this.shapeCreator.setNextPoint(this.curCoord);
-                this.creationStep=this.shapeCreator.getPointDescription();
+                this.creationStep=this.props.captions.creators[this.shapeCreator.constructor.name].steps[this.shapeCreator.getCurrentStep()];
                 this.status=Screen.STATUS_DRAWING;
                 this.props.actions.setScreenStatus(Screen.STATUS_DRAWING);
                 if(!this.shapeCreator.isNext())

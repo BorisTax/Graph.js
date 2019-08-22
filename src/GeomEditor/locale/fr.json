@@ -115,6 +115,44 @@
       "Y3":"Y3"
     }
   },
+  "creators":{
+    "StraightLineCreator":{
+      "description":"Straight Line",
+      "steps":["Select 1st point","Select 2nd point"]
+    },
+    "RayLineCreator":{
+      "description":"Ray Line",
+      "steps":["Select origin point","Select direction point"]
+    },
+    "LineCreator":{
+      "description":"Segment Line",
+      "steps":["Select first point","Select second point"]
+    },
+    "CircleCRCreator":{
+      "description":"Circle",
+      "steps":["Select center point","Select radius point"]
+    },
+    "Circle2PCreator":{
+      "description":"Circle",
+      "steps":["Select first point","Select second point"]
+    },
+    "Circle3PCreator":{
+      "description":"Circle",
+      "steps":["Select first point","Select second point","Select third point"]
+    },
+    "RectangleCreator":{
+      "description":"Rectangle",
+      "steps":["Select first point","Select second point"]
+    },
+    "TriangleCreator":{
+      "description":"Triangle",
+      "steps":["Select first point","Select second point","Select third"]
+    },
+    "SelectRectCreator":{
+      "description":"",
+      "steps":["","Specify second selection point"]
+    }
+  },
   "help":{
     "title":"Référence",
     "hotKeys":[

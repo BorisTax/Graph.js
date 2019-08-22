@@ -1,11 +1,3 @@
-import StraightLineCreator from '../components/shapes/shapecreators/StraightLineCreator';
-import RayLineCreator from '../components/shapes/shapecreators/RayLineCreator';
-import LineCreator from '../components/shapes/shapecreators/LineCreator';
-import CircleCRCreator from '../components/shapes/shapecreators/CircleCRCreator';
-import Circle2PCreator from '../components/shapes/shapecreators/Circle2PCreator';
-import Circle3PCreator from '../components/shapes/shapecreators/Circle3PCreator';
-import RectangleCreator from '../components/shapes/shapecreators/RectangleCreator';
-import TriangleCreator from '../components/shapes/shapecreators/TriangleCreator';
 export const captions={
   about:{
     name:"© Takhmazov Borys, 2018-2019",
@@ -51,21 +43,21 @@ export const captions={
   create:{
     createToolBar:"Create",
     createCheckBox:"Cyclic",
-    createSLine2Points:StraightLineCreator.caption,
-    createRayLine2Points:RayLineCreator.caption,
-    createSegmentLine2Points:LineCreator.caption,
-    createCircleCenter:CircleCRCreator.caption,
-    createCircle2P:Circle2PCreator.caption,
-    createCircle3P:Circle3PCreator.caption,
-    createRect:RectangleCreator.caption,
+    createSLine2Points:"Straight line",
+    createRayLine2Points:"Ray line",
+    createSegmentLine2Points:"Segment line",
+    createCircleCenter:"Circle by center",
+    createCircle2P:"Circle by 2 points",
+    createCircle3P:"Circle by 3 points",
+    createRect:"Rectangle by 2 points",
     createRectCenter:"Rectangle by center",
-    createTriangle:TriangleCreator.caption,
+    createTriangle:"Triangle",
     createTriangleInscribed:"Triangle inscribed in circle",
     createTriangleDescribed:"Triangle described about circle",
     createParabola:"Parabola",
     createHyperbola:"Hyperbola",
     createFunction:"User defined function",
-    development:"(in development)",
+    development:"(in development)"
   },
   modify:{
     crossSelect:"Partial selection",
@@ -125,6 +117,44 @@ export const captions={
       X3:"X3",
       Y3:"Y3"
     }
+  },
+  creators:{
+    StraightLineCreator:{
+      description:"Straight Line",
+      steps:["Select 1st point","Select 2nd point"]
+    },
+    RayLineCreator:{
+      description:"Ray Line",
+      steps:["Select origin point","Select direction point"]
+    },
+    LineCreator:{
+      description:"Segment Line",
+      steps:["Select first point","Select second point"]
+    },
+    CircleCRCreator:{
+      description:"Circle",
+      steps:["Select center point","Select radius point"]
+    },
+    Circle2PCreator:{
+      description:"Circle",
+      steps:["Select first point","Select second point"]
+    },
+    Circle3PCreator:{
+      description:"Circle",
+      steps:["Select first point","Select second point","Select third point"]
+    },
+    RectangleCreator:{
+      description:"Rectangle",
+      steps:["Select first point","Select second point"]
+    },
+    TriangleCreator:{
+      description:"Triangle",
+      steps:["Select first point","Select second point","Select third"]
+    },
+    SelectRectCreator:{
+      description:"",
+      steps:["","Specify second selection point"]
+    },
   },
   help:{
     title:'Reference',

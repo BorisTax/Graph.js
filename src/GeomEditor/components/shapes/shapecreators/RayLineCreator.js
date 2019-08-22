@@ -4,10 +4,11 @@ import ShapeStyle from '../ShapeStyle';
 import {RLine, Coord2D, Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-export default class RayLineCreator{
+import AbstractCreator from './AbstractCreator';
+export default class RayLineCreator extends AbstractCreator{
     static caption="Ray line";
     constructor(style){
-        this.i=0;
+        super()
         this.line=new RLine(new Coord2D(),new Coord2D());
         this.points=new Array(2);
         this.boundedCircle=new Circle();
@@ -24,9 +25,7 @@ export default class RayLineCreator{
         this.helperShapes[0].setColor(Color.BLUE);
         this.helperShapes[1].setColor(Color.BLUE);
     }
-    isNext(){
-        return (this.i<this.points.length);
-    }
+
     setCurrent(point){
         if(!this.isNext()) return;
         this.points[this.i]=point;
@@ -36,31 +35,5 @@ export default class RayLineCreator{
         this.shape.setStyle(this.style);
         this.setControlPoints();
     }
-    next(){
-        if(!this.isNext()) return;
-        this.i++;
-    }
-    getShape(){
-        return this.shape;
-    }
-    getHelperShapes(){
-        return this.helperShapes;
-    }
-    setNextPoint(p){
-        this.points[this.i++]=p;
-    }
     reset(){return new RayLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
-    refresh(boundedCircle){
-        this.boundedCircle=boundedCircle;
-        if(this.points[this.i]!=null) this.setControlPoints();
-    }
-    getPointDescription(){
-        let s="";
-        if (this.i===0) s="origin";else s="second";
-        return "Select "+s+" point";
-    }
-    getShapeDescription(){
-        return "Ray line";
-    }
-
 }

@@ -116,6 +116,44 @@
       "Y3":"Y3"
     }
   },
+  "creators":{
+    "StraightLineCreator":{
+      "description":"Прямая",
+      "steps":["Укажите первую точку","Укажите вторую точку"]
+    },
+    "RayLineCreator":{
+      "description":"Луч",
+      "steps":["Укажите начальную точку","Укажите направление"]
+    },
+    "LineCreator":{
+      "description":"Отрезок",
+      "steps":["Укажите первую точку","Укажите вторую точку"]
+    },
+    "CircleCRCreator":{
+      "description":"Окружность",
+      "steps":["Укажите центр","Укажите радиус"]
+    },
+    "Circle2PCreator":{
+      "description":"Окружность",
+      "steps":["Укажите первую точку","Укажите вторую точку"]
+    },
+    "Circle3PCreator":{
+      "description":"Окружность",
+      "steps":["Укажите первую точку","Укажите вторую точку","Укажите третью точку"]
+    },
+    "RectangleCreator":{
+      "description":"Прямоугольник",
+      "steps":["Укажите первую точку","Укажите вторую точку"]
+    },
+    "TriangleCreator":{
+      "description":"Треугольник",
+      "steps":["Укажите первую точку","Укажите вторую точку","Укажите третью точку"]
+    },
+    "SelectRectCreator":{
+      "description":"",
+      "steps":["","Укажите вторую точку выделения"]
+    }
+  },
   "help":{
     "title":"Справка",
     "hotKeys":[
