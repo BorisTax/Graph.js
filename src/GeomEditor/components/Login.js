@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import { setToken } from '../actions/UserActions';
 import options from '../config'
 import Spinner from './Spinner';
+import { blink } from '../actions/AppActions';
 class Login extends React.Component{
     constructor(){
         super();
@@ -41,6 +42,7 @@ class Login extends React.Component{
             })
             .catch(e=>{console.error(e); this.setState({correct:false,logging:false,errCode:3});});
     }
+    
     componentWillUnmount(){
         window.KEYDOWNHANDLE=true
     }
@@ -54,7 +56,7 @@ class Login extends React.Component{
     render(){
         const cap=this.props.cap;
         const showPass=this.state.showPass?"text":"password"
-        return <div className='modalContainer noselect'>
+        return <div className='modalContainer noselect' onClick={blink}>
                     <div ref={(ref)=>{this.ref=ref}}className={"toolBar"}>
                         <div className={"toolBarHeader"}>
                             <span className={"toolBarCaption"}>{cap.loginForm.title}</span>

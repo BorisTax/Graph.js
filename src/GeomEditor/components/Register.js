@@ -3,7 +3,7 @@ import '../Graph.css';
 import {connect} from 'react-redux';
 import options from '../config'
 import Spinner from './Spinner';
-import { showAlert } from '../actions/AppActions';
+import { showAlert, blink } from '../actions/AppActions';
 
 class Register extends React.Component{
     constructor(){
@@ -65,7 +65,7 @@ class Register extends React.Component{
     render(){
         const cap=this.props.cap;
         const showPass=this.state.showPass?"text":"password"
-        return <div className='modalContainer noselect'>
+        return <div className='modalContainer noselect' onClick={blink}>
                     <div ref={(ref)=>{this.ref=ref}} className={"toolBar center"}>
                         <div className={"toolBarHeader"}>
                             <span className={"toolBarCaption"}>{cap.registerForm.title}</span>

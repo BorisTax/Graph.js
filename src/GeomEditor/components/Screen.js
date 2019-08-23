@@ -563,6 +563,7 @@ export default class Screen extends React.Component {
             this.resize();
             this.centerToPoint(new Coord2D(0,0));
             this.paint(this.ctx);
+            document.body.oncontextmenu=()=>false
         });
         window.addEventListener('resize',()=>{
             this.resize();
