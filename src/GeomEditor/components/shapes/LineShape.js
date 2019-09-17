@@ -36,26 +36,20 @@ export default class LineShape extends Shape{
     getProperties(){
         let prop=new Map();
          prop.set('Title',{value:'Line',regexp:/\s*/});
-        prop.set('X1',{value:this.line.p1.x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Y1',{value:this.line.p1.y,regexp:/^-?\d*\.?\d*$/});
-        prop.set('X2',{value:this.line.p2.x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Y2',{value:this.line.p2.y,regexp:/^-?\d*\.?\d*$/});
+        prop.set('P1',{value:{x:this.line.p1.x,y:this.line.p1.y},regexp:/^-?\d*\.?\d*$/});
+        prop.set('P2',{value:{x:this.line.p2.x,y:this.line.p2.y},regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){
         super.setProperty(prop);
         switch(prop.key){
-            case 'X1':
-                this.line.p1.x=prop.value;
+            case 'P1':
+                this.line.p1.x=prop.value.x;
+                this.line.p1.y=prop.value.y;
                 break;
-            case 'Y1':
-                this.line.p1.y=prop.value;
-                break;
-            case 'X2':
-                this.line.p2.x=prop.value;
-                break;
-            case 'Y2':
-                this.line.p2.y=prop.value;
+            case 'P2':
+                this.line.p2.x=prop.value.x;
+                this.line.p2.y=prop.value.y;
                 break;
             default:
         }

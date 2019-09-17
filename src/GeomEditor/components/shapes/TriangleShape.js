@@ -38,34 +38,25 @@ export default class TriangleShape extends Shape{
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'Triangle',regexp:/\s*/});
-        prop.set('X1',{value:this.triangle.points[0].x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Y1',{value:this.triangle.points[0].y,regexp:/^-?\d*\.?\d*$/});
-        prop.set('X2',{value:this.triangle.points[1].x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Y2',{value:this.triangle.points[1].y,regexp:/^-?\d*\.?\d*$/});
-        prop.set('X3',{value:this.triangle.points[2].x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Y3',{value:this.triangle.points[2].y,regexp:/^-?\d*\.?\d*$/});
+        prop.set('P1',{value:{x:this.triangle.points[0].x,y:this.triangle.points[0].y},regexp:/^-?\d*\.?\d*$/});
+        prop.set('P2',{value:{x:this.triangle.points[1].x,y:this.triangle.points[1].y},regexp:/^-?\d*\.?\d*$/});
+        prop.set('P3',{value:{x:this.triangle.points[2].x,y:this.triangle.points[2].y},regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){
         super.setProperty(prop);
         switch(prop.key){
-            case 'X1':
-                this.triangle.points[0].x=prop.value;
+            case 'P1':
+                this.triangle.points[0].x=prop.value.x;
+                this.triangle.points[0].y=prop.value.y;
                 break;
-            case 'Y1':
-                this.triangle.points[0].y=prop.value;
+            case 'P2':
+                this.triangle.points[1].x=prop.value.x;
+                this.triangle.points[1].y=prop.value.y;
                 break;
-            case 'X2':
-                this.triangle.points[1].x=prop.value;
-                break;
-            case 'Y2':
-                this.triangle.points[1].y=prop.value;
-                break;
-            case 'X3':
-                this.triangle.points[2].x=prop.value;
-                break;
-            case 'Y3':
-                this.triangle.points[2].y=prop.value;
+            case 'P3':
+                this.triangle.points[2].x=prop.value.x;
+                this.triangle.points[2].y=prop.value.y;
                 break;
             default:
         }

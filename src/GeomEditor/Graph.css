@@ -60,6 +60,12 @@ hr{
 .propertyFieldIncorrect{
   border: red;
 }
+.propertyField{
+  width:120px;
+}
+.propertyMultField{
+  width:60px;
+}
 .propertyGroup{
   display: flex;
   flex-direction: column;

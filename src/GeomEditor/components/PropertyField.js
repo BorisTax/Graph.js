@@ -41,16 +41,17 @@ class PropertyField extends React.Component{
     }
     render(){
         return <div className={"noselect"}>
-            {this.props.label}=
+            {this.props.label}
             <input style={!this.state.correct?{backgroundColor:'red'}:{}}
-                    type="text" value={this.state.value} 
-                    id={this.props.label}
-                    onChange={this.change.bind(this)}
-                    onKeyPress={this.onKeyPress.bind(this)}
-                    onKeyDown={(e)=>{e.stopPropagation()}}
-                    onBlur={this.blur.bind(this)}
-                    onFocus={()=>{window.KEYDOWNHANDLE=false}}
-                    />
+                className='propertyField'
+                type="text" value={this.state.value} 
+                id={this.props.label}
+                onChange={this.change.bind(this)}
+                onKeyPress={this.onKeyPress.bind(this)}
+                onKeyDown={(e)=>{e.stopPropagation()}}
+                onBlur={this.blur.bind(this)}
+                onFocus={()=>{window.KEYDOWNHANDLE=false}}
+                />
         </div>
     }
 }

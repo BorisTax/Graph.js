@@ -47,26 +47,20 @@ export default class RayLineShape extends Shape{
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'RLine',regexp:/\s*/});
-        prop.set('X',{value:this.line.origin.x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Y', {value:this.line.origin.y,regexp:/^-?\d*\.?\d*$/});
-        prop.set('VX',{value:this.line.vector.x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('VY',{value:this.line.vector.y,regexp:/^-?\d*\.?\d*$/});
+        prop.set('Origin',{value:{x:this.line.origin.x,y:this.line.origin.y},regexp:/^-?\d*\.?\d*$/});
+        prop.set('Direction',{value:{x:this.line.vector.x,y:this.line.vector.y},regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){
         super.setProperty(prop);
         switch(prop.key){
-            case 'X':
-                this.line.origin.x=prop.value;
+            case 'Origin':
+                this.line.origin.x=prop.value.x;
+                this.line.origin.y=prop.value.y;
                 break;
-            case 'Y':
-                this.line.origin.y=prop.value;
-                break;
-            case 'VX':
-                this.line.vector.x=prop.value;
-                break;
-            case 'VY':
-                this.line.vector.y=prop.value;
+            case 'Direction':
+                this.line.vector.x=prop.value.x;
+                this.line.vector.y=prop.value.y;
                 break;
             default:
         }

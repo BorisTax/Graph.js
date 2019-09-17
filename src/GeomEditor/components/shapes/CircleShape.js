@@ -31,19 +31,16 @@ export default class CircleShape extends Shape{
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'Circle',regexp:/\s*/});
-        prop.set('CX',{value:this.circle.center.x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('CY',{value:this.circle.center.y,regexp:/^-?\d*\.?\d*$/});
+        prop.set('Center',{value:{x:this.circle.center.x,y:this.circle.center.y},regexp:/^-?\d*\.?\d*$/});
         prop.set('Radius',{value:this.circle.radius,regexp:/^\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){
         super.setProperty(prop);
         switch(prop.key){
-            case 'CX':
-                this.circle.center.x=prop.value;
-                break;
-            case 'CY':
-                this.circle.center.y=prop.value;
+            case 'Center':
+                this.circle.center.x=prop.value.x;
+                this.circle.center.y=prop.value.y;
                 break;
             case 'Radius':
                 this.circle.radius=prop.value;

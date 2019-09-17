@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import '../Graph.css';
 import {setProperty} from '../actions/ShapeActions'
 import PropertyField from './PropertyField';
+import PropertyMultField from './PropertyMultField';
 import PropertyEditButtonsBar from './PropertyEditButtonsBar';
 import { deleteSelectedShapes } from '../actions/ScreenActions';
 class PropertyEditorBar extends React.Component{
@@ -21,7 +22,14 @@ class PropertyEditorBar extends React.Component{
             let shapeType=this.prop.get('Title').value;
             shapeTitle=this.props.captions.shapes[shapeType].Title;
             for(let key of this.prop.keys()){
-                if(key!=='Title')propElements.push(<PropertyField 
+                if(key!=='Title')propElements.push(typeof this.prop.get(key).value==='object'?<PropertyMultField
+                                                     key={key}
+                                                     propKey={key}
+                                                     label={this.props.captions.shapes[shapeType][key]} 
+                                                     value={this.prop.get(key).value}
+                                                     regexp={this.prop.get(key).regexp}
+                                                     setProperty={this.setProperty.bind(this)}  />:
+                                                     <PropertyField 
                                                      key={key}
                                                      propKey={key}
                                                      label={this.props.captions.shapes[shapeType][key]} 

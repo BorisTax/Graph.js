@@ -40,26 +40,20 @@ export default class RectangleShape extends Shape{
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'Rectangle',regexp:/\s*/});
-        prop.set('X1',{value:this.rectangle.topLeft.x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Y1',{value:this.rectangle.topLeft.y,regexp:/^-?\d*\.?\d*$/});
-        prop.set('X2',{value:this.rectangle.bottomRight.x,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Y2',{value:this.rectangle.bottomRight.y,regexp:/^-?\d*\.?\d*$/});
+        prop.set('P1',{value:{x:this.rectangle.topLeft.x,y:this.rectangle.topLeft.y},regexp:/^-?\d*\.?\d*$/});
+        prop.set('P2',{value:{x:this.rectangle.bottomRight.x,y:this.rectangle.bottomRight.y},regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){
         super.setProperty(prop);
         switch(prop.key){
-            case 'X1':
-                this.rectangle.topLeft.x=prop.value;
+            case 'P1':
+                this.rectangle.topLeft.x=prop.value.x;
+                this.rectangle.topLeft.y=prop.value.y;
                 break;
-            case 'Y1':
-                this.rectangle.topLeft.y=prop.value;
-                break;
-            case 'X2':
-                this.rectangle.bottomRight.x=prop.value;
-                break;
-            case 'Y2':
-                this.rectangle.bottomRight.y=prop.value;
+            case 'P2':
+                this.rectangle.bottomRight.x=prop.value.x;
+                this.rectangle.bottomRight.y=prop.value.y;
                 break;
             default:
         }

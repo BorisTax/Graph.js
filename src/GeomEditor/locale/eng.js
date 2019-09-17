@@ -78,22 +78,17 @@ export const captions={
     Circle:{
       Title:"Circle",
       Radius:"Radius",
-      CX:"CenterX",
-      CY:"CenterY"
+      Center:"Center",
     },
     Rectangle:{
       Title:"Rectangle",
-      X1:"X1",
-      Y1:"Y1",
-      X2:"X2",
-      Y2:"Y2"
+      P1:"P1",
+      P2:"P2",
     },
     Line:{
       Title:"Line",
-      X1:"X1",
-      Y1:"Y1",
-      X2:"X2",
-      Y2:"Y2"
+      P1:"P1",
+      P2:"P2",
     },
     SLine:{
       Title:"Straight Line AX+BY+C=0",
@@ -103,19 +98,14 @@ export const captions={
     },
     RLine:{
       Title:"Ray Line",
-      X:"X",
-      Y:"Y",
-      VX:"VX",
-      VY:"VY"
+      Origin:"Origin",
+      Direction:"Direction",
     },
     Triangle:{
       Title:"Triangle",
-      X1:"X1",
-      Y1:"Y1",
-      X2:"X2",
-      Y2:"Y2",
-      X3:"X3",
-      Y3:"Y3"
+      P1:"P1",
+      P2:"P2",
+      P3:"P3",
     }
   },
   creators:{
