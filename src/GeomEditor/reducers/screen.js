@@ -2,7 +2,12 @@ import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE,
 import {SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
 import {SET_CYCLIC_FLAG} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
-
+export const STATUS_FREE='FREE';
+export const STATUS_SELECT='SELECT';
+export const STATUS_CREATE='CREATE';
+export const STATUS_DRAWING='DRAWING';
+export const STATUS_CANCEL='CANCEL';
+export const STATUS_PAN='PAN';
 const initialState = {
     screenWidth:550,
     screenHeight:550,
@@ -11,7 +16,7 @@ const initialState = {
     snap:{snapClass:null,snap:false},
     cyclicCreation:false,
     selectionType:'crossSelect',
-    status:"FREE",
+    status:STATUS_FREE,
     shapes:[],
     selectedShapes:[],
     centerPoint:{do:false,point:{x:0,y:0}}
