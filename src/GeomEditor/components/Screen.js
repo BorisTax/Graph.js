@@ -69,34 +69,34 @@ export default class Screen extends React.Component {
         this.shapeManager=new ShapeManager(this.props.shapes);
     }
     setBoundedCircle(){
-        let c=this.screenToReal(this.props.screenWidth/2,this.props.screenHeight/2);
-        let r=Math.sqrt(this.props.realWidth*this.props.realWidth+this.props.realHeight*this.props.realHeight)/2;
+        let c=this.screenToReal(this.screenWidth/2,this.screenHeight/2);
+        let r=Math.sqrt(this.realWidth*this.realWidth+this.realHeight*this.realHeight)/2;
         this.boundedCircle=new Circle(c,r);
         if(this.shapeCreator!=null) this.shapeCreator.refresh(this.boundedCircle);
     }
     screenToReal(x,y){
-        let rx=x/this.props.screenWidth*this.props.realWidth+this.props.topLeft.x;
-        let ry=this.props.topLeft.y-y/this.props.screenHeight*this.props.realHeight;
+        let rx=x/this.screenWidth*this.realWidth+this.topLeft.x;
+        let ry=this.topLeft.y-y/this.screenHeight*this.realHeight;
         return {x:rx,y:ry};
     }
     realToScreen(p){
-        let x=Math.round((p.x-this.props.topLeft.x)/this.props.pixelRatio);
-        let y=-Math.round((p.y-this.props.topLeft.y)/this.props.pixelRatio);
+        let x=Math.round((p.x-this.topLeft.x)/this.pixelRatio);
+        let y=-Math.round((p.y-this.topLeft.y)/this.pixelRatio);
         return {x,y};
     }
     getRealRect(){
         let realRect = new Rectangle();
-        realRect.topLeft = this.props.topLeft;
-        realRect.width = this.props.bottomRight.x-this.props.topLeft.x;
-        realRect.height=this.props.topLeft.y-this.props.bottomRight.y;
+        realRect.topLeft = this.topLeft;
+        realRect.width = this.bottomRight.x-this.topLeft.x;
+        realRect.height=this.topLeft.y-this.bottomRight.y;
         return realRect;
     }
     getScreenRect(){
         let screenRect = new Rectangle();
         screenRect.topLeft.x = 0;
         screenRect.topLeft.y = 0;
-        screenRect.width = this.props.screenWidth;
-        screenRect.height = this.props.screenHeight;
+        screenRect.width = this.screenWidth;
+        screenRect.height = this.screenHeight;
         return screenRect;
     }
     setTopLeft(p){
@@ -104,6 +104,7 @@ export default class Screen extends React.Component {
         this.bottomRight={};
         this.bottomRight.x=this.topLeft.x+this.realWidth;
         this.bottomRight.y=this.topLeft.y-this.realHeight;
+        this.props.actions.setTopLeft(p);
     }
     setRealWidth(width){
        this.realWidth=width;
@@ -177,12 +178,14 @@ export default class Screen extends React.Component {
         this.currentShape="";
         this.cursor=new FreeCursor(this.curCoord);
     }
+
     setStatus(status,props){
+        this.status=status;
         this.prevStatus=this.status;
         switch(status){
             case STATUS_CREATE:
-                this.newShape(props.creator);
-                props.actions.setScreenStatus(STATUS_DRAWING,props.creator);
+                this.newShape(props.statusParams.creator);
+                props.actions.setScreenStatus(STATUS_DRAWING,{creator:props.statusParams.creator});
                 break;
             case STATUS_CANCEL:
                 this.cancel();
@@ -196,6 +199,8 @@ export default class Screen extends React.Component {
                 this.status=status;
                 this.cursor=new DragCursor(this.curCoord);
             break;
+            case STATUS_PICK:
+                this.picker=props.pickedData.picker
             default:
         }
 
@@ -342,7 +347,7 @@ export default class Screen extends React.Component {
         ctx.lineJoin='round';
         ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
         this.drawGrid(ctx);
-        let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}     `;
+        let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}    ${this.status} `;
         if(this.status===STATUS_CREATE||this.status===STATUS_DRAWING)   
                 status_bar=status_bar+`${this.currentShape}: ${this.creationStep}`;
         for(let shape of this.props.shapes){
@@ -366,10 +371,12 @@ export default class Screen extends React.Component {
         this.drawCoordinates(ctx);
         ctx.font="12px sans-serif";
         ctx.strokeText(status_bar,this.marginLeft,this.screenHeight-this.statusBar);
-        let marker=this.snapMarkersManager.getActiveMarker();
-        if(marker!=null) {
-            marker.refresh(this.getRealRect(), this.getScreenRect());
-            this.drawShape(marker.getMarker(), ctx);
+        if(this.status!==STATUS_FREE){
+            let marker=this.snapMarkersManager.getActiveMarker();
+            if(marker!=null) {
+                marker.refresh(this.getRealRect(), this.getScreenRect());
+                this.drawShape(marker.getMarker(), ctx);
+            }
         }
         ctx.lineWidth=1;
         if(this.status===STATUS_SELECT){
@@ -403,7 +410,7 @@ export default class Screen extends React.Component {
         this.prevPoint.x=this.curPoint.x;
         this.prevPoint.y=this.curPoint.y;
         let temp={x:this.curCoord.x,y:this.curCoord.y};
-        if(this.gridSnap){
+        if(this.gridSnap&&this.status!==STATUS_FREE){
             let x=Math.round(temp.x/this.gridStep)*this.gridStep;
             let y=Math.round(temp.y/this.gridStep)*this.gridStep;
             let dx=x-temp.x;
@@ -416,10 +423,12 @@ export default class Screen extends React.Component {
                 }
                 }
         }
-        let d = this.snapMarkersManager.getDistanceToNearestMarker(temp,this.snapDist*this.pixelRatio);
-        if(d>=0&&d<=this.snapMinDist*this.pixelRatio){
-            temp=this.snapMarkersManager.getActiveMarker().getPos();
-            this.curPoint = this.realToScreen({...temp});
+        if(this.status!==STATUS_FREE){
+            let d = this.snapMarkersManager.getDistanceToNearestMarker(temp,this.snapDist*this.pixelRatio);
+            if(d>=0&&d<=this.snapMinDist*this.pixelRatio){
+                temp=this.snapMarkersManager.getActiveMarker().getPos();
+                this.curPoint = this.realToScreen({...temp});
+            }
         }
         this.curCoord=temp;
         if(this.status===STATUS_FREE){
@@ -438,7 +447,8 @@ export default class Screen extends React.Component {
         }
         if(this.status===STATUS_PICK){
             this.picker.setCurrent(this.curCoord);
-            
+            this.props.actions.setPickedData(this.curCoord);
+            //this.props.actions.fixPickedData(true);
         }
         this.paint(ctx);
         
@@ -539,6 +549,7 @@ export default class Screen extends React.Component {
                     this.creationStep=this.props.captions.pickers[this.picker.getName()].steps[this.picker.getCurrentStep()];
                     if(!this.picker.isNext())
                     {
+                        this.props.actions.fixPickedData(true);
                         this.refreshSnapMarkers();
                         this.refreshShapeManager();
                         this.cancel();
@@ -583,8 +594,8 @@ export default class Screen extends React.Component {
             if(window.KEYDOWNHANDLE===false) return;
             this.props.keyDownHandler.forEach(key=>{
                 if(e.ctrlKey===key.ctrlKey&&e.shiftKey===key.shiftKey&&e.altKey===key.altKey&&e.keyCode===key.keyCode){
-                    const param={...key.param,messages:this.props.captions.messages}
-                    if(this.props.actions[key.action]) this.props.actions[key.action](param);
+                    //const param={...key.param,messages:this.props.captions.messages}
+                    if(this.props.actions[key.action]) this.props.actions[key.action](key.param);
                     e.preventDefault();
                 }
             })

@@ -3,6 +3,7 @@ import {SET_ACTIVE_SNAP_BUTTON,CLEAR_ACTIVE_SNAP_BUTTON} from "../actions/Compon
 import {SET_ACTIVE_CREATE_BUTTON,SET_ACTIVE_LANG_BUTTON} from "../actions/ComponentActions";
 import {SET_STATUS, DELETE_SELECTED_SHAPES, deleteSelectedShapes} from "../actions/ScreenActions";
 import {SHOW_HELP, SHOW_CONFIRM, SHOW_ALERT} from '../actions/AppActions';
+import { STATUS_FREE } from "./screen";
 const initialState={
     activeLangButton:"en",
     defaultLang:"en",
@@ -29,7 +30,7 @@ export function componentReducer(state=initialState,action) {
             newState.activeSnapButtons.delete(data);
             return newState;
         case SET_STATUS:
-            if(data==='FREE') return{...state,activeCreateButton:''}
+            if(data.status===STATUS_FREE) return{...state,activeCreateButton:''}
             return{...state} 
         case SHOW_HELP:
             return {...state,showHelp:data};  

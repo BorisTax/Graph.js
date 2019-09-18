@@ -2,6 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import '../Graph.css';
 import {setProperty} from '../actions/ShapeActions'
+import PointPicker from './shapes/pickers/PointPicker'
+import DistancePicker from './shapes/pickers/DistancePicker'
 import PropertyField from './PropertyField';
 import PropertyMultField from './PropertyMultField';
 import PropertyEditButtonsBar from './PropertyEditButtonsBar';
@@ -25,16 +27,20 @@ class PropertyEditorBar extends React.Component{
                 if(key!=='Title')propElements.push(typeof this.prop.get(key).value==='object'?<PropertyMultField
                                                      key={key}
                                                      propKey={key}
+                                                     id={key}
                                                      label={this.props.captions.shapes[shapeType][key]} 
                                                      value={this.prop.get(key).value}
                                                      regexp={this.prop.get(key).regexp}
+                                                     picker={PointPicker}
                                                      setProperty={this.setProperty.bind(this)}  />:
                                                      <PropertyField 
                                                      key={key}
                                                      propKey={key}
+                                                     id={key}
                                                      label={this.props.captions.shapes[shapeType][key]} 
                                                      value={this.prop.get(key).value}
                                                      regexp={this.prop.get(key).regexp}
+                                                     picker={DistancePicker}
                                                      setProperty={this.setProperty.bind(this)}  />)
             }
         }

@@ -14,17 +14,24 @@ export const SET_CYCLIC_FLAG='SET_CYCLIC_FLAG';
 export const SET_TOP_LEFT='SET_TOP_LEFT';
 export const SET_SELECTION_TYPE='SET_SELECTION_TYPE';
 export const SET_PICKED_DATA='SET_PICKED_DATA';
-export const SET_PICKED_EDITID='SET_PICKED_EDITID';
+export const FIX_PICKED_DATA='FIX_PICKED_DATA';
+export const START_PICKING='START_PICKING';
 export function setTopLeft(p){
     return {
         type:SET_TOP_LEFT,
         payload:p
     }
 }
-export function setPickedEditId(id){
+export function startPicking(id,picker){
     return{
-        type:SET_PICKED_EDITID,
-        payload:id
+        type:START_PICKING,
+        payload:{id,picker}
+    }
+}
+export function fixPickedData(fix){
+    return{
+        type:FIX_PICKED_DATA,
+        payload:fix
     }
 }
 export function setPickedData(data){
@@ -106,10 +113,9 @@ export function centerToPoint(action){
     }
 }
 
-export function setScreenStatus(status=Screen.STATUS_FREE,creator){
+export function setScreenStatus(status=Screen.STATUS_FREE,params){
     return {
         type: SET_STATUS,
-        payload:status,
-        creator:creator,
+        payload:{status,params}
     }
 }

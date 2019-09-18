@@ -108,6 +108,16 @@ export const captions={
       P3:"P3",
     }
   },
+  pickers:{
+    PointPicker:{
+      description:"",
+      steps:["Select point"]
+    },
+    DistancePicker:{
+      description:"",
+      steps:["Select 1st point","Select 2nd point"]
+    },
+  },
   creators:{
     StraightLineCreator:{
       description:"Straight Line",

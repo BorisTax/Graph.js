@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../Graph.css';
-import {setScreenStatus,selectShapes,selectAll,addShape,centerToPoint, deleteSelectedShapes, setTopLeft} from "../actions/ScreenActions";
+import {setScreenStatus,selectShapes,selectAll,addShape,centerToPoint, deleteSelectedShapes, setTopLeft, setPickedData, fixPickedData} from "../actions/ScreenActions";
 import {setLanguage} from "../actions/AppActions";
 import CreateToolBar from "./CreateToolBar";
 import Screen from "./Screen.js";
@@ -41,8 +41,10 @@ const mapDispatchToProps = dispatch => {
         addShape:(shape)=>dispatch(addShape(shape)),
         centerToPoint:(action)=>dispatch(centerToPoint(action)),
         setTopLeft:(p)=>dispatch(setTopLeft(p)),
+        setPickedData:data=>dispatch(setPickedData(data)),
+        fixPickedData:fix=>dispatch(fixPickedData(fix)),
         selectAll:()=>dispatch(selectAll()),
-        deleteSelectedShapes:({messages})=>dispatch(deleteSelectedShapes(messages.deleteShapes)),
+        deleteSelectedShapes:({ask})=>dispatch(deleteSelectedShapes(ask)),
     }}
 };
 export default connect(mapStateToProps,mapDispatchToProps)(MainContainer)

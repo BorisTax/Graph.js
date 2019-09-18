@@ -1,10 +1,13 @@
 import "../Graph.css";
 import React from "react";
+import {connect} from 'react-redux';
+import { STATUS_PICK } from "../reducers/screen";
+import { startPicking, setPickedData, fixPickedData } from "../actions/ScreenActions";
 
 class PropertyMultField extends React.Component{
     constructor(props){
         super(props);
-        const value={x:props.value.x.toFixed(4),y:props.value.y.toFixed(4)}
+        const value={x:props.value.x,y:props.value.y}
         this.state={value:{x:value.x,y:value.y},correct:true,prevValue:{x:value.x,y:value.y},originValue:{x:value.x,y:value.y}}
     }
     change(e){
@@ -41,16 +44,26 @@ class PropertyMultField extends React.Component{
         
     }
     static getDerivedStateFromProps(nextProps,prevState){
-        if(nextProps.value===prevState.value)
-            return {...nextProps,originValue:nextProps.value,correct:true};
-            else return {...prevState}
+        //if(nextProps.value===prevState.value){
+            const value=(nextProps.status===STATUS_PICK&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
+            return {...nextProps,value:value,originValue:nextProps.value,correct:true};
+           //  }
+          //  else return {...prevState}
+    }
+    componentDidUpdate(){
+        if(this.props.fix===true) {
+           this.props.setProperty(this.props.propKey,this.state.value)
+           this.props.fixPickedData(false)
+        }
     }
     render(){
+        //const value=(this.props.status===STATUS_PICK&&this.props.id===this.props.editId)?this.props.pickedValue:this.state.value;
+        const value=this.state.value;
         return <div className={"noselect"}>
             {this.props.label}
             <input style={!this.state.correct?{backgroundColor:'red'}:{}}
                 className='propertyMultField'
-                type="text" value={this.state.value.x} 
+                type="text" value={value.x.toFixed(4)} 
                 id='x'
                 onChange={this.change.bind(this)}
                 onKeyPress={this.onKeyPress.bind(this)}
@@ -60,7 +73,7 @@ class PropertyMultField extends React.Component{
                 />
             <input style={!this.state.correct?{backgroundColor:'red'}:{}}
                 className='propertyMultField'
-                type="text" value={this.state.value.y} 
+                type="text" value={value.y.toFixed(4)} 
                 id='y'
                 onChange={this.change.bind(this)}
                 onKeyPress={this.onKeyPress.bind(this)}
@@ -68,7 +81,25 @@ class PropertyMultField extends React.Component{
                 onBlur={this.blur.bind(this)}
                 onFocus={()=>{window.KEYDOWNHANDLE=false}}
                 />
+             <button onClick={()=>{
+                 this.props.setPickedData(this.state.value);
+                 this.props.startPicking(this.props.id,new this.props.picker())}}>+</button>
         </div>
     }
 }
-export default PropertyMultField
+const mapStateToProps=(store)=>{
+    return {
+        pickedValue:store.screen.pickedData.data,
+        editId:store.screen.pickedData.editId,
+        fix:store.screen.pickedData.fix,
+        status:store.screen.status,
+    }
+}
+const mapDispatchToProps=(dispatch)=>{
+    return {
+        startPicking:(id,picker)=>dispatch(startPicking(id,picker)),
+        setPickedData:data=>dispatch(setPickedData(data)),
+        fixPickedData:fix=>dispatch(fixPickedData(fix)),
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(PropertyMultField)

@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, SET_PICKED_EDITID} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, START_PICKING, FIX_PICKED_DATA} from "../actions/ScreenActions";
 import {SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
 import {SET_CYCLIC_FLAG} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
@@ -15,7 +15,7 @@ const initialState = {
     show:{grid:true},
     gridSnap:false,
     snap:{snapClass:null,snap:false},
-    pickedData:{data:null,editId:0},
+    pickedData:{data:null,editId:0,fix:false},
     topLeft:{x:-10,y:10},
     realWidth:0,realHeight:0,
     ratio:1,pixelRatio:1,
@@ -23,16 +23,19 @@ const initialState = {
     cyclicCreation:false,
     selectionType:'crossSelect',
     status:STATUS_FREE,
+    statusParams:{creator:null,picker:null},
     shapes:[],
     selectedShapes:[],
     centerPoint:{do:false,point:{x:0,y:0}}
 };
 export function screenReducer(state = initialState,action) {
     switch (action.type) {
-        case SET_PICKED_EDITID:
-            return {...state,pickedData:{data:state.pickedData.data,editId:action.payload}}
+        case START_PICKING:
+            return {...state,status:STATUS_PICK,pickedData:{data:state.pickedData.data,editId:action.payload.id,picker:action.payload.picker}}
         case SET_PICKED_DATA:
-            return {...state,pickedData:{data:action.payload,id:state.pickedData.editId}}
+            return {...state,pickedData:{data:action.payload,editId:state.pickedData.editId,picker:state.pickedData.picker}}
+        case FIX_PICKED_DATA:
+            return {...state,pickedData:{fix:action.payload,data:state.pickedData.data,editId:state.pickedData.editId,picker:state.pickedData.picker}}
         case SET_SELECTION_TYPE:
             return {...state,selectionType:action.payload}
         case SET_CYCLIC_FLAG:
@@ -58,8 +61,8 @@ export function screenReducer(state = initialState,action) {
                             }});
             return{...state,selectedShapes};
         case DELETE_SELECTED_SHAPES:
+            if(state.selectedShapes.length===0) {action.type='';return {...state}}//action.type='' - to prevent action propagation
             if(action.payload.ask) return {...state}
-            if(state.selectedShapes.length===0) return {...state}
             return{...state,shapes:state.shapes.filter((s)=>!s.getState().selected),selectedShapes:[]};
         case ADD_SHAPE:
             state.shapes.push(action.payload);
@@ -73,7 +76,7 @@ export function screenReducer(state = initialState,action) {
             bottomRight.y=topLeft.y-state.realHeight;
             return {...state,topLeft,bottomRight}
         case SET_STATUS:
-            return{...state,status:action.payload,creator:action.creator};
+            return{...state,status:action.payload.status,statusParams:action.payload.params};
         case SET_PROPERTY:
             for(let shape of state.selectedShapes){
                 if(shape.getProperties().has(action.payload.key)) shape.setProperty({key:action.payload.key,value:action.payload.value});

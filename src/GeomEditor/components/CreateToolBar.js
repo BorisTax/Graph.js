@@ -12,20 +12,20 @@ import TriangleCreator from "./shapes/shapecreators/TriangleCreator";
 import RectangleCreator from "./shapes/shapecreators/RectangleCreator";
 import {setActiveCreateButton} from "../actions/ComponentActions";
 import {setScreenStatus, setCyclicFlag} from "../actions/ScreenActions";
-import Screen from './Screen';
 import ShapeStyle from './shapes/ShapeStyle';
 import { Color } from './colors';
+import { STATUS_CREATE, STATUS_CANCEL } from '../reducers/screen';
 
 
 class CreateToolBar extends React.Component{
     onClick({pressed,params}){
         if(!pressed) {
             this.setButtonId(params.id);
-            this.props.setScreenStatus(Screen.STATUS_CREATE,new params.creator(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID)));
+            this.props.setScreenStatus(STATUS_CREATE,{creator:new params.creator(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID))});
         }
         else {
            this.setButtonId("");
-           this.props.setScreenStatus(Screen.STATUS_CANCEL);
+           this.props.setScreenStatus(STATUS_CANCEL);
         }
     }
     setButtonId(id){
