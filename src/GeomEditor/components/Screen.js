@@ -13,7 +13,7 @@ import SelectionManager from './shapes/SelectionManager';
 import SelectRectCreator from './shapes/shapecreators/SelectRectCreator';
 import CircleShape from './shapes/CircleShape';
 import RectangleShape from './shapes/RectangleShape';
-import { STATUS_FREE, STATUS_CREATE, STATUS_DRAWING, STATUS_CANCEL, STATUS_PAN, STATUS_SELECT } from '../reducers/screen';
+import { STATUS_FREE, STATUS_CREATE, STATUS_DRAWING, STATUS_CANCEL, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
 export default class Screen extends React.Component {
     showGrid=true;
     gridSnap=false;
@@ -69,34 +69,34 @@ export default class Screen extends React.Component {
         this.shapeManager=new ShapeManager(this.props.shapes);
     }
     setBoundedCircle(){
-        let c=this.screenToReal(this.screenWidth/2,this.screenHeight/2);
-        let r=Math.sqrt(this.realWidth*this.realWidth+this.realHeight*this.realHeight)/2;
+        let c=this.screenToReal(this.props.screenWidth/2,this.props.screenHeight/2);
+        let r=Math.sqrt(this.props.realWidth*this.props.realWidth+this.props.realHeight*this.props.realHeight)/2;
         this.boundedCircle=new Circle(c,r);
         if(this.shapeCreator!=null) this.shapeCreator.refresh(this.boundedCircle);
     }
     screenToReal(x,y){
-        let rx=x/this.screenWidth*this.realWidth+this.topLeft.x;
-        let ry=this.topLeft.y-y/this.screenHeight*this.realHeight;
+        let rx=x/this.props.screenWidth*this.props.realWidth+this.props.topLeft.x;
+        let ry=this.props.topLeft.y-y/this.props.screenHeight*this.props.realHeight;
         return {x:rx,y:ry};
     }
     realToScreen(p){
-        let x=Math.round((p.x-this.topLeft.x)/this.pixelRatio);
-        let y=-Math.round((p.y-this.topLeft.y)/this.pixelRatio);
+        let x=Math.round((p.x-this.props.topLeft.x)/this.props.pixelRatio);
+        let y=-Math.round((p.y-this.props.topLeft.y)/this.props.pixelRatio);
         return {x,y};
     }
     getRealRect(){
         let realRect = new Rectangle();
-        realRect.topLeft = this.topLeft;
-        realRect.width = this.bottomRight.x-this.topLeft.x;
-        realRect.height=this.topLeft.y-this.bottomRight.y;
+        realRect.topLeft = this.props.topLeft;
+        realRect.width = this.props.bottomRight.x-this.props.topLeft.x;
+        realRect.height=this.props.topLeft.y-this.props.bottomRight.y;
         return realRect;
     }
     getScreenRect(){
         let screenRect = new Rectangle();
         screenRect.topLeft.x = 0;
         screenRect.topLeft.y = 0;
-        screenRect.width = this.screenWidth;
-        screenRect.height = this.screenHeight;
+        screenRect.width = this.props.screenWidth;
+        screenRect.height = this.props.screenHeight;
         return screenRect;
     }
     setTopLeft(p){
@@ -436,6 +436,10 @@ export default class Screen extends React.Component {
             this.curShape=this.shapeCreator.getShape();
             this.curHelperShapes=this.shapeCreator.getHelperShapes();
         }
+        if(this.status===STATUS_PICK){
+            this.picker.setCurrent(this.curCoord);
+            
+        }
         this.paint(ctx);
         
     }
@@ -528,7 +532,18 @@ export default class Screen extends React.Component {
             }
             if(this.status===STATUS_FREE){
                     this.shapeManager.toggleShapeSelected();
-
+                }
+            if(this.status===STATUS_PICK){
+                    let ctx=document.querySelector("#canvas").getContext("2d");
+                    this.picker.setNextPoint(this.curCoord);
+                    this.creationStep=this.props.captions.pickers[this.picker.getName()].steps[this.picker.getCurrentStep()];
+                    if(!this.picker.isNext())
+                    {
+                        this.refreshSnapMarkers();
+                        this.refreshShapeManager();
+                        this.cancel();
+                    }
+                    this.paint(ctx);
                 }
         }
         this.props.actions.selectShapes(this.shapeManager.getSelectedShapes());

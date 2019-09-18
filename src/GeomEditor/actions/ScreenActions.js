@@ -11,7 +11,28 @@ export const ADD_SHAPE='ADD_SHAPE';
 export const CENTER_TO_POINT='CENTER_TO_POINT';
 export const SET_STATUS='SET_STATUS';
 export const SET_CYCLIC_FLAG='SET_CYCLIC_FLAG';
+export const SET_TOP_LEFT='SET_TOP_LEFT';
 export const SET_SELECTION_TYPE='SET_SELECTION_TYPE';
+export const SET_PICKED_DATA='SET_PICKED_DATA';
+export const SET_PICKED_EDITID='SET_PICKED_EDITID';
+export function setTopLeft(p){
+    return {
+        type:SET_TOP_LEFT,
+        payload:p
+    }
+}
+export function setPickedEditId(id){
+    return{
+        type:SET_PICKED_EDITID,
+        payload:id
+    }
+}
+export function setPickedData(data){
+    return{
+        type:SET_PICKED_DATA,
+        payload:data
+    }
+}
 export function setCyclicFlag(flag) {
     return {
         type: SET_CYCLIC_FLAG,

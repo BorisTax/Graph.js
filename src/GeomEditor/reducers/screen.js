@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, SET_PICKED_EDITID} from "../actions/ScreenActions";
 import {SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
 import {SET_CYCLIC_FLAG} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
@@ -8,12 +8,18 @@ export const STATUS_CREATE='CREATE';
 export const STATUS_DRAWING='DRAWING';
 export const STATUS_CANCEL='CANCEL';
 export const STATUS_PAN='PAN';
+export const STATUS_PICK='PICK';
 const initialState = {
     screenWidth:550,
     screenHeight:550,
     show:{grid:true},
     gridSnap:false,
     snap:{snapClass:null,snap:false},
+    pickedData:{data:null,editId:0},
+    topLeft:{x:-10,y:10},
+    realWidth:0,realHeight:0,
+    ratio:1,pixelRatio:1,
+    marginTop:15,marginLeft:40,marginBottom:15,marginRight:10,
     cyclicCreation:false,
     selectionType:'crossSelect',
     status:STATUS_FREE,
@@ -23,6 +29,10 @@ const initialState = {
 };
 export function screenReducer(state = initialState,action) {
     switch (action.type) {
+        case SET_PICKED_EDITID:
+            return {...state,pickedData:{data:state.pickedData.data,editId:action.payload}}
+        case SET_PICKED_DATA:
+            return {...state,pickedData:{data:action.payload,id:state.pickedData.editId}}
         case SET_SELECTION_TYPE:
             return {...state,selectionType:action.payload}
         case SET_CYCLIC_FLAG:
@@ -56,6 +66,12 @@ export function screenReducer(state = initialState,action) {
             return{...state};
         case CENTER_TO_POINT:
             return{...state,centerPoint:{do:action.payload.do,point:action.payload.point}};
+        case SET_TOP_LEFT:
+            const topLeft=action.payload;
+            const bottomRight={};
+            bottomRight.x=topLeft.x+state.realWidth;
+            bottomRight.y=topLeft.y-state.realHeight;
+            return {...state,topLeft,bottomRight}
         case SET_STATUS:
             return{...state,status:action.payload,creator:action.creator};
         case SET_PROPERTY:
