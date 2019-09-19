@@ -14,6 +14,9 @@ class PropertyEditorBar extends React.Component{
     setProperty(k,v){
         this.props.setProperty({key:k,value:v});
         }
+    setActivePoint(key){
+        this.shape.setActivePoint(key);
+    }
     render(){
         const shapes=this.props.screen.selectedShapes;
         let propElements=[];
@@ -32,7 +35,8 @@ class PropertyEditorBar extends React.Component{
                                                      value={this.prop.get(key).value}
                                                      regexp={this.prop.get(key).regexp}
                                                      picker={PointPicker}
-                                                     setProperty={this.setProperty.bind(this)}  />:
+                                                     setProperty={this.setProperty.bind(this)}
+                                                     setActivePoint={this.setActivePoint.bind(this)}  />:
                                                      <PropertyField 
                                                      key={key}
                                                      propKey={key}

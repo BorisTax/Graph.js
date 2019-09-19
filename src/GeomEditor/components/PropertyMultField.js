@@ -22,8 +22,15 @@ class PropertyMultField extends React.Component{
           this.setState({value:value})}
     }
     blur(){
+        this.props.setActivePoint('');
         this.setState({value:this.state.originValue})
         window.KEYDOWNHANDLE=true
+    }
+    focus(){
+        this.props.setActivePoint(this.props.key);
+        window.KEYDOWNHANDLE=false;
+
+
     }
     onKeyPress(e){
         if(e.charCode===13){
@@ -69,7 +76,7 @@ class PropertyMultField extends React.Component{
                 onKeyPress={this.onKeyPress.bind(this)}
                 onKeyDown={(e)=>{e.stopPropagation()}}
                 onBlur={this.blur.bind(this)}
-                onFocus={()=>{window.KEYDOWNHANDLE=false}}
+                onFocus={this.focus.bind(this)}
                 />
             <input style={!this.state.correct?{backgroundColor:'red'}:{}}
                 className='propertyMultField'
@@ -79,7 +86,7 @@ class PropertyMultField extends React.Component{
                 onKeyPress={this.onKeyPress.bind(this)}
                 onKeyDown={(e)=>{e.stopPropagation()}}
                 onBlur={this.blur.bind(this)}
-                onFocus={()=>{window.KEYDOWNHANDLE=false}}
+                onFocus={this.focus.bind(this)}
                 />
              <button onClick={()=>{
                  this.props.setPickedData(this.state.value);

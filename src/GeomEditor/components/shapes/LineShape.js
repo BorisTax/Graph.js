@@ -1,7 +1,9 @@
-import Geometry, { Intersection } from '../../utils/geometry';
+import Geometry, { Intersection, Circle } from '../../utils/geometry';
 import EndSnapMarker from './snapmarkers/EndSnapMarker';
 import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
 import Shape from "./Shape";
+import {Color} from '../colors';
+import CircleShape from './CircleShape';
 
 export default class LineShape extends Shape{
     constructor(line){
@@ -25,6 +27,10 @@ export default class LineShape extends Shape{
     refresh(realRect, screenRect){
         this.p0 = Geometry.realToScreen(this.line.p1,realRect,screenRect);
         this.p1 = Geometry.realToScreen(this.line.p2, realRect, screenRect);
+        if(this.activePoint) {
+            this.activePointMarker=new CircleShape(new Circle(this.activePoint,this.boundedCircle.radius* Screen.MARKER_SIZE));
+            this.activePointMarker.setColor(Color.BLUE);
+        }
     }
     getMarkers(){
         let list=[];
@@ -32,6 +38,11 @@ export default class LineShape extends Shape{
         list.push(new EndSnapMarker(this.line.p2));
         list.push(new MiddleSnapMarker(Geometry.midPoint(this.line.p1,this.line.p2)))
         return list;
+    }
+    setActivePoint(key){
+        this.activePoint=null;
+        if(key==='P1') this.activePoint=this.points[0];
+        if(key==='P2') this.activePoint=this.points[1];
     }
     getProperties(){
         let prop=new Map();

@@ -352,6 +352,7 @@ export default class Screen extends React.Component {
                 status_bar=status_bar+`${this.currentShape}: ${this.creationStep}`;
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
+                if(shape.activePointMarker) this.drawShape(shape.activePointMarker);
             }
             
         if(this.curHelperShapes!=null)
