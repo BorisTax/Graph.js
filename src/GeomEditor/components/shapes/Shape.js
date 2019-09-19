@@ -27,10 +27,13 @@ export default class Shape {
         if(this.state.selected===true) {
             this.setStyle(new ShapeStyle(Color.SELECTED,ShapeStyle.SOLID,2));
             return;
-        }else this.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,1));
+        }else {
+            this.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,1));
+            this.activePoint=null;
+            this.activePointMarker=null;
+        }
         if(this.state.highlighted===true) this.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,2));
                     //else this.getStyle().setWidth(1);
-        
     }
     getState(){
         return this.state;

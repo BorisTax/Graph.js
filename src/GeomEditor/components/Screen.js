@@ -87,6 +87,7 @@ export default class Screen extends React.Component {
     getRealRect(){
         let realRect = new Rectangle();
         realRect.topLeft = this.topLeft;
+        realRect.bottomRight=this.bottomRight;
         realRect.width = this.bottomRight.x-this.topLeft.x;
         realRect.height=this.topLeft.y-this.bottomRight.y;
         return realRect;
@@ -201,6 +202,7 @@ export default class Screen extends React.Component {
             break;
             case STATUS_PICK:
                 this.picker=props.pickedData.picker
+                break;
             default:
         }
 
@@ -352,7 +354,7 @@ export default class Screen extends React.Component {
                 status_bar=status_bar+`${this.currentShape}: ${this.creationStep}`;
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
-                if(shape.activePointMarker) this.drawShape(shape.activePointMarker);
+                if(shape.activePointMarker) this.drawShape(shape.activePointMarker,ctx);
             }
             
         if(this.curHelperShapes!=null)
@@ -408,6 +410,8 @@ export default class Screen extends React.Component {
             this.curPoint.y=this.prevPoint.y;
         }
         this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
+        this.curCoord.x=+this.curCoord.x.toFixed(4);
+        this.curCoord.y=+this.curCoord.y.toFixed(4);
         this.prevPoint.x=this.curPoint.x;
         this.prevPoint.y=this.curPoint.y;
         let temp={x:this.curCoord.x,y:this.curCoord.y};

@@ -43,8 +43,8 @@ export default class CircleCRCreator extends AbstractCreator{
     setControlPoints(){
         this.helperShapes[1]=new CircleShape(new Circle(this.points[0],this.boundedCircle.radius*Screen.MARKER_SIZE));
         this.helperShapes[2]=new CircleShape(new Circle(this.points[1],this.boundedCircle.radius*Screen.MARKER_SIZE));
-        this.helperShapes[1].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));                     
-        this.helperShapes[2].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
+        this.helperShapes[1].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));                     
+        this.helperShapes[2].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
     }
     reset(){return new CircleCRCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
 }

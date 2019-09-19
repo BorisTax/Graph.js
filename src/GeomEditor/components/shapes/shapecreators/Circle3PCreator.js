@@ -21,9 +21,9 @@ export default class Circle3PCreator extends AbstractCreator{
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
         this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
         this.helperShapes[0].setStyle(new ShapeStyle(Color.gray,ShapeStyle.DASH));
-        this.helperShapes[1].setStyle(new ShapeStyle(Color.blue,ShapeStyle.SOLID));
-        this.helperShapes[2].setStyle(new ShapeStyle(Color.blue,ShapeStyle.SOLID));
-        this.helperShapes[3].setStyle(new ShapeStyle(Color.blue,ShapeStyle.SOLID));
+        this.helperShapes[1].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
+        this.helperShapes[2].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
+        this.helperShapes[3].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
         this.points=new Array(3);
     }
 

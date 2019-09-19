@@ -23,8 +23,8 @@ export default class RayLineCreator extends AbstractCreator{
     setControlPoints(){
         this.helperShapes[0]=new CircleShape(new Circle(this.points[0], this.boundedCircle.radius* Screen.MARKER_SIZE));
         this.helperShapes[1]=new CircleShape(new Circle(this.points[1], this.boundedCircle.radius* Screen.MARKER_SIZE));
-        this.helperShapes[0].setColor(Color.BLUE);
-        this.helperShapes[1].setColor(Color.BLUE);
+        this.helperShapes[0].setColor(Color.POINT_MARKER);
+        this.helperShapes[1].setColor(Color.POINT_MARKER);
     }
 
     setCurrent(point){

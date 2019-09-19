@@ -7,7 +7,7 @@ import DistancePicker from './shapes/pickers/DistancePicker'
 import PropertyField from './PropertyField';
 import PropertyMultField from './PropertyMultField';
 import PropertyEditButtonsBar from './PropertyEditButtonsBar';
-import { deleteSelectedShapes } from '../actions/ScreenActions';
+import { deleteSelectedShapes, repaint } from '../actions/ScreenActions';
 class PropertyEditorBar extends React.Component{
     prop;
     shape;
@@ -16,6 +16,7 @@ class PropertyEditorBar extends React.Component{
         }
     setActivePoint(key){
         this.shape.setActivePoint(key);
+        this.props.repaint();
     }
     render(){
         const shapes=this.props.screen.selectedShapes;
@@ -77,7 +78,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
     return {
         setProperty:(prop)=>dispatch(setProperty(prop)),
-        deleteSelectedShapes:(messages)=>dispatch(deleteSelectedShapes(messages))
+        deleteSelectedShapes:(messages)=>dispatch(deleteSelectedShapes(messages)),
+        repaint:()=>dispatch(repaint()),
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(PropertyEditorBar)

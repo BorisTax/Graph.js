@@ -16,6 +16,12 @@ export const SET_SELECTION_TYPE='SET_SELECTION_TYPE';
 export const SET_PICKED_DATA='SET_PICKED_DATA';
 export const FIX_PICKED_DATA='FIX_PICKED_DATA';
 export const START_PICKING='START_PICKING';
+export const REPAINT='REPAINT';
+export function repaint(){
+    return{
+        type:REPAINT
+    }
+}
 export function setTopLeft(p){
     return {
         type:SET_TOP_LEFT,
