@@ -1,6 +1,6 @@
 import {Coord2D} from "../../utils/geometry";
 import Geometry from "../../utils/geometry";
-import CenterSnapMarker from './snapmarkers/CenterSnapMarker';
+import CenterSnapMarker from './markers/CenterSnapMarker';
 import Shape from "./Shape";
 export default class CircleShape extends Shape{
     constructor(circle){

@@ -15,7 +15,7 @@ class PropertyMultField extends React.Component{
         v[e.target.id]=e.target.value;
         const r=this.props.regexp;
         const corr=v[e.target.id].match(r)!=null&&v[e.target.id]!=="";
-        if(corr)this.setState({value:{x:v.x,y:v.y},prevValue:{x:v.x,y:v.y},originValue:{x:v.x,y:v.y}}); 
+        if(corr)this.setState({value:{x:v.x,y:v.y},prevValue:{x:v.x,y:v.y}}); 
           else{
           const value=this.state.prevValue
           if(v[e.target.id]==='') value[e.target.id]='';

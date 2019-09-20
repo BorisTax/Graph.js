@@ -3,7 +3,7 @@ import '../Graph.css';
 import {SLine, Circle, Coord2D, Point2D,Rectangle, Intersection} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import SLineShape from "./shapes/SLineShape.js";
-import SnapMarkersManager from './shapes/snapmarkers/SnapMarkersManager';
+import SnapMarkersManager from './shapes/markers/SnapMarkersManager';
 import ShapeManager from "./shapes/ShapeManager";
 import FreeCursor from "./shapes/cursors/FreeCursor";
 import DrawCursor from "./shapes/cursors/DrawCursor";
@@ -354,7 +354,7 @@ export default class Screen extends React.Component {
                 status_bar=status_bar+`${this.currentShape}: ${this.creationStep}`;
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
-                if(shape.activePointMarker) this.drawShape(shape.activePointMarker,ctx);
+                if(shape.activePointMarker&&this.props.status!==STATUS_FREE) this.drawShape(shape.activePointMarker,ctx);
             }
             
         if(this.curHelperShapes!=null)

@@ -1,6 +1,6 @@
 import Geometry, {Coord2D,Line,Intersection} from '../../utils/geometry';
-import EndSnapMarker from './snapmarkers/EndSnapMarker';
-import MiddleSnapMarker from './snapmarkers/MiddleSnapMarker';
+import EndSnapMarker from './markers/EndSnapMarker';
+import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 
 export default class TriangleShape extends Shape{

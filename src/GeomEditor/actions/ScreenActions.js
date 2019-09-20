@@ -17,6 +17,12 @@ export const SET_PICKED_DATA='SET_PICKED_DATA';
 export const FIX_PICKED_DATA='FIX_PICKED_DATA';
 export const START_PICKING='START_PICKING';
 export const REPAINT='REPAINT';
+export const CANCEL='CANCEL';
+export function cancel(){
+    return{
+        type:CANCEL
+    }
+}
 export function repaint(){
     return{
         type:REPAINT

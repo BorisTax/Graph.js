@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, START_PICKING, FIX_PICKED_DATA, REPAINT} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, START_PICKING, FIX_PICKED_DATA, REPAINT, CANCEL} from "../actions/ScreenActions";
 import {SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
 import {SET_CYCLIC_FLAG} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
@@ -31,6 +31,8 @@ const initialState = {
 };
 export function screenReducer(state = initialState,action) {
     switch (action.type) {
+        case CANCEL:
+            return {...state,status:STATUS_FREE,repaint:Math.random()}
         case REPAINT:
             return {...state,repaint:Math.random()}
         case START_PICKING:
