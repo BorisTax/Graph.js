@@ -255,12 +255,7 @@ export class Intersection{
     }
 }
 export default class Geometry {
-    static realToScreen(point,realRect, screenRect){
-        let ratio = realRect.width / screenRect.width;
-        let x = Math.round((point.x - realRect.topLeft.x) / ratio);
-        let y = -Math.round((point.y - realRect.topLeft.y) / ratio);
-        return new Point2D(x,y);
-    }
+
     static realToScreenLength(value, realWidth, screenWidth){
         return Math.round(value/(realWidth/screenWidth));
     }
@@ -533,7 +528,19 @@ export default class Geometry {
         res.y=p.x*Math.sin(angle)+p.y*Math.cos(angle)+center.y;
         return res;
     }
-
-
+    static screenToReal(x,y,screenWidth,screenHeight,topLeft,bottomRight){
+        let realWidth=bottomRight.x-topLeft.x;
+        let realHeight=topLeft.y-bottomRight.y;
+        let rx=x/screenWidth*realWidth+topLeft.x;
+        let ry=topLeft.y-y/screenHeight*realHeight;
+        return {x:rx,y:ry};
+    }
+    static realToScreen(point,realRect, screenRect){
+        let ratio = realRect.width / screenRect.width;
+        let x = Math.round((point.x - realRect.topLeft.x) / ratio);
+        let y = -Math.round((point.y - realRect.topLeft.y) / ratio);
+        return {x,y};
+    }
 }
+
 

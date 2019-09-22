@@ -4,9 +4,9 @@ import '../Graph.css';
 import {setSnap} from '../actions/ScreenActions';
 import {setActiveSnapButton,clearActiveSnapButton} from '../actions/ComponentActions';
 import OptionTogglePic from './OptionTogglePic';
-import EndSnapMarker from "./shapes/snapmarkers/EndSnapMarker";
-import MiddleSnapMarker from "./shapes/snapmarkers/MiddleSnapMarker";
-import CenterSnapMarker from "./shapes/snapmarkers/CenterSnapMarker";
+import EndSnapMarker from "./shapes/markers/EndSnapMarker";
+import MiddleSnapMarker from "./shapes/markers/MiddleSnapMarker";
+import CenterSnapMarker from "./shapes/markers/CenterSnapMarker";
 class SnapToggleBar extends React.Component{
     render(){
         let cap=this.props.captions.snap;

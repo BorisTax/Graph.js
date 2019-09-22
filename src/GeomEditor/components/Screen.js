@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Graph.css';
-import {SLine, Circle, Coord2D, Point2D,Rectangle, Intersection} from '../utils/geometry.js';
+import Geometry, {SLine, Circle, Coord2D, Point2D,Rectangle, Intersection} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import SLineShape from "./shapes/SLineShape.js";
 import SnapMarkersManager from './shapes/markers/SnapMarkersManager';
@@ -49,242 +49,87 @@ export default class Screen extends React.Component {
     constructor(props){
         super(props);
         window.KEYDOWNHANDLE=true
-        this.status=STATUS_FREE;
-        this.snapMarkersManager =new SnapMarkersManager();
-        this.shapeManager=new ShapeManager();
-        this.screenWidth=props.screenWidth;
-        this.screenHeight=props.screenHeight;
         this.refCanvas=React.createRef()
-        this.state={
+    }
 
-        }
-    }
-    refreshSnapMarkers(){
-        this.snapMarkersManager.clear();
-        for(let s of this.props.shapes){
-            this.snapMarkersManager.addSnapMarkers(s.getMarkers());
-        }
-    }
-    refreshShapeManager(){
-        this.shapeManager=new ShapeManager(this.props.shapes);
-    }
-    setBoundedCircle(){
-        let c=this.screenToReal(this.screenWidth/2,this.screenHeight/2);
-        let r=Math.sqrt(this.realWidth*this.realWidth+this.realHeight*this.realHeight)/2;
-        this.boundedCircle=new Circle(c,r);
-        if(this.shapeCreator!=null) this.shapeCreator.refresh(this.boundedCircle);
-    }
-    screenToReal(x,y){
-        let rx=x/this.screenWidth*this.realWidth+this.topLeft.x;
-        let ry=this.topLeft.y-y/this.screenHeight*this.realHeight;
-        return {x:rx,y:ry};
-    }
-    realToScreen(p){
-        let x=Math.round((p.x-this.topLeft.x)/this.pixelRatio);
-        let y=-Math.round((p.y-this.topLeft.y)/this.pixelRatio);
-        return {x,y};
-    }
     getRealRect(){
         let realRect = new Rectangle();
-        realRect.topLeft = this.topLeft;
-        realRect.bottomRight=this.bottomRight;
-        realRect.width = this.bottomRight.x-this.topLeft.x;
-        realRect.height=this.topLeft.y-this.bottomRight.y;
+        realRect.topLeft = this.props.topLeft;
+        realRect.bottomRight=this.props.bottomRight;
+        realRect.width = this.props.bottomRight.x-this.props.topLeft.x;
+        realRect.height=this.props.topLeft.y-this.props.bottomRight.y;
         return realRect;
     }
     getScreenRect(){
         let screenRect = new Rectangle();
         screenRect.topLeft.x = 0;
         screenRect.topLeft.y = 0;
-        screenRect.width = this.screenWidth;
-        screenRect.height = this.screenHeight;
+        screenRect.width = this.props.screenWidth;
+        screenRect.height = this.props.screenHeight;
         return screenRect;
     }
-    setTopLeft(p){
-        this.topLeft=p;
-        this.bottomRight={};
-        this.bottomRight.x=this.topLeft.x+this.realWidth;
-        this.bottomRight.y=this.topLeft.y-this.realHeight;
-        this.props.actions.setTopLeft(p);
-    }
-    setRealWidth(width){
-       this.realWidth=width;
-       this.pixelRatio=this.realWidth/this.screenWidth;
-       this.realHeight=this.screenHeight*this.pixelRatio;
-       this.gridStepPixels=Math.round(this.gridStep/this.pixelRatio);
-       this.bottomRight={};
-       this.bottomRight.x=this.topLeft.x+this.realWidth;
-       this.bottomRight.y=this.topLeft.y-this.realHeight;
-    }
-    setScale(scale,anchor){
-        let dx=anchor.x-this.topLeft.x;
-        let dy=anchor.y-this.topLeft.y;
-        this.setRealWidth(this.realWidth*scale);
-        dx=dx*scale;
-        dy=dy*scale;
-        this.setTopLeft(new Coord2D(anchor.x-dx,anchor.y-dy));
-        this.setBoundedCircle();
-        if(this.gridStep/this.pixelRatio<10){
-            if (this.gridStep<1000000) this.gridStep=this.gridStep*10;
-            }
-            else if(this.gridStep/this.pixelRatio>100)
-                if(this.gridStep>0.001) this.gridStep=this.gridStep/10;
-                this.gridStepPixels=Math.round(this.gridStep/this.pixelRatio);
-    }
-    centerToPoint(point){
-        let viewPortWidth=this.realWidth-(this.marginLeft+this.marginRight)*this.pixelRatio;
-        let viewPortHeight=this.realHeight-(this.marginTop+this.marginBottom)*this.pixelRatio;
-        this.setTopLeft(new Coord2D(point.x-viewPortWidth/2-this.marginLeft*this.pixelRatio,point.y+viewPortHeight/2+this.marginTop*this.pixelRatio));
-        this.setBoundedCircle();
-        this.setState(this.state);
-    }
+
     test(){
-        const r1=new Rectangle({x:-3,y:-2},{x:3,y:4});
-        const r2=new Rectangle({x:-6,y:3},{x:-3,y:-2});
-        const ps=Intersection.RectangleRectangle(r1.topLeft,r1.bottomRight,r2.topLeft,r2.bottomRight);
-        
-        const cs=ps.map(p=>new CircleShape({center:{x:p.x,y:p.y},radius:0.1}))
-        this.props.shapes.push(new RectangleShape(r1));
-        this.props.shapes.push(new RectangleShape(r2));
+        const ps=[{x:1,y:1},{x:-5,y:2}]
+        const cs=ps.map(p=>new CircleShape({center:{x:p.x,y:p.y},radius:0.5}))
         cs.forEach(c=>this.props.shapes.push(c));
     }
-    setDimentions(width, height, realWidth, topLeft){
-        this.screenHeight=height;
-        this.screenWidth=width;
-        this.realWidth=realWidth;
-        this.realHeight=this.realHeight;
-        this.resize();
-        this.xAxe=new SLine(0,1,0);
-        this.yAxe=new SLine(1,0,0);
-        this.xAxeShape=new SLineShape(this.xAxe,this.boundedCircle);
-        this.yAxeShape=new SLineShape(this.yAxe,this.boundedCircle);
-        this.xAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
-        this.yAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
-        this.props.actions.addShape(this.xAxeShape)
-        this.props.actions.addShape(this.yAxeShape)
 
-        //this.test();
-
-        this.centerToPoint(new Coord2D(0,0));
-        this.cursor=new FreeCursor(this.curCoord);
-        this.refreshSnapMarkers();
-        this.refreshShapeManager();
-    }
-    cancel(){
-        this.status=STATUS_FREE;
-        this.props.actions.setScreenStatus(STATUS_FREE);
-        this.curShape=null;
-        this.curHelperShapes=null;
-        this.creationStep="";
-        this.currentShape="";
-        this.cursor=new FreeCursor(this.curCoord);
-    }
-
-    setStatus(status,props){
-        this.status=status;
-        this.prevStatus=this.status;
-        switch(status){
-            case STATUS_CREATE:
-                this.newShape(props.statusParams.creator);
-                props.actions.setScreenStatus(STATUS_DRAWING,{creator:props.statusParams.creator});
-                break;
-            case STATUS_CANCEL:
-                this.cancel();
-                break;
-            case STATUS_PAN:
-                this.dragGrid=true;
-                this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
-                this.dragX0=this.curCoord.x;
-                this.dragY0=this.curCoord.y;
-                this.prevCursor=this.cursor;
-                this.status=status;
-                this.cursor=new DragCursor(this.curCoord);
-            break;
-            case STATUS_PICK:
-                this.picker=props.pickedData.picker
-                break;
-            default:
-        }
-
-    }
-    getBoundedCircle(){return this.boundedCircle;}
-    setGridSnap(snap){
-        this.gridSnap=snap;
-    }
-    setSnap(snapClass,snap){
-        if(snap===true) this.snapMarkersManager.addSnap(snapClass);
-        else
-        this.snapMarkersManager.removeSnap(snapClass);
-    }
-    setGridVisible(visible){
-        this.showGrid=visible;
-    }
-    newShape(creator){
-        this.shapeCreator=creator;
-        this.shapeCreator.refresh(this.boundedCircle);
-        this.curShape=null;//this.shapeCreator.getShape();
-        this.curHelperShapes=null;//this.shapeCreator.getHelperShapes();
-        this.currentShape=this.props.captions.creators[this.shapeCreator.getName()].description;
-        this.creationStep=this.props.captions.creators[this.shapeCreator.getName()].steps[this.shapeCreator.getCurrentStep()];
-        this.status=STATUS_CREATE;
-        this.cursor=new DrawCursor(this.curCoord);
-    };
-
-    drawCursor(ctx){
-      this.cursor.setCoord(this.curCoord);
-      this.drawShape(this.cursor,ctx);
+     drawCursor(ctx){
+      this.props.cursor.setCoord(this.props.curCoord);
+      this.drawShape(this.props.cursor,ctx);
     }
     drawGrid(ctx){
         ctx.strokeStyle=Color.GRID;
         let solidStyle=new ShapeStyle(Color.GRAY,ShapeStyle.SOLID);
         let dashStyle=new ShapeStyle(Color.GRAY,ShapeStyle.DASH);
-        let firstX=Math.round(this.topLeft.x/this.gridStep)*this.gridStep;
-        let firstY=Math.round(this.topLeft.y/this.gridStep)*this.gridStep;
+        let firstX=Math.round(this.props.topLeft.x/this.props.gridStep)*this.props.gridStep;
+        let firstY=Math.round(this.props.topLeft.y/this.props.gridStep)*this.props.gridStep;
         let hor=false;
         let vert=false;
         let ix=0;
         let iy=0;
-        let xGridLineNumber=Math.round(firstX/this.gridStep);
-        let yGridLineNumber=Math.round(firstY/this.gridStep);
-        let gridLinesCountX=Math.round(this.realWidth/this.gridStep);
-        let gridLinesCountY=Math.round(this.realHeight/this.gridStep);
+        let xGridLineNumber=Math.round(firstX/this.props.gridStep);
+        let yGridLineNumber=Math.round(firstY/this.props.gridStep);
+        let gridLinesCountX=Math.round(this.props.realWidth/this.props.gridStep);
+        let gridLinesCountY=Math.round(this.props.realHeight/this.props.gridStep);
         this.gridPointsX=new Array(gridLinesCountX);
         this.gridPointsY=new Array(gridLinesCountY);
         this.gridNumbersX=new Array(gridLinesCountX);
         this.gridNumbersY=new Array(gridLinesCountY);
         while(!hor||!vert){
             if(!hor){
-                let x=firstX+this.gridStep*ix;
-                let px=this.realToScreen(new Coord2D(x,this.topLeft.y));
+                let x=firstX+this.props.gridStep*ix;
+                let px=Geometry.realToScreen(new Coord2D(x,this.props.topLeft.y),this.getRealRect(),this.getScreenRect());
                 if(xGridLineNumber%10===0) ctx.setLineDash(solidStyle.getStroke());else ctx.setLineDash(dashStyle.getStroke());
 
-                if(this.showGrid) {
+                if(this.props.show.grid) {
                     ctx.beginPath();
                     ctx.moveTo(px.x, 0);
-                    ctx.lineTo(px.x, this.screenHeight);
+                    ctx.lineTo(px.x, this.props.screenHeight);
                     ctx.stroke();
                 }
                 this.gridPointsX[ix]=px.x;
                 this.gridNumbersX[ix]=x;
                 ix++;
                 xGridLineNumber++;
-                if(x>(this.topLeft.x+this.realWidth))hor=true;
+                if(x>(this.props.topLeft.x+this.props.realWidth))hor=true;
             }
             if(!vert){
-                let y=firstY-this.gridStep*iy;
-                let py=this.realToScreen(new Coord2D(this.topLeft.x,y));
+                let y=firstY-this.props.gridStep*iy;
+                let py=Geometry.realToScreen(new Coord2D(this.props.topLeft.x,y),this.getRealRect(),this.getScreenRect());
                 if(yGridLineNumber%10===0) ctx.setLineDash(solidStyle.getStroke());else ctx.setLineDash(dashStyle.getStroke());
                 yGridLineNumber--;
-                if(this.showGrid) {
+                if(this.props.show.grid) {
                     ctx.beginPath();
                     ctx.moveTo(0, py.y);
-                    ctx.lineTo(this.screenWidth, py.y);
+                    ctx.lineTo(this.props.screenWidth, py.y);
                     ctx.stroke();
                 }
                 this.gridPointsY[iy]=py.y;
                 this.gridNumbersY[iy]=y;
                 iy++;
-                if(y<(this.topLeft.y-this.realHeight))vert=true;
+                if(y<(this.props.topLeft.y-this.props.realHeight))vert=true;
             }
 
         }
@@ -297,10 +142,10 @@ export default class Screen extends React.Component {
         let i=0;
         let format=0;
         let w;
-        if(this.gridStep>=0.001){format=3;}
-        if(this.gridStep>=0.01){format=2;}
-        if(this.gridStep>=0.1){format=1;}
-        if(this.gridStep>=1){format=0;}
+        if(this.props.gridStep>=0.001){format=3;}
+        if(this.props.gridStep>=0.01){format=2;}
+        if(this.props.gridStep>=0.1){format=1;}
+        if(this.props.gridStep>=1){format=0;}
         let l=0;
         let s0="";//Finding out the number with maximum length
         for(let x of this.gridNumbersX){
@@ -311,30 +156,30 @@ export default class Screen extends React.Component {
         w=ctx.measureText(s0).width;
         for(let x of this.gridPointsX){
             if(x===null) continue;
-            if(x>this.marginLeft&&x<this.screenWidth-this.marginRight) {
+            if(x>this.props.marginLeft&&x<this.props.screenWidth-this.props.marginRight) {
                  let s=this.gridNumbersX[i].toFixed(format);
                  let d=1;
-                 let r=w/this.gridStepPixels;
+                 let r=w/this.props.gridStepPixels;
                  if(r>=1)d=2;
                  if(r>=1.5)d=5;
-                 if(Math.round(this.gridNumbersX[i]/this.gridStep)%d===0)
-                    ctx.strokeText(s,x-ctx.measureText(s).width/2,this.marginTop - 5);
+                 if(Math.round(this.gridNumbersX[i]/this.props.gridStep)%d===0)
+                    ctx.strokeText(s,x-ctx.measureText(s).width/2,this.props.marginTop - 5);
             }
             i++;
         }
         i=0;
         for(let y of this.gridPointsY){
             if(y===null) continue;
-            if(y>this.marginTop&&y<this.screenHeight-this.marginBottom){
+            if(y>this.props.marginTop&&y<this.props.screenHeight-this.props.marginBottom){
                 let s=this.gridNumbersY[i].toFixed(format);
                 w=ctx.measureText(s).width;
                 let h=ctx.measureText("12").width;
                 let d=1;
-                let r=h/this.gridStepPixels;
+                let r=h/this.props.gridStepPixels;
                 if(r>0.8&&r<1.5)d=2;
                 if(r>=1.5)d=5;
-                if(Math.round(this.gridNumbersY[i]/this.gridStep)%d===0)
-                    ctx.strokeText(s,this.marginLeft-w,y+h/3);
+                if(Math.round(this.gridNumbersY[i]/this.props.gridStep)%d===0)
+                    ctx.strokeText(s,this.props.marginLeft-w,y+h/3);
                     //g.drawString(s,marginLeft-w,y+h/3);
                 }
              i++;
@@ -347,125 +192,140 @@ export default class Screen extends React.Component {
         ctx.fillStyle="white";
         ctx.lineWidth=1;
         ctx.lineJoin='round';
-        ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
+        ctx.fillRect(0, 0, this.props.screenWidth, this.props.screenHeight);
         this.drawGrid(ctx);
-        let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}    ${this.status} `;
-        if(this.status===STATUS_CREATE||this.status===STATUS_DRAWING)   
-                status_bar=status_bar+`${this.currentShape}: ${this.creationStep}`;
+        let status_bar=`X=${this.props.curCoord.x.toFixed(3)} Y=${this.props.curCoord.y.toFixed(3)}    ${this.props.status} `;
+        let currentShape='';
+        if(this.props.shapeCreator) currentShape=this.props.captions.creators[this.props.shapeCreator.getName()].description;
+        let creationStep='';
+        if(this.props.shapeCreator) creationStep=this.props.captions.creators[this.props.shapeCreator.getName()].steps[this.props.shapeCreator.getCurrentStep()];
+
+        if(this.props.status===STATUS_CREATE)   
+                status_bar=status_bar+`${currentShape}: ${creationStep}`;
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
-                if(shape.activePointMarker&&this.props.status!==STATUS_FREE) this.drawShape(shape.activePointMarker,ctx);
+                if(shape.activePointMarker&&this.props.status!==STATUS_FREE) 
+                        this.drawShape(shape.activePointMarker,ctx);
             }
-            
-        if(this.curHelperShapes!=null)
-                for(let shape of this.curHelperShapes)
+        let curHelperShapes=null;
+        if(this.props.shapeCreator) curHelperShapes=this.props.shapeCreator.getHelperShapes();    
+        if(curHelperShapes!=null)
+                for(let shape of curHelperShapes)
                     this.drawShape(shape, ctx);
-        if(this.curShape!=null) this.drawShape(this.curShape, ctx);
+        let curShape=null;
+        if(this.props.shapeCreator) curShape=this.props.shapeCreator.getShape();
+        if(curShape!=null) this.drawShape(curShape, ctx);
             
         ctx.lineWidth=1;
         ctx.fillStyle="white";
         //fill margin
-        ctx.fillRect(0, 0, this.screenWidth-this.marginRight,this.marginTop);
-        ctx.fillRect(0,0, this.marginLeft,this.screenHeight);
-        ctx.fillRect(this.screenWidth-this.marginRight, 0, this.screenWidth,this.screenHeight);
-        ctx.fillRect(this.marginLeft, this.screenHeight-this.marginBottom, this.screenWidth-this.marginRight,this.screenHeight-this.marginTop);
+        ctx.fillRect(0, 0, this.props.screenWidth-this.props.marginRight,this.props.marginTop);
+        ctx.fillRect(0,0, this.props.marginLeft,this.props.screenHeight);
+        ctx.fillRect(this.props.screenWidth-this.props.marginRight, 0, this.props.screenWidth,this.props.screenHeight);
+        ctx.fillRect(this.props.marginLeft, this.props.screenHeight-this.props.marginBottom, this.props.screenWidth-this.props.marginRight,this.props.screenHeight-this.props.marginTop);
         ctx.strokeStyle="black";
-        ctx.strokeRect(this.marginLeft, this.marginTop, this.screenWidth-this.marginRight-this.marginLeft,this.screenHeight-this.marginBottom-this.marginTop);
+        ctx.strokeRect(this.props.marginLeft, this.props.marginTop, this.props.screenWidth-this.props.marginRight-this.props.marginLeft,this.props.screenHeight-this.props.marginBottom-this.props.marginTop);
         this.drawCoordinates(ctx);
         ctx.font="12px sans-serif";
-        ctx.strokeText(status_bar,this.marginLeft,this.screenHeight-this.statusBar);
-        if(this.status!==STATUS_FREE){
-            let marker=this.snapMarkersManager.getActiveMarker();
+        //status_bar=status_bar+` TL ${this.props.topLeft.x.toFixed(1)},${this.props.topLeft.y.toFixed(1)}  BR ${this.props.bottomRight.x.toFixed(1)},${this.props.bottomRight.y.toFixed(1)}  RW ${this.props.realWidth.toFixed(1)} RH ${this.props.realHeight.toFixed(1)}  GS ${this.props.gridStep}  GSP ${this.props.gridStepPixels}`
+        ctx.strokeText(status_bar,this.props.marginLeft,this.props.screenHeight-this.props.statusBar);
+        if(this.props.status!==STATUS_FREE){
+            let marker=this.props.snapMarkersManager.getActiveMarker();
             if(marker!=null) {
                 marker.refresh(this.getRealRect(), this.getScreenRect());
                 this.drawShape(marker.getMarker(), ctx);
             }
         }
         ctx.lineWidth=1;
-        if(this.status===STATUS_SELECT){
-            this.drawShape(this.selectionShape,ctx);
+        if(this.props.status===STATUS_SELECT){
+            this.drawShape(this.props.selectionManager.getSelectionShape(),ctx);
         }
         this.drawCursor(ctx);
     }
 
     isOutRect(p){
-       return p.x<this.marginLeft||p.x>this.screenWidth-this.marginRight
-        ||p.y<this.marginTop||p.y>this.screenHeight-this.marginBottom;
+       return p.x<this.props.marginLeft||p.x>this.props.screenWidth-this.props.marginRight
+        ||p.y<this.props.marginTop||p.y>this.props.screenHeight-this.props.marginBottom;
     }
 
     mmove(e){
-        let ctx=e.target.getContext("2d");
         let rect=e.target.getBoundingClientRect();
-        this.curPoint.x=e.clientX-rect.left;
-        this.curPoint.y=e.clientY-rect.top;
-        if(this.dragGrid){
-            this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
-            let dx=this.curCoord.x-this.dragX0;
-            let dy=this.curCoord.y-this.dragY0;
-            this.setTopLeft({x:this.topLeft.x-dx,y:this.topLeft.y-dy});
-            this.setBoundedCircle();
+        let curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
+        let coord={x:this.props.curCoord.x,y:this.props.curCoord.y};
+        if(this.props.status===STATUS_PAN){
+            coord=Geometry.screenToReal(curPoint.x,curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
+            let dx=curPoint.x-this.dragX0;
+            let dy=curPoint.y-this.dragY0;
+            this.dragX0=curPoint.x
+            this.dragY0=curPoint.y
+            const rdx=this.props.realWidth*dx/this.props.screenWidth;
+            const rdy=this.props.realHeight*dy/this.props.screenHeight;
+            this.props.actions.setTopLeft({x:this.props.topLeft.x-rdx,y:this.props.topLeft.y+rdy});
+            this.props.actions.setBoundedCircle();
+            return;
         }
-        if(this.isOutRect(this.curPoint)){
-            this.curPoint.x=this.prevPoint.x;
-            this.curPoint.y=this.prevPoint.y;
+        if(this.isOutRect(curPoint)){
+            curPoint.x=this.prevPoint.x;
+            curPoint.y=this.prevPoint.y;
         }
-        this.curCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
-        this.curCoord.x=+this.curCoord.x.toFixed(4);
-        this.curCoord.y=+this.curCoord.y.toFixed(4);
-        this.prevPoint.x=this.curPoint.x;
-        this.prevPoint.y=this.curPoint.y;
-        let temp={x:this.curCoord.x,y:this.curCoord.y};
-        if(this.gridSnap&&this.status!==STATUS_FREE){
-            let x=Math.round(temp.x/this.gridStep)*this.gridStep;
-            let y=Math.round(temp.y/this.gridStep)*this.gridStep;
+        coord=Geometry.screenToReal(curPoint.x,curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
+        coord.x=+coord.x.toFixed(4);
+        coord.y=+coord.y.toFixed(4);
+        this.prevPoint.x=curPoint.x;
+        this.prevPoint.y=curPoint.y;
+        let temp={x:coord.x,y:coord.y};
+        if(this.props.gridSnap&&this.props.status!==STATUS_FREE){
+            let x=Math.round(temp.x/this.props.gridStep)*this.props.gridStep;
+            let y=Math.round(temp.y/this.props.gridStep)*this.props.gridStep;
             let dx=x-temp.x;
             let dy=y-temp.y;
-            if((Math.sqrt(dx*dx+dy*dy)<=this.snapMinDist*this.pixelRatio)){
-                if(!this.isOutRect(this.realToScreen({x,y}))) {
+            if((Math.sqrt(dx*dx+dy*dy)<=this.props.snapMinDist*this.props.pixelRatio)){
+                if(!this.isOutRect(Geometry.realToScreen({x,y},this.getRealRect(),this.getScreenRect()))) {
                     temp.x = x;
                     temp.y = y;
-                    this.curPoint = this.realToScreen({...temp});
+                    curPoint = Geometry.realToScreen({...temp},this.getRealRect(),this.getScreenRect());
                 }
                 }
         }
-        if(this.status!==STATUS_FREE){
-            let d = this.snapMarkersManager.getDistanceToNearestMarker(temp,this.snapDist*this.pixelRatio);
-            if(d>=0&&d<=this.snapMinDist*this.pixelRatio){
-                temp=this.snapMarkersManager.getActiveMarker().getPos();
-                this.curPoint = this.realToScreen({...temp});
+        if(this.props.status!==STATUS_FREE){
+            let d = this.props.snapMarkersManager.getDistanceToNearestMarker(temp,this.props.snapDist*this.props.pixelRatio);
+            if(d>=0&&d<=this.props.snapMinDist*this.props.pixelRatio){
+                temp=this.props.snapMarkersManager.getActiveMarker().getPos();
+                curPoint = Geometry.realToScreen({...temp},this.getRealRect(),this.getScreenRect());
             }
         }
-        this.curCoord=temp;
-        if(this.status===STATUS_FREE){
-            this.shapeManager.setShapeNearPoint(this.curCoord,this.selectDist*this.pixelRatio);
+        coord=temp;
+        if(this.props.status===STATUS_FREE){
+            this.props.shapeManager.setShapeNearPoint(coord,this.props.selectDist*this.props.pixelRatio);
             
         }
-        if(this.status===STATUS_SELECT){
-            this.selectionManager.setCurrent(this.curCoord);
-            this.shapeManager.setShapeInRect(this.prevCoord,this.curCoord);
-            this.selectionShape=this.selectionManager.getSelectionShape();
+        if(this.props.status===STATUS_SELECT){
+            this.props.selectionManager.setCurrent(coord);
+            this.props.shapeManager.setShapeInRect(this.prevCoord,coord);
+            //this.props.selectionShape=this.props.selectionManager.getSelectionShape();
         }
-        if(this.status===STATUS_DRAWING){
-            this.shapeCreator.setCurrent(this.curCoord);
-            this.curShape=this.shapeCreator.getShape();
-            this.curHelperShapes=this.shapeCreator.getHelperShapes();
+        if(this.props.status===STATUS_DRAWING){
+            this.props.shapeCreator.setCurrent(coord);
+            //this.props.curShape=this.shapeCreator.getShape();
+            //this.curHelperShapes=this.shapeCreator.getHelperShapes();
         }
-        if(this.status===STATUS_PICK){
-            this.picker.setCurrent(this.curCoord);
-            this.props.actions.setPickedData(this.curCoord);
+        if(this.props.status===STATUS_PICK){
+            this.props.picker.setCurrent(coord);
+            this.props.actions.setPickedData(coord);
             //this.props.actions.fixPickedData(true);
         }
-        this.paint(ctx);
-        
+        this.props.actions.setCurCoord(coord);
+        //this.paint(ctx);
     }
     mdown(e){
         if(e.button===1){
-            let ctx=e.target.getContext("2d");
+            //let ctx=e.target.getContext("2d");
             let rect=e.target.getBoundingClientRect();
-            this.curPoint.x=e.clientX-rect.left;
-            this.curPoint.y=e.clientY-rect.top;
-            this.setStatus(STATUS_PAN,this.props);
-            this.paint(ctx);
+            const curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
+            this.dragX0=curPoint.x
+            this.dragY0=curPoint.y
+            this.props.actions.setScreenStatus(STATUS_PAN);
+            //this.paint(ctx);
             e.preventDefault();
         }
         if(e.button===0){
@@ -473,127 +333,125 @@ export default class Screen extends React.Component {
             let rect=e.target.getBoundingClientRect();
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
-            if(this.status===STATUS_FREE){
-                this.prevCoord=this.screenToReal(this.curPoint.x,this.curPoint.y);
-                this.selectionManager=new SelectionManager(SelectRectCreator);
-                this.selectionManager.setNext(this.screenToReal(this.curPoint.x,this.curPoint.y));
-                this.selectionShape=this.selectionManager.getSelectionShape();
-                this.status=STATUS_SELECT;
+            if(this.props.status===STATUS_FREE){
+                this.prevCoord=Geometry.screenToReal(this.curPoint.x,this.curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
+                this.props.selectionManager.reset();
+                this.props.selectionManager.setNext(Geometry.screenToReal(this.curPoint.x,this.curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight));
+                //this.selectionShape=this.selectionManager.getSelectionShape();
+                this.props.actions.setScreenStatus(STATUS_SELECT);
             }
-            this.paint(ctx);
+            this.props.actions.repaint();
             e.preventDefault();
         }
     }
     mup(e){
         if(e.button===1){
             let ctx=e.target.getContext("2d");
-            this.dragGrid=false;
-            e.target.style.cursor="none";
-            this.cursor=this.prevCursor;
-            this.status=this.prevStatus;
-            this.paint(ctx);
+            //this.dragGrid=false;
+            //e.target.style.cursor="none";
+            //this.cursor=this.prevCursor;
+            this.props.actions.setPrevStatus();
+            //this.paint(ctx);
         }
         if(e.button===0){
-            if(this.status===STATUS_SELECT){
-                this.status=STATUS_FREE;
+            if(this.props.status===STATUS_SELECT){
+                this.props.actions.setScreenStatus(STATUS_FREE);
             }
         }
     }
     mwheel(e){
-        
-        if(this.dragGrid)return;
-        let ctx=e.target.getContext("2d");
+        if(this.props.status===STATUS_PAN)return;
+        //let ctx=e.target.getContext("2d");
         let rect=e.target.getBoundingClientRect();
-        let p=this.screenToReal(e.clientX-rect.left,e.clientY-rect.top);
+        let p=Geometry.screenToReal(e.clientX-rect.left,e.clientY-rect.top,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
         if(e.deltaY>0)
         {
-            if(this.realWidth<=1000) this.setScale(1.2,p);
+            if(this.props.realWidth<=1000) this.props.actions.setScale(1.2,p);
         }else{
-            if(this.pixelRatio>=0.001)
-                this.setScale(1/1.2,p);
+            if(this.props.pixelRatio>=0.001)
+                this.props.actions.setScale(1/1.2,p);
         }
-        this.paint(ctx);
+        //this.paint(ctx);
        e.preventDefault();
     }
     mleave(e){
-        if(this.dragGrid===true){
-            this.dragGrid=false;
-            this.status=this.prevStatus;
-            this.cursor=this.prevCursor;
+        if(this.props.status===STATUS_PAN){
+            this.props.actions.setScreenStatus(this.props.prevStatus);
+            //this.cursor=this.prevCursor;
         }
     }
     onclick(e){
         if(e.button===0){
-            if(this.status===STATUS_CREATE||this.status===STATUS_DRAWING){
+            if(this.props.status===STATUS_CREATE){
                 let ctx=document.querySelector("#canvas").getContext("2d");
-                this.shapeCreator.setNextPoint(this.curCoord);
-                this.creationStep=this.props.captions.creators[this.shapeCreator.getName()].steps[this.shapeCreator.getCurrentStep()];
-                this.status=STATUS_DRAWING;
-                this.props.actions.setScreenStatus(STATUS_DRAWING);
-                if(!this.shapeCreator.isNext())
+                this.props.shapeCreator.setNextPoint(this.props.curCoord);
+                //this.creationStep=this.props.captions.creators[this.shapeCreator.getName()].steps[this.shapeCreator.getCurrentStep()];
+                //this.status=STATUS_DRAWING;
+                //this.props.actions.setScreenStatus(STATUS_DRAWING);
+                if(!this.props.shapeCreator.isNext())
                 {
-                    this.props.shapes.push(this.curShape);
-                    this.refreshSnapMarkers();
-                    this.refreshShapeManager();
+                    this.props.shapes.push(this.props.shapeCreator.getShape());
+                    this.props.actions.refreshSnapMarkers();
+                    this.props.actions.refreshShapeManager();
                     if(this.props.cyclicCreation){
-                        this.newShape(this.shapeCreator.reset(this.boundedCircle));
-                        this.status=STATUS_CREATE;
+                        this.props.actions.setScreenStatus(STATUS_CREATE,this.props.shapeCreator.reset(this.props.boundedCircle));
+                        //this.status=STATUS_CREATE;
                     }else {
-                        this.cancel();
+                        this.props.actions.cancel();
                     }
                     
                 }
-                this.paint(ctx);
+                //this.paint(ctx);
             }
-            if(this.status===STATUS_FREE){
-                    this.shapeManager.toggleShapeSelected();
+            if(this.props.status===STATUS_FREE){
+                    this.props.shapeManager.toggleShapeSelected();
                 }
-            if(this.status===STATUS_PICK){
-                    let ctx=document.querySelector("#canvas").getContext("2d");
-                    this.picker.setNextPoint(this.curCoord);
-                    this.creationStep=this.props.captions.pickers[this.picker.getName()].steps[this.picker.getCurrentStep()];
-                    if(!this.picker.isNext())
+            if(this.props.status===STATUS_PICK){
+                    this.props.picker.setNextPoint(this.props.curCoord);
+                    //this.creationStep=this.props.captions.pickers[this.picker.getName()].steps[this.picker.getCurrentStep()];
+                    if(!this.props.picker.isNext())
                     {
                         this.props.actions.fixPickedData(true);
-                        this.refreshSnapMarkers();
-                        this.refreshShapeManager();
-                        this.cancel();
+                        this.props.actions.refreshSnapMarkers();
+                        this.props.actions.refreshShapeManager();
+                        this.props.actions.cancel();
                     }
-                    this.paint(ctx);
+                    //this.paint(ctx);
                 }
         }
-        this.props.actions.selectShapes(this.shapeManager.getSelectedShapes());
-        this.paint(e.target.getContext("2d"));
+        this.props.actions.selectShapes(this.props.shapeManager.getSelectedShapes());
+        //this.paint(e.target.getContext("2d"));
         e.preventDefault();
     }
 
     resize(){
         const style=window.getComputedStyle(document.querySelector('.screenContainer'));
-        this.screenWidth=Number.parseInt(style.width);
-        this.screenHeight=Number.parseInt(style.height);
-        this.canvas.width=this.screenWidth;
-        this.canvas.height=this.screenHeight;
-        this.ratio=this.screenWidth/this.screenHeight;
-        this.setRealWidth(this.realWidth);
-        this.setTopLeft(this.topLeft);
-        this.setBoundedCircle();
+        const sw=Number.parseInt(style.width);
+        const sh=Number.parseInt(style.height);
+        this.props.actions.setDimensions(sw,sh,this.props.realWidth,this.props.topLeft);
+        this.canvas.width=sw;
+        this.canvas.height=sh;
+        //this.props.actions.setRatio(sw/sh);
+        //this.props.actions.setRealWidth(this.realWidth);
+        //this.setTopLeft(this.topLeft);
+        this.props.actions.setBoundedCircle();
     }
     componentDidMount() {
-        
         this.canvas=document.querySelector("#canvas");
         this.ctx=this.canvas.getContext("2d");
         this.canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
-        this.setDimentions(this.screenWidth,this.screenHeight,20,new Coord2D(-10,10));
+        
+        this.test();
         this.paint(this.ctx);
         window.addEventListener('load',()=>{
             this.resize();
-            this.centerToPoint(new Coord2D(0,0));
-            this.paint(this.ctx);
+            this.props.actions.centerToPoint(new Coord2D(0,0));
+            this.props.actions.repaint();
             document.body.oncontextmenu=()=>false
         });
         window.addEventListener('resize',()=>{
             this.resize();
-            this.paint(this.ctx);
+            //this.paint(this.ctx);
         })
         window.addEventListener('keydown',(e)=>{
             if(window.KEYDOWNHANDLE===false) return;
@@ -609,34 +467,20 @@ export default class Screen extends React.Component {
     }
 
     componentDidUpdate(){
-        if(this.props.snap.snapClass!=null) {
-
-            if (this.props.snap.snapClass === "grid") this.gridSnap = this.props.snap.snap;
-                else
-                this.setSnap(this.props.snap.snapClass,this.props.snap.snap);
-
-        }
-        this.shapeManager.setShapes(this.props.shapes,this.props.selectionType);
-        this.setStatus(this.props.status,this.props);
-        if(this.props.centerPoint.do){
-            this.centerToPoint(this.props.centerPoint.point);
-            this.props.actions.centerToPoint({do:false,point:this.props.centerPoint.point});
-            };
-        this.refreshSnapMarkers();
+        this.props.shapeManager.setShapes(this.props.shapes,this.props.selectionType);
+        //this.setStatus(this.props.status,this.props);
+        //this.props.actions.refreshSnapMarkers();
         this.paint(this.ctx);
-        
     }
 
     render(){
-        return <canvas ref={this.refCanvas} id="canvas" width={this.screenWidth} height={this.screenHeight}
+        return <canvas ref={this.refCanvas} id="canvas" width={this.props.screenWidth} height={this.props.screenHeight}
                 onMouseMove={this.mmove.bind(this)}
                 onMouseDown={this.mdown.bind(this)}
                 onMouseUp={this.mup.bind(this)}
                 onMouseLeave={this.mleave.bind(this)}
                 onClick={this.onclick.bind(this)}
             >
-
             </canvas>
-        
     }
 }

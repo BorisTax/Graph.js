@@ -64,6 +64,7 @@ class PropertyEditorBar extends React.Component{
                                     delete={this.props.deleteSelectedShapes.bind(null,true)}
                                     caption={this.props.captions.deleteButton}/>:<></>}
                                     
+        
         </div>
     }
 }

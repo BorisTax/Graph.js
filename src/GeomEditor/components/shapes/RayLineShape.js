@@ -1,5 +1,5 @@
 import Geometry,{Coord2D,Circle, Intersection} from "../../utils/geometry";
-import EndSnapMarker from './snapmarkers/EndSnapMarker';
+import EndSnapMarker from './markers/EndSnapMarker';
 import Shape from "./Shape";
 
 export default class RayLineShape extends Shape{

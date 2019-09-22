@@ -1,5 +1,6 @@
 export default class SelectionManager {
     constructor(creator){
+        this.creator=creator;
         this.selectionCreator=new creator();
     }
     setNext(point){
@@ -11,5 +12,8 @@ export default class SelectionManager {
     }
     getSelectionShape(){
         return this.selectionCreator.getShape();
+    }
+    reset(){
+        this.selectionCreator=new this.creator();
     }
 }
