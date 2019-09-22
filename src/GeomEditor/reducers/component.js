@@ -1,7 +1,7 @@
 
 import {SET_ACTIVE_SNAP_BUTTON,CLEAR_ACTIVE_SNAP_BUTTON} from "../actions/ComponentActions";
 import {SET_ACTIVE_CREATE_BUTTON,SET_ACTIVE_LANG_BUTTON} from "../actions/ComponentActions";
-import {SET_STATUS, DELETE_SELECTED_SHAPES, deleteSelectedShapes} from "../actions/ScreenActions";
+import {SET_STATUS, deleteSelectedShapes, DELETE_CONFIRM, CANCEL} from "../actions/ScreenActions";
 import {SHOW_HELP, SHOW_CONFIRM, SHOW_ALERT} from '../actions/AppActions';
 import { STATUS_FREE } from "./screen";
 const initialState={
@@ -17,6 +17,8 @@ export function componentReducer(state=initialState,action) {
     const data=action.payload;
     if(!newState.activeButtons) newState.activeButtons=new Set();
     switch (action.type) {
+        case CANCEL:
+            return {...newState,activeCreateButton:null}
         case SET_ACTIVE_CREATE_BUTTON:
             newState.activeCreateButton=data;
             return newState;
@@ -38,9 +40,8 @@ export function componentReducer(state=initialState,action) {
             return {...state,showConfirm:data};  
         case SHOW_ALERT:
             return {...state,showAlert:data}; 
-        case DELETE_SELECTED_SHAPES:
-            if(data.ask) return{...state,showConfirm:{show:true,messageKey:"deleteShapes",okAction:deleteSelectedShapes.bind(null,false)}}    
-             else return state; 
+        case DELETE_CONFIRM:
+           return{...state,showConfirm:{show:true,messageKey:"deleteShapes",okAction:deleteSelectedShapes.bind(null,false)}}    
         default:
             return newState;
     }

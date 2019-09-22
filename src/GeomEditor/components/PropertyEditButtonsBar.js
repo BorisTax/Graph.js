@@ -4,7 +4,7 @@ import React from "react";
 class PropertyEditButtonsBar extends React.Component{
 
     onClick(){
-        this.props.delete();
+        this.props.deleteConfirm();
     }
 
     render(){

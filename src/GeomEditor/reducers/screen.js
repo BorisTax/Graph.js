@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, START_PICKING, FIX_PICKED_DATA, REPAINT, CANCEL, SET_BOUNDED_CIRCLE, REFRESH_SNAP_MARKERS, REFRESH_SHAPE_MANAGER, SET_REAL_WIDTH, SET_SCALE, SET_DIMENSIONS, SET_CUR_COORD, SET_RATIO, PAN_SCREEN, SET_PREV_STATUS} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, START_PICKING, FIX_PICKED_DATA, REPAINT, CANCEL, SET_BOUNDED_CIRCLE, REFRESH_SNAP_MARKERS, REFRESH_SHAPE_MANAGER, SET_REAL_WIDTH, SET_SCALE, SET_DIMENSIONS, SET_CUR_COORD, SET_RATIO, PAN_SCREEN, SET_PREV_STATUS, START_SELECTION} from "../actions/ScreenActions";
 import {SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
 import {SET_CYCLIC_FLAG} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
@@ -19,6 +19,7 @@ export const STATUS_DRAWING='DRAWING';
 export const STATUS_CANCEL='CANCEL';
 export const STATUS_PAN='PAN';
 export const STATUS_PICK='PICK';
+export const STATUS_PICK_END='PICK_END';
 const xAxeShape=new SLineShape(new SLine(0,1,0),new Circle(new Coord2D(0,0),8));
 const yAxeShape=new SLineShape(new SLine(1,0,0),new Circle(new Coord2D(0,0),8));
 xAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
@@ -68,6 +69,8 @@ export function screenReducer(state = initialState,action) {
                 status:STATUS_FREE,
                 curShape:null,
                 curHelperShapes:null,
+                shapeCreator:null,
+                picker:null,
                 creationStep:"",
                 currentShape:"",
                 cursor:new FreeCursor(state.curCoord),
@@ -96,11 +99,7 @@ export function screenReducer(state = initialState,action) {
                 cursor:new DrawCursor(state.curCoord)
             };
         case DELETE_SELECTED_SHAPES:
-            if(state.selectedShapes.length===0) {action.type='';return {...state}}//action.type='' - to prevent action propagation
-            if(action.payload.ask) return {...state}
             return{...state,shapes:state.shapes.filter((s)=>!s.getState().selected),selectedShapes:[]};
-        case FIX_PICKED_DATA:
-            return {...state,pickedData:{fix:action.payload,data:state.pickedData.data,editId:state.pickedData.editId,picker:state.pickedData.picker}}
         case PAN_SCREEN:
             return {
                 ...state,
@@ -157,7 +156,11 @@ export function screenReducer(state = initialState,action) {
         case SET_GRID_VISIBLE:
             return{...state,show:{grid:action.payload}};
         case START_PICKING:
-            return {...state,status:STATUS_PICK,pickedData:{data:state.pickedData.data,editId:action.payload.id,picker:action.payload.picker}}
+            return {...state,status:STATUS_PICK,pickedData:{data:state.pickedData.data,editId:action.payload.id},picker:action.payload.picker}
+        case START_SELECTION:
+            return {...state,status:STATUS_SELECT}
+        case SET_PICKED_DATA:
+            return {...state,status:STATUS_PICK_END,pickedData:{data:action.payload,editId:state.pickedData.editId}}
         case SET_PREV_STATUS:
             return {...state,status:state.prevStatus,cursor:state.prevCursor}
         case SET_PROPERTY:
@@ -205,7 +208,9 @@ export function screenReducer(state = initialState,action) {
         case SET_SELECTION_TYPE:
             return {...state,selectionType:action.payload}
         case SET_SNAP:
-            return{...state,snap:action.payload};
+                if(action.payload.snap===true)state.snapMarkersManager.addSnap(action.payload.snapClass)
+                 else state.snapMarkersManager.removeSnap(action.payload.snapClass)
+            return{...state};
         case SET_STATUS:
             return{...state,
                 status:action.payload.status,

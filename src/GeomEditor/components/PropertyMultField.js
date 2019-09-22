@@ -1,8 +1,8 @@
 import "../Graph.css";
 import React from "react";
 import {connect} from 'react-redux';
-import { STATUS_PICK } from "../reducers/screen";
-import { startPicking, setPickedData, fixPickedData } from "../actions/ScreenActions";
+import { STATUS_PICK_END } from "../reducers/screen";
+import { startPicking, setPickedData, cancel } from "../actions/ScreenActions";
 
 class PropertyMultField extends React.Component{
     constructor(props){
@@ -49,20 +49,16 @@ class PropertyMultField extends React.Component{
         
     }
     static getDerivedStateFromProps(nextProps,prevState){
-        //if(nextProps.value===prevState.value){
-            const value=(nextProps.status===STATUS_PICK&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
+            const value=(nextProps.status===STATUS_PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
             return {...nextProps,value:value,originValue:nextProps.value,correct:true};
-           //  }
-          //  else return {...prevState}
     }
     componentDidUpdate(){
-        if(this.props.fix===true) {
+        if(this.props.status===STATUS_PICK_END) {
            this.props.setProperty(this.props.propKey,this.state.value)
-           this.props.fixPickedData(false)
+           this.props.cancel();
         }
     }
     render(){
-        //const value=(this.props.status===STATUS_PICK&&this.props.id===this.props.editId)?this.props.pickedValue:this.state.value;
         const value=this.state.value;
         return <div className={"noselect"}>
             {this.props.label}
@@ -98,7 +94,6 @@ const mapStateToProps=(store)=>{
     return {
         pickedValue:store.screen.pickedData.data,
         editId:store.screen.pickedData.editId,
-        fix:store.screen.pickedData.fix,
         status:store.screen.status,
     }
 }
@@ -106,7 +101,7 @@ const mapDispatchToProps=(dispatch)=>{
     return {
         startPicking:(id,picker)=>dispatch(startPicking(id,picker)),
         setPickedData:data=>dispatch(setPickedData(data)),
-        fixPickedData:fix=>dispatch(fixPickedData(fix)),
+        cancel:()=>dispatch(cancel()),
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(PropertyMultField)

@@ -1,19 +1,10 @@
 import React from 'react';
 import '../Graph.css';
-import Geometry, {SLine, Circle, Coord2D, Point2D,Rectangle, Intersection} from '../utils/geometry.js';
+import Geometry, {Circle, Coord2D, Point2D,Rectangle} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
-import SLineShape from "./shapes/SLineShape.js";
-import SnapMarkersManager from './shapes/markers/SnapMarkersManager';
-import ShapeManager from "./shapes/ShapeManager";
-import FreeCursor from "./shapes/cursors/FreeCursor";
-import DrawCursor from "./shapes/cursors/DrawCursor";
 import {Color} from './colors';
-import DragCursor from './shapes/cursors/DragCursor';
-import SelectionManager from './shapes/SelectionManager';
-import SelectRectCreator from './shapes/shapecreators/SelectRectCreator';
 import CircleShape from './shapes/CircleShape';
-import RectangleShape from './shapes/RectangleShape';
-import { STATUS_FREE, STATUS_CREATE, STATUS_DRAWING, STATUS_CANCEL, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
+import { STATUS_FREE, STATUS_CREATE, STATUS_DRAWING, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
 export default class Screen extends React.Component {
     showGrid=true;
     gridSnap=false;
@@ -204,7 +195,7 @@ export default class Screen extends React.Component {
                 status_bar=status_bar+`${currentShape}: ${creationStep}`;
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
-                if(shape.activePointMarker&&this.props.status!==STATUS_FREE) 
+                if(shape.activePointMarker) 
                         this.drawShape(shape.activePointMarker,ctx);
             }
         let curHelperShapes=null;
@@ -283,7 +274,7 @@ export default class Screen extends React.Component {
                 if(!this.isOutRect(Geometry.realToScreen({x,y},this.getRealRect(),this.getScreenRect()))) {
                     temp.x = x;
                     temp.y = y;
-                    curPoint = Geometry.realToScreen({...temp},this.getRealRect(),this.getScreenRect());
+                    curPoint = Geometry.realToScreen(temp,this.getRealRect(),this.getScreenRect());
                 }
                 }
         }
@@ -291,41 +282,32 @@ export default class Screen extends React.Component {
             let d = this.props.snapMarkersManager.getDistanceToNearestMarker(temp,this.props.snapDist*this.props.pixelRatio);
             if(d>=0&&d<=this.props.snapMinDist*this.props.pixelRatio){
                 temp=this.props.snapMarkersManager.getActiveMarker().getPos();
-                curPoint = Geometry.realToScreen({...temp},this.getRealRect(),this.getScreenRect());
+                curPoint = Geometry.realToScreen(temp,this.getRealRect(),this.getScreenRect());
             }
         }
         coord=temp;
         if(this.props.status===STATUS_FREE){
             this.props.shapeManager.setShapeNearPoint(coord,this.props.selectDist*this.props.pixelRatio);
-            
         }
         if(this.props.status===STATUS_SELECT){
             this.props.selectionManager.setCurrent(coord);
             this.props.shapeManager.setShapeInRect(this.prevCoord,coord);
-            //this.props.selectionShape=this.props.selectionManager.getSelectionShape();
         }
-        if(this.props.status===STATUS_DRAWING){
+        if(this.props.status===STATUS_CREATE){
             this.props.shapeCreator.setCurrent(coord);
-            //this.props.curShape=this.shapeCreator.getShape();
-            //this.curHelperShapes=this.shapeCreator.getHelperShapes();
         }
         if(this.props.status===STATUS_PICK){
             this.props.picker.setCurrent(coord);
-            this.props.actions.setPickedData(coord);
-            //this.props.actions.fixPickedData(true);
         }
         this.props.actions.setCurCoord(coord);
-        //this.paint(ctx);
     }
     mdown(e){
         if(e.button===1){
-            //let ctx=e.target.getContext("2d");
             let rect=e.target.getBoundingClientRect();
             const curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
             this.dragX0=curPoint.x
             this.dragY0=curPoint.y
             this.props.actions.setScreenStatus(STATUS_PAN);
-            //this.paint(ctx);
             e.preventDefault();
         }
         if(e.button===0){
@@ -339,6 +321,7 @@ export default class Screen extends React.Component {
                 this.props.selectionManager.setNext(Geometry.screenToReal(this.curPoint.x,this.curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight));
                 //this.selectionShape=this.selectionManager.getSelectionShape();
                 this.props.actions.setScreenStatus(STATUS_SELECT);
+                //this.prevCoord={x:this.props.curCoord.x,y:this.props.curCoord.y}
             }
             this.props.actions.repaint();
             e.preventDefault();
@@ -355,7 +338,7 @@ export default class Screen extends React.Component {
         }
         if(e.button===0){
             if(this.props.status===STATUS_SELECT){
-                this.props.actions.setScreenStatus(STATUS_FREE);
+                this.props.actions.cancel();
             }
         }
     }
@@ -371,37 +354,28 @@ export default class Screen extends React.Component {
             if(this.props.pixelRatio>=0.001)
                 this.props.actions.setScale(1/1.2,p);
         }
-        //this.paint(ctx);
        e.preventDefault();
     }
     mleave(e){
         if(this.props.status===STATUS_PAN){
-            this.props.actions.setScreenStatus(this.props.prevStatus);
-            //this.cursor=this.prevCursor;
+            this.props.actions.setPrevStatus();
         }
     }
     onclick(e){
         if(e.button===0){
             if(this.props.status===STATUS_CREATE){
-                let ctx=document.querySelector("#canvas").getContext("2d");
                 this.props.shapeCreator.setNextPoint(this.props.curCoord);
-                //this.creationStep=this.props.captions.creators[this.shapeCreator.getName()].steps[this.shapeCreator.getCurrentStep()];
-                //this.status=STATUS_DRAWING;
-                //this.props.actions.setScreenStatus(STATUS_DRAWING);
                 if(!this.props.shapeCreator.isNext())
                 {
                     this.props.shapes.push(this.props.shapeCreator.getShape());
                     this.props.actions.refreshSnapMarkers();
                     this.props.actions.refreshShapeManager();
                     if(this.props.cyclicCreation){
-                        this.props.actions.setScreenStatus(STATUS_CREATE,this.props.shapeCreator.reset(this.props.boundedCircle));
-                        //this.status=STATUS_CREATE;
+                        this.props.actions.createShape(this.props.shapeCreator.reset(this.props.boundedCircle));
                     }else {
                         this.props.actions.cancel();
                     }
-                    
                 }
-                //this.paint(ctx);
             }
             if(this.props.status===STATUS_FREE){
                     this.props.shapeManager.toggleShapeSelected();
@@ -411,10 +385,10 @@ export default class Screen extends React.Component {
                     //this.creationStep=this.props.captions.pickers[this.picker.getName()].steps[this.picker.getCurrentStep()];
                     if(!this.props.picker.isNext())
                     {
-                        this.props.actions.fixPickedData(true);
+                        this.props.actions.setPickedData(this.props.curCoord);
                         this.props.actions.refreshSnapMarkers();
                         this.props.actions.refreshShapeManager();
-                        this.props.actions.cancel();
+                        //this.props.actions.cancel();
                     }
                     //this.paint(ctx);
                 }
@@ -441,7 +415,7 @@ export default class Screen extends React.Component {
         this.ctx=this.canvas.getContext("2d");
         this.canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
         
-        this.test();
+        //this.test();
         this.paint(this.ctx);
         window.addEventListener('load',()=>{
             this.resize();
@@ -470,6 +444,7 @@ export default class Screen extends React.Component {
         this.props.shapeManager.setShapes(this.props.shapes,this.props.selectionType);
         //this.setStatus(this.props.status,this.props);
         //this.props.actions.refreshSnapMarkers();
+        this.canvas.style.cursor='none'
         this.paint(this.ctx);
     }
 

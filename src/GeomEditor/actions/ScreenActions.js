@@ -5,6 +5,7 @@ export const ADD_SHAPE = 'ADD_SHAPE';
 export const CANCEL = 'CANCEL';
 export const CENTER_TO_POINT = 'CENTER_TO_POINT';
 export const CREATE_SHAPE = 'CREATE_SHAPE';
+export const DELETE_CONFIRM='DELETE_CONFIRM'
 export const DELETE_SELECTED_SHAPES = 'DELETE_SELECTED_SHAPES';
 export const FIX_PICKED_DATA = 'FIX_PICKED_DATA';
 export const PAN_SCREEN = 'PAN_SCREEN';
@@ -31,6 +32,7 @@ export const SET_SNAP = 'SET_SNAP';
 export const SET_STATUS = 'SET_STATUS';
 export const SET_TOP_LEFT = 'SET_TOP_LEFT';
 export const START_PICKING = 'START_PICKING';
+export const START_SELECTION = 'START_SELECTION';
 
 export function addShape(shape){
     return {
@@ -55,10 +57,14 @@ export function createNewShape(creator){
         payload:creator,
     }
 }
-export function deleteSelectedShapes(ask) {
+export function deleteConfirm() {
+    return {
+        type: DELETE_CONFIRM,
+    }
+}
+export function deleteSelectedShapes() {
     return {
         type: DELETE_SELECTED_SHAPES,
-        payload:{ask}
     }
 }
 export function fixPickedData(fix){
@@ -167,6 +173,9 @@ export function setScreenStatus(status=Screen.STATUS_FREE,params){
     let payload=null;
     let type=null;
     switch(status){
+        case STATUS_SELECT:
+            type=START_SELECTION;
+            break;
         case STATUS_CREATE:
             type=CREATE_SHAPE;
             payload={creator:params.creator}
@@ -195,9 +204,11 @@ export function setSelectionType(selType) {
     }
 }
 export function setSnap(snapClass,snap) {
+    const type=snapClass==='grid'?SET_GRID_SNAP:SET_SNAP
+    const payload=snapClass==='grid'?snap:{snapClass:snapClass,snap:snap}
     return {
-        type: SET_SNAP,
-        payload: {snapClass:snapClass,snap:snap},
+        type: type,
+        payload: payload,
     }
 }
 export function setTopLeft(p){
