@@ -1,7 +1,8 @@
-import Geometry,{Rectangle,Coord2D,Line, Intersection} from '../../utils/geometry';
+import Geometry,{Rectangle,Coord2D,Line, Intersection, Circle} from '../../utils/geometry';
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
+import ActivePointMarker from './markers/ActivePointMarker';
 
 export default class RectangleShape extends Shape{
     constructor(rectangle){
@@ -22,6 +23,9 @@ export default class RectangleShape extends Shape{
         this.rect.topLeft=Geometry.realToScreen(this.rectangle.topLeft,realRect,screenRect);
         this.rect.width=Geometry.realToScreenLength(this.rectangle.width,realRect.width,screenRect.width);
         this.rect.height=Geometry.realToScreenLength(this.rectangle.height,realRect.height,screenRect.height);
+        const boundedCircleRadius=Geometry.distance(realRect.topLeft,realRect.bottomRight)/2;
+        if(this.activePoint) 
+            this.activePointMarker=new ActivePointMarker(new Circle(this.activePoint,boundedCircleRadius* Screen.MARKER_SIZE))
     }
     getMarkers(){
         let list=[];
@@ -29,13 +33,16 @@ export default class RectangleShape extends Shape{
         list.push(new EndSnapMarker(new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y)));
         list.push(new EndSnapMarker(new Coord2D(this.rectangle.topLeft.x,this.rectangle.topLeft.y-this.rectangle.height)));
         list.push(new EndSnapMarker(new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y-this.rectangle.height)));
-
         list.push(new MiddleSnapMarker(Geometry.midPoint(this.rectangle.topLeft,new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y))));
         list.push(new MiddleSnapMarker(Geometry.midPoint(new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y),new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y-this.rectangle.height))));
         list.push(new MiddleSnapMarker(Geometry.midPoint(new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y-this.rectangle.height),new Coord2D(this.rectangle.topLeft.x,this.rectangle.topLeft.y-this.rectangle.height))));
         list.push(new MiddleSnapMarker(Geometry.midPoint(new Coord2D(this.rectangle.topLeft.x,this.rectangle.topLeft.y-this.rectangle.height),this.rectangle.topLeft)));
-
         return list;
+    }
+    setActivePoint(key){
+        this.activePoint=null;
+        if(key==='P1') this.activePoint=this.rectangle.topLeft;
+        if(key==='P2') this.activePoint=this.rectangle.bottomRight;
     }
     getProperties(){
         let prop=new Map();

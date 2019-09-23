@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../Graph.css';
-import {setScreenStatus,selectShapes,selectAll,addShape,centerToPoint, deleteSelectedShapes, setTopLeft, setPickedData, fixPickedData, cancel, setCurCoord, refreshSnapMarkers, refreshShapeManager, setDimensions, setBoundedCircle, setRealWidth,setRatio, repaint, setScale, setPrevStatus, deleteConfirm} from "../actions/ScreenActions";
+import {setScreenStatus,selectShapes,selectAll,addShape,centerToPoint, deleteSelectedShapes, setTopLeft, setPickedData, cancel, setCurCoord, refreshSnapMarkers, refreshShapeManager, setDimensions, setBoundedCircle, setRealWidth,setRatio, repaint, setScale, setPrevStatus, deleteConfirm} from "../actions/ScreenActions";
 import {setLanguage} from "../actions/AppActions";
 import CreateToolBar from "./CreateToolBar";
 import Screen from "./Screen";
@@ -41,7 +41,6 @@ const mapDispatchToProps = dispatch => {
         centerToPoint:(p)=>dispatch(centerToPoint(p)),
         createShape:(creator)=>dispatch(createShape(creator)),
         deleteConfirm:()=>dispatch(deleteConfirm()),
-        fixPickedData:fix=>dispatch(fixPickedData(fix)),
         refreshShapeManager:()=>dispatch(refreshShapeManager()),
         refreshSnapMarkers:()=>dispatch(refreshSnapMarkers()),
         repaint:()=>dispatch(repaint()),

@@ -7,7 +7,6 @@ export const CENTER_TO_POINT = 'CENTER_TO_POINT';
 export const CREATE_SHAPE = 'CREATE_SHAPE';
 export const DELETE_CONFIRM='DELETE_CONFIRM'
 export const DELETE_SELECTED_SHAPES = 'DELETE_SELECTED_SHAPES';
-export const FIX_PICKED_DATA = 'FIX_PICKED_DATA';
 export const PAN_SCREEN = 'PAN_SCREEN';
 export const PICK = 'PICK';
 export const REFRESH_SHAPE_MANAGER = 'REFRESH_SHAPE_MANAGER';
@@ -65,12 +64,6 @@ export function deleteConfirm() {
 export function deleteSelectedShapes() {
     return {
         type: DELETE_SELECTED_SHAPES,
-    }
-}
-export function fixPickedData(fix){
-    return{
-        type:FIX_PICKED_DATA,
-        payload:fix
     }
 }
 export function refreshShapeManager(){
