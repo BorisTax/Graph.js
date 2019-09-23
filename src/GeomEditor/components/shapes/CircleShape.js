@@ -1,7 +1,9 @@
-import {Coord2D} from "../../utils/geometry";
+import {Coord2D, Circle} from "../../utils/geometry";
 import Geometry from "../../utils/geometry";
 import CenterSnapMarker from './markers/CenterSnapMarker';
 import Shape from "./Shape";
+import Screen from "../Screen";
+import ActivePointMarker from "./markers/ActivePointMarker";
 export default class CircleShape extends Shape{
     constructor(circle){
         super();
@@ -22,6 +24,14 @@ export default class CircleShape extends Shape{
     refresh(realRect, screenRect){
         this.screenCenter=Geometry.realToScreen(this.circle.center,realRect,screenRect);
         this.screenRadius=Geometry.realToScreenLength(this.circle.radius,realRect.width,screenRect.width);
+        const boundedCircleRadius=Geometry.distance(realRect.topLeft,realRect.bottomRight)/2;
+        if(this.activePoint) 
+            this.activePointMarker=new ActivePointMarker(new Circle(this.activePoint,boundedCircleRadius* Screen.MARKER_SIZE))
+
+    }
+    setActivePoint(key){
+        this.activePoint=null;
+        if(key==='Center') this.activePoint=this.circle.center;
     }
     getMarkers(){
         let list=[];

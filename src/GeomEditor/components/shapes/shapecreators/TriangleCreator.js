@@ -7,8 +7,8 @@ import Screen from '../../Screen';
 import AbstractCreator from './AbstractCreator';
 export default class TriangleCreator extends AbstractCreator{
      static caption="Triangle";
-     constructor(style){
-        super()
+     constructor(style,boundedCircle){
+        super(boundedCircle)
         this.name="TriangleCreator"
         this.style=style;
         this.triangle=new Triangle();

@@ -8,8 +8,8 @@ import Screen from '../../Screen';
 import AbstractCreator from "./AbstractCreator";
 export default class Circle2PCreator extends AbstractCreator{
      static caption="Circle by 2 points";
-     constructor(style){
-        super()
+     constructor(style,boundedCircle){
+        super(boundedCircle)
         this.name="Circle2PCreator"
         this.style=style;
         this.circle=new Circle(new Coord2D(),0);

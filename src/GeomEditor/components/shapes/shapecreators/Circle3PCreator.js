@@ -7,8 +7,8 @@ import Screen from '../../Screen';
 import AbstractCreator from "./AbstractCreator";
 export default class Circle3PCreator extends AbstractCreator{
     static caption="Circle by 3 points";
-    constructor(style){
-        super()
+    constructor(style,boundedCircle){
+        super(boundedCircle)
         this.name="Circle3PCreator"
         this.style=style;
         this.circle=new Circle(new Coord2D(),0);

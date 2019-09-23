@@ -4,7 +4,7 @@ import Geometry, {Circle, Coord2D, Point2D,Rectangle} from '../utils/geometry.js
 import ShapeStyle from './shapes/ShapeStyle';
 import {Color} from './colors';
 import CircleShape from './shapes/CircleShape';
-import { STATUS_FREE, STATUS_CREATE, STATUS_DRAWING, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
+import { STATUS_FREE, STATUS_CREATE, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
 export default class Screen extends React.Component {
     showGrid=true;
     gridSnap=false;
@@ -311,7 +311,6 @@ export default class Screen extends React.Component {
             e.preventDefault();
         }
         if(e.button===0){
-            let ctx=e.target.getContext("2d");
             let rect=e.target.getBoundingClientRect();
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
@@ -319,9 +318,7 @@ export default class Screen extends React.Component {
                 this.prevCoord=Geometry.screenToReal(this.curPoint.x,this.curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
                 this.props.selectionManager.reset();
                 this.props.selectionManager.setNext(Geometry.screenToReal(this.curPoint.x,this.curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight));
-                //this.selectionShape=this.selectionManager.getSelectionShape();
                 this.props.actions.setScreenStatus(STATUS_SELECT);
-                //this.prevCoord={x:this.props.curCoord.x,y:this.props.curCoord.y}
             }
             this.props.actions.repaint();
             e.preventDefault();
@@ -329,12 +326,7 @@ export default class Screen extends React.Component {
     }
     mup(e){
         if(e.button===1){
-            let ctx=e.target.getContext("2d");
-            //this.dragGrid=false;
-            //e.target.style.cursor="none";
-            //this.cursor=this.prevCursor;
             this.props.actions.setPrevStatus();
-            //this.paint(ctx);
         }
         if(e.button===0){
             if(this.props.status===STATUS_SELECT){
@@ -344,7 +336,6 @@ export default class Screen extends React.Component {
     }
     mwheel(e){
         if(this.props.status===STATUS_PAN)return;
-        //let ctx=e.target.getContext("2d");
         let rect=e.target.getBoundingClientRect();
         let p=Geometry.screenToReal(e.clientX-rect.left,e.clientY-rect.top,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
         if(e.deltaY>0)
@@ -382,19 +373,15 @@ export default class Screen extends React.Component {
                 }
             if(this.props.status===STATUS_PICK){
                     this.props.picker.setNextPoint(this.props.curCoord);
-                    //this.creationStep=this.props.captions.pickers[this.picker.getName()].steps[this.picker.getCurrentStep()];
                     if(!this.props.picker.isNext())
                     {
                         this.props.actions.setPickedData(this.props.curCoord);
                         this.props.actions.refreshSnapMarkers();
                         this.props.actions.refreshShapeManager();
-                        //this.props.actions.cancel();
                     }
-                    //this.paint(ctx);
                 }
         }
         this.props.actions.selectShapes(this.props.shapeManager.getSelectedShapes());
-        //this.paint(e.target.getContext("2d"));
         e.preventDefault();
     }
 
@@ -405,9 +392,6 @@ export default class Screen extends React.Component {
         this.props.actions.setDimensions(sw,sh,this.props.realWidth,this.props.topLeft);
         this.canvas.width=sw;
         this.canvas.height=sh;
-        //this.props.actions.setRatio(sw/sh);
-        //this.props.actions.setRealWidth(this.realWidth);
-        //this.setTopLeft(this.topLeft);
         this.props.actions.setBoundedCircle();
     }
     componentDidMount() {
@@ -442,8 +426,6 @@ export default class Screen extends React.Component {
 
     componentDidUpdate(){
         this.props.shapeManager.setShapes(this.props.shapes,this.props.selectionType);
-        //this.setStatus(this.props.status,this.props);
-        //this.props.actions.refreshSnapMarkers();
         this.canvas.style.cursor='none'
         this.paint(this.ctx);
     }

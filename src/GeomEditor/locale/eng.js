@@ -159,6 +159,7 @@ export const captions={
   help:{
     title:'Reference',
     hotKeys:[
+    {key:"ESC",desc:'Cancel'},
     {key:"Ctrl-A",desc:'Select all'},
     {key:"Del",desc:'Delete selected'},
     {key:"C",desc:'View to origin'},

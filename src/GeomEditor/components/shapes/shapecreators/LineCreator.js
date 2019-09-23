@@ -7,11 +7,11 @@ import Screen from '../../Screen';
 import AbstractCreator from './AbstractCreator';
 export default class LineCreator extends AbstractCreator{
     static caption="Segment line";
-    constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID)){
-        super()
+    constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID),boundedCircle){
+        super(boundedCircle)
         this.name="LineCreator"
         this.line=new Line(new Coord2D(),new Coord2D());
-        this.boundedCircle=new Circle(new Coord2D(),0);
+        //this.boundedCircle=new Circle(new Coord2D(),0);
         this.points=[new Coord2D(),new Coord2D()];
         this.shape=new LineShape(this.line);
         this.style=style;

@@ -1,6 +1,5 @@
 import Screen from '../components/Screen';
-import {STATUS_FREE,STATUS_SELECT,STATUS_CREATE,STATUS_DRAWING,STATUS_CANCEL,STATUS_PAN,STATUS_PICK} from '../reducers/screen';
-import DragCursor from '../components/shapes/cursors/DragCursor';
+import {STATUS_SELECT,STATUS_CREATE,STATUS_CANCEL,STATUS_PAN,STATUS_PICK} from '../reducers/screen';
 export const ADD_SHAPE = 'ADD_SHAPE';
 export const CANCEL = 'CANCEL';
 export const CENTER_TO_POINT = 'CENTER_TO_POINT';

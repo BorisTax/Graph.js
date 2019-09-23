@@ -5,8 +5,8 @@ export default class SelectRectCreator extends AbstractCreator{
     static caption="RectSelection";
     rectangle=new Rectangle();
     points=new Array(2);
-    constructor(style){
-        super()
+    constructor(style,boundedCircle){
+        super(boundedCircle)
         this.name="SelectRectCreator"
         this.shape=new SelectRectShape(this.rectangle);
         this.helperShapes = [];

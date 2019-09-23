@@ -3,6 +3,7 @@ import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 import ActivePointMarker from './markers/ActivePointMarker';
+import Screen from '../Screen';
 
 export default class TriangleShape extends Shape{
     constructor(triangle){

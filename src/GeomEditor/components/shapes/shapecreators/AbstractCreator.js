@@ -1,6 +1,7 @@
 export default class AbstractCreator {
-     constructor(){
+     constructor(boundedCircle){
         this.i=0;
+        this.boundedCircle=boundedCircle;
     }
 
     getShape(){

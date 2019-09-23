@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, START_PICKING, FIX_PICKED_DATA, REPAINT, CANCEL, SET_BOUNDED_CIRCLE, REFRESH_SNAP_MARKERS, REFRESH_SHAPE_MANAGER, SET_REAL_WIDTH, SET_SCALE, SET_DIMENSIONS, SET_CUR_COORD, SET_RATIO, PAN_SCREEN, SET_PREV_STATUS, START_SELECTION} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, START_PICKING, REPAINT, CANCEL, SET_BOUNDED_CIRCLE, REFRESH_SNAP_MARKERS, REFRESH_SHAPE_MANAGER, SET_REAL_WIDTH, SET_SCALE, SET_DIMENSIONS, SET_CUR_COORD, SET_RATIO, PAN_SCREEN, SET_PREV_STATUS, START_SELECTION} from "../actions/ScreenActions";
 import {SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
 import {SET_CYCLIC_FLAG} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
@@ -60,15 +60,18 @@ const initialState = {
     
 };
 export function screenReducer(state = initialState,action) {
+    var tl,c,br,bc,params,rh,r;
     switch (action.type) {
         case ADD_SHAPE:
             state.shapes.push(action.payload);
             return{...state};
         case CANCEL:
+            state.shapes.forEach(s=>s.setState({selected:false}))
             return {...state,
                 status:STATUS_FREE,
                 curShape:null,
                 curHelperShapes:null,
+                selectedShapes:[],
                 shapeCreator:null,
                 picker:null,
                 creationStep:"",
@@ -80,14 +83,14 @@ export function screenReducer(state = initialState,action) {
             let viewPortWidth=state.realWidth-(state.marginLeft+state.marginRight)*state.pixelRatio;
             let viewPortHeight=state.realHeight-(state.marginTop+state.marginBottom)*state.pixelRatio;
             //new topLeft
-            var tl={x:point.x-viewPortWidth/2-state.marginLeft*state.pixelRatio,y:point.y+viewPortHeight/2+state.marginTop*state.pixelRatio}
-            var br={}
+            tl={x:point.x-viewPortWidth/2-state.marginLeft*state.pixelRatio,y:point.y+viewPortHeight/2+state.marginTop*state.pixelRatio}
+            br={}
             br.x=tl.x+state.realWidth;
             br.y=tl.y-state.realHeight;        
             //new boundedCircle
-            var c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,tl,br);
-            var r=Math.sqrt(state.realWidth*state.realWidth+state.realHeight*state.realHeight)/2;
-            var bc=new Circle(c,r);
+            c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,tl,br);
+            r=Math.sqrt(state.realWidth*state.realWidth+state.realHeight*state.realHeight)/2;
+            bc=new Circle(c,r);
             if(state.shapeCreator!=null) state.shapeCreator.refresh(bc);
             return{...state,topLeft:tl,bottomRight:br};
         case CREATE_SHAPE:
@@ -130,14 +133,14 @@ export function screenReducer(state = initialState,action) {
         case SELECT_SHAPE:
             return{...state,selectedShapes:action.payload};
         case SET_BOUNDED_CIRCLE:
-            var c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,state.topLeft,state.bottomRight);
-            var r=Math.sqrt(state.realWidth*state.realWidth+state.realHeight*state.realHeight)/2;
-            var bc=new Circle(c,r);
+            c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,state.topLeft,state.bottomRight);
+            r=Math.sqrt(state.realWidth*state.realWidth+state.realHeight*state.realHeight)/2;
+            bc=new Circle(c,r);
             if(state.shapeCreator!=null) state.shapeCreator.refresh(bc);
             return{...state,boundedCircle:bc}
         case SET_DIMENSIONS:
-            var params=action.payload;
-            var rh=params.height*params.realWidth/params.width
+            params=action.payload;
+            rh=params.height*params.realWidth/params.width
             return {...state,
                 screenWidth:params.width,
                 screenHeight:params.height,
@@ -172,27 +175,27 @@ export function screenReducer(state = initialState,action) {
             return {...state,ratio:action.payload}
         case SET_REAL_WIDTH:
             var width=action.payload;
-            var params=getRealWidthParams(width,state.screenWidth,state.screenHeight,state.topLeft,state.gridStep)
+            params=getRealWidthParams(width,state.screenWidth,state.screenHeight,state.topLeft,state.gridStep)
             params.gridStepPixels=Math.round(params.gridStep/params.pixelRatio);
             return {...state,...params}
         case SET_SCALE:
             const {scale,anchor}=action.payload;
-            var tl=state.topLeft;
+            tl=state.topLeft;
             let dx=anchor.x-tl.x;
             let dy=anchor.y-tl.y;
             //getting new realHeight,pixelRatio,gridStepPixels,bottomRight
-            var params=getRealWidthParams(state.realWidth*scale,state.screenWidth,state.screenHeight,tl,state.gridStep)
+            params=getRealWidthParams(state.realWidth*scale,state.screenWidth,state.screenHeight,tl,state.gridStep)
             dx=dx*scale;
             dy=dy*scale;
             //new topLeft
             tl={x:anchor.x-dx,y:anchor.y-dy}
-            var br={}
+            br={}
             br.x=tl.x+params.realWidth;
             br.y=tl.y-params.realHeight;
             //new boundedCircle
-            var c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,tl,br);
-            var r=Math.sqrt(params.realWidth*params.realWidth+params.realHeight*params.realHeight)/2;
-            var bc=new Circle(c,r);
+            c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,tl,br);
+            r=Math.sqrt(params.realWidth*params.realWidth+params.realHeight*params.realHeight)/2;
+            bc=new Circle(c,r);
             if(state.shapeCreator!=null) state.shapeCreator.refresh(bc);
             //new gridStep
             if(params.gridStep/params.pixelRatio<10){

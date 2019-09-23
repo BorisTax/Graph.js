@@ -7,13 +7,14 @@ import Screen from '../../Screen';
 import AbstractCreator from './AbstractCreator';
 export default class StraightLineCreator extends AbstractCreator{
     static caption="Straight line";
-    constructor(style){
-        super()
+    constructor(style,boundedCircle){
+        super(boundedCircle)
         this.name="StraightLineCreator"
         this.points=new Array(2);
         this.points[0]=new Coord2D();
         this.points[1]=new Coord2D();
         this.line=new SLine(0,0,0);
+        //this.boundedCircle=new Circle(new Coord2D(),0);
         this.shape=new SLineShape(this.line);
         this.style=style||new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
         this.shape.setStyle(style);

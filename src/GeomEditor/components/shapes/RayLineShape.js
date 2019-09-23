@@ -2,6 +2,7 @@ import Geometry,{Coord2D,Circle, Intersection} from "../../utils/geometry";
 import EndSnapMarker from './markers/EndSnapMarker';
 import Shape from "./Shape";
 import ActivePointMarker from "./markers/ActivePointMarker";
+import Screen from "../Screen";
 
 export default class RayLineShape extends Shape{
     constructor(line){

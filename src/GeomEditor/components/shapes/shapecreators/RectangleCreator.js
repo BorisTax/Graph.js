@@ -9,8 +9,8 @@ export default class RectangleCreator extends AbstractCreator{
     static caption="Rectangle";
     rectangle=new Rectangle();
     points=new Array(2);
-    constructor(style){
-        super()
+    constructor(style,boundedCircle){
+        super(boundedCircle)
         this.name="RectangleCreator"
         this.style=style;
         this.shape=new RectangleShape(this.rectangle);

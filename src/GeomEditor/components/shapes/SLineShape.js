@@ -38,7 +38,9 @@ export default class SLineShape extends Shape{
             this.p1=null;
         }
     }
-
+    setActivePoint(){
+        this.activePoint=null;
+    }
     getMarkers(){
         return null;
     }

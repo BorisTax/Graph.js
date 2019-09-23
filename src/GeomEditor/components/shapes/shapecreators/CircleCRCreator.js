@@ -8,12 +8,12 @@ import Screen from '../../Screen';
 import AbstractCreator from "./AbstractCreator";
 export default class CircleCRCreator extends AbstractCreator{
     static caption="Circle by center";
-    constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID)){
-        super()
+    constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID),boundedCircle){
+        super(boundedCircle)
         this.name="CircleCRCreator"
         this.points=new Array(2);
         this.circle=new Circle(new Coord2D(),0);
-        this.boundedCircle=new Circle();
+        //this.boundedCircle=new Circle();
         this.helperShapes = [];
         this.shape=new CircleShape(this.circle);
         this.radiusLine=new Line(this.circle.center,this.circle.center);
