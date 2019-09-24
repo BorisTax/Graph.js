@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../Graph.css';
-import {setScreenStatus,selectShapes,selectAll,addShape,centerToPoint, setTopLeft, setPickedData, cancel, setCurCoord, refreshSnapMarkers, refreshShapeManager, setDimensions, setBoundedCircle, setRealWidth,setRatio, repaint, setScale, setPrevStatus, deleteConfirm} from "../actions/ScreenActions";
+import {setScreenStatus,selectShapes,selectAll,addShape,centerToPoint, setTopLeft, setPickedData, cancel, setCurCoord, refreshSnapMarkers, refreshShapeManager, setDimensions, setBoundedCircle, setRealWidth,setRatio, repaint, setScale, setPrevStatus, deleteConfirm, cancelSelection} from "../actions/ScreenActions";
 import {setLanguage} from "../actions/AppActions";
 import CreateToolBar from "./CreateToolBar";
 import Screen from "./Screen";
@@ -38,6 +38,7 @@ const mapDispatchToProps = dispatch => {
     return {actions:{
         addShape:(shape)=>dispatch(addShape(shape)),
         cancel:()=>dispatch(cancel()),
+        cancelSelection:()=>dispatch(cancelSelection()),
         centerToPoint:(p)=>dispatch(centerToPoint(p)),
         createShape:(creator)=>dispatch(createShape(creator)),
         deleteConfirm:()=>dispatch(deleteConfirm()),

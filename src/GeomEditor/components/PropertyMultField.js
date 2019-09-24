@@ -3,6 +3,7 @@ import React from "react";
 import {connect} from 'react-redux';
 import { STATUS_PICK_END } from "../reducers/screen";
 import { startPicking, setPickedData, cancel } from "../actions/ScreenActions";
+import PickButton from "./PickButton";
 
 class PropertyMultField extends React.Component{
     constructor(props){
@@ -53,7 +54,7 @@ class PropertyMultField extends React.Component{
             return {...nextProps,value:value,originValue:nextProps.value,correct:true};
     }
     componentDidUpdate(){
-        if(this.props.status===STATUS_PICK_END) {
+        if(this.props.status===STATUS_PICK_END&&this.props.propKey===this.props.editId) {
            this.props.setProperty(this.props.propKey,this.state.value)
            this.props.cancel();
         }
@@ -61,6 +62,7 @@ class PropertyMultField extends React.Component{
     render(){
         const value=this.state.value;
         return <div className={"noselect"}>
+            <div style={{display:'flex',flexDirection:'row',alignContent:'stretch'}}>
             {this.props.label}
             <input style={!this.state.correct?{backgroundColor:'red'}:{}}
                 className='propertyMultField'
@@ -82,11 +84,12 @@ class PropertyMultField extends React.Component{
                 onBlur={this.blur.bind(this)}
                 onFocus={this.focus.bind(this)}
                 />
-             <button onClick={()=>{
+             <PickButton onClick={()=>{
                  this.props.setPickedData(this.state.value);
                  this.props.startPicking(this.props.id,new this.props.picker());
                  this.props.setActivePoint(this.props.propKey);
-                 }}>+</button>
+                 }}></PickButton>
+            </div>
         </div>
     }
 }

@@ -172,3 +172,13 @@
     fpadding:1px 5px;
     z-index: 99;
 }
+.pickButton{
+    display: inline-block;
+    background-image: url('./images/icons/center-snap.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:16px;
+    height: auto;
+    cursor: pointer;
+    border: outset 1px;
+}

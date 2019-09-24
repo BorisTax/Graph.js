@@ -2,6 +2,7 @@ import Screen from '../components/Screen';
 import {STATUS_SELECT,STATUS_CREATE,STATUS_CANCEL,STATUS_PAN,STATUS_PICK} from '../reducers/screen';
 export const ADD_SHAPE = 'ADD_SHAPE';
 export const CANCEL = 'CANCEL';
+export const CANCEL_SELECTION = 'CANCEL_SELECTION';
 export const CENTER_TO_POINT = 'CENTER_TO_POINT';
 export const CREATE_SHAPE = 'CREATE_SHAPE';
 export const DELETE_CONFIRM='DELETE_CONFIRM'
@@ -41,6 +42,11 @@ export function addShape(shape){
 export function cancel(){
     return{
         type:CANCEL
+    }
+}
+export function cancelSelection(){
+    return{
+        type:CANCEL_SELECTION
     }
 }
 export function centerToPoint(p){

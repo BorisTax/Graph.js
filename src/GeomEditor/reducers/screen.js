@@ -1,4 +1,4 @@
-import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, START_PICKING, REPAINT, CANCEL, SET_BOUNDED_CIRCLE, REFRESH_SNAP_MARKERS, REFRESH_SHAPE_MANAGER, SET_REAL_WIDTH, SET_SCALE, SET_DIMENSIONS, SET_CUR_COORD, SET_RATIO, PAN_SCREEN, SET_PREV_STATUS, START_SELECTION} from "../actions/ScreenActions";
+import {SET_GRID_VISIBLE,SET_GRID_SNAP,SET_SNAP,SET_SCREEN_CONTEXT,CREATE_SHAPE, SET_SELECTION_TYPE, SET_TOP_LEFT, SET_PICKED_DATA, START_PICKING, REPAINT, CANCEL, SET_BOUNDED_CIRCLE, REFRESH_SNAP_MARKERS, REFRESH_SHAPE_MANAGER, SET_REAL_WIDTH, SET_SCALE, SET_DIMENSIONS, SET_CUR_COORD, SET_RATIO, PAN_SCREEN, SET_PREV_STATUS, START_SELECTION, CANCEL_SELECTION} from "../actions/ScreenActions";
 import {SELECT_SHAPE,DELETE_SELECTED_SHAPES,SET_STATUS, ADD_SHAPE, CENTER_TO_POINT, SELECT_ALL} from "../actions/ScreenActions";
 import {SET_CYCLIC_FLAG} from "../actions/ScreenActions";
 import {SET_PROPERTY}  from '../actions/ShapeActions';
@@ -66,12 +66,22 @@ export function screenReducer(state = initialState,action) {
             state.shapes.push(action.payload);
             return{...state};
         case CANCEL:
+            return {...state,
+                status:STATUS_FREE,
+                curShape:null,
+                curHelperShapes:null,
+                shapeCreator:null,
+                picker:null,
+                creationStep:"",
+                currentShape:"",
+                cursor:new FreeCursor(state.curCoord),
+                repaint:Math.random()}
+        case CANCEL_SELECTION:
             state.shapes.forEach(s=>s.setState({selected:false}))
             return {...state,
                 status:STATUS_FREE,
                 curShape:null,
                 curHelperShapes:null,
-                selectedShapes:[],
                 shapeCreator:null,
                 picker:null,
                 creationStep:"",
