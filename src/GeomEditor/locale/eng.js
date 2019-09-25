@@ -9,7 +9,8 @@ export const captions={
   buttons:{
     cancel:"Cancel",
     logout:"Log out",
-    showPass:"Show password"
+    showPass:"Show password",
+    pick:"Pick"
   },
   registerForm:{
     title:"Sign up",

@@ -1,9 +1,12 @@
 import React from 'react';
 import '../Buttons.css';
+import { connect } from 'react-redux';
 
-export default class PickButton extends React.Component{
-
+class PickButton extends React.Component{
     render(){
-        return <div onClick={this.props.onClick} className="pickButton"></div>
+        const style=this.props.active?"pickButtonDown":"pickButtonUp"
+        return <div title={this.props.captions.buttons.pick} onClick={this.props.onClick} className={"pickButton "+style}></div>
     }
 }
+const mapStateToProps=(store)=>({captions:store.options.captions})
+export default connect(mapStateToProps)(PickButton)

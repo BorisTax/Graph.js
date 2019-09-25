@@ -185,14 +185,19 @@ export default class Screen extends React.Component {
         ctx.lineJoin='round';
         ctx.fillRect(0, 0, this.props.screenWidth, this.props.screenHeight);
         this.drawGrid(ctx);
-        let status_bar=`X=${this.props.curCoord.x.toFixed(3)} Y=${this.props.curCoord.y.toFixed(3)}    ${this.props.status} `;
+        let status_bar=`X=${this.props.curCoord.x.toFixed(3)} Y=${this.props.curCoord.y.toFixed(3)} `;
         let currentShape='';
         if(this.props.shapeCreator) currentShape=this.props.captions.creators[this.props.shapeCreator.getName()].description;
         let creationStep='';
-        if(this.props.shapeCreator) creationStep=this.props.captions.creators[this.props.shapeCreator.getName()].steps[this.props.shapeCreator.getCurrentStep()];
-
-        if(this.props.status===STATUS_CREATE)   
-                status_bar=status_bar+`${currentShape}: ${creationStep}`;
+        if(this.props.status===STATUS_CREATE) 
+            {
+            creationStep=this.props.captions.creators[this.props.shapeCreator.getName()].steps[this.props.shapeCreator.getCurrentStep()];
+            status_bar=status_bar+`${currentShape}: ${creationStep}`;
+            }
+        if(this.props.status===STATUS_PICK) {
+            creationStep=this.props.captions.pickers[this.props.picker.getName()].steps[this.props.picker.getCurrentStep()];
+            status_bar=status_bar+`${creationStep}`;
+             }
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
                 if(shape.activePointMarker) 
@@ -231,7 +236,7 @@ export default class Screen extends React.Component {
         if(this.props.status===STATUS_SELECT){
             this.drawShape(this.props.selectionManager.getSelectionShape(),ctx);
         }
-        this.drawCursor(ctx);
+        if(this.mouseOnScreen)this.drawCursor(ctx);
     }
 
     isOutRect(p){
@@ -351,6 +356,11 @@ export default class Screen extends React.Component {
         if(this.props.status===STATUS_PAN){
             this.props.actions.setPrevStatus();
         }
+        this.mouseOnScreen=false;
+        this.props.actions.repaint();
+    }
+    menter(){
+        this.mouseOnScreen=true;
     }
     onclick(e){
         if(e.button===0){
@@ -375,7 +385,7 @@ export default class Screen extends React.Component {
                     this.props.picker.setNextPoint(this.props.curCoord);
                     if(!this.props.picker.isNext())
                     {
-                        this.props.actions.setPickedData(this.props.curCoord);
+                        this.props.actions.setPickedData(+this.props.picker.getPickedData().toFixed(4));
                         this.props.actions.refreshSnapMarkers();
                         this.props.actions.refreshShapeManager();
                     }
@@ -436,6 +446,7 @@ export default class Screen extends React.Component {
                 onMouseDown={this.mdown.bind(this)}
                 onMouseUp={this.mup.bind(this)}
                 onMouseLeave={this.mleave.bind(this)}
+                onMouseEnter={this.menter.bind(this)}
                 onClick={this.onclick.bind(this)}
             >
             </canvas>

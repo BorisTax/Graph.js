@@ -1,13 +1,11 @@
 import LineShape from '../LineShape';
-import CircleShape from '../CircleShape';
 import ShapeStyle from '../ShapeStyle';
 import Geometry, {Line,Coord2D,Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
-import Screen from '../../Screen';
 import PropertyPicker from './PropertyPicker';
 export default class DistancePicker extends PropertyPicker{
     static caption="";
-    constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID)){
+    constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.DASH)){
         super()
         this.name="DistancePicker"
         this.line=new Line(new Coord2D(),new Coord2D());

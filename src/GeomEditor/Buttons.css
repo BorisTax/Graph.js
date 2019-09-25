@@ -174,11 +174,17 @@
 }
 .pickButton{
     display: inline-block;
-    background-image: url('./images/icons/center-snap.svg');
+    background-image: url('./images/icons/target.svg');
     background-size: cover;
     background-repeat: no-repeat;
-    width:16px;
+    width:20px;
     height: auto;
     cursor: pointer;
+}
+
+.pickButtonDown{
+    border: inset 1px;
+}
+.pickButtonUp{
     border: outset 1px;
 }

@@ -1,5 +1,9 @@
 import "../Graph.css";
 import React from "react";
+import PickButton from "./PickButton";
+import { STATUS_PICK, STATUS_PICK_END } from "../reducers/screen";
+import { connect } from "react-redux";
+import { startPicking, setPickedData, cancel } from "../actions/ScreenActions";
 
 class PropertyField extends React.Component{
     constructor(props){
@@ -35,12 +39,22 @@ class PropertyField extends React.Component{
         
     }
     static getDerivedStateFromProps(nextProps,prevState){
-        if(nextProps.value===prevState.value)
-            return {...nextProps,originValue:nextProps.value,correct:true};
-            else return {...prevState}
+        // if(nextProps.value===prevState.value)
+        //     return {...nextProps,originValue:nextProps.value,correct:true};
+        //     else return {...prevState}
+        let value=(nextProps.status===STATUS_PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
+        value=(+value).toFixed(4)
+        return {...nextProps,value:value,originValue:nextProps.value,correct:true};
+    }
+    componentDidUpdate(){
+        if(this.props.status===STATUS_PICK_END&&this.props.propKey===this.props.editId) {
+           this.props.setProperty(this.props.propKey,this.state.value)
+           this.props.cancel();
+        }
     }
     render(){
         return <div className={"noselect"}>
+            <div style={{display:'flex',flexDirection:'row',alignContent:'stretch'}}>
             {this.props.label}
             <input style={!this.state.correct?{backgroundColor:'red'}:{}}
                 className='propertyField'
@@ -52,7 +66,29 @@ class PropertyField extends React.Component{
                 onBlur={this.blur.bind(this)}
                 onFocus={()=>{window.KEYDOWNHANDLE=false}}
                 />
+            <PickButton
+                active={this.props.status===STATUS_PICK&&this.props.id===this.props.editId} 
+                onClick={()=>{
+                    if(this.props.status===STATUS_PICK&&this.props.id===this.props.editId){this.props.cancel();return;}   
+                    this.props.setPickedData(this.state.value);
+                    this.props.startPicking(this.props.id,new this.props.picker());
+                 }}></PickButton>
+        </div>
         </div>
     }
 }
-export default PropertyField
+const mapStateToProps=(store)=>{
+    return {
+        pickedValue:store.screen.pickedData.data,
+        editId:store.screen.pickedData.editId,
+        status:store.screen.status,
+    }
+}
+const mapDispatchToProps=(dispatch)=>{
+    return {
+        startPicking:(id,picker)=>dispatch(startPicking(id,picker)),
+        setPickedData:data=>dispatch(setPickedData(data)),
+        cancel:()=>dispatch(cancel()),
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(PropertyField)

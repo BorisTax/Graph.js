@@ -12,6 +12,7 @@ import SnapMarkersManager from "../components/shapes/markers/SnapMarkersManager"
 import SelectionManager from "../components/shapes/SelectionManager";
 import SelectRectCreator from "../components/shapes/shapecreators/SelectRectCreator";
 import DragCursor from "../components/shapes/cursors/DragCursor";
+import PickCursor from "../components/shapes/cursors/PickCursor";
 export const STATUS_FREE='FREE';
 export const STATUS_SELECT='SELECT';
 export const STATUS_CREATE='CREATE';
@@ -169,7 +170,12 @@ export function screenReducer(state = initialState,action) {
         case SET_GRID_VISIBLE:
             return{...state,show:{grid:action.payload}};
         case START_PICKING:
-            return {...state,status:STATUS_PICK,pickedData:{data:state.pickedData.data,editId:action.payload.id},picker:action.payload.picker}
+            return {...state,
+                status:STATUS_PICK,
+                pickedData:{data:state.pickedData.data,editId:action.payload.id},
+                picker:action.payload.picker,
+                cursor:new PickCursor(state.curCoord)
+            }
         case START_SELECTION:
             return {...state,status:STATUS_SELECT}
         case SET_PICKED_DATA:

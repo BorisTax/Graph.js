@@ -1,7 +1,7 @@
 import "../Graph.css";
 import React from "react";
 import {connect} from 'react-redux';
-import { STATUS_PICK_END } from "../reducers/screen";
+import { STATUS_PICK_END, STATUS_PICK } from "../reducers/screen";
 import { startPicking, setPickedData, cancel } from "../actions/ScreenActions";
 import PickButton from "./PickButton";
 
@@ -84,10 +84,14 @@ class PropertyMultField extends React.Component{
                 onBlur={this.blur.bind(this)}
                 onFocus={this.focus.bind(this)}
                 />
-             <PickButton onClick={()=>{
-                 this.props.setPickedData(this.state.value);
-                 this.props.startPicking(this.props.id,new this.props.picker());
-                 this.props.setActivePoint(this.props.propKey);
+             <PickButton 
+                active={this.props.status===STATUS_PICK&&this.props.id===this.props.editId} 
+                onClick={()=>{
+                    if(this.props.status===STATUS_PICK&&this.props.id===this.props.editId){this.props.cancel();return;}   
+                    this.props.setPickedData(this.state.value);
+                    this.props.startPicking(this.props.id,new this.props.picker());
+                    this.props.setActivePoint(this.props.propKey);
+                        
                  }}></PickButton>
             </div>
         </div>
