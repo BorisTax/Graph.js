@@ -1,12 +1,13 @@
 import Geometry from '../../../utils/geometry';
 import Shape from '../Shape';
 import {Color} from '../../colors';
+import SnapMarker from './SnapMarker';
 
 export default class ActivePointMarker extends Shape {
     static caption = "center points";
-    constructor(circle){
+    constructor(point){
         super();
-        this.circle=circle;
+        this.point=point
         this.setColor(Color.ACTIVE_POINT_MARKER);
     }
     drawSelf(ctx, realRect, screenRect){
@@ -18,7 +19,7 @@ export default class ActivePointMarker extends Shape {
         ctx.fill();
     }
     refresh(realRect, screenRect){
-        this.screenCenter=Geometry.realToScreen(this.circle.center,realRect,screenRect);
-        this.screenRadius=Geometry.realToScreenLength(this.circle.radius,realRect.width,screenRect.width);
+        this.screenCenter=Geometry.realToScreen(this.point,realRect,screenRect);
+        this.screenRadius=SnapMarker.MARKER_SIZE/2;
     }
 }

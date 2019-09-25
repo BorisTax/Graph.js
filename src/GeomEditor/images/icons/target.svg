@@ -4,27 +4,25 @@
 	 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:url(#SVGID_1_);}
-	.st1{fill:none;stroke:#000000;stroke-width:0.3975;stroke-miterlimit:10;}
-	.st2{fill:none;stroke:#000000;stroke-width:0.3975;stroke-miterlimit:10;stroke-dasharray:2.0909,2.0909;}
-	.st3{fill:none;stroke:#000000;stroke-width:0.4126;stroke-miterlimit:10;}
-	.st4{fill:none;stroke:#000000;stroke-width:0.4126;stroke-miterlimit:10;stroke-dasharray:2,2;}
-	.st5{fill:none;stroke:#0000FF;stroke-width:0.9464;stroke-miterlimit:10;}
-	.st6{fill:none;stroke:#000000;stroke-width:0.5;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#000000;stroke-width:2;}
+	.st2{fill:none;stroke:#000000;stroke-width:1;}
+	.st3{fill:none;stroke:#000000;stroke-width:1;}
+	.st4{fill:none;stroke:#000000;stroke-width:2;}
+	.st5{fill:none;stroke:#0000FF;stroke-width:2;stroke-miterlimit:10;}
+	.st6{fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:10;}
 </style>
 <g>
 	<g>
-		<line class="st1" x1="24" y1="11.5" x2="24" y2="12.5"/>
-		<line class="st2" x1="24" y1="14.6" x2="24" y2="34.5"/>
-		<line class="st1" x1="24" y1="35.5" x2="24" y2="36.5"/>
+		<line class="st1" x1="24" y1="5" x2="24" y2="43"/>
+
 	</g>
 </g>
 <g>
 	<g>
-		<line class="st3" x1="12" y1="24" x2="13" y2="24"/>
-		<line class="st4" x1="15" y1="24" x2="34" y2="24"/>
-		<line class="st3" x1="35" y1="24" x2="36" y2="24"/>
+		<line class="st1" x1="5" y1="24" x2="43" y2="24"/>
+
 	</g>
 </g>
-<circle class="st5" cx="24" cy="24" r="3.3"/>
-<circle class="st6" cx="24" cy="23" r="19.8"/>
+<circle class="st6" cx="24" cy="23" r="20"/>
+<circle class="st6" cx="24" cy="23" r="10"/>
 </svg>

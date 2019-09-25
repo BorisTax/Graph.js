@@ -307,6 +307,7 @@ export default class Geometry {
         return false;
     }
     static pointOnLine(p, p1, p2) {
+        if(!p||!p1||!p2)return false; 
         let sx = Math.round((p.x - p1.x) * (p.x - p2.x)*100000)/100000;
         let sy = Math.round((p.y - p1.y) * (p.y - p2.y)*100000)/100000;
         return (sx <= 0 && sy <= 0);

@@ -1,9 +1,8 @@
-import Geometry,{Rectangle,Coord2D,Line, Intersection, Circle} from '../../utils/geometry';
+import Geometry,{Rectangle,Coord2D,Line, Intersection} from '../../utils/geometry';
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 import ActivePointMarker from './markers/ActivePointMarker';
-import Screen from '../Screen';
 
 export default class RectangleShape extends Shape{
     constructor(rectangle){
@@ -24,9 +23,8 @@ export default class RectangleShape extends Shape{
         this.rect.topLeft=Geometry.realToScreen(this.rectangle.topLeft,realRect,screenRect);
         this.rect.width=Geometry.realToScreenLength(this.rectangle.width,realRect.width,screenRect.width);
         this.rect.height=Geometry.realToScreenLength(this.rectangle.height,realRect.height,screenRect.height);
-        const boundedCircleRadius=Geometry.distance(realRect.topLeft,realRect.bottomRight)/2;
         if(this.activePoint) 
-            this.activePointMarker=new ActivePointMarker(new Circle(this.activePoint,boundedCircleRadius* Screen.MARKER_SIZE))
+            this.activePointMarker=new ActivePointMarker(this.activePoint)
     }
     getMarkers(){
         let list=[];

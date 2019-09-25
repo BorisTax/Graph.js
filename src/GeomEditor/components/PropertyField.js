@@ -48,13 +48,13 @@ class PropertyField extends React.Component{
     }
     componentDidUpdate(){
         if(this.props.status===STATUS_PICK_END&&this.props.propKey===this.props.editId) {
-           this.props.setProperty(this.props.propKey,this.state.value)
+           this.props.setProperty(this.props.propKey,+this.state.value)
            this.props.cancel();
         }
     }
     render(){
         return <div className={"noselect"}>
-            <div style={{display:'flex',flexDirection:'row',alignContent:'stretch'}}>
+            <div style={{display:'flex',flexDirection:'row',alignContent:'center'}}>
             {this.props.label}
             <input style={!this.state.correct?{backgroundColor:'red'}:{}}
                 className='propertyField'

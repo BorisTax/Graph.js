@@ -1,4 +1,6 @@
-export default class AbstractSnapMarker {
+export default class SnapMarker {
+    static MARKER_SIZE=8;
+    static SNAP_MARKER_SIZE=5; 
     constructor(pos){
         this.pos=pos;
 

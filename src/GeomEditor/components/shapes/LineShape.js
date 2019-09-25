@@ -1,8 +1,7 @@
-import Geometry, { Intersection,Circle} from '../../utils/geometry';
+import Geometry, { Intersection} from '../../utils/geometry';
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
-import Screen from '../Screen';
 import ActivePointMarker from './markers/ActivePointMarker';
 
 export default class LineShape extends Shape{
@@ -27,9 +26,8 @@ export default class LineShape extends Shape{
     refresh(realRect, screenRect){
         this.p0 = Geometry.realToScreen(this.line.p1,realRect,screenRect);
         this.p1 = Geometry.realToScreen(this.line.p2, realRect, screenRect);
-        const boundedCircleRadius=Geometry.distance(realRect.topLeft,realRect.bottomRight)/2;
         if(this.activePoint) {
-            this.activePointMarker=new ActivePointMarker(new Circle(this.activePoint,boundedCircleRadius* Screen.MARKER_SIZE))
+            this.activePointMarker=new ActivePointMarker(this.activePoint)
         }
     }
     getMarkers(){

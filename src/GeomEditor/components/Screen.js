@@ -1,41 +1,19 @@
 import React from 'react';
 import '../Graph.css';
-import Geometry, {Circle, Coord2D, Point2D,Rectangle} from '../utils/geometry.js';
+import Geometry, {Coord2D, Point2D,Rectangle} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import {Color} from './colors';
 import CircleShape from './shapes/CircleShape';
 import { STATUS_FREE, STATUS_CREATE, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
 export default class Screen extends React.Component {
-    showGrid=true;
-    gridSnap=false;
-    snapDist=20;snapMinDist=10;
-    selectDist=2;
     static MARKER_SIZE=0.005;
     static SNAP_MARKER_SIZE=5;
-    status='';
-    prevStatus='';
-    points=new Array(3);
-    topLeft=new Coord2D();
-    bottomRight=new Coord2D();
-    boundedCircle=new Circle(0,0);
-    shapes=[];
-    shapeCreator=null;
-    realWidth=0;realHeight=0;
-    ratio=1;
-    pixelRatio=1;
-    marginTop=15;marginLeft=40;marginBottom=15;marginRight=10;
-    screenWidth=900;screenHeight=500;
-    statusBar=5;
-    xAxe=null;yAxe=null;
     curPoint=new Point2D();
     prevPoint=new Point2D();
-    curCoord=new Coord2D();
     gridStep=1;gridStepPixels=1;dragGrid=false;
     gridPointsX=[];gridPointsY=[];
     gridNumbersX=[];gridNumbersY=[];
     dragX0=0;dragY0=0;
-    creationStep="";currentShape="";
-    curColor="black";
     drag=false;lbut=0o00;mbut=0o01;
     constructor(props){
         super(props);
@@ -209,10 +187,12 @@ export default class Screen extends React.Component {
                 for(let shape of curHelperShapes)
                     this.drawShape(shape, ctx);
         let curShape=null;
-        if(this.props.shapeCreator) curShape=this.props.shapeCreator.getShape();
+        if(this.props.status===STATUS_CREATE) curShape=this.props.shapeCreator.getShape();
         if(curShape!=null) this.drawShape(curShape, ctx);
-            
+        if(this.props.status===STATUS_PICK) curShape=this.props.picker.getShape();
+        if(curShape!=null) this.drawShape(curShape, ctx);    
         ctx.lineWidth=1;
+        ctx.setLineDash(ShapeStyle.SOLID);
         ctx.fillStyle="white";
         //fill margin
         ctx.fillRect(0, 0, this.props.screenWidth-this.props.marginRight,this.props.marginTop);
@@ -385,7 +365,7 @@ export default class Screen extends React.Component {
                     this.props.picker.setNextPoint(this.props.curCoord);
                     if(!this.props.picker.isNext())
                     {
-                        this.props.actions.setPickedData(+this.props.picker.getPickedData().toFixed(4));
+                        this.props.actions.setPickedData(this.props.picker.getPickedData());
                         this.props.actions.refreshSnapMarkers();
                         this.props.actions.refreshShapeManager();
                     }

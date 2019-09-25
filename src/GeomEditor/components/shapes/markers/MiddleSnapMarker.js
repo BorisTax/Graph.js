@@ -1,11 +1,10 @@
-import Screen from '../../Screen';
 import Geometry,{Triangle,Coord2D} from '../../../utils/geometry';
 import TriangleShape from '../TriangleShape';
 import ShapeStyle from '../ShapeStyle';
 import {Color} from '../../colors';
-import AbstractSnapMarker from './AbstractSnapMarker';
+import SnapMarker from './SnapMarker';
 
-export default class MiddleSnapMarker extends AbstractSnapMarker {
+export default class MiddleSnapMarker extends SnapMarker {
     static caption = "middle points";
     constructor(pos){
     super(pos);
@@ -13,7 +12,7 @@ export default class MiddleSnapMarker extends AbstractSnapMarker {
 }
     refresh(realRect, screenRect){
         let pos=this.getPos();
-        let r=realRect.width/screenRect.width*Screen.SNAP_MARKER_SIZE;
+        let r=realRect.width/screenRect.width*SnapMarker.SNAP_MARKER_SIZE;
         let p=new Array(3);
         p[0]=new Coord2D(pos.x,pos.y+r);
         p[1]=Geometry.rotatePoint(p[0],Math.PI*2/3,pos);

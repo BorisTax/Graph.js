@@ -2,7 +2,6 @@ import Geometry,{Coord2D,Circle, Intersection} from "../../utils/geometry";
 import EndSnapMarker from './markers/EndSnapMarker';
 import Shape from "./Shape";
 import ActivePointMarker from "./markers/ActivePointMarker";
-import Screen from "../Screen";
 
 export default class RayLineShape extends Shape{
     constructor(line){
@@ -40,9 +39,8 @@ export default class RayLineShape extends Shape{
             this.p0=null;
             this.p1=null;
         }
-        const boundedCircleRadius=Geometry.distance(realRect.topLeft,realRect.bottomRight)/2;
         if(this.activePoint) 
-            this.activePointMarker=new ActivePointMarker(new Circle(this.activePoint,boundedCircleRadius* Screen.MARKER_SIZE))
+            this.activePointMarker=new ActivePointMarker(this.activePoint)
     }
     getMarkers(){
         let list=[];

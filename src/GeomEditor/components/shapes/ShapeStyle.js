@@ -1,8 +1,8 @@
 
 export default class ShapeStyle {
-    static DASH=0;
-    static SOLID=1;
-    static SELECTION=2;
+    static DASH=[1,3];
+    static SOLID=[0];
+    static SELECTION=[1,1];
     constructor(color,stroke,width=1){
         this.color=color;
         this.originColor=this.color;
