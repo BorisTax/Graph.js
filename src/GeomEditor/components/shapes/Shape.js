@@ -33,7 +33,6 @@ export default class Shape {
             this.activePointMarker=null;
         }
         if(this.state.highlighted===true) this.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,2));
-                    //else this.getStyle().setWidth(1);
     }
     getState(){
         return this.state;

@@ -39,9 +39,6 @@ class PropertyField extends React.Component{
         
     }
     static getDerivedStateFromProps(nextProps,prevState){
-        // if(nextProps.value===prevState.value)
-        //     return {...nextProps,originValue:nextProps.value,correct:true};
-        //     else return {...prevState}
         let value=(nextProps.status===STATUS_PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
         value=(+value).toFixed(4)
         return {...nextProps,value:value,originValue:nextProps.value,correct:true};

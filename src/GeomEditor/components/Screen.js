@@ -107,7 +107,6 @@ export default class Screen extends React.Component {
     drawCoordinates(ctx){
         ctx.font="10px sans-serif";
         ctx.strokeStyle="black";
-        //debugger;
         let i=0;
         let format=0;
         let w;
@@ -149,7 +148,6 @@ export default class Screen extends React.Component {
                 if(r>=1.5)d=5;
                 if(Math.round(this.gridNumbersY[i]/this.props.gridStep)%d===0)
                     ctx.strokeText(s,this.props.marginLeft-w,y+h/3);
-                    //g.drawString(s,marginLeft-w,y+h/3);
                 }
              i++;
         }
@@ -203,7 +201,6 @@ export default class Screen extends React.Component {
         ctx.strokeRect(this.props.marginLeft, this.props.marginTop, this.props.screenWidth-this.props.marginRight-this.props.marginLeft,this.props.screenHeight-this.props.marginBottom-this.props.marginTop);
         this.drawCoordinates(ctx);
         ctx.font="12px sans-serif";
-        //status_bar=status_bar+` TL ${this.props.topLeft.x.toFixed(1)},${this.props.topLeft.y.toFixed(1)}  BR ${this.props.bottomRight.x.toFixed(1)},${this.props.bottomRight.y.toFixed(1)}  RW ${this.props.realWidth.toFixed(1)} RH ${this.props.realHeight.toFixed(1)}  GS ${this.props.gridStep}  GSP ${this.props.gridStepPixels}`
         ctx.strokeText(status_bar,this.props.marginLeft,this.props.screenHeight-this.props.statusBar);
         if(this.props.status!==STATUS_FREE){
             let marker=this.props.snapMarkersManager.getActiveMarker();
@@ -227,6 +224,7 @@ export default class Screen extends React.Component {
     mmove(e){
         let rect=e.target.getBoundingClientRect();
         let curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
+        this.mouseOnScreen=!this.isOutRect(curPoint);
         let coord={x:this.props.curCoord.x,y:this.props.curCoord.y};
         if(this.props.status===STATUS_PAN){
             coord=Geometry.screenToReal(curPoint.x,curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
@@ -285,6 +283,7 @@ export default class Screen extends React.Component {
             this.props.picker.setCurrent(coord);
         }
         this.props.actions.setCurCoord(coord);
+        
     }
     mdown(e){
         if(e.button===1){
@@ -332,7 +331,7 @@ export default class Screen extends React.Component {
         }
        e.preventDefault();
     }
-    mleave(e){
+    mleave(){
         if(this.props.status===STATUS_PAN){
             this.props.actions.setPrevStatus();
         }
@@ -340,7 +339,6 @@ export default class Screen extends React.Component {
         this.props.actions.repaint();
     }
     menter(){
-        this.mouseOnScreen=true;
     }
     onclick(e){
         if(e.button===0){
@@ -388,7 +386,6 @@ export default class Screen extends React.Component {
         this.canvas=document.querySelector("#canvas");
         this.ctx=this.canvas.getContext("2d");
         this.canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
-        
         //this.test();
         this.paint(this.ctx);
         window.addEventListener('load',()=>{
@@ -399,13 +396,11 @@ export default class Screen extends React.Component {
         });
         window.addEventListener('resize',()=>{
             this.resize();
-            //this.paint(this.ctx);
         })
         window.addEventListener('keydown',(e)=>{
             if(window.KEYDOWNHANDLE===false) return;
             this.props.keyDownHandler.forEach(key=>{
                 if(e.ctrlKey===key.ctrlKey&&e.shiftKey===key.shiftKey&&e.altKey===key.altKey&&e.keyCode===key.keyCode){
-                    //const param={...key.param,messages:this.props.captions.messages}
                     if(this.props.actions[key.action]) this.props.actions[key.action](key.param);
                     e.preventDefault();
                 }
