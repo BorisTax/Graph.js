@@ -1,52 +1,51 @@
-import Geometry, { Intersection} from '../../utils/geometry';
-import EndSnapMarker from './markers/EndSnapMarker';
-import MiddleSnapMarker from './markers/MiddleSnapMarker';
+import Geometry from '../../utils/geometry';
 import Shape from "./Shape";
-import ActivePointMarker from './markers/ActivePointMarker';
 
 export default class TextShape extends Shape{
-    constructor(text,point){
+    constructor(text="",point={x:0,y:0}){
         super();
-        this.p=[];
-        this.p[0]=line.p1;
-        this.p[1]=line.p2;
-        this.line=line;
-        this.model=line;
+        this.p=point;
+        this.text=text;
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect, screenRect);
         ctx.strokeStyle=this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());
         ctx.lineWidth=this.getStyle().getWidth();
-        ctx.beginPath();
-        ctx.moveTo(this.p0.x,this.p0.y);
-        ctx.lineTo(this.p1.x,this.p1.y);
-        ctx.stroke();
+        console.log(ctx.lineWidth)
+        ctx.save();
+        ctx.font=this.font;
+        const newPoint=Geometry.rotatePoint(this.p0,this.angle,{x:0,y:0})
+        ctx.translate(this.p0.x-newPoint.x,this.p0.y-newPoint.y);
+        ctx.rotate(this.angle);
+        ctx.strokeText(this.text,this.p0.x,this.p0.y);
+        ctx.restore();
     }
     refresh(realRect, screenRect){
-        this.p0 = Geometry.realToScreen(this.line.p1,realRect,screenRect);
-        this.p1 = Geometry.realToScreen(this.line.p2, realRect, screenRect);
-        if(this.activePoint) {
-            this.activePointMarker=new ActivePointMarker(this.activePoint)
-        }
+        this.p0 = Geometry.realToScreen(this.p,realRect,screenRect);
+    }
+    rotate(angle){
+        this.angle=angle;
     }
     getMarkers(){
         let list=[];
-        list.push(new EndSnapMarker(this.line.p1));
-        list.push(new EndSnapMarker(this.line.p2));
-        list.push(new MiddleSnapMarker(Geometry.midPoint(this.line.p1,this.line.p2)))
         return list;
+    }
+    setText(text){
+        this.text=text;
+    }
+    setFont(font){
+        this.font=font;
+    }
+    setPoint(point){
+        this.p=point;
     }
     setActivePoint(key){
         this.activePoint=null;
-        if(key==='P1') this.activePoint=this.line.p1;
-        if(key==='P2') this.activePoint=this.line.p2;
+        if(key==='P1') this.activePoint=this.p;
     }
     getProperties(){
         let prop=new Map();
-         prop.set('Title',{value:'Line',regexp:/\s*/});
-        prop.set('P1',{value:{x:this.line.p1.x,y:this.line.p1.y},regexp:/^-?\d*\.?\d*$/});
-        prop.set('P2',{value:{x:this.line.p2.x,y:this.line.p2.y},regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){
@@ -64,14 +63,16 @@ export default class TextShape extends Shape{
         }
     }
     getDistance(point) {
-        return Geometry.PointToLineDistance(point,this.line);
+        return null
+        //return Geometry.PointToLineDistance(point,this.line);
     }
     isInRect(topLeft,bottomRight){
-        const inRect=[Geometry.pointInRect(this.line.p1,topLeft,bottomRight),
-                        Geometry.pointInRect(this.line.p2,topLeft,bottomRight)];
-        const full=inRect.every(i=>i===true);
-        const cross=Intersection.LineRectangle(this.line,topLeft,bottomRight).length>0;
-        return {cross,full};    
+        return {cross:false,full:false}
+        // const inRect=[Geometry.pointInRect(this.p,topLeft,bottomRight),
+        //                 Geometry.pointInRect(this.line.p2,topLeft,bottomRight)];
+        // const full=inRect.every(i=>i===true);
+        // const cross=Intersection.LineRectangle(this.line,topLeft,bottomRight).length>0;
+        // return {cross,full};    
     }
     toString(){
             return `Line P1(${this.line.p1.x},${this.line.p1.y}) P2(${this.line.p2.x},${this.line.p2.y})`;

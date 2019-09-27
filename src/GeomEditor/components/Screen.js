@@ -5,6 +5,7 @@ import ShapeStyle from './shapes/ShapeStyle';
 import {Color} from './colors';
 import CircleShape from './shapes/CircleShape';
 import { STATUS_FREE, STATUS_CREATE, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
+import TextShape from './shapes/TextShape';
 export default class Screen extends React.Component {
     static MARKER_SIZE=0.005;
     static SNAP_MARKER_SIZE=5;
@@ -39,12 +40,13 @@ export default class Screen extends React.Component {
     }
 
     test(){
-        const ps=[{x:1,y:1},{x:-5,y:2}]
-        const cs=ps.map(p=>new CircleShape({center:{x:p.x,y:p.y},radius:0.5}))
-        cs.forEach(c=>this.props.shapes.push(c));
+        const text=new TextShape('Text',{x:0,y:0})
+        text.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID))
+        text.rotate(45*Math.PI/180)
+        this.props.shapes.push(text);
     }
 
-     drawCursor(ctx){
+    drawCursor(ctx){
       this.props.cursor.setCoord(this.props.curCoord);
       this.drawShape(this.props.cursor,ctx);
     }
@@ -169,26 +171,31 @@ export default class Screen extends React.Component {
             {
             creationStep=this.props.captions.creators[this.props.shapeCreator.getName()].steps[this.props.shapeCreator.getCurrentStep()];
             status_bar=status_bar+`${currentShape}: ${creationStep}`;
+            let curHelperShapes=null;
+            curHelperShapes=this.props.shapeCreator.getHelperShapes();
+            if(curHelperShapes!=null)
+            for(let shape of curHelperShapes)
+                this.drawShape(shape, ctx);
+            let curShape=null;
+            curShape=this.props.shapeCreator.getShape();
+            if(curShape!=null) this.drawShape(curShape, ctx);
             }
         if(this.props.status===STATUS_PICK) {
             creationStep=this.props.captions.pickers[this.props.picker.getName()].steps[this.props.picker.getCurrentStep()];
             status_bar=status_bar+`${creationStep}`;
+            const pickShape=this.props.picker.getShape();
+            if(pickShape!=null) this.drawShape(pickShape, ctx);   
+            const pickHelperShapes=this.props.picker.getHelperShapes();
+            if(pickHelperShapes!=null)
+            for(let shape of pickHelperShapes)
+                this.drawShape(shape, ctx);
              }
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
                 if(shape.activePointMarker) 
                         this.drawShape(shape.activePointMarker,ctx);
             }
-        let curHelperShapes=null;
-        if(this.props.shapeCreator) curHelperShapes=this.props.shapeCreator.getHelperShapes();    
-        if(curHelperShapes!=null)
-                for(let shape of curHelperShapes)
-                    this.drawShape(shape, ctx);
-        let curShape=null;
-        if(this.props.status===STATUS_CREATE) curShape=this.props.shapeCreator.getShape();
-        if(curShape!=null) this.drawShape(curShape, ctx);
-        if(this.props.status===STATUS_PICK) curShape=this.props.picker.getShape();
-        if(curShape!=null) this.drawShape(curShape, ctx);    
+         
         ctx.lineWidth=1;
         ctx.setLineDash(ShapeStyle.SOLID);
         ctx.fillStyle="white";

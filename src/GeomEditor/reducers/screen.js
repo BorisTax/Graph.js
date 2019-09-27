@@ -13,6 +13,8 @@ import SelectionManager from "../components/shapes/SelectionManager";
 import SelectRectCreator from "../components/shapes/shapecreators/SelectRectCreator";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import PickCursor from "../components/shapes/cursors/PickCursor";
+import TextShape from "../components/shapes/TextShape";
+import { Color } from "../components/colors";
 export const STATUS_FREE='FREE';
 export const STATUS_SELECT='SELECT';
 export const STATUS_CREATE='CREATE';
@@ -23,8 +25,13 @@ export const STATUS_PICK='PICK';
 export const STATUS_PICK_END='PICK_END';
 const xAxeShape=new SLineShape(new SLine(0,1,0),new Circle(new Coord2D(0,0),8));
 const yAxeShape=new SLineShape(new SLine(1,0,0),new Circle(new Coord2D(0,0),8));
-xAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
-yAxeShape.setStyle(new ShapeStyle("red",ShapeStyle.SOLID));
+xAxeShape.setStyle(new ShapeStyle(Color.RED,ShapeStyle.SOLID));
+yAxeShape.setStyle(new ShapeStyle(Color.RED,ShapeStyle.SOLID));
+
+const text=new TextShape('Text',{x:0,y:0})
+text.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,1))
+text.rotate(45*Math.PI/180)
+
 const initialState = {
     bottomRight:{x:10,y:-10},
     curCoord:{x:0,y:0},

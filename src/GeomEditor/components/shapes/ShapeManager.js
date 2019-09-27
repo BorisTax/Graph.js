@@ -11,7 +11,7 @@ export default class ShapeManager {
         this.allShapes.forEach((s,index)=>{
             if(index<=1) return;
             let d=s.getDistance(p);
-            if(d<=dist) {shape=s;}
+            if(d!==null&&d<=dist) {shape=s;}
             s.setState({highlighted:false});
         });
         if(shape!==null)shape.setState({highlighted:true});

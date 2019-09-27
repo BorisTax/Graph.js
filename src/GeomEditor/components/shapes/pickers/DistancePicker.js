@@ -1,8 +1,9 @@
 import LineShape from '../LineShape';
 import ShapeStyle from '../ShapeStyle';
-import Geometry, {Line,Coord2D,Circle} from "../../../utils/geometry";
+import Geometry, {Line,Coord2D,Circle, Vector} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import PropertyPicker from './PropertyPicker';
+import TextShape from '../TextShape';
 export default class DistancePicker extends PropertyPicker{
     static caption="";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.DASH)){
@@ -12,9 +13,12 @@ export default class DistancePicker extends PropertyPicker{
         this.boundedCircle=new Circle(new Coord2D(),0);
         this.points=[new Coord2D(),new Coord2D()];
         this.shape=new LineShape(this.line);
+        this.text=new TextShape();
+        this.text.setFont('10px sans-serif')
         this.style=style;
         this.shape.setStyle(style);
-        this.helperShapes=[];
+        this.helperShapes=[this.text];
+        this.xAxe=new Vector({x:1,y:0},{x:0,y:0})
         //this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
         //this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
     }
@@ -26,6 +30,14 @@ export default class DistancePicker extends PropertyPicker{
         this.data=Geometry.distance(this.points[0],this.points[1]);
         this.shape=new LineShape(this.line);
         this.shape.setStyle(this.style);
+        this.text.setText(this.data.toFixed(4))
+        this.text.setPoint(Geometry.midPoint(this.points[0],this.points[1]))
+        let angle=Geometry.angleVectors(new Vector(this.points[1],this.points[0]),this.xAxe);
+        angle=angle%(Math.PI/2);
+        this.text.setText(180*angle/Math.PI)
+
+        this.text.rotate(angle);
+
         this.setControlPoints();
     }
     setControlPoints(){
