@@ -14,6 +14,7 @@ export default class DistancePicker extends PropertyPicker{
         this.points=[new Coord2D(),new Coord2D()];
         this.shape=new LineShape(this.line);
         this.text=new TextShape();
+        this.text.setAnchor(TextShape.CENTER)
         this.text.setFont('10px sans-serif')
         this.style=style;
         this.shape.setStyle(style);
@@ -33,9 +34,8 @@ export default class DistancePicker extends PropertyPicker{
         this.text.setText(this.data.toFixed(4))
         this.text.setPoint(Geometry.midPoint(this.points[0],this.points[1]))
         let angle=Geometry.angleVectors(new Vector(this.points[1],this.points[0]),this.xAxe);
-        angle=angle%(Math.PI/2);
-        this.text.setText(180*angle/Math.PI)
-
+        if(angle<Math.PI/2)angle=angle*Math.sign(this.points[0].y-this.points[1].y);
+            else angle=(Math.PI-angle)*Math.sign(this.points[1].y-this.points[0].y);
         this.text.rotate(angle);
 
         this.setControlPoints();

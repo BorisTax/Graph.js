@@ -1,5 +1,5 @@
 export default class SnapMarker {
-    static MARKER_SIZE=8;
+    static MARKER_SIZE=5;
     static SNAP_MARKER_SIZE=5; 
     constructor(pos){
         this.pos=pos;

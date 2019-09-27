@@ -8,8 +8,7 @@ export default class ShapeManager {
     }
     setShapeNearPoint(p, dist){
         let shape=null;
-        this.allShapes.forEach((s,index)=>{
-            if(index<=1) return;
+        this.allShapes.forEach(s=>{
             let d=s.getDistance(p);
             if(d!==null&&d<=dist) {shape=s;}
             s.setState({highlighted:false});
@@ -22,8 +21,7 @@ export default class ShapeManager {
         if(p1.x>p2.x) {tl.x=p2.x;br.x=p1.x}
         if(p1.y<p2.y) {tl.y=p2.y;br.y=p1.y}
         let shape=[];
-        this.allShapes.forEach((s,index)=>{
-            if(index<=1) return;
+        this.allShapes.forEach(s=>{
             if(!s.isInRect)return;//if method isInRect isn't implemented
             const {cross,full}=s.isInRect(tl,br);
             let ok=false;
@@ -36,8 +34,7 @@ export default class ShapeManager {
         if(shape.length!==0)shape.forEach(s=>{s.setState({highlighted:true})});
     }
     toggleShapeSelected(){
-        this.allShapes.forEach((shape,index) => {
-            if(index<=1) return;
+        this.allShapes.forEach(shape => {
             if(shape.getState().highlighted) shape.setState({selected:!shape.getState().selected});
         }); 
     }

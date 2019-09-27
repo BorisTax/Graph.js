@@ -57,7 +57,7 @@ class Login extends React.Component{
         const cap=this.props.cap;
         const showPass=this.state.showPass?"text":"password"
         return <div className='modalContainer noselect' onClick={blink}>
-                    <div ref={(ref)=>{this.ref=ref}}className={"toolBar"}>
+                    <div ref={(ref)=>{this.ref=ref}}className={"toolBar"} onClick={(e)=>{e.stopPropagation()}}>
                         <div className={"toolBarHeader"}>
                             <span className={"toolBarCaption"}>{cap.loginForm.title}</span>
                         </div>

@@ -2,6 +2,7 @@ import Geometry from '../../utils/geometry';
 import Shape from "./Shape";
 
 export default class TextShape extends Shape{
+    static CENTER=1;
     constructor(text="",point={x:0,y:0}){
         super();
         this.p=point;
@@ -15,10 +16,16 @@ export default class TextShape extends Shape{
         console.log(ctx.lineWidth)
         ctx.save();
         ctx.font=this.font;
-        const newPoint=Geometry.rotatePoint(this.p0,this.angle,{x:0,y:0})
-        ctx.translate(this.p0.x-newPoint.x,this.p0.y-newPoint.y);
+        let basePoint={...this.p0}
+        if(this.anchor===TextShape.CENTER){
+            const width=ctx.measureText(this.text).width/2;
+            basePoint.x=this.p0.x-width*Math.cos(this.angle);
+            basePoint.y=this.p0.y-width*Math.sin(this.angle);
+        }
+        const newPoint=Geometry.rotatePoint(basePoint,this.angle,{x:0,y:0})
+        ctx.translate(basePoint.x-newPoint.x,basePoint.y-newPoint.y);
         ctx.rotate(this.angle);
-        ctx.strokeText(this.text,this.p0.x,this.p0.y);
+        ctx.strokeText(this.text,basePoint.x,basePoint.y);
         ctx.restore();
     }
     refresh(realRect, screenRect){
@@ -39,6 +46,9 @@ export default class TextShape extends Shape{
     }
     setPoint(point){
         this.p=point;
+    }
+    setAnchor(anchor){
+        this.anchor=anchor;
     }
     setActivePoint(key){
         this.activePoint=null;

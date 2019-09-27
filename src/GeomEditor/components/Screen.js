@@ -3,7 +3,6 @@ import '../Graph.css';
 import Geometry, {Coord2D, Point2D,Rectangle} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import {Color} from './colors';
-import CircleShape from './shapes/CircleShape';
 import { STATUS_FREE, STATUS_CREATE, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
 import TextShape from './shapes/TextShape';
 export default class Screen extends React.Component {
@@ -163,6 +162,8 @@ export default class Screen extends React.Component {
         ctx.lineJoin='round';
         ctx.fillRect(0, 0, this.props.screenWidth, this.props.screenHeight);
         this.drawGrid(ctx);
+        this.drawShape(this.props.xAxe,ctx)
+        this.drawShape(this.props.yAxe,ctx)
         let status_bar=`X=${this.props.curCoord.x.toFixed(3)} Y=${this.props.curCoord.y.toFixed(3)} `;
         let currentShape='';
         if(this.props.shapeCreator) currentShape=this.props.captions.creators[this.props.shapeCreator.getName()].description;
@@ -171,6 +172,8 @@ export default class Screen extends React.Component {
             {
             creationStep=this.props.captions.creators[this.props.shapeCreator.getName()].steps[this.props.shapeCreator.getCurrentStep()];
             status_bar=status_bar+`${currentShape}: ${creationStep}`;
+            }
+        if(this.props.shapeCreator){
             let curHelperShapes=null;
             curHelperShapes=this.props.shapeCreator.getHelperShapes();
             if(curHelperShapes!=null)
@@ -179,17 +182,20 @@ export default class Screen extends React.Component {
             let curShape=null;
             curShape=this.props.shapeCreator.getShape();
             if(curShape!=null) this.drawShape(curShape, ctx);
-            }
+        }
         if(this.props.status===STATUS_PICK) {
             creationStep=this.props.captions.pickers[this.props.picker.getName()].steps[this.props.picker.getCurrentStep()];
             status_bar=status_bar+`${creationStep}`;
+
+             }
+        if(this.props.picker){
             const pickShape=this.props.picker.getShape();
             if(pickShape!=null) this.drawShape(pickShape, ctx);   
             const pickHelperShapes=this.props.picker.getHelperShapes();
             if(pickHelperShapes!=null)
             for(let shape of pickHelperShapes)
                 this.drawShape(shape, ctx);
-             }
+        }
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
                 if(shape.activePointMarker) 
@@ -233,6 +239,7 @@ export default class Screen extends React.Component {
         let curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
         this.mouseOnScreen=!this.isOutRect(curPoint);
         let coord={x:this.props.curCoord.x,y:this.props.curCoord.y};
+
         if(this.props.status===STATUS_PAN){
             coord=Geometry.screenToReal(curPoint.x,curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
             let dx=curPoint.x-this.dragX0;
