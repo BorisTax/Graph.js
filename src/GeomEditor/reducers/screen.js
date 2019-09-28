@@ -84,6 +84,7 @@ export function screenReducer(state = initialState,action) {
             state.shapes.forEach(s=>s.setState({selected:false}))
             return {...state,
                 status:STATUS_FREE,
+                selectedShapes:[],
                 curShape:null,
                 curHelperShapes:null,
                 shapeCreator:null,

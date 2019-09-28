@@ -57,6 +57,7 @@ export class RLine {
     this.vector=new Vector();
     this.vector.x=p2.x-p1.x;
     this.vector.y=p2.y-p1.y;
+    this.directionPoint={x:this.origin.x+this.vector.x,y:this.origin.y+this.vector.y}
     }
 
     getYbyX(x){

@@ -2,6 +2,7 @@ import Geometry,{Coord2D,Circle, Intersection} from "../../utils/geometry";
 import EndSnapMarker from './markers/EndSnapMarker';
 import Shape from "./Shape";
 import ActivePointMarker from "./markers/ActivePointMarker";
+import PointPicker from "./pickers/PointPicker";
 
 export default class RayLineShape extends Shape{
     constructor(line){
@@ -50,13 +51,13 @@ export default class RayLineShape extends Shape{
     setActivePoint(key){
         this.activePoint=null;
         if(key==='Origin') this.activePoint=this.line.origin;
-        //if(key==='P2') this.activePoint=this.line.p2;
+        if(key==='Direction') this.activePoint=this.line.directionPoint;
     }
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'RLine',regexp:/\s*/});
-        prop.set('Origin',{value:{x:this.line.origin.x,y:this.line.origin.y},regexp:/^-?\d*\.?\d*$/});
-        prop.set('Direction',{value:{x:this.line.vector.x,y:this.line.vector.y},regexp:/^-?\d*\.?\d*$/});
+        prop.set('Origin',{value:{x:this.line.origin.x,y:this.line.origin.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
+        prop.set('Direction',{value:{x:this.line.origin.x+this.line.vector.x,y:this.line.origin.y+this.line.vector.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){
@@ -65,10 +66,14 @@ export default class RayLineShape extends Shape{
             case 'Origin':
                 this.line.origin.x=prop.value.x;
                 this.line.origin.y=prop.value.y;
+                this.line.directionPoint.x=this.line.origin.x+this.line.vector.x;
+                this.line.directionPoint.y=this.line.origin.y+this.line.vector.y;
                 break;
             case 'Direction':
-                this.line.vector.x=prop.value.x;
-                this.line.vector.y=prop.value.y;
+                this.line.vector.x=prop.value.x-this.line.origin.x;
+                this.line.vector.y=prop.value.y-this.line.origin.y;
+                this.line.directionPoint.x=this.line.origin.x+this.line.vector.x;
+                this.line.directionPoint.y=this.line.origin.y+this.line.vector.y;
                 break;
             default:
         }

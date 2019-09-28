@@ -63,13 +63,13 @@ class PropertyField extends React.Component{
                 onBlur={this.blur.bind(this)}
                 onFocus={()=>{window.KEYDOWNHANDLE=false}}
                 />
-            <PickButton
+            {this.props.picker?<PickButton
                 active={this.props.status===STATUS_PICK&&this.props.id===this.props.editId} 
                 onClick={()=>{
                     if(this.props.status===STATUS_PICK&&this.props.id===this.props.editId){this.props.cancel();return;}   
                     this.props.setPickedData(this.state.value);
                     this.props.startPicking(this.props.id,new this.props.picker());
-                 }}></PickButton>
+                 }}></PickButton>:<></>}
         </div>
         </div>
     }

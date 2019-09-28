@@ -6,7 +6,8 @@
     "buttons":{
       "cancel":"Cancel",
       "logout":"Log out",
-      "showPass":"Show password"
+      "showPass":"Show password",
+      "pick":"Pick"
     },
     "registerForm":{
       "title":"Sign Up",
@@ -75,22 +76,17 @@
     "Circle":{
       "Title":"Circle",
       "Radius":"Radius",
-      "CX":"CenterX",
-      "CY":"CenterY"
+      "Center":"Center"
     },
     "Rectangle":{
       "Title":"Rectangle",
-      "X1":"X1",
-      "Y1":"Y1",
-      "X2":"X2",
-      "Y2":"Y2"
+      "P1":"P1",
+      "P2":"P2"
     },
     "Line":{
       "Title":"Line",
-      "X1":"X1",
-      "Y1":"Y1",
-      "X2":"X2",
-      "Y2":"Y2"
+      "P1":"P1",
+      "P2":"P2"
     },
     "SLine":{
       "Title":"Straight Line AX+BY+C=0",
@@ -100,19 +96,24 @@
     },
     "RLine":{
       "Title":"Ray Line",
-      "X":"X",
-      "Y":"Y",
-      "VX":"VX",
-      "VY":"VY"
+      "Origin":"Origin",
+      "Direction":"Direction"
     },
     "Triangle":{
       "Title":"Triangle",
-      "X1":"X1",
-      "Y1":"Y1",
-      "X2":"X2",
-      "Y2":"Y2",
-      "X3":"X3",
-      "Y3":"Y3"
+      "P1":"P1",
+      "P2":"P2",
+      "P3":"P3"
+    }
+  },
+  "pickers":{
+    "PointPicker":{
+      "description":"",
+      "steps":["Select point"]
+    },
+    "DistancePicker":{
+      "description":"",
+      "steps":["Specify 1st point","Specify distance"]
     }
   },
   "creators":{
@@ -156,6 +157,7 @@
   "help":{
     "title":"Reference",
     "hotKeys":[
+    {"key":"ESC","desc":"Cancel"},
     {"key":"Ctrl-A","desc":"Select all"},
     {"key":"Del","desc":"Delete selected"},
     {"key":"C","desc":"Center view to origin"},

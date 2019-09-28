@@ -6,7 +6,8 @@
     "buttons":{
       "cancel":"Annuler",
       "logout":"Sortie",
-      "showPass":"Montrer le mot de passe"
+      "showPass":"Montrer le mot de passe",
+      "pick":"Choisir"
     },
     "registerForm":{
       "title":"Créer le compte",
@@ -75,22 +76,17 @@
     "Circle":{
       "Title":"Cercle",
       "Radius":"Rayon",
-      "CX":"CentreX",
-      "CY":"CentreY"
+      "Center":"Centre"
     },
     "Rectangle":{
       "Title":"Rectangle",
-      "X1":"X1",
-      "Y1":"Y1",
-      "X2":"X2",
-      "Y2":"Y2"
+      "P1":"P1",
+      "P2":"P2"
     },
     "Line":{
       "Title":"Ligne",
-      "X1":"X1",
-      "Y1":"Y1",
-      "X2":"X2",
-      "Y2":"Y2"
+      "P1":"P1",
+      "P2":"P2"
     },
     "SLine":{
       "Title":"Ligne droite AX+BY+C=0",
@@ -100,62 +96,68 @@
     },
     "RLine":{
       "Title":"Ligne de rayon",
-      "X":"X",
-      "Y":"Y",
-      "VX":"VX",
-      "VY":"VY"
+      "Origin":"Origine",
+      "Direction":"Direction"
     },
     "Triangle":{
       "Title":"Triangle",
-      "X1":"X1",
-      "Y1":"Y1",
-      "X2":"X2",
-      "Y2":"Y2",
-      "X3":"X3",
-      "Y3":"Y3"
+      "P1":"P1",
+      "P2":"P2",
+      "P3":"P3"
+    }
+  },
+  "pickers":{
+    "PointPicker":{
+      "description":"",
+      "steps":["Spécifiez le point"]
+    },
+    "DistancePicker":{
+      "description":"",
+      "steps":["Spécifiez le point premiere","Spécifiez la longueur"]
     }
   },
   "creators":{
     "StraightLineCreator":{
-      "description":"Straight Line",
-      "steps":["Select 1st point","Select 2nd point"]
+      "description":"Ligne droite",
+      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire"]
     },
     "RayLineCreator":{
-      "description":"Ray Line",
-      "steps":["Select origin point","Select direction point"]
+      "description":"Rayon",
+      "steps":["Spécifiez le point origine","Spécifiez le point de direction"]
     },
     "LineCreator":{
       "description":"Segment Line",
-      "steps":["Select first point","Select second point"]
+      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire"]
     },
     "CircleCRCreator":{
-      "description":"Circle",
-      "steps":["Select center point","Select radius point"]
+      "description":"Cercle",
+      "steps":["Spécifiez le point de centre","Spécifiez le rayon"]
     },
     "Circle2PCreator":{
-      "description":"Circle",
-      "steps":["Select first point","Select second point"]
+      "description":"Cercle",
+      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire"]
     },
     "Circle3PCreator":{
-      "description":"Circle",
-      "steps":["Select first point","Select second point","Select third point"]
+      "description":"Cercle",
+      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire","Spécifiez le point troisieme"]
     },
     "RectangleCreator":{
       "description":"Rectangle",
-      "steps":["Select first point","Select second point"]
+      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire"]
     },
     "TriangleCreator":{
       "description":"Triangle",
-      "steps":["Select first point","Select second point","Select third"]
+      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire","Spécifiez le point troisieme"]
     },
     "SelectRectCreator":{
       "description":"",
-      "steps":["","Specify second selection point"]
+      "steps":["","Spécifiez le point secondaire de selection"]
     }
   },
   "help":{
     "title":"Référence",
     "hotKeys":[
+    {"key":"ESC","desc":"Annuler"},
     {"key":"Ctrl-A","desc":"Tout sélectionner"},
     {"key":"Del","desc":"Supprimer sélectionnée"},
     {"key":"C","desc":"Centre vue à l'origine"},

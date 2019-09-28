@@ -3,6 +3,7 @@ import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 import ActivePointMarker from './markers/ActivePointMarker';
+import PointPicker from './pickers/PointPicker';
 
 export default class RectangleShape extends Shape{
     constructor(rectangle){
@@ -46,8 +47,8 @@ export default class RectangleShape extends Shape{
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'Rectangle',regexp:/\s*/});
-        prop.set('P1',{value:{x:this.rectangle.topLeft.x,y:this.rectangle.topLeft.y},regexp:/^-?\d*\.?\d*$/});
-        prop.set('P2',{value:{x:this.rectangle.bottomRight.x,y:this.rectangle.bottomRight.y},regexp:/^-?\d*\.?\d*$/});
+        prop.set('P1',{value:{x:this.rectangle.topLeft.x,y:this.rectangle.topLeft.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
+        prop.set('P2',{value:{x:this.rectangle.bottomRight.x,y:this.rectangle.bottomRight.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){

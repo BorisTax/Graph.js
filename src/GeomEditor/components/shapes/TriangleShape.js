@@ -3,6 +3,7 @@ import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 import ActivePointMarker from './markers/ActivePointMarker';
+import PointPicker from './pickers/PointPicker';
 
 export default class TriangleShape extends Shape{
     constructor(triangle){
@@ -47,9 +48,9 @@ export default class TriangleShape extends Shape{
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'Triangle',regexp:/\s*/});
-        prop.set('P1',{value:{x:this.triangle.points[0].x,y:this.triangle.points[0].y},regexp:/^-?\d*\.?\d*$/});
-        prop.set('P2',{value:{x:this.triangle.points[1].x,y:this.triangle.points[1].y},regexp:/^-?\d*\.?\d*$/});
-        prop.set('P3',{value:{x:this.triangle.points[2].x,y:this.triangle.points[2].y},regexp:/^-?\d*\.?\d*$/});
+        prop.set('P1',{value:{x:this.triangle.points[0].x,y:this.triangle.points[0].y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
+        prop.set('P2',{value:{x:this.triangle.points[1].x,y:this.triangle.points[1].y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
+        prop.set('P3',{value:{x:this.triangle.points[2].x,y:this.triangle.points[2].y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){

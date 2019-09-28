@@ -1,5 +1,5 @@
 const options={
-    devUrl:'http://localhost:5000',
-    _devUrl:'http://localhost:5000',
+    devUrl:'',
+    _devUrl:'',
 }
 export default options

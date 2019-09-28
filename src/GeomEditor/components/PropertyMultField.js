@@ -50,7 +50,9 @@ class PropertyMultField extends React.Component{
         
     }
     static getDerivedStateFromProps(nextProps,prevState){
-            const value=(nextProps.status===STATUS_PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
+            let value=(nextProps.status===STATUS_PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
+            value.x=+value.x.toFixed(4)
+            value.y=+value.y.toFixed(4)
             return {...nextProps,value:value,originValue:nextProps.value,correct:true};
     }
     componentDidUpdate(){
@@ -84,7 +86,7 @@ class PropertyMultField extends React.Component{
                 onBlur={this.blur.bind(this)}
                 onFocus={this.focus.bind(this)}
                 />
-             <PickButton 
+             {this.props.picker?<PickButton 
                 active={this.props.status===STATUS_PICK&&this.props.id===this.props.editId} 
                 onClick={()=>{
                     if(this.props.status===STATUS_PICK&&this.props.id===this.props.editId){this.props.cancel();return;}   
@@ -92,7 +94,7 @@ class PropertyMultField extends React.Component{
                     this.props.startPicking(this.props.id,new this.props.picker());
                     this.props.setActivePoint(this.props.propKey);
                         
-                 }}></PickButton>
+                 }}></PickButton>:<></>}
             </div>
         </div>
     }
