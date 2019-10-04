@@ -13,7 +13,6 @@ export default class CircleCRCreator extends AbstractCreator{
         this.name="CircleCRCreator"
         this.points=new Array(2);
         this.circle=new Circle(new Coord2D(),0);
-        //this.boundedCircle=new Circle();
         this.helperShapes = [];
         this.shape=new CircleShape(this.circle);
         this.radiusLine=new Line(this.circle.center,this.circle.center);

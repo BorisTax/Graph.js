@@ -12,7 +12,6 @@ export default class RayLineCreator extends AbstractCreator{
         this.name="RayLineCreator"
         this.line=new RLine(new Coord2D(),new Coord2D());
         this.points=new Array(2);
-        //this.boundedCircle=new Circle();
         this.shape=new RayLineShape(this.line);
         this.style=style||new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
         this.shape.setStyle(style);
@@ -31,10 +30,10 @@ export default class RayLineCreator extends AbstractCreator{
         if(!this.isNext()) return;
         this.points[this.i]=point;
         if(this.i===0)this.points[1]=this.points[0];
-        if(this.i>0) this.line=new RLine(...this.points);
+        if(this.i>0) {this.line=new RLine(...this.points);if(this.line.vector.x===0&&this.line.vector.y===0)this.legal=false;else this.legal=true}
         this.shape=new RayLineShape(this.line,this.boundedCircle);
         this.shape.setStyle(this.style);
         this.setControlPoints();
     }
-    reset(){return new RayLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
+    reset(){return new RayLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
 }

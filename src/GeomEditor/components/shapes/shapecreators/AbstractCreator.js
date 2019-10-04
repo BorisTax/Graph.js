@@ -2,6 +2,7 @@ export default class AbstractCreator {
      constructor(boundedCircle){
         this.i=0;
         this.boundedCircle=boundedCircle;
+        this.legal=true;
     }
 
     getShape(){
@@ -17,7 +18,8 @@ export default class AbstractCreator {
         this.setCurrent(p);
         this.i++;
     }
-
+    is
+    isLegal(){return this.legal}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();

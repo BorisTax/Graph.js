@@ -357,7 +357,8 @@ export default class Screen extends React.Component {
     onclick(e){
         if(e.button===0){
             if(this.props.status===STATUS_CREATE){
-                this.props.shapeCreator.setNextPoint(this.props.curCoord);
+                this.props.shapeCreator.setCurrent(this.props.curCoord);
+                if(this.props.shapeCreator.isLegal()) this.props.shapeCreator.setNextPoint(this.props.curCoord);
                 if(!this.props.shapeCreator.isNext())
                 {
                     this.props.shapes.push(this.props.shapeCreator.getShape());

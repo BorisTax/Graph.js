@@ -32,10 +32,10 @@ export default class StraightLineCreator extends AbstractCreator{
         if(!this.isNext()) return;
         this.points[this.i]=point;
         if(this.i===0)this.points[1]=this.points[0];
-        if(this.i>0) this.line=new SLine(...this.points);
+        if(this.i>0) {this.line=new SLine(...this.points);if(this.line.a===0&&this.line.b===0)this.legal=false;else this.legal=true;}
         this.shape=new SLineShape(this.line);
         this.shape.setStyle(this.style);
         this.setControlPoints();
     }
-    reset(){return new StraightLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
+    reset(){return new StraightLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
 }
