@@ -49,7 +49,7 @@ export default class Circle3PCreator extends AbstractCreator{
         this.helperShapes[2].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
         this.helperShapes[3].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
     }
-    reset(){return new Circle3PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
+    reset(){return new Circle3PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
         if(this.points[this.i]!=null) this.setControlPoints();

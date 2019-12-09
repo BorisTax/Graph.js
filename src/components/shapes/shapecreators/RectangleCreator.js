@@ -36,5 +36,5 @@ export default class RectangleCreator extends AbstractCreator{
         this.helperShapes[0].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
         this.helperShapes[1].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
     }
-    reset(){return new RectangleCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
+    reset(){return new RectangleCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
 }

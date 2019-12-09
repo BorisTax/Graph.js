@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GeomEditor from './GeomEditor/GeomEditor';
+import GeomEditor from './GeomEditor';
 
 ReactDOM.render(
     <GeomEditor/>

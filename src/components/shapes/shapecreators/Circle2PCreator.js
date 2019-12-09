@@ -44,6 +44,6 @@ export default class Circle2PCreator extends AbstractCreator{
         this.helperShapes[1].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
         this.helperShapes[2].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
     }
-    reset(){return new Circle2PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()));}
+    reset(){return new Circle2PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
     
 }

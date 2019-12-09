@@ -169,7 +169,7 @@
     font-weight: bold;
     height: auto;
     margin-left: 10px;
-    fpadding:1px 5px;
+    /*padding:1px 5px;*/
     z-index: 99;
 }
 .pickButton{
