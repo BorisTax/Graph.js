@@ -2,7 +2,7 @@ import Geometry, {Coord2D,Line,Intersection} from '../../utils/geometry';
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
-import ActivePointMarker from './markers/ActivePointMarker';
+import PointMarker from './markers/PointMarker';
 import PointPicker from './pickers/PointPicker';
 
 export default class TriangleShape extends Shape{
@@ -27,7 +27,7 @@ export default class TriangleShape extends Shape{
     refresh(realRect, screenRect){
         for (let i=0;i<3;i++) this.p[i]=Geometry.realToScreen(this.triangle.points[i],realRect,screenRect);
         if(this.activePoint) 
-            this.activePointMarker=new ActivePointMarker(this.activePoint)
+            this.activePointMarker=new PointMarker(this.activePoint)
     }
     setActivePoint(key){
         this.activePoint=null;

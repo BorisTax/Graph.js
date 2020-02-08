@@ -1,13 +1,15 @@
 import options from '../config'
-export const SET_LANGUAGE='SET_LANGUAGE';
-export const REQUEST_LANGUAGE='REQUEST_LANGUAGE';
-export const SHOW_HELP='SHOW_HELP';
-export const SHOW_CONFIRM='SHOW_CONFIRM';
-export const SHOW_ALERT='SHOW_ALERT';
+export const AppActions={
+    SET_LANGUAGE:'SET_LANGUAGE',
+    REQUEST_LANGUAGE:'REQUEST_LANGUAGE',
+    SHOW_HELP:'SHOW_HELP',
+    SHOW_CONFIRM:'SHOW_CONFIRM',
+    SHOW_ALERT:'SHOW_ALERT',
+}
 
 export function setLanguage(captions) {
     return {
-        type: SET_LANGUAGE,
+        type: AppActions.SET_LANGUAGE,
         payload: captions,
     }
 }
@@ -27,19 +29,19 @@ export function requestLanguage(lang) {
 }
 export function showHelp(show){
     return {
-        type:SHOW_HELP,
+        type:AppActions.SHOW_HELP,
         payload:show
     }
 }
 export function showConfirm(show,messageKey,okAction){
     return {
-        type:SHOW_CONFIRM,
+        type:AppActions.SHOW_CONFIRM,
         payload:{show,messageKey,okAction}
     }
 }
 export function showAlert(show,messageKey){
     return {
-        type:SHOW_ALERT,
+        type:AppActions.SHOW_ALERT,
         payload:{show,messageKey}
     }
 }

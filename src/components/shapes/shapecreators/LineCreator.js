@@ -4,8 +4,8 @@ import ShapeStyle from '../ShapeStyle';
 import {Line,Coord2D,Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-import AbstractCreator from './AbstractCreator';
-export default class LineCreator extends AbstractCreator{
+import ShapeBuilder from './ShapeBuilder';
+export default class LineCreator extends ShapeBuilder{
     static caption="Segment line";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID),boundedCircle){
         super(boundedCircle)

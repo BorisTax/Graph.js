@@ -4,8 +4,8 @@ import RectangleShape from '../RectangleShape';
 import CircleShape from '../CircleShape';
 import ShapeStyle from '../ShapeStyle';
 import Screen from '../../Screen';
-import AbstractCreator from './AbstractCreator';
-export default class RectangleCreator extends AbstractCreator{
+import ShapeBuilder from './ShapeBuilder';
+export default class RectangleCreator extends ShapeBuilder{
     static caption="Rectangle";
     rectangle=new Rectangle();
     points=new Array(2);

@@ -4,8 +4,8 @@ import {Triangle,Coord2D,Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import ShapeStyle from '../ShapeStyle';
 import Screen from '../../Screen';
-import AbstractCreator from './AbstractCreator';
-export default class TriangleCreator extends AbstractCreator{
+import ShapeBuilder from './ShapeBuilder';
+export default class TriangleCreator extends ShapeBuilder{
      static caption="Triangle";
      constructor(style,boundedCircle){
         super(boundedCircle)

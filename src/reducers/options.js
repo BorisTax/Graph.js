@@ -1,4 +1,4 @@
-import {SET_LANGUAGE} from "../actions/AppActions";
+import {AppActions} from "../actions/AppActions";
 
 import {captions} from '../locale/eng';
 const keys=[
@@ -10,7 +10,7 @@ const keys=[
 const initialState={captions:captions,keyDownHandler:keys}
 export function optionsReducer(state=initialState,action) {
     switch (action.type) {
-        case SET_LANGUAGE:
+        case AppActions.SET_LANGUAGE:
             document.title=action.payload.title;
             return{...state,captions:action.payload};
         default:

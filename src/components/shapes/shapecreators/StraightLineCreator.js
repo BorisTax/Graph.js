@@ -4,8 +4,8 @@ import ShapeStyle from '../ShapeStyle';
 import {SLine,Coord2D, Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-import AbstractCreator from './AbstractCreator';
-export default class StraightLineCreator extends AbstractCreator{
+import ShapeBuilder from './ShapeBuilder';
+export default class StraightLineCreator extends ShapeBuilder{
     static caption="Straight line";
     constructor(style,boundedCircle){
         super(boundedCircle)

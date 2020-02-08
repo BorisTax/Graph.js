@@ -2,8 +2,8 @@ import Geometry, { Intersection} from '../../utils/geometry';
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
-import ActivePointMarker from './markers/ActivePointMarker';
 import PointPicker from './pickers/PointPicker';
+import PointMarker from './markers/PointMarker';
 
 export default class LineShape extends Shape{
     constructor(line){
@@ -13,6 +13,11 @@ export default class LineShape extends Shape{
         this.p[1]=line.p2;
         this.line=line;
         this.model=line;
+        this.controlPoints=[
+            {point:this.p[0],show:false,selected:false},
+            {point:this.p[1],show:false,selected:false}]
+        for(let cp of this.controlPoints)
+          cp.marker=new PointMarker(cp.point,false)
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect, screenRect);
@@ -27,8 +32,10 @@ export default class LineShape extends Shape{
     refresh(realRect, screenRect){
         this.p0 = Geometry.realToScreen(this.line.p1,realRect,screenRect);
         this.p1 = Geometry.realToScreen(this.line.p2, realRect, screenRect);
-        if(this.activePoint) {
-            this.activePointMarker=new ActivePointMarker(this.activePoint)
+        this.controlPoints[0].point=this.p0;
+        this.controlPoints[1].point=this.p1;
+        for(let cp of this.controlPoints) {
+            cp.marker.setPoint(cp.point)
         }
     }
     getMarkers(){

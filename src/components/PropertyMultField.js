@@ -1,7 +1,7 @@
 import "../Graph.css";
 import React from "react";
 import {connect} from 'react-redux';
-import { STATUS_PICK_END, STATUS_PICK } from "../reducers/screen";
+import { Status } from "../reducers/screen";
 import { startPicking, setPickedData, cancel } from "../actions/ScreenActions";
 import PickButton from "./PickButton";
 
@@ -50,13 +50,13 @@ class PropertyMultField extends React.Component{
         
     }
     static getDerivedStateFromProps(nextProps,prevState){
-            let value=(nextProps.status===STATUS_PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
+            let value=(nextProps.status===Status.PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
             value.x=+value.x.toFixed(4)
             value.y=+value.y.toFixed(4)
             return {...nextProps,value:value,originValue:nextProps.value,correct:true};
     }
     componentDidUpdate(){
-        if(this.props.status===STATUS_PICK_END&&this.props.propKey===this.props.editId) {
+        if(this.props.status===Status.PICK_END&&this.props.propKey===this.props.editId) {
            this.props.setProperty(this.props.propKey,this.state.value)
            this.props.cancel();
         }
@@ -87,9 +87,9 @@ class PropertyMultField extends React.Component{
                 onFocus={this.focus.bind(this)}
                 />
              {this.props.picker?<PickButton 
-                active={this.props.status===STATUS_PICK&&this.props.id===this.props.editId} 
+                active={this.props.status===Status.PICK&&this.props.id===this.props.editId} 
                 onClick={()=>{
-                    if(this.props.status===STATUS_PICK&&this.props.id===this.props.editId){this.props.cancel();return;}   
+                    if(this.props.status===Status.PICK&&this.props.id===this.props.editId){this.props.cancel();return;}   
                     this.props.setPickedData(this.state.value);
                     this.props.startPicking(this.props.id,new this.props.picker());
                     this.props.setActivePoint(this.props.propKey);

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#SVGID_1_);}
+	.st1{fill:none;stroke:#808080;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#808080;stroke-miterlimit:10;stroke-dasharray:1.0083,1.0083;}
+	.st3{fill:#FFFFFF;stroke:#0000FF;stroke-width:0.4286;stroke-miterlimit:10;}
+	.st4{fill:none;stroke:#000000;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<g>
+	
+		<radialGradient id="SVGID_1_" cx="24" cy="24" r="44.8779" gradientTransform="matrix(0.9998 2.130324e-02 -2.158066e-02 1.0128 0.5234 -0.8183)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="0.1045" style="stop-color:#FAFAFA"/>
+		<stop  offset="0.2282" style="stop-color:#ECECEC"/>
+		<stop  offset="0.3616" style="stop-color:#D4D4D4"/>
+		<stop  offset="0.5018" style="stop-color:#B2B2B2"/>
+		<stop  offset="0.6474" style="stop-color:#888888"/>
+		<stop  offset="0.7976" style="stop-color:#535353"/>
+		<stop  offset="0.9487" style="stop-color:#161616"/>
+		<stop  offset="1" style="stop-color:#000000"/>
+	</radialGradient>
+	<rect class="st0" width="48" height="48"/>
+</g>
+<g>
+	<g>
+		<line class="st1" x1="24" y1="-5.2" x2="24" y2="-4.7"/>
+		<line class="st2" x1="24" y1="-3.7" x2="24" y2="48.2"/>
+		<line class="st1" x1="24" y1="48.8" x2="24" y2="49.3"/>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st1" x1="53.2" y1="24" x2="52.7" y2="24"/>
+		<line class="st2" x1="51.7" y1="24" x2="-0.2" y2="24"/>
+		<line class="st1" x1="-0.8" y1="24" x2="-1.3" y2="24"/>
+	</g>
+</g>
+<circle class="st3" cx="24" cy="24" r="1.5"/>
+<path class="st4" d="M24.5-4.9c-0.2,17.5,0.9,21.8,4.7,25.6c4.2,3.2,9.5,2.7,22,2.7"/>
+<path class="st4" d="M23.6,52.9c0.1-17.5-1-21.8-4.8-25.6c-4.2-3.2-9.5-2.6-22-2.6"/>
+</svg>

@@ -5,8 +5,8 @@ import Geometry from "../../../utils/geometry";
 import ShapeStyle from "../ShapeStyle";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-import AbstractCreator from "./AbstractCreator";
-export default class Circle2PCreator extends AbstractCreator{
+import ShapeBuilder from "./ShapeBuilder";
+export default class Circle2PCreator extends ShapeBuilder{
      static caption="Circle by 2 points";
      constructor(style,boundedCircle){
         super(boundedCircle)

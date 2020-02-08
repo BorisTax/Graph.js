@@ -1,4 +1,4 @@
-import {SET_TOKEN, LOGOUT} from "../actions/UserActions";
+import {UserActions} from "../actions/UserActions";
 import {captions} from '../locale/eng';
 import jwtDecode from 'jwt-decode';
 
@@ -9,7 +9,7 @@ var token=document.cookie.split('=')[1];
 if(token) user={name:jwtDecode(token).name,token}; else user.name=captions.user.name;
 export function userReducer(state=user,action) {
     switch (action.type) {
-        case SET_TOKEN:
+        case UserActions.SET_TOKEN:
             if(action.payload.token) {
                 let expires;
                 if(action.payload.remember===true) expires=`;expires=Tue, 19 Jan 2099 00:00:00 GMT`;
@@ -21,7 +21,7 @@ export function userReducer(state=user,action) {
                 user.name=captions.user.name;
             }
             return user;
-        case LOGOUT:
+        case UserActions.LOGOUT:
             document.cookie='token='
             return {}
         default:

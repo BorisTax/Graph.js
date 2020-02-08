@@ -2,7 +2,7 @@ import Geometry,{Rectangle,Coord2D,Line, Intersection} from '../../utils/geometr
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
-import ActivePointMarker from './markers/ActivePointMarker';
+import PointMarker from './markers/PointMarker';
 import PointPicker from './pickers/PointPicker';
 
 export default class RectangleShape extends Shape{
@@ -25,7 +25,7 @@ export default class RectangleShape extends Shape{
         this.rect.width=Geometry.realToScreenLength(this.rectangle.width,realRect.width,screenRect.width);
         this.rect.height=Geometry.realToScreenLength(this.rectangle.height,realRect.height,screenRect.height);
         if(this.activePoint) 
-            this.activePointMarker=new ActivePointMarker(this.activePoint)
+            this.activePointMarker=new PointMarker(this.activePoint)
     }
     getMarkers(){
         let list=[];

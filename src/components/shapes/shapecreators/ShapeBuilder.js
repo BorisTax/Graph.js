@@ -1,4 +1,4 @@
-export default class AbstractCreator {
+export default class ShapeBuilder {
      constructor(boundedCircle){
         this.i=0;
         this.boundedCircle=boundedCircle;
@@ -18,7 +18,7 @@ export default class AbstractCreator {
         this.setCurrent(p);
         this.i++;
     }
-    is
+
     isLegal(){return this.legal}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;

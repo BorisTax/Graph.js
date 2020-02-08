@@ -4,8 +4,8 @@ import ShapeStyle from '../ShapeStyle';
 import {RLine, Coord2D, Circle} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-import AbstractCreator from './AbstractCreator';
-export default class RayLineCreator extends AbstractCreator{
+import ShapeBuilder from './ShapeBuilder';
+export default class RayLineCreator extends ShapeBuilder{
     static caption="Ray line";
     constructor(style,boundedCircle){
         super(boundedCircle)

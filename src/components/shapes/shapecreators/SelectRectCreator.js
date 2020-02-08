@@ -1,7 +1,7 @@
 import {Rectangle} from '../../../utils/geometry';
 import SelectRectShape from '../SelectRectShape';
-import AbstractCreator from './AbstractCreator';
-export default class SelectRectCreator extends AbstractCreator{
+import ShapeBuilder from './ShapeBuilder';
+export default class SelectRectCreator extends ShapeBuilder{
     static caption="RectSelection";
     rectangle=new Rectangle();
     points=new Array(2);

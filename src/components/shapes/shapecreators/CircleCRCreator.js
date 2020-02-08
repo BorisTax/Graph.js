@@ -5,8 +5,8 @@ import Geometry from "../../../utils/geometry";
 import ShapeStyle from "../ShapeStyle";
 import {Color} from '../../colors';
 import Screen from '../../Screen';
-import AbstractCreator from "./AbstractCreator";
-export default class CircleCRCreator extends AbstractCreator{
+import ShapeBuilder from "./ShapeBuilder";
+export default class CircleCRCreator extends ShapeBuilder{
     static caption="Circle by center";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID),boundedCircle){
         super(boundedCircle)

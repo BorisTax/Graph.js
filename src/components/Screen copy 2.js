@@ -13,7 +13,7 @@ import SelectionManager from './shapes/SelectionManager';
 import SelectRectCreator from './shapes/shapecreators/SelectRectCreator';
 import CircleShape from './shapes/CircleShape';
 import RectangleShape from './shapes/RectangleShape';
-import { STATUS_FREE, STATUS_CREATE, STATUS_DRAWING, STATUS_CANCEL, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
+import { FREE, CREATE, DRAWING, CANCEL, PAN, SELECT, PICK } from '../reducers/screen';
 export default class Screen extends React.Component {
     showGrid=true;
     gridSnap=false;
@@ -49,7 +49,7 @@ export default class Screen extends React.Component {
     constructor(props){
         super(props);
         window.KEYDOWNHANDLE=true
-        this.status=STATUS_FREE;
+        this.status=FREE;
         this.snapMarkersManager =new SnapMarkersManager();
         this.shapeManager=new ShapeManager();
         this.screenWidth=props.screenWidth;
@@ -171,8 +171,8 @@ export default class Screen extends React.Component {
         this.refreshShapeManager();
     }
     cancel(){
-        this.status=STATUS_FREE;
-        this.props.actions.setScreenStatus(STATUS_FREE);
+        this.status=FREE;
+        this.props.actions.setScreenStatus(FREE);
         this.curShape=null;
         this.curHelperShapes=null;
         this.creationStep="";
@@ -184,14 +184,14 @@ export default class Screen extends React.Component {
         this.status=status;
         this.prevStatus=this.status;
         switch(status){
-            case STATUS_CREATE:
+            case CREATE:
                 this.newShape(props.statusParams.creator);
-                props.actions.setScreenStatus(STATUS_DRAWING,{creator:props.statusParams.creator});
+                props.actions.setScreenStatus(DRAWING,{creator:props.statusParams.creator});
                 break;
-            case STATUS_CANCEL:
+            case CANCEL:
                 this.cancel();
                 break;
-            case STATUS_PAN:
+            case PAN:
                 this.dragGrid=true;
                 this.curCoord=this.screenPointToReal(this.curPoint.x,this.curPoint.y);
                 this.dragX0=this.curCoord.x;
@@ -200,7 +200,7 @@ export default class Screen extends React.Component {
                 this.status=status;
                 this.cursor=new DragCursor(this.curCoord);
             break;
-            case STATUS_PICK:
+            case PICK:
                 this.picker=props.pickedData.picker
                 break;
             default:
@@ -226,7 +226,7 @@ export default class Screen extends React.Component {
         this.curHelperShapes=null;//this.shapeCreator.getHelperShapes();
         this.currentShape=this.props.captions.creators[this.shapeCreator.getName()].description;
         this.creationStep=this.props.captions.creators[this.shapeCreator.getName()].steps[this.shapeCreator.getCurrentStep()];
-        this.status=STATUS_CREATE;
+        this.status=CREATE;
         this.cursor=new DrawCursor(this.curCoord);
     };
 
@@ -350,11 +350,11 @@ export default class Screen extends React.Component {
         ctx.fillRect(0, 0, this.screenWidth, this.screenHeight);
         this.drawGrid(ctx);
         let status_bar=`X=${this.curCoord.x.toFixed(3)} Y=${this.curCoord.y.toFixed(3)}    ${this.status} `;
-        if(this.status===STATUS_CREATE||this.status===STATUS_DRAWING)   
+        if(this.status===CREATE||this.status===DRAWING)   
                 status_bar=status_bar+`${this.currentShape}: ${this.creationStep}`;
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
-                if(shape.activePointMarker&&this.props.status!==STATUS_FREE) 
+                if(shape.activePointMarker&&this.props.status!==FREE) 
                         this.drawShape(shape.activePointMarker,ctx);
             }
             
@@ -375,7 +375,7 @@ export default class Screen extends React.Component {
         this.drawCoordinates(ctx);
         ctx.font="12px sans-serif";
         ctx.strokeText(status_bar,this.marginLeft,this.screenHeight-this.statusBar);
-        if(this.status!==STATUS_FREE){
+        if(this.status!==FREE){
             let marker=this.snapMarkersManager.getActiveMarker();
             if(marker!=null) {
                 marker.refresh(this.getRealRect(), this.getScreenRect());
@@ -383,7 +383,7 @@ export default class Screen extends React.Component {
             }
         }
         ctx.lineWidth=1;
-        if(this.status===STATUS_SELECT){
+        if(this.status===SELECT){
             this.drawShape(this.selectionShape,ctx);
         }
         this.drawCursor(ctx);
@@ -416,7 +416,7 @@ export default class Screen extends React.Component {
         this.prevPoint.x=this.curPoint.x;
         this.prevPoint.y=this.curPoint.y;
         let temp={x:this.curCoord.x,y:this.curCoord.y};
-        if(this.gridSnap&&this.status!==STATUS_FREE){
+        if(this.gridSnap&&this.status!==FREE){
             let x=Math.round(temp.x/this.gridStep)*this.gridStep;
             let y=Math.round(temp.y/this.gridStep)*this.gridStep;
             let dx=x-temp.x;
@@ -429,7 +429,7 @@ export default class Screen extends React.Component {
                 }
                 }
         }
-        if(this.status!==STATUS_FREE){
+        if(this.status!==FREE){
             let d = this.snapMarkersManager.getDistanceToNearestMarker(temp,this.snapDist*this.pixelRatio);
             if(d>=0&&d<=this.snapMinDist*this.pixelRatio){
                 temp=this.snapMarkersManager.getActiveMarker().getPos();
@@ -437,21 +437,21 @@ export default class Screen extends React.Component {
             }
         }
         this.curCoord=temp;
-        if(this.status===STATUS_FREE){
+        if(this.status===FREE){
             this.shapeManager.setShapeNearPoint(this.curCoord,this.selectDist*this.pixelRatio);
             
         }
-        if(this.status===STATUS_SELECT){
+        if(this.status===SELECT){
             this.selectionManager.setCurrent(this.curCoord);
             this.shapeManager.setShapeInRect(this.prevCoord,this.curCoord);
             this.selectionShape=this.selectionManager.getSelectionShape();
         }
-        if(this.status===STATUS_DRAWING){
+        if(this.status===DRAWING){
             this.shapeCreator.setCurrent(this.curCoord);
             this.curShape=this.shapeCreator.getShape();
             this.curHelperShapes=this.shapeCreator.getHelperShapes();
         }
-        if(this.status===STATUS_PICK){
+        if(this.status===PICK){
             this.picker.setCurrent(this.curCoord);
             this.props.actions.setPickedData(this.curCoord);
             //this.props.actions.fixPickedData(true);
@@ -465,7 +465,7 @@ export default class Screen extends React.Component {
             let rect=e.target.getBoundingClientRect();
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
-            this.setStatus(STATUS_PAN,this.props);
+            this.setStatus(PAN,this.props);
             this.paint(ctx);
             e.preventDefault();
         }
@@ -474,12 +474,12 @@ export default class Screen extends React.Component {
             let rect=e.target.getBoundingClientRect();
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
-            if(this.status===STATUS_FREE){
+            if(this.status===FREE){
                 this.prevCoord=this.screenPointToReal(this.curPoint.x,this.curPoint.y);
                 this.selectionManager=new SelectionManager(SelectRectCreator);
                 this.selectionManager.setNext(this.screenPointToReal(this.curPoint.x,this.curPoint.y));
                 this.selectionShape=this.selectionManager.getSelectionShape();
-                this.status=STATUS_SELECT;
+                this.status=SELECT;
             }
             this.paint(ctx);
             e.preventDefault();
@@ -495,8 +495,8 @@ export default class Screen extends React.Component {
             this.paint(ctx);
         }
         if(e.button===0){
-            if(this.status===STATUS_SELECT){
-                this.status=STATUS_FREE;
+            if(this.status===SELECT){
+                this.status=FREE;
             }
         }
     }
@@ -525,12 +525,12 @@ export default class Screen extends React.Component {
     }
     onclick(e){
         if(e.button===0){
-            if(this.status===STATUS_CREATE||this.status===STATUS_DRAWING){
+            if(this.status===CREATE||this.status===DRAWING){
                 let ctx=document.querySelector("#canvas").getContext("2d");
                 this.shapeCreator.setNextPoint(this.curCoord);
                 this.creationStep=this.props.captions.creators[this.shapeCreator.getName()].steps[this.shapeCreator.getCurrentStep()];
-                this.status=STATUS_DRAWING;
-                this.props.actions.setScreenStatus(STATUS_DRAWING);
+                this.status=DRAWING;
+                this.props.actions.setScreenStatus(DRAWING);
                 if(!this.shapeCreator.isNext())
                 {
                     this.props.shapes.push(this.curShape);
@@ -538,7 +538,7 @@ export default class Screen extends React.Component {
                     this.refreshShapeManager();
                     if(this.props.cyclicCreation){
                         this.newShape(this.shapeCreator.reset(this.boundedCircle));
-                        this.status=STATUS_CREATE;
+                        this.status=CREATE;
                     }else {
                         this.cancel();
                     }
@@ -546,10 +546,10 @@ export default class Screen extends React.Component {
                 }
                 this.paint(ctx);
             }
-            if(this.status===STATUS_FREE){
+            if(this.status===FREE){
                     this.shapeManager.toggleShapeSelected();
                 }
-            if(this.status===STATUS_PICK){
+            if(this.status===PICK){
                     let ctx=document.querySelector("#canvas").getContext("2d");
                     this.picker.setNextPoint(this.curCoord);
                     this.creationStep=this.props.captions.pickers[this.picker.getName()].steps[this.picker.getCurrentStep()];

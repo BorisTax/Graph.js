@@ -2,7 +2,7 @@ import {Coord2D} from "../../utils/geometry";
 import Geometry from "../../utils/geometry";
 import CenterSnapMarker from './markers/CenterSnapMarker';
 import Shape from "./Shape";
-import ActivePointMarker from "./markers/ActivePointMarker";
+import PointMarker from "./markers/PointMarker";
 import PointPicker from './pickers/PointPicker'
 import DistancePicker from './pickers/DistancePicker'
 export default class CircleShape extends Shape{
@@ -26,7 +26,7 @@ export default class CircleShape extends Shape{
         this.screenCenter=Geometry.realToScreen(this.circle.center,realRect,screenRect);
         this.screenRadius=Geometry.realToScreenLength(this.circle.radius,realRect.width,screenRect.width);
         if(this.activePoint) 
-            this.activePointMarker=new ActivePointMarker(this.activePoint)
+            this.activePointMarker=new PointMarker(this.activePoint)
 
     }
     setActivePoint(key){

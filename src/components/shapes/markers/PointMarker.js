@@ -3,12 +3,19 @@ import Shape from '../Shape';
 import {Color} from '../../colors';
 import SnapMarker from './SnapMarker';
 
-export default class ActivePointMarker extends Shape {
+export default class PointMarker extends Shape {
     static caption = "center points";
-    constructor(point){
+    constructor(point,active){
         super();
-        this.point=point
-        this.setColor(Color.ACTIVE_POINT_MARKER);
+        this.point=point;
+        this.setActive(active);
+    }
+    setPoint(p){
+        this.point=p
+    }
+    setActive(active){
+        this.active=active
+        this.setColor(active?Color.ACTIVE_POINT_MARKER:Color.POINT_MARKER);
     }
     drawSelf(ctx, realRect, screenRect){
         this.refresh(realRect, screenRect);

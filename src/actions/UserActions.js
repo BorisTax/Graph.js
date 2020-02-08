@@ -1,15 +1,17 @@
-export const SET_TOKEN='SET_TOKEN';
-export const LOGOUT='LOGOUT';
+export const UserActions={
+    SET_TOKEN:'SET_TOKEN',
+    LOGOUT:'LOGOUT',
+}
 
 export function setToken(token,remember) {
     return {
-        type: SET_TOKEN,
+        type: UserActions.SET_TOKEN,
         payload: {token,remember},
     }
 }
 export function logout() {
     return {
-        type: LOGOUT,
+        type: UserActions.LOGOUT,
     }
 }
 

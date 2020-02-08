@@ -1,9 +1,8 @@
 
-import {SET_ACTIVE_SNAP_BUTTON,CLEAR_ACTIVE_SNAP_BUTTON} from "../actions/ComponentActions";
-import {SET_ACTIVE_CREATE_BUTTON,SET_ACTIVE_LANG_BUTTON} from "../actions/ComponentActions";
-import {SET_STATUS, deleteSelectedShapes, DELETE_CONFIRM, CANCEL} from "../actions/ScreenActions";
-import {SHOW_HELP, SHOW_CONFIRM, SHOW_ALERT} from '../actions/AppActions';
-import { STATUS_FREE } from "./screen";
+import {ComponentActions} from "../actions/ComponentActions";
+import {ScreenActions, deleteSelectedShapes} from "../actions/ScreenActions";
+import {AppActions} from '../actions/AppActions';
+import { Status } from "./screen";
 const initialState={
     activeLangButton:"en",
     defaultLang:"en",
@@ -17,30 +16,30 @@ export function componentReducer(state=initialState,action) {
     const data=action.payload;
     if(!newState.activeButtons) newState.activeButtons=new Set();
     switch (action.type) {
-        case CANCEL:
+        case ScreenActions.CANCEL:
             return {...newState,activeCreateButton:null}
-        case SET_ACTIVE_CREATE_BUTTON:
+        case ComponentActions.SET_ACTIVE_CREATE_BUTTON:
             newState.activeCreateButton=data;
             return newState;
-        case SET_ACTIVE_LANG_BUTTON:
+        case ComponentActions.SET_ACTIVE_LANG_BUTTON:
             newState.activeLangButton=data;
             return newState;
-        case SET_ACTIVE_SNAP_BUTTON:
+        case ComponentActions.SET_ACTIVE_SNAP_BUTTON:
             newState.activeSnapButtons.add(data);
             return newState;    
-        case CLEAR_ACTIVE_SNAP_BUTTON:
+        case ComponentActions.CLEAR_ACTIVE_SNAP_BUTTON:
             newState.activeSnapButtons.delete(data);
             return newState;
-        case SET_STATUS:
-            if(data.status===STATUS_FREE) return{...state,activeCreateButton:''}
+        case ScreenActions.SET_STATUS:
+            if(data.status===Status.FREE) return{...state,activeCreateButton:''}
             return{...state} 
-        case SHOW_HELP:
+        case AppActions.SHOW_HELP:
             return {...state,showHelp:data};  
-        case SHOW_CONFIRM:
+        case AppActions.SHOW_CONFIRM:
             return {...state,showConfirm:data};  
-        case SHOW_ALERT:
+        case AppActions.SHOW_ALERT:
             return {...state,showAlert:data}; 
-        case DELETE_CONFIRM:
+        case ScreenActions.DELETE_CONFIRM:
            return{...state,showConfirm:{show:true,messageKey:"deleteShapes",okAction:deleteSelectedShapes.bind(null,false)}}    
         default:
             return newState;

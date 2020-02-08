@@ -1,7 +1,7 @@
 import Geometry,{Coord2D,Circle, Intersection} from "../../utils/geometry";
 import EndSnapMarker from './markers/EndSnapMarker';
 import Shape from "./Shape";
-import ActivePointMarker from "./markers/ActivePointMarker";
+import PointMarker from "./markers/PointMarker";
 import PointPicker from "./pickers/PointPicker";
 
 export default class RayLineShape extends Shape{
@@ -41,7 +41,7 @@ export default class RayLineShape extends Shape{
             this.p1=null;
         }
         if(this.activePoint) 
-            this.activePointMarker=new ActivePointMarker(this.activePoint)
+            this.activePointMarker=new PointMarker(this.activePoint)
     }
     getMarkers(){
         let list=[];

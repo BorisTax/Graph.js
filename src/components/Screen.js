@@ -3,7 +3,7 @@ import '../Graph.css';
 import Geometry, {Coord2D, Point2D,Rectangle} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import {Color} from './colors';
-import { STATUS_FREE, STATUS_CREATE, STATUS_PAN, STATUS_SELECT, STATUS_PICK } from '../reducers/screen';
+import { Status } from '../reducers/screen';
 import TextShape from './shapes/TextShape';
 export default class Screen extends React.Component {
     static MARKER_SIZE=0.005;
@@ -168,7 +168,7 @@ export default class Screen extends React.Component {
         let currentShape='';
         if(this.props.shapeCreator) currentShape=this.props.captions.creators[this.props.shapeCreator.getName()].description;
         let creationStep='';
-        if(this.props.status===STATUS_CREATE) 
+        if(this.props.status===Status.CREATE) 
             {
             creationStep=this.props.captions.creators[this.props.shapeCreator.getName()].steps[this.props.shapeCreator.getCurrentStep()];
             status_bar=status_bar+`${currentShape}: ${creationStep}`;
@@ -183,7 +183,7 @@ export default class Screen extends React.Component {
             curShape=this.props.shapeCreator.getShape();
             if(curShape!=null) this.drawShape(curShape, ctx);
         }
-        if(this.props.status===STATUS_PICK) {
+        if(this.props.status===Status.PICK) {
             creationStep=this.props.captions.pickers[this.props.picker.getName()].steps[this.props.picker.getCurrentStep()];
             status_bar=status_bar+`${creationStep}`;
 
@@ -198,8 +198,8 @@ export default class Screen extends React.Component {
         }
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
-                if(shape.activePointMarker) 
-                        this.drawShape(shape.activePointMarker,ctx);
+                for(let cp of shape.controlPoints)
+                        if(cp.show)this.drawShape(cp.marker,ctx);
             }
          
         ctx.lineWidth=1;
@@ -215,7 +215,7 @@ export default class Screen extends React.Component {
         this.drawCoordinates(ctx);
         ctx.font="12px sans-serif";
         ctx.strokeText(status_bar,this.props.marginLeft,this.props.screenHeight-this.props.statusBar);
-        if(this.props.status!==STATUS_FREE){
+        if(this.props.status!==Status.FREE){
             let marker=this.props.snapMarkersManager.getActiveMarker();
             if(marker!=null) {
                 marker.refresh(this.getRealRect(), this.getScreenRect());
@@ -223,7 +223,7 @@ export default class Screen extends React.Component {
             }
         }
         ctx.lineWidth=1;
-        if(this.props.status===STATUS_SELECT){
+        if(this.props.status===Status.SELECT){
             this.drawShape(this.props.selectionManager.getSelectionShape(),ctx);
         }
         if(this.mouseOnScreen)this.drawCursor(ctx);
@@ -240,7 +240,7 @@ export default class Screen extends React.Component {
         this.mouseOnScreen=!this.isOutRect(curPoint);
         let coord={x:this.props.curCoord.x,y:this.props.curCoord.y};
 
-        if(this.props.status===STATUS_PAN){
+        if(this.props.status===Status.PAN){
             coord=Geometry.screenToReal(curPoint.x,curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
             let dx=curPoint.x-this.dragX0;
             let dy=curPoint.y-this.dragY0;
@@ -262,7 +262,7 @@ export default class Screen extends React.Component {
         this.prevPoint.x=curPoint.x;
         this.prevPoint.y=curPoint.y;
         let temp={x:coord.x,y:coord.y};
-        if(this.props.gridSnap&&this.props.status!==STATUS_FREE){
+        if(this.props.gridSnap&&this.props.status!==Status.FREE){
             let x=Math.round(temp.x/this.props.gridStep)*this.props.gridStep;
             let y=Math.round(temp.y/this.props.gridStep)*this.props.gridStep;
             let dx=x-temp.x;
@@ -275,7 +275,7 @@ export default class Screen extends React.Component {
                 }
                 }
         }
-        if(this.props.status!==STATUS_FREE){
+        if(this.props.status!==Status.FREE){
             let d = this.props.snapMarkersManager.getDistanceToNearestMarker(temp,this.props.snapDist*this.props.pixelRatio);
             if(d>=0&&d<=this.props.snapMinDist*this.props.pixelRatio){
                 temp=this.props.snapMarkersManager.getActiveMarker().getPos();
@@ -283,17 +283,17 @@ export default class Screen extends React.Component {
             }
         }
         coord=temp;
-        if(this.props.status===STATUS_FREE){
+        if(this.props.status===Status.FREE){
             this.props.shapeManager.setShapeNearPoint(coord,this.props.selectDist*this.props.pixelRatio);
         }
-        if(this.props.status===STATUS_SELECT){
+        if(this.props.status===Status.SELECT){
             this.props.selectionManager.setCurrent(coord);
             this.props.shapeManager.setShapeInRect(this.prevCoord,coord);
         }
-        if(this.props.status===STATUS_CREATE){
+        if(this.props.status===Status.CREATE){
             this.props.shapeCreator.setCurrent(coord);
         }
-        if(this.props.status===STATUS_PICK){
+        if(this.props.status===Status.PICK){
             this.props.picker.setCurrent(coord);
         }
         this.props.actions.setCurCoord(coord);
@@ -305,18 +305,18 @@ export default class Screen extends React.Component {
             const curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
             this.dragX0=curPoint.x
             this.dragY0=curPoint.y
-            this.props.actions.setScreenStatus(STATUS_PAN);
+            this.props.actions.setScreenStatus(Status.PAN);
             e.preventDefault();
         }
         if(e.button===0){
             let rect=e.target.getBoundingClientRect();
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
-            if(this.props.status===STATUS_FREE){
+            if(this.props.status===Status.FREE){
                 this.prevCoord=Geometry.screenToReal(this.curPoint.x,this.curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
                 this.props.selectionManager.reset();
                 this.props.selectionManager.setNext(Geometry.screenToReal(this.curPoint.x,this.curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight));
-                this.props.actions.setScreenStatus(STATUS_SELECT);
+                this.props.actions.setScreenStatus(Status.SELECT);
             }
             this.props.actions.repaint();
             e.preventDefault();
@@ -327,13 +327,13 @@ export default class Screen extends React.Component {
             this.props.actions.setPrevStatus();
         }
         if(e.button===0){
-            if(this.props.status===STATUS_SELECT){
+            if(this.props.status===Status.SELECT){
                 this.props.actions.cancel();
             }
         }
     }
     mwheel(e){
-        if(this.props.status===STATUS_PAN)return;
+        if(this.props.status===Status.PAN)return;
         let rect=e.target.getBoundingClientRect();
         let p=Geometry.screenToReal(e.clientX-rect.left,e.clientY-rect.top,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
         if(e.deltaY>0)
@@ -346,7 +346,7 @@ export default class Screen extends React.Component {
        e.preventDefault();
     }
     mleave(){
-        if(this.props.status===STATUS_PAN){
+        if(this.props.status===Status.PAN){
             this.props.actions.setPrevStatus();
         }
         this.mouseOnScreen=false;
@@ -356,7 +356,7 @@ export default class Screen extends React.Component {
     }
     onclick(e){
         if(e.button===0){
-            if(this.props.status===STATUS_CREATE){
+            if(this.props.status===Status.CREATE){
                 this.props.shapeCreator.setCurrent(this.props.curCoord);
                 if(this.props.shapeCreator.isLegal()) this.props.shapeCreator.setNextPoint(this.props.curCoord);
                 if(!this.props.shapeCreator.isNext())
@@ -371,10 +371,10 @@ export default class Screen extends React.Component {
                     }
                 }
             }
-            if(this.props.status===STATUS_FREE){
+            if(this.props.status===Status.FREE){
                     this.props.shapeManager.toggleShapeSelected();
                 }
-            if(this.props.status===STATUS_PICK){
+            if(this.props.status===Status.PICK){
                     this.props.picker.setNextPoint(this.props.curCoord);
                     if(!this.props.picker.isNext())
                     {
