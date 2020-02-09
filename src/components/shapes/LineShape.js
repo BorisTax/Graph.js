@@ -21,6 +21,7 @@ export default class LineShape extends Shape{
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect, screenRect);
+        
         ctx.strokeStyle=this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());
         ctx.lineWidth=this.getStyle().getWidth();
@@ -32,11 +33,7 @@ export default class LineShape extends Shape{
     refresh(realRect, screenRect){
         this.p0 = Geometry.realToScreen(this.line.p1,realRect,screenRect);
         this.p1 = Geometry.realToScreen(this.line.p2, realRect, screenRect);
-        this.controlPoints[0].point=this.p0;
-        this.controlPoints[1].point=this.p1;
-        for(let cp of this.controlPoints) {
-            cp.marker.setPoint(cp.point)
-        }
+
     }
     getMarkers(){
         let list=[];
@@ -46,13 +43,13 @@ export default class LineShape extends Shape{
         return list;
     }
     setActivePoint(key){
-        this.activePoint=null;
-        if(key==='P1') this.activePoint=this.line.p1;
-        if(key==='P2') this.activePoint=this.line.p2;
+        super.setActivePoint();
+        if(key==='P1') {this.controlPoints[0].selected=true;this.controlPoints[0].marker.setActive(true)}
+        if(key==='P2') {this.controlPoints[1].selected=true;this.controlPoints[1].marker.setActive(true)}
     }
     getProperties(){
         let prop=new Map();
-         prop.set('Title',{value:'Line',regexp:/\s*/});
+        prop.set('Title',{value:'Line',regexp:/\s*/});
         prop.set('P1',{value:{x:this.line.p1.x,y:this.line.p1.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
         prop.set('P2',{value:{x:this.line.p2.x,y:this.line.p2.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
         return prop;
@@ -63,10 +60,12 @@ export default class LineShape extends Shape{
             case 'P1':
                 this.line.p1.x=prop.value.x;
                 this.line.p1.y=prop.value.y;
+                this.controlPoints[0].point=this.line.p1;
                 break;
             case 'P2':
                 this.line.p2.x=prop.value.x;
                 this.line.p2.y=prop.value.y;
+                this.controlPoints[1].point=this.line.p2;
                 break;
             default:
         }
@@ -74,6 +73,7 @@ export default class LineShape extends Shape{
     getDistance(point) {
         return Geometry.PointToLineDistance(point,this.line);
     }
+
     isInRect(topLeft,bottomRight){
         const inRect=[Geometry.pointInRect(this.line.p1,topLeft,bottomRight),
                         Geometry.pointInRect(this.line.p2,topLeft,bottomRight)];

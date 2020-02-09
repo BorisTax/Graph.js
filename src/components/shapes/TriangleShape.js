@@ -11,6 +11,12 @@ export default class TriangleShape extends Shape{
         this.p=[new Coord2D(),new Coord2D(),new Coord2D()];
         this.triangle=triangle;
         this.model=triangle;
+        this.controlPoints=[
+            {point:this.triangle.points[0],show:false,selected:false},
+            {point:this.triangle.points[1],show:false,selected:false},
+            {point:this.triangle.points[2],show:false,selected:false}]
+        for(let cp of this.controlPoints)
+          cp.marker=new PointMarker(cp.point,false)
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect,screenRect);
@@ -30,10 +36,10 @@ export default class TriangleShape extends Shape{
             this.activePointMarker=new PointMarker(this.activePoint)
     }
     setActivePoint(key){
-        this.activePoint=null;
-        if(key==='P1') this.activePoint=this.triangle.points[0];
-        if(key==='P2') this.activePoint=this.triangle.points[1];
-        if(key==='P3') this.activePoint=this.triangle.points[2];
+        super.setActivePoint();
+        if(key==='P1') {this.controlPoints[0].selected=true;this.controlPoints[0].marker.setActive(true)}
+        if(key==='P2') {this.controlPoints[1].selected=true;this.controlPoints[1].marker.setActive(true)}
+        if(key==='P3') {this.controlPoints[2].selected=true;this.controlPoints[2].marker.setActive(true)}
     }
     getMarkers(){
         let list=[];
@@ -59,14 +65,17 @@ export default class TriangleShape extends Shape{
             case 'P1':
                 this.triangle.points[0].x=prop.value.x;
                 this.triangle.points[0].y=prop.value.y;
+                this.controlPoints[0].point=this.triangle.points[0];
                 break;
             case 'P2':
                 this.triangle.points[1].x=prop.value.x;
                 this.triangle.points[1].y=prop.value.y;
+                this.controlPoints[1].point=this.triangle.points[1];
                 break;
             case 'P3':
                 this.triangle.points[2].x=prop.value.x;
                 this.triangle.points[2].y=prop.value.y;
+                this.controlPoints[2].point=this.triangle.points[2];
                 break;
             default:
         }

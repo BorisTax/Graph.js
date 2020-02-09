@@ -1,6 +1,6 @@
 import {ScreenActions} from "../actions/ScreenActions";
 import {ShapeActions}  from '../actions/ShapeActions';
-import FreeCursor from "../components/shapes/cursors/FreeCursor";
+import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import Geometry, { Circle, Coord2D, SLine } from "../utils/geometry";
 import ShapeManager from "../components/shapes/ShapeManager";
 import DrawCursor from "../components/shapes/cursors/DrawCursor";
@@ -39,7 +39,7 @@ const initialState = {
     boundedCircle:new Circle({x:0,y:0},20),
     curCoord:{x:0,y:0},
     curScreenPoint:{x:225,y:225},
-    cursor:new FreeCursor({x:0,y:0}),
+    cursor:new SelectCursor({x:0,y:0}),
     curShape:null,
     cyclicCreation:false,
     gridSnap:false,
@@ -91,7 +91,7 @@ export function screenReducer(state = initialState,action) {
                 picker:null,
                 creationStep:"",
                 currentShape:"",
-                cursor:new FreeCursor(state.curCoord),
+                cursor:new SelectCursor(state.curCoord),
                 mouseHandler:new StatusFreeHandler(handlerOptions),
                 repaint:Math.random()}
         case ScreenActions.CANCEL_SELECTION:
@@ -105,7 +105,7 @@ export function screenReducer(state = initialState,action) {
                 picker:null,
                 creationStep:"",
                 currentShape:"",
-                cursor:new FreeCursor(state.curCoord),
+                cursor:new SelectCursor(state.curCoord),
                 repaint:Math.random()}
         case ScreenActions.CENTER_TO_POINT:
             var point=action.payload;
@@ -136,7 +136,7 @@ export function screenReducer(state = initialState,action) {
                 shapes:state.shapes.filter((s)=>!s.getState().selected),
                 selectedShapes:[],
                 mouseHandler:new StatusFreeHandler(handlerOptions),
-                cursor: new FreeCursor()
+                cursor: new SelectCursor()
             };
         case ScreenActions.PAN_SCREEN:
             return {

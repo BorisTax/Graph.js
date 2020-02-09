@@ -1,11 +1,7 @@
-import Shape from "../Shape";
-import Geometry from "../../../utils/geometry";
+import Cursor from "./Cursor";
 
-export default class PickCursor extends Shape{
-    constructor(point){
-        super();
-        this.p=point;
-    }
+export default class PickCursor extends Cursor{
+
     drawSelf(ctx, realRect,  screenRect){
         this.refresh(realRect,screenRect);
         ctx.strokeStyle=this.getStyle().getColor();
@@ -20,10 +16,5 @@ export default class PickCursor extends Shape{
         ctx.arc(this.p0.x,this.p0.y,10,0,2*Math.PI);
         ctx.stroke();
     }
-    refresh( realRect,  screenRect){
-        this.p0 = Geometry.realToScreen(this.p,realRect,screenRect);
-    }
-    setCoord( point) {
-        this.p=point;
-    }
+
 }

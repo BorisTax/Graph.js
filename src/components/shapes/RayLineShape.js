@@ -9,6 +9,11 @@ export default class RayLineShape extends Shape{
         super();
         this.line=line;
         this.model=line;
+        this.controlPoints=[
+            {point:this.line.origin,show:false,selected:false},
+            {point:this.line.directionPoint,show:false,selected:false}]
+        for(let cp of this.controlPoints)
+          cp.marker=new PointMarker(cp.point,false)
     }
     drawSelf(ctx,realRect, screenRect){
         this.refresh(realRect,screenRect);
@@ -49,9 +54,9 @@ export default class RayLineShape extends Shape{
         return list;
     }
     setActivePoint(key){
-        this.activePoint=null;
-        if(key==='Origin') this.activePoint=this.line.origin;
-        if(key==='Direction') this.activePoint=this.line.directionPoint;
+        super.setActivePoint();
+        if(key==='Origin') {this.controlPoints[0].selected=true;this.controlPoints[0].marker.setActive(true)}
+        if(key==='Direction') {this.controlPoints[1].selected=true;this.controlPoints[1].marker.setActive(true)}
     }
     getProperties(){
         let prop=new Map();
@@ -68,12 +73,15 @@ export default class RayLineShape extends Shape{
                 this.line.origin.y=prop.value.y;
                 this.line.directionPoint.x=this.line.origin.x+this.line.vector.x;
                 this.line.directionPoint.y=this.line.origin.y+this.line.vector.y;
+                this.controlPoints[0].point=this.line.origin;
+                this.controlPoints[1].point=this.line.directionPoint;
                 break;
             case 'Direction':
                 this.line.vector.x=prop.value.x-this.line.origin.x;
                 this.line.vector.y=prop.value.y-this.line.origin.y;
                 this.line.directionPoint.x=this.line.origin.x+this.line.vector.x;
                 this.line.directionPoint.y=this.line.origin.y+this.line.vector.y;
+                this.controlPoints[1].point=this.line.directionPoint;
                 break;
             default:
         }

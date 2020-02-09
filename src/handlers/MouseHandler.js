@@ -5,7 +5,7 @@ export class MouseHandler {
     constructor({point,curScreenPoint}){
         this.coord=point
         this.curPoint=curScreenPoint;
-        this.prevCoord={...point}
+        this.prevCoord=point
     }
     isOutRect(p,screenProps){
         return p.x<screenProps.marginLeft||p.x>screenProps.screenWidth-screenProps.marginRight

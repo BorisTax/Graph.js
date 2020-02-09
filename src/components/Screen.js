@@ -236,7 +236,7 @@ export default class Screen extends React.Component {
     mmoveHandle(e){
         let rect=e.target.getBoundingClientRect();
         let curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
-        this.props.mouseHandler.move({curPoint,screenProps:this.props})
+        this.props.mouseHandler.move({curPoint,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctlrKey,altKey:e.altKey})
     }
     mmove(e){
         let rect=e.target.getBoundingClientRect();
@@ -288,11 +288,11 @@ export default class Screen extends React.Component {
         }
         coord=temp;
         if(this.props.status===Status.FREE){
-            this.props.shapeManager.setShapeNearPoint(coord,this.props.selectDist*this.props.pixelRatio);
+            this.props.shapeManager.findShapeNearPoint(coord,this.props.selectDist*this.props.pixelRatio);
         }
         if(this.props.status===Status.SELECT){
             this.props.selectionManager.setCurrent(coord);
-            this.props.shapeManager.setShapeInRect(this.prevCoord,coord);
+            this.props.shapeManager.findShapeInRect(this.prevCoord,coord);
         }
         if(this.props.status===Status.CREATE){
             this.props.shapeCreator.setCurrent(coord);
@@ -316,7 +316,7 @@ export default class Screen extends React.Component {
             let rect=e.target.getBoundingClientRect();
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
-            this.props.mouseHandler.down({curPoint:this.curPoint,screenProps:this.props});
+            this.props.mouseHandler.down({curPoint:this.curPoint,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctlrKey,altKey:e.altKey});
             this.props.actions.repaint();
             e.preventDefault();
         }
@@ -366,7 +366,7 @@ export default class Screen extends React.Component {
         if(this.props.status===Status.PAN)return;
         let rect=e.target.getBoundingClientRect();
         let point=Geometry.screenToReal(e.clientX-rect.left,e.clientY-rect.top,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
-        this.props.mouseHandler.wheel({deltaY:e.deltaY,point,screenProps:this.props})
+        this.props.mouseHandler.wheel({deltaY:e.deltaY,point,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctlrKey,altKey:e.altKey})
        e.preventDefault();
     }
     mleaveHandle(){
@@ -384,7 +384,7 @@ export default class Screen extends React.Component {
     }
     clickHandle(e){
         if(e.button===0){
-            this.props.mouseHandler.click({screenProps:this.props});
+            this.props.mouseHandler.click({screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctlrKey,altKey:e.altKey});
         }
         this.props.actions.selectShapes(this.props.shapeManager.getSelectedShapes());
         e.preventDefault();
@@ -447,14 +447,20 @@ export default class Screen extends React.Component {
         window.addEventListener('resize',()=>{
             this.resize();
         })
+        window.addEventListener('keyup',(e)=>{
+            this.props.cursor.setAdditional({shiftKey:e.shiftKey,altKey:e.altKey});
+            this.props.actions.repaint();
+        });
         window.addEventListener('keydown',(e)=>{
             if(window.KEYDOWNHANDLE===false) return;
+            this.props.cursor.setAdditional({shiftKey:e.shiftKey,altKey:e.altKey});
             this.props.keyDownHandler.forEach(key=>{
                 if(e.ctrlKey===key.ctrlKey&&e.shiftKey===key.shiftKey&&e.altKey===key.altKey&&e.keyCode===key.keyCode){
                     if(this.props.actions[key.action]) this.props.actions[key.action](key.param);
                     e.preventDefault();
                 }
             })
+            this.props.actions.repaint();
         })
         
     }

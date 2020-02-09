@@ -6,16 +6,44 @@ export default class ShapeManager {
         this.allShapes=shapes;
         this.selType=selType;
     }
-    setShapeNearPoint(p, dist){
+    findShapeNearPoint(p, dist){
         let shape=null;
         this.allShapes.forEach(s=>{
             let d=s.getDistance(p);
             if(d!==null&&d<=dist) {shape=s;}
-            s.setState({highlighted:false});
+            if(!s.getState().inSelection)s.setState({highlighted:false});
         });
-        if(shape!==null)shape.setState({highlighted:true});
+        if(shape!==null){
+            shape.setState({highlighted:true});
+
+        }
     }
-    setShapeInRect(p1,p2){
+    findControlPoints(p, dist){
+        for(const shape of this.allShapes){
+            if(shape.getState().selected){
+                const distances=shape.getDistanceToControlPoints?shape.getDistanceToControlPoints(p):[];
+                let i=0;
+                for(const d of distances){
+                    if(d!==null&&d<=dist) {shape.controlPoints[i].highlighted=true}
+                        else {shape.controlPoints[i].highlighted=false}
+                    i++;
+                }
+            }
+        }
+    }
+    selectControlPoints(p, dist){
+        for(const shape of this.allShapes){
+            if(shape.getState().selected){
+                const distances=shape.getDistanceToControlPoints?shape.getDistanceToControlPoints(p):[];
+                let i=0;
+                for(const d of distances){
+                    if(d!==null&&d<=dist) {shape.controlPoints[i].selected=true}
+                    i++;
+                }
+            }
+        }
+    }
+    findShapeInRect(p1,p2){
         let tl={...p1};
         let br={...p2};
         if(p1.x>p2.x) {tl.x=p2.x;br.x=p1.x}
@@ -31,12 +59,19 @@ export default class ShapeManager {
             if(ok) {shape.push(s);}
             s.setState({highlighted:false});
         });
-        if(shape.length!==0)shape.forEach(s=>{s.setState({highlighted:true})});
+        if(shape.length!==0)shape.forEach(s=>{s.setState({highlighted:true,inSelection:true})});
     }
-    toggleShapeSelected(){
+    selectShapes({shiftKey,altKey}){
+        if(!shiftKey&&!altKey)this.deselectShapes();
         this.allShapes.forEach(shape => {
-            if(shape.getState().highlighted) shape.setState({selected:!shape.getState().selected});
+            if(shape.getState().highlighted) {
+               shape.setState({selected:true});
+                if(altKey)shape.setState({selected:false});
+            }
         }); 
+    }
+    deselectShapes(){
+        this.allShapes.forEach(shape => shape.setState({selected:false}));
     }
     getSelectedShapes(){
         return this.allShapes.filter((shape)=>shape.getState().selected===true);

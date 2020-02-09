@@ -22,11 +22,11 @@ export default class PointMarker extends Shape {
         ctx.fillStyle=this.getStyle().getColor();
         ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
-        ctx.arc(this.screenCenter.x,this.screenCenter.y,this.screenRadius,0,2*Math.PI);
+        ctx.arc(this.center.x,this.center.y,this.radius,0,2*Math.PI);
         ctx.fill();
     }
     refresh(realRect, screenRect){
-        this.screenCenter=Geometry.realToScreen(this.point,realRect,screenRect);
-        this.screenRadius=SnapMarker.MARKER_SIZE/2;
+        this.center=Geometry.realToScreen(this.point,realRect,screenRect);
+        this.radius=SnapMarker.MARKER_SIZE/2;
     }
 }

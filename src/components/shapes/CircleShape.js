@@ -13,6 +13,9 @@ export default class CircleShape extends Shape{
         this.circle=circle;
         this.model=circle;
         this.setStyle(new ShapeStyle())
+        this.controlPoints=[{point:circle.center,show:false,selected:false}];
+        for(let cp of this.controlPoints)
+                cp.marker=new PointMarker(cp.point,false)
     }
 
     drawSelf(ctx, realRect, screenRect){
@@ -32,8 +35,8 @@ export default class CircleShape extends Shape{
 
     }
     setActivePoint(key){
-        this.activePoint=null;
-        if(key==='Center') this.activePoint=this.circle.center;
+        super.setActivePoint();
+        if(key==='Center') {this.controlPoints[0].selected=true;this.controlPoints[0].marker.setActive(true);}
     }
     getMarkers(){
         let list=[];
@@ -53,6 +56,7 @@ export default class CircleShape extends Shape{
             case 'Center':
                 this.circle.center.x=prop.value.x;
                 this.circle.center.y=prop.value.y;
+                this.controlPoints[0].point=this.circle.center;
                 break;
             case 'Radius':
                 this.circle.radius=prop.value;

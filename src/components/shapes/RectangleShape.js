@@ -11,6 +11,11 @@ export default class RectangleShape extends Shape{
         this.rectangle=rectangle;
         this.model=rectangle;
         this.rect=new Rectangle()
+        this.controlPoints=[
+            {point:this.rectangle.topLeft,show:false,selected:false},
+            {point:this.rectangle.bottomRight,show:false,selected:false}]
+        for(let cp of this.controlPoints)
+          cp.marker=new PointMarker(cp.point,false)
     }
 
     drawSelf(ctx, realRect, screenRect) {
@@ -40,9 +45,9 @@ export default class RectangleShape extends Shape{
         return list;
     }
     setActivePoint(key){
-        this.activePoint=null;
-        if(key==='P1') this.activePoint=this.rectangle.topLeft;
-        if(key==='P2') this.activePoint=this.rectangle.bottomRight;
+        super.setActivePoint()
+        if(key==='P1') {this.controlPoints[0].selected=true;this.controlPoints[0].marker.setActive(true)}
+        if(key==='P2') {this.controlPoints[1].selected=true;this.controlPoints[1].marker.setActive(true)}
     }
     getProperties(){
         let prop=new Map();
@@ -57,10 +62,12 @@ export default class RectangleShape extends Shape{
             case 'P1':
                 this.rectangle.topLeft.x=prop.value.x;
                 this.rectangle.topLeft.y=prop.value.y;
+                this.controlPoints[0].point=this.rectangle.topLeft;
                 break;
             case 'P2':
                 this.rectangle.bottomRight.x=prop.value.x;
                 this.rectangle.bottomRight.y=prop.value.y;
+                this.controlPoints[1].point=this.rectangle.bottomRight;
                 break;
             default:
         }

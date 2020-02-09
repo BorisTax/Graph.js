@@ -5,10 +5,12 @@ export class StatusSelectHandler extends MouseHandler {
         super.move({curPoint,screenProps});
         this.snap(screenProps);
         screenProps.selectionManager.setCurrent(screenProps.curCoord);
-        screenProps.shapeManager.setShapeInRect(this.prevCoord,this.coord);
+        screenProps.shapeManager.findShapeInRect(this.prevCoord,this.coord);
+        screenProps.shapeManager.findShapeNearPoint(this.coord,screenProps.selectDist*screenProps.pixelRatio);
         screenProps.actions.setCurCoord(this.coord,this.curPoint);
     }
     up({screenProps}){
         screenProps.actions.cancel();
     }
+    click(){}
 }
