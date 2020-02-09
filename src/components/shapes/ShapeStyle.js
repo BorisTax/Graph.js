@@ -1,9 +1,10 @@
+import { Color } from "../colors";
 
 export default class ShapeStyle {
     static DASH=[1,3];
     static SOLID=[0];
     static SELECTION=[1,1];
-    constructor(color,stroke,width=1){
+    constructor(color=Color.BLACK,stroke=ShapeStyle.SOLID,width=1){
         this.color=color;
         this.originColor=this.color;
         this.width=width;

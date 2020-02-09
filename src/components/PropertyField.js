@@ -3,7 +3,7 @@ import React from "react";
 import PickButton from "./PickButton";
 import { Status } from "../reducers/screen";
 import { connect } from "react-redux";
-import { startPicking, setPickedData, cancel } from "../actions/ScreenActions";
+import { ScreenActions } from "../actions/ScreenActions";
 
 class PropertyField extends React.Component{
     constructor(props){
@@ -83,9 +83,9 @@ const mapStateToProps=(store)=>{
 }
 const mapDispatchToProps=(dispatch)=>{
     return {
-        startPicking:(id,picker)=>dispatch(startPicking(id,picker)),
-        setPickedData:data=>dispatch(setPickedData(data)),
-        cancel:()=>dispatch(cancel()),
+        startPicking:(id,picker)=>dispatch(ScreenActions.startPicking(id,picker)),
+        setPickedData:data=>dispatch(ScreenActions.setPickedData(data)),
+        cancel:()=>dispatch(ScreenActions.cancel()),
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(PropertyField)

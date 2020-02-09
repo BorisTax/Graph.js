@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../Graph.css';
-import {setScreenStatus,selectShapes,selectAll,addShape,centerToPoint, setTopLeft, setPickedData, cancel, setCurCoord, refreshSnapMarkers, refreshShapeManager, setDimensions, setBoundedCircle, setRealWidth,setRatio, repaint, setScale, setPrevStatus, deleteConfirm, cancelSelection} from "../actions/ScreenActions";
+import {ScreenActions} from "../actions/ScreenActions";
 import {setLanguage} from "../actions/AppActions";
 import CreateToolBar from "./CreateToolBar";
 import Screen from "./Screen";
@@ -36,28 +36,29 @@ const mapStateToProps = store => {
 };
 const mapDispatchToProps = dispatch => {
     return {actions:{
-        addShape:(shape)=>dispatch(addShape(shape)),
-        cancel:()=>dispatch(cancel()),
-        cancelSelection:()=>dispatch(cancelSelection()),
-        centerToPoint:(p)=>dispatch(centerToPoint(p)),
+        addShape:(shape)=>dispatch(ScreenActions.addShape(shape)),
+        cancel:()=>dispatch(ScreenActions.cancel()),
+        cancelSelection:()=>dispatch(ScreenActions.cancelSelection()),
+        centerToPoint:(p)=>dispatch(ScreenActions.centerToPoint(p)),
         createShape:(creator)=>dispatch(createShape(creator)),
-        deleteConfirm:()=>dispatch(deleteConfirm()),
-        refreshShapeManager:()=>dispatch(refreshShapeManager()),
-        refreshSnapMarkers:()=>dispatch(refreshSnapMarkers()),
-        repaint:()=>dispatch(repaint()),
-        selectAll:()=>dispatch(selectAll()),
-        selectShapes:(selectedShapes)=>dispatch(selectShapes(selectedShapes)),
-        setBoundedCircle:()=>dispatch(setBoundedCircle()),
-        setCurCoord:(coord)=>dispatch(setCurCoord(coord)),
-        setDimensions:(width,height,realWidth,topLeft)=>dispatch(setDimensions(width,height,realWidth,topLeft)),
+        deleteConfirm:()=>dispatch(ScreenActions.deleteConfirm()),
+        refreshShapeManager:()=>dispatch(ScreenActions.refreshShapeManager()),
+        refreshSnapMarkers:()=>dispatch(ScreenActions.refreshSnapMarkers()),
+        repaint:()=>dispatch(ScreenActions.repaint()),
+        selectAll:()=>dispatch(ScreenActions.selectAll()),
+        selectShapes:(selectedShapes)=>dispatch(ScreenActions.selectShapes(selectedShapes)),
+        setBoundedCircle:()=>dispatch(ScreenActions.setBoundedCircle()),
+        setCurCoord:(coord,screenPoint)=>dispatch(ScreenActions.setCurCoord(coord,screenPoint)),
+        setDimensions:(width,height,realWidth,topLeft)=>dispatch(ScreenActions.setDimensions(width,height,realWidth,topLeft)),
         setLanguage:captions=>dispatch(setLanguage(captions)),
-        setPickedData:data=>dispatch(setPickedData(data)),
-        setPrevStatus:()=>dispatch(setPrevStatus()),
-        setRatio:(ratio)=>dispatch(setRatio(ratio)),
-        setRealWidth:(width)=>dispatch(setRealWidth(width)),
-        setScale:(scale,anchor)=>dispatch(setScale(scale,anchor)),
-        setScreenStatus:(status,params)=>dispatch(setScreenStatus(status,params)),
-        setTopLeft:(p)=>dispatch(setTopLeft(p)),
+        setPickedData:data=>dispatch(ScreenActions.setPickedData(data)),
+        setPrevCoord:(coord)=>dispatch(ScreenActions.setPrevCoord(coord)),
+        setPrevStatus:()=>dispatch(ScreenActions.setPrevStatus()),
+        setRatio:(ratio)=>dispatch(ScreenActions.setRatio(ratio)),
+        setRealWidth:(width)=>dispatch(ScreenActions.setRealWidth(width)),
+        setScale:(scale,anchor)=>dispatch(ScreenActions.setScale(scale,anchor)),
+        setScreenStatus:(status,params)=>dispatch(ScreenActions.setScreenStatus(status,params)),
+        setTopLeft:(p)=>dispatch(ScreenActions.setTopLeft(p)),
     }}
 };
 export default connect(mapStateToProps,mapDispatchToProps)(MainContainer)

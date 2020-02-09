@@ -21,6 +21,7 @@ export const ScreenActions={
     SET_GRID_SNAP : 'SET_GRID_SNAP',
     SET_GRID_VISIBLE : 'SET_GRID_VISIBLE',
     SET_PICKED_DATA : 'SET_PICKED_DATA',
+    SET_PREV_COORD : 'SET_PREV_COORD',
     SET_PREV_STATUS : 'SET_PREV_STATUS',
     SET_RATIO : 'SET_RATIO',
     SET_REAL_WIDTH : 'SET_REAL_WIDTH',
@@ -32,143 +33,148 @@ export const ScreenActions={
     SET_TOP_LEFT : 'SET_TOP_LEFT',
     START_PICKING : 'START_PICKING',
     START_SELECTION : 'START_SELECTION',
-}
 
-export function addShape(shape){
+  addShape:(shape)=>{
     return {
         type:ScreenActions.ADD_SHAPE,
         payload:shape
     }
-}
-export function cancel(){
+},
+  cancel:()=>{
     return{
         type:ScreenActions.CANCEL
     }
-}
-export function cancelSelection(){
+},
+  cancelSelection:()=>{
     return{
         type:ScreenActions.CANCEL_SELECTION
     }
-}
-export function centerToPoint(p){
+},
+  centerToPoint:(p)=>{
     return {
         type:ScreenActions.CENTER_TO_POINT,
         payload:p
     }
-}
-export function createNewShape(creator){
+},
+ createNewShape:(creator)=>{
     return {
         type: ScreenActions.CREATE_SHAPE,
         payload:creator,
     }
-}
-export function deleteConfirm() {
+},
+ deleteConfirm:()=> {
     return {
         type: ScreenActions.DELETE_CONFIRM,
     }
-}
-export function deleteSelectedShapes() {
+},
+ deleteSelectedShapes:() =>{
     return {
         type: ScreenActions.DELETE_SELECTED_SHAPES,
     }
-}
-export function refreshShapeManager(){
+},
+ refreshShapeManager:()=>{
     return{
         type:ScreenActions.REFRESH_SHAPE_MANAGER
     }
-}
-export function refreshSnapMarkers(){
+},
+ refreshSnapMarkers:()=>{
     return{
         type:ScreenActions.REFRESH_SNAP_MARKERS
     }
-}
-export function repaint(){
+},
+ repaint:()=>{
     return{
         type:ScreenActions.REPAINT
     }
-}
-export function selectAll() {
+},
+ selectAll:()=> {
     return {
         type: ScreenActions.SELECT_ALL
     }
-}
-export function selectShapes(selectedShapes) {
+},
+ selectShapes:(selectedShapes) =>{
     return {
         type: ScreenActions.SELECT_SHAPE,
         payload: selectedShapes,
     }
-}
-export function setBoundedCircle(){
+},
+ setBoundedCircle:()=>{
     return{
         type:ScreenActions.SET_BOUNDED_CIRCLE
     }
-}
-export function setCurCoord(coord) {
+},
+ setCurCoord:(point,screenPoint)=> {
     return {
         type: ScreenActions.SET_CUR_COORD,
-        payload: coord,
+        payload: {point,screenPoint},
     }
-}
-export function setCyclicFlag(flag) {
+},
+ setCyclicFlag:(flag)=> {
     return {
         type: ScreenActions.SET_CYCLIC_FLAG,
         payload: flag,
     }
-}
-export function setDimensions(width,height,realWidth,topLeft){
+},
+ setDimensions:(width,height,realWidth,topLeft)=>{
     return{
         type:ScreenActions.SET_DIMENSIONS,
         payload:{width,height,realWidth,topLeft}
     }
-}
-export function setGridSnap(snap) {
+},
+ setGridSnap:(snap) =>{
     return {
         type: ScreenActions.SET_GRID_SNAP,
         payload: snap,
     }
-}
-export function setGridVisible(visible) {
+},
+ setGridVisible:(visible)=>{
     return {
         type: ScreenActions.SET_GRID_VISIBLE,
         payload: visible,
     }
-}
-export function setPickedData(data){
+},
+ setPickedData:(data)=>{
     return{
         type:ScreenActions.SET_PICKED_DATA,
         payload:data
     }
-}
-export function setPrevStatus(){
+},
+ setPrevCoord:(point,screenPoint) =>{
+    return {
+        type: ScreenActions.SET_PREV_COORD,
+        payload: {point,screenPoint},
+    }
+},
+ setPrevStatus:()=>{
     return{
         type:ScreenActions.SET_PREV_STATUS,
     }
-}
-export function setRatio(ratio){
+},
+ setRatio:(ratio)=>{
     return{
         type:ScreenActions.SET_RATIO,
         payload:ratio
     }
-}
-export function setRealWidth(width){
+},
+ setRealWidth:(width)=>{
     return{
         type:ScreenActions.SET_REAL_WIDTH,
         payload:width
     }
-}
-export function setScale(scale,anchor){
+},
+ setScale:(scale,anchor)=>{
     return{
         type:ScreenActions.SET_SCALE,
         payload:{scale,anchor}
     }
-}
-export function setScreenContext(context) {
+},
+ setScreenContext:(context)=> {
     return {
         type: ScreenActions.SET_SCREEN_CONTEXT,
         payload: context,
     }
-}
-export function setScreenStatus(status=Status.FREE,params){
+},
+setScreenStatus:(status=Status.FREE,params)=>{
     let payload=null;
     let type=null;
     switch(status){
@@ -195,34 +201,34 @@ export function setScreenStatus(status=Status.FREE,params){
         type,
         payload
     }
-}
-export function setSelectionType(selType) {
+},
+ setSelectionType:(selType)=> {
     return {
         type: ScreenActions.SET_SELECTION_TYPE,
         payload: selType,
     }
-}
-export function setSnap(snapClass,snap) {
+},
+setSnap:(snapClass,snap)=> {
     const type=snapClass==='grid'?ScreenActions.SET_GRID_SNAP:ScreenActions.SET_SNAP
     const payload=snapClass==='grid'?snap:{snapClass:snapClass,snap:snap}
     return {
         type: type,
         payload: payload,
     }
-}
-export function setTopLeft(p){
+},
+setTopLeft:(p)=>{
     return {
         type:ScreenActions.SET_TOP_LEFT,
         payload:p
     }
-}
-export function startPicking(id,picker){
+},
+ startPicking:(id,picker)=>{
     return{
         type:ScreenActions.START_PICKING,
         payload:{id,picker}
     }
 }
-
+}
 
 
 

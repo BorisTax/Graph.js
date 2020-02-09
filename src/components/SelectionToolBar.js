@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '../Graph.css';
-import {setScreenStatus, setSelectionType} from "../actions/ScreenActions";
+import {ScreenActions} from "../actions/ScreenActions";
 import ToolButtonGroup from './ToolButtonGroup';
 
 
@@ -34,8 +34,8 @@ const mapStateToProps = store => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        setSelectionType:id=>dispatch(setSelectionType(id)),
-        setScreenStatus:(status,param)=>dispatch(setScreenStatus(status,param)),
+        setSelectionType:id=>dispatch(ScreenActions.setSelectionType(id)),
+        setScreenStatus:(status,param)=>dispatch(ScreenActions.setScreenStatus(status,param)),
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(SelectionToolBar)

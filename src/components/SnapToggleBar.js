@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import '../Graph.css';
-import {setSnap} from '../actions/ScreenActions';
+import {ScreenActions} from '../actions/ScreenActions';
 import {setActiveSnapButton,clearActiveSnapButton} from '../actions/ComponentActions';
 import OptionTogglePic from './OptionTogglePic';
 import EndSnapMarker from "./shapes/markers/EndSnapMarker";
@@ -58,7 +58,7 @@ const mapStateToProps = store => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        setSnap: (snapClass,snap)=>dispatch(setSnap(snapClass,snap)),
+        setSnap: (snapClass,snap)=>dispatch(ScreenActions.setSnap(snapClass,snap)),
         setActiveSnapButton: id=>dispatch(setActiveSnapButton(id)),
         clearActiveSnapButton: id=>dispatch(clearActiveSnapButton(id)),
     }

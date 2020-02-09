@@ -1,6 +1,6 @@
 
 import {ComponentActions} from "../actions/ComponentActions";
-import {ScreenActions, deleteSelectedShapes} from "../actions/ScreenActions";
+import {ScreenActions} from "../actions/ScreenActions";
 import {AppActions} from '../actions/AppActions';
 import { Status } from "./screen";
 const initialState={
@@ -40,7 +40,7 @@ export function componentReducer(state=initialState,action) {
         case AppActions.SHOW_ALERT:
             return {...state,showAlert:data}; 
         case ScreenActions.DELETE_CONFIRM:
-           return{...state,showConfirm:{show:true,messageKey:"deleteShapes",okAction:deleteSelectedShapes.bind(null,false)}}    
+           return{...state,showConfirm:{show:true,messageKey:"deleteShapes",okAction:ScreenActions.deleteSelectedShapes.bind(null,false)}}    
         default:
             return newState;
     }

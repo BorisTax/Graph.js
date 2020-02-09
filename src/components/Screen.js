@@ -226,14 +226,18 @@ export default class Screen extends React.Component {
         if(this.props.status===Status.SELECT){
             this.drawShape(this.props.selectionManager.getSelectionShape(),ctx);
         }
-        if(this.mouseOnScreen)this.drawCursor(ctx);
+        if(this.props.mouseHandler.mouseOnScreen)this.drawCursor(ctx);
     }
 
     isOutRect(p){
        return p.x<this.props.marginLeft||p.x>this.props.screenWidth-this.props.marginRight
         ||p.y<this.props.marginTop||p.y>this.props.screenHeight-this.props.marginBottom;
     }
-
+    mmoveHandle(e){
+        let rect=e.target.getBoundingClientRect();
+        let curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
+        this.props.mouseHandler.move({curPoint,screenProps:this.props})
+    }
     mmove(e){
         let rect=e.target.getBoundingClientRect();
         let curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
@@ -299,6 +303,24 @@ export default class Screen extends React.Component {
         this.props.actions.setCurCoord(coord);
         
     }
+    mdownHandle(e){
+        if(e.button===1){
+            let rect=e.target.getBoundingClientRect();
+            const curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
+            this.dragX0=curPoint.x
+            this.dragY0=curPoint.y
+            this.props.actions.setScreenStatus(Status.PAN);
+            e.preventDefault();
+        }
+        if(e.button===0){
+            let rect=e.target.getBoundingClientRect();
+            this.curPoint.x=e.clientX-rect.left;
+            this.curPoint.y=e.clientY-rect.top;
+            this.props.mouseHandler.down({curPoint:this.curPoint,screenProps:this.props});
+            this.props.actions.repaint();
+            e.preventDefault();
+        }
+    }
     mdown(e){
         if(e.button===1){
             let rect=e.target.getBoundingClientRect();
@@ -322,6 +344,14 @@ export default class Screen extends React.Component {
             e.preventDefault();
         }
     }
+    mupHandle(e){
+        if(e.button===1){
+            this.props.actions.setPrevStatus();
+        }
+        if(e.button===0){
+            this.props.mouseHandler.up({screenProps:this.props});
+        }
+    }
     mup(e){
         if(e.button===1){
             this.props.actions.setPrevStatus();
@@ -332,18 +362,16 @@ export default class Screen extends React.Component {
             }
         }
     }
-    mwheel(e){
+    mwheelHandle(e){
         if(this.props.status===Status.PAN)return;
         let rect=e.target.getBoundingClientRect();
-        let p=Geometry.screenToReal(e.clientX-rect.left,e.clientY-rect.top,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
-        if(e.deltaY>0)
-        {
-            if(this.props.realWidth<=1000) this.props.actions.setScale(1.2,p);
-        }else{
-            if(this.props.pixelRatio>=0.001)
-                this.props.actions.setScale(1/1.2,p);
-        }
+        let point=Geometry.screenToReal(e.clientX-rect.left,e.clientY-rect.top,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
+        this.props.mouseHandler.wheel({deltaY:e.deltaY,point,screenProps:this.props})
        e.preventDefault();
+    }
+    mleaveHandle(){
+        this.props.mouseHandler.leave({screenProps:this.props});
+        this.props.actions.repaint();
     }
     mleave(){
         if(this.props.status===Status.PAN){
@@ -353,6 +381,13 @@ export default class Screen extends React.Component {
         this.props.actions.repaint();
     }
     menter(){
+    }
+    clickHandle(e){
+        if(e.button===0){
+            this.props.mouseHandler.click({screenProps:this.props});
+        }
+        this.props.actions.selectShapes(this.props.shapeManager.getSelectedShapes());
+        e.preventDefault();
     }
     onclick(e){
         if(e.button===0){
@@ -400,7 +435,7 @@ export default class Screen extends React.Component {
     componentDidMount() {
         this.canvas=document.querySelector("#canvas");
         this.ctx=this.canvas.getContext("2d");
-        this.canvas.addEventListener("mousewheel",this.mwheel.bind(this),{passive:false})
+        this.canvas.addEventListener("mousewheel",this.mwheelHandle.bind(this),{passive:false})
         //this.test();
         this.paint(this.ctx);
         window.addEventListener('load',()=>{
@@ -432,12 +467,12 @@ export default class Screen extends React.Component {
 
     render(){
         return <canvas ref={this.refCanvas} id="canvas" width={this.props.screenWidth} height={this.props.screenHeight}
-                onMouseMove={this.mmove.bind(this)}
-                onMouseDown={this.mdown.bind(this)}
-                onMouseUp={this.mup.bind(this)}
-                onMouseLeave={this.mleave.bind(this)}
+                onMouseMove={this.mmoveHandle.bind(this)}
+                onMouseDown={this.mdownHandle.bind(this)}
+                onMouseUp={this.mupHandle.bind(this)}
+                onMouseLeave={this.mleaveHandle.bind(this)}
                 onMouseEnter={this.menter.bind(this)}
-                onClick={this.onclick.bind(this)}
+                onClick={this.clickHandle.bind(this)}
             >
             </canvas>
     }

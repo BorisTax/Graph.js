@@ -5,7 +5,7 @@ import {setProperty} from '../actions/ShapeActions'
 import PropertyField from './PropertyField';
 import PropertyMultField from './PropertyMultField';
 import PropertyEditButtonsBar from './PropertyEditButtonsBar';
-import { repaint, deleteConfirm } from '../actions/ScreenActions';
+import { ScreenActions } from '../actions/ScreenActions';
 class PropertyEditorBar extends React.Component{
     prop;
     shape;
@@ -77,8 +77,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
     return {
         setProperty:(prop)=>dispatch(setProperty(prop)),
-        deleteConfirm:()=>dispatch(deleteConfirm()),
-        repaint:()=>dispatch(repaint()),
+        deleteConfirm:()=>dispatch(ScreenActions.deleteConfirm()),
+        repaint:()=>dispatch(ScreenActions.repaint()),
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(PropertyEditorBar)

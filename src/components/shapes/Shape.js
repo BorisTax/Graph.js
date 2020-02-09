@@ -5,6 +5,7 @@ export default class Shape {
         this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
         this.state={selected:false,highlighted:false};
         this.pointMarkers=[];
+        this.controlPoints=[];
     }
     getModel(){
         return this.model;

@@ -5,12 +5,14 @@ import Shape from "./Shape";
 import PointMarker from "./markers/PointMarker";
 import PointPicker from './pickers/PointPicker'
 import DistancePicker from './pickers/DistancePicker'
+import ShapeStyle from "./ShapeStyle";
 export default class CircleShape extends Shape{
     constructor(circle){
         super();
         this.p=new Coord2D();
         this.circle=circle;
         this.model=circle;
+        this.setStyle(new ShapeStyle())
     }
 
     drawSelf(ctx, realRect, screenRect){

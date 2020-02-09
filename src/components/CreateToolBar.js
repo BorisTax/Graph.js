@@ -11,7 +11,7 @@ import Circle3PCreator from "./shapes/shapecreators/Circle3PCreator";
 import TriangleCreator from "./shapes/shapecreators/TriangleCreator";
 import RectangleCreator from "./shapes/shapecreators/RectangleCreator";
 import {setActiveCreateButton} from "../actions/ComponentActions";
-import {setScreenStatus, setCyclicFlag, createNewShape, cancel} from "../actions/ScreenActions";
+import {ScreenActions} from "../actions/ScreenActions";
 import ShapeStyle from './shapes/ShapeStyle';
 import { Color } from './colors';
 
@@ -100,11 +100,11 @@ const mapStateToProps = (store,ownProps) => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        cancel:()=>dispatch(cancel()),
-        createNewShape:(creator)=>dispatch(createNewShape(creator)),
+        cancel:()=>dispatch(ScreenActions.cancel()),
+        createNewShape:(creator)=>dispatch(ScreenActions.createNewShape(creator)),
         setActiveCreateButton:id=>dispatch(setActiveCreateButton(id)),
-        setScreenStatus:(status,params)=>dispatch(setScreenStatus(status,params)),
-        setCyclicFlag:(flag)=>dispatch(setCyclicFlag(flag)),
+        setScreenStatus:(status,params)=>dispatch(ScreenActions.setScreenStatus(status,params)),
+        setCyclicFlag:(flag)=>dispatch(ScreenActions.setCyclicFlag(flag)),
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(CreateToolBar)
