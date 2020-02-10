@@ -6,15 +6,14 @@ export default class ShapeManager {
         this.allShapes=shapes;
         this.selType=selType;
     }
-    findShapeNearPoint(p, dist){
+    findShapeNearPoint(p, dist, altKey){
         let shape=null;
         this.allShapes.forEach(s=>{
             let d=s.getDistance(p);
-            if(d!==null&&d<=dist) {shape=s;}
-            if(!s.getState().inSelection)s.setState({highlighted:false});
+            if(d!==null&&d<=dist) {shape=s;} else s.setState({underCursor:false,highlighted:s.getState().inSelection});;
         });
         if(shape!==null){
-            shape.setState({highlighted:true});
+           if(!altKey)shape.setState({underCursor:true,highlighted:true});
 
         }
     }
@@ -24,8 +23,8 @@ export default class ShapeManager {
                 const distances=shape.getDistanceToControlPoints?shape.getDistanceToControlPoints(p):[];
                 let i=0;
                 for(const d of distances){
-                    if(d!==null&&d<=dist) {shape.controlPoints[i].highlighted=true}
-                        else {shape.controlPoints[i].highlighted=false}
+                    if(d!==null&&d<=dist) {shape.controlPoints[i].toBeSelected=true}
+                        else {shape.controlPoints[i].toBeSelected=false}
                     i++;
                 }
             }
@@ -34,16 +33,13 @@ export default class ShapeManager {
     selectControlPoints(p, dist){
         for(const shape of this.allShapes){
             if(shape.getState().selected){
-                const distances=shape.getDistanceToControlPoints?shape.getDistanceToControlPoints(p):[];
-                let i=0;
-                for(const d of distances){
-                    if(d!==null&&d<=dist) {shape.controlPoints[i].selected=true}
-                    i++;
+                for(const cp of shape.controlPoints){
+                    if(cp.toBeSelected) {cp.selected=true}
                 }
             }
         }
     }
-    findShapeInRect(p1,p2){
+    findShapeInRect(p1,p2,shiftKey,altKey){
         let tl={...p1};
         let br={...p2};
         if(p1.x>p2.x) {tl.x=p2.x;br.x=p1.x}
@@ -56,17 +52,19 @@ export default class ShapeManager {
             if(this.selType==='fullSelect'&&full===true) ok=true;
             if(this.selType==='crossSelect'&&cross===true) ok=true;
             if(this.selType==='crossSelect'&&full===true) ok=true;
-            if(ok) {shape.push(s);}
-            s.setState({highlighted:false});
+            if(ok) {
+                shape.push(s);
+            }else
+            if(!shiftKey)s.setState({inSelection:false});
         });
-        if(shape.length!==0)shape.forEach(s=>{s.setState({highlighted:true,inSelection:true})});
+        shape.forEach(s=>{s.setState({inSelection:true,highlighted:true})});
     }
     selectShapes({shiftKey,altKey}){
         if(!shiftKey&&!altKey)this.deselectShapes();
         this.allShapes.forEach(shape => {
-            if(shape.getState().highlighted) {
-               shape.setState({selected:true});
-                if(altKey)shape.setState({selected:false});
+            if(shape.getState().inSelection||shape.getState().underCursor) {
+               if(altKey)shape.setState({selected:false,inSelection:false,highlighted:false});
+               else shape.setState({selected:true,inSelection:false,highlighted:false});
             }
         }); 
     }

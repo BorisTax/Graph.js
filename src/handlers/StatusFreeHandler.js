@@ -6,7 +6,7 @@ export class StatusFreeHandler extends MouseHandler {
     move({curPoint,screenProps,shiftKey,altKey}){
         super.move({curPoint,screenProps});
         screenProps.cursor.setAdditional({shiftKey,altKey});
-        screenProps.shapeManager.findShapeNearPoint(this.coord,screenProps.selectDist*screenProps.pixelRatio);
+        screenProps.shapeManager.findShapeNearPoint(this.coord,screenProps.selectDist*screenProps.pixelRatio, altKey);
         screenProps.shapeManager.findControlPoints(this.coord,screenProps.selectDist*screenProps.pixelRatio);
         screenProps.actions.setCurCoord(this.coord,this.curPoint);
     }

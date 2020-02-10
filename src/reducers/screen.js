@@ -95,7 +95,7 @@ export function screenReducer(state = initialState,action) {
                 mouseHandler:new StatusFreeHandler(handlerOptions),
                 repaint:Math.random()}
         case ScreenActions.CANCEL_SELECTION:
-            state.shapes.forEach(s=>s.setState({selected:false}))
+            state.shapes.forEach(s=>s.setState({selected:false,underCursor:false,highlighted:false,inSelection:false}))
             return {...state,
                 status:Status.FREE,
                 selectedShapes:[],

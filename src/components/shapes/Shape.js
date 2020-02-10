@@ -4,7 +4,7 @@ import Geometry from '../../utils/geometry';
 export default class Shape {
     constructor(){
         this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
-        this.state={selected:false,highlighted:false};
+        this.state={selected:false,inSelection:false,underCursor:false,highlighted:false};
         this.pointMarkers=[];
         this.controlPoints=[];
     }
@@ -33,11 +33,12 @@ export default class Shape {
     setState(state){
         this.state={...this.state,...state};
         if(this.state.selected===true) {
-            this.setStyle(new ShapeStyle(Color.SELECTED,ShapeStyle.SOLID,2));
+            this.setStyle(new ShapeStyle(Color.SELECTED,ShapeStyle.SOLID,1));
+            if(this.state.highlighted) this.getStyle().setWidth(2);
             for(let cp of this.controlPoints){
                 cp.show=true
                 cp.marker.setPoint(cp.point)
-                cp.marker.setActive(cp.selected||cp.highlighted)
+                cp.marker.setActive(cp.selected||cp.toBeSelected)
             }
             return;
         }else {
@@ -45,12 +46,12 @@ export default class Shape {
             for(let cp of this.controlPoints){
                 cp.show=false;
                 cp.selected=false;
-                cp.highlighted=false;
+                cp.toBeSelected=false;
             }
             this.pointMarkers=null;
             //this.activePointMarker=null;
         }
-        if(this.state.highlighted===true) this.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,2));
+        if(this.state.highlighted) this.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,2));
     }
     getState(){
         return this.state;
