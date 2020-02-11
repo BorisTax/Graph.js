@@ -236,79 +236,14 @@ export default class Screen extends React.Component {
     mmoveHandle(e){
         let rect=e.target.getBoundingClientRect();
         let curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
-        this.props.mouseHandler.move({curPoint,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctlrKey,altKey:e.altKey})
-    }
-    mmove(e){
-        let rect=e.target.getBoundingClientRect();
-        let curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
-        this.mouseOnScreen=!this.isOutRect(curPoint);
-        let coord={x:this.props.curCoord.x,y:this.props.curCoord.y};
-
-        if(this.props.status===Status.PAN){
-            coord=Geometry.screenToReal(curPoint.x,curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
-            let dx=curPoint.x-this.dragX0;
-            let dy=curPoint.y-this.dragY0;
-            this.dragX0=curPoint.x
-            this.dragY0=curPoint.y
-            const rdx=this.props.realWidth*dx/this.props.screenWidth;
-            const rdy=this.props.realHeight*dy/this.props.screenHeight;
-            this.props.actions.setTopLeft({x:this.props.topLeft.x-rdx,y:this.props.topLeft.y+rdy});
-            this.props.actions.setBoundedCircle();
-            return;
-        }
-        if(this.isOutRect(curPoint)){
-            curPoint.x=this.prevPoint.x;
-            curPoint.y=this.prevPoint.y;
-        }
-        coord=Geometry.screenToReal(curPoint.x,curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
-        coord.x=+coord.x.toFixed(4);
-        coord.y=+coord.y.toFixed(4);
-        this.prevPoint.x=curPoint.x;
-        this.prevPoint.y=curPoint.y;
-        let temp={x:coord.x,y:coord.y};
-        if(this.props.gridSnap&&this.props.status!==Status.FREE){
-            let x=Math.round(temp.x/this.props.gridStep)*this.props.gridStep;
-            let y=Math.round(temp.y/this.props.gridStep)*this.props.gridStep;
-            let dx=x-temp.x;
-            let dy=y-temp.y;
-            if((Math.sqrt(dx*dx+dy*dy)<=this.props.snapMinDist*this.props.pixelRatio)){
-                if(!this.isOutRect(Geometry.realToScreen({x,y},this.getRealRect(),this.getScreenRect()))) {
-                    temp.x = x;
-                    temp.y = y;
-                    curPoint = Geometry.realToScreen(temp,this.getRealRect(),this.getScreenRect());
-                }
-                }
-        }
-        if(this.props.status!==Status.FREE){
-            let d = this.props.snapMarkersManager.getDistanceToNearestMarker(temp,this.props.snapDist*this.props.pixelRatio);
-            if(d>=0&&d<=this.props.snapMinDist*this.props.pixelRatio){
-                temp=this.props.snapMarkersManager.getActiveMarker().getPos();
-                curPoint = Geometry.realToScreen(temp,this.getRealRect(),this.getScreenRect());
-            }
-        }
-        coord=temp;
-        if(this.props.status===Status.FREE){
-            this.props.shapeManager.findShapeNearPoint(coord,this.props.selectDist*this.props.pixelRatio);
-        }
-        if(this.props.status===Status.SELECT){
-            this.props.selectionManager.setCurrent(coord);
-            this.props.shapeManager.findShapeInRect(this.prevCoord,coord);
-        }
-        if(this.props.status===Status.CREATE){
-            this.props.shapeCreator.setCurrent(coord);
-        }
-        if(this.props.status===Status.PICK){
-            this.props.picker.setCurrent(coord);
-        }
-        this.props.actions.setCurCoord(coord);
-        
+        this.props.mouseHandler.move({curPoint,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctrlKey,altKey:e.altKey})
     }
     mdownHandle(e){
-        if(e.button===1){
-            let rect=e.target.getBoundingClientRect();
-            const curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
-            this.dragX0=curPoint.x
-            this.dragY0=curPoint.y
+        if(e.button===1||e.button===2){
+            //let rect=e.target.getBoundingClientRect();
+            //const curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
+            ///this.dragX0=curPoint.x
+            //this.dragY0=curPoint.y
             this.props.actions.setScreenStatus(Status.PAN);
             e.preventDefault();
         }
@@ -316,112 +251,44 @@ export default class Screen extends React.Component {
             let rect=e.target.getBoundingClientRect();
             this.curPoint.x=e.clientX-rect.left;
             this.curPoint.y=e.clientY-rect.top;
-            this.props.mouseHandler.down({curPoint:this.curPoint,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctlrKey,altKey:e.altKey});
+            this.props.mouseHandler.down({curPoint:this.curPoint,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctrlKey,altKey:e.altKey});
             this.props.actions.repaint();
             e.preventDefault();
         }
     }
-    mdown(e){
-        if(e.button===1){
-            let rect=e.target.getBoundingClientRect();
-            const curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
-            this.dragX0=curPoint.x
-            this.dragY0=curPoint.y
-            this.props.actions.setScreenStatus(Status.PAN);
-            e.preventDefault();
-        }
-        if(e.button===0){
-            let rect=e.target.getBoundingClientRect();
-            this.curPoint.x=e.clientX-rect.left;
-            this.curPoint.y=e.clientY-rect.top;
-            if(this.props.status===Status.FREE){
-                this.prevCoord=Geometry.screenToReal(this.curPoint.x,this.curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
-                this.props.selectionManager.reset();
-                this.props.selectionManager.setNext(Geometry.screenToReal(this.curPoint.x,this.curPoint.y,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight));
-                this.props.actions.setScreenStatus(Status.SELECT);
-            }
-            this.props.actions.repaint();
-            e.preventDefault();
-        }
-    }
+
     mupHandle(e){
-        if(e.button===1){
+        if(e.button===1||e.button===2){
             this.props.actions.setPrevStatus();
         }
         if(e.button===0){
             this.props.mouseHandler.up({screenProps:this.props});
         }
     }
-    mup(e){
-        if(e.button===1){
-            this.props.actions.setPrevStatus();
-        }
-        if(e.button===0){
-            if(this.props.status===Status.SELECT){
-                this.props.actions.cancel();
-            }
-        }
-    }
+ 
     mwheelHandle(e){
         if(this.props.status===Status.PAN)return;
         let rect=e.target.getBoundingClientRect();
         let point=Geometry.screenToReal(e.clientX-rect.left,e.clientY-rect.top,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
-        this.props.mouseHandler.wheel({deltaY:e.deltaY,point,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctlrKey,altKey:e.altKey})
+        this.props.mouseHandler.wheel({deltaY:e.deltaY,point,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctrlKey,altKey:e.altKey})
        e.preventDefault();
     }
     mleaveHandle(){
         this.props.mouseHandler.leave({screenProps:this.props});
         this.props.actions.repaint();
     }
-    mleave(){
-        if(this.props.status===Status.PAN){
-            this.props.actions.setPrevStatus();
-        }
-        this.mouseOnScreen=false;
-        this.props.actions.repaint();
-    }
+
     menter(){
     }
+
     clickHandle(e){
         if(e.button===0){
-            this.props.mouseHandler.click({screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctlrKey,altKey:e.altKey});
+            this.props.mouseHandler.click({screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctrlKey,altKey:e.altKey});
         }
         this.props.actions.selectShapes(this.props.shapeManager.getSelectedShapes());
         e.preventDefault();
     }
-    onclick(e){
-        if(e.button===0){
-            if(this.props.status===Status.CREATE){
-                this.props.shapeCreator.setCurrent(this.props.curCoord);
-                if(this.props.shapeCreator.isLegal()) this.props.shapeCreator.setNextPoint(this.props.curCoord);
-                if(!this.props.shapeCreator.isNext())
-                {
-                    this.props.shapes.push(this.props.shapeCreator.getShape());
-                    this.props.actions.refreshSnapMarkers();
-                    this.props.actions.refreshShapeManager();
-                    if(this.props.cyclicCreation){
-                        this.props.actions.createShape(this.props.shapeCreator.reset(this.props.boundedCircle));
-                    }else {
-                        this.props.actions.cancel();
-                    }
-                }
-            }
-            if(this.props.status===Status.FREE){
-                    this.props.shapeManager.toggleShapeSelected();
-                }
-            if(this.props.status===Status.PICK){
-                    this.props.picker.setNextPoint(this.props.curCoord);
-                    if(!this.props.picker.isNext())
-                    {
-                        this.props.actions.setPickedData(this.props.picker.getPickedData());
-                        this.props.actions.refreshSnapMarkers();
-                        this.props.actions.refreshShapeManager();
-                    }
-                }
-        }
-        this.props.actions.selectShapes(this.props.shapeManager.getSelectedShapes());
-        e.preventDefault();
-    }
+
 
     resize(){
         const style=window.getComputedStyle(document.querySelector('.screenContainer'));

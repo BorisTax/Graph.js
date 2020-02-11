@@ -1,9 +1,6 @@
 import RayLineShape from '../RayLineShape';
-import CircleShape from '../CircleShape';
 import ShapeStyle from '../ShapeStyle';
-import {RLine, Coord2D, Circle} from "../../../utils/geometry";
-import {Color} from '../../colors';
-import Screen from '../../Screen';
+import {RLine, Coord2D} from "../../../utils/geometry";
 import ShapeBuilder from './ShapeBuilder';
 export default class RayLineCreator extends ShapeBuilder{
     static caption="Ray line";
@@ -13,17 +10,8 @@ export default class RayLineCreator extends ShapeBuilder{
         this.line=new RLine(new Coord2D(),new Coord2D());
         this.points=new Array(2);
         this.shape=new RayLineShape(this.line);
-        this.style=style||new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
+        this.style=style||ShapeStyle.getDefault();
         this.shape.setStyle(style);
-        this.helperShapes=[];
-        this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
-        this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
-    }
-    setControlPoints(){
-        this.helperShapes[0]=new CircleShape(new Circle(this.points[0], this.boundedCircle.radius* Screen.MARKER_SIZE));
-        this.helperShapes[1]=new CircleShape(new Circle(this.points[1], this.boundedCircle.radius* Screen.MARKER_SIZE));
-        this.helperShapes[0].setColor(Color.POINT_MARKER);
-        this.helperShapes[1].setColor(Color.POINT_MARKER);
     }
 
     setCurrent(point){
@@ -33,7 +21,6 @@ export default class RayLineCreator extends ShapeBuilder{
         if(this.i>0) {this.line=new RLine(...this.points);if(this.line.vector.x===0&&this.line.vector.y===0)this.legal=false;else this.legal=true}
         this.shape=new RayLineShape(this.line,this.boundedCircle);
         this.shape.setStyle(this.style);
-        this.setControlPoints();
     }
     reset(){return new RayLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
 }

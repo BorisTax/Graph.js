@@ -4,7 +4,7 @@ import Geometry from '../../utils/geometry';
 export default class Shape {
     constructor(){
         this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
-        this.state={selected:false,inSelection:false,underCursor:false,highlighted:false};
+        this.state={selected:false,selectedPoints:0,inSelection:false,underCursor:false,highlighted:false};
         this.pointMarkers=[];
         this.controlPoints=[];
     }

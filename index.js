@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, '/build')))
 app.use('/', router)
 
 app.use(function (req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'))
+    res.sendFile(path.join(__dirname, '/build/index.html'))
   })
 
 const port=process.env.PORT||5000  

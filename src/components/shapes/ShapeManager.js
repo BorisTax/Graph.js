@@ -23,19 +23,23 @@ export default class ShapeManager {
                 const distances=shape.getDistanceToControlPoints?shape.getDistanceToControlPoints(p):[];
                 let i=0;
                 for(const d of distances){
-                    if(d!==null&&d<=dist) {shape.controlPoints[i].toBeSelected=true}
-                        else {shape.controlPoints[i].toBeSelected=false}
+                    if(d!==null&&d<=dist) {shape.controlPoints[i].underCursor=true}
+                        else {shape.controlPoints[i].underCursor=false}
                     i++;
                 }
             }
         }
     }
-    selectControlPoints(p, dist){
+    selectControlPoints(shiftKey,altKey){
         for(const shape of this.allShapes){
             if(shape.getState().selected){
+                let selPoints=0;
                 for(const cp of shape.controlPoints){
-                    if(cp.toBeSelected) {cp.selected=true}
+                    if(!shiftKey&&!altKey) cp.selected=false;
+                    if(cp.underCursor) {cp.selected=!altKey}
+                    if(cp.selected) selPoints++;
                 }
+                shape.setState({selectedPoints:selPoints})
             }
         }
     }
@@ -63,7 +67,7 @@ export default class ShapeManager {
         if(!shiftKey&&!altKey)this.deselectShapes();
         this.allShapes.forEach(shape => {
             if(shape.getState().inSelection||shape.getState().underCursor) {
-               if(altKey)shape.setState({selected:false,inSelection:false,highlighted:false});
+               if(altKey&&shape.getState().selectedPoints===0)shape.setState({selected:false,inSelection:false,highlighted:false});
                else shape.setState({selected:true,inSelection:false,highlighted:false});
             }
         }); 

@@ -4,6 +4,7 @@ export default class ShapeStyle {
     static DASH=[1,3];
     static SOLID=[0];
     static SELECTION=[1,1];
+    static HelperShape=new ShapeStyle(Color.GRAY,ShapeStyle.DASH);
     constructor(color=Color.BLACK,stroke=ShapeStyle.SOLID,width=1){
         this.color=color;
         this.originColor=this.color;
@@ -21,6 +22,9 @@ export default class ShapeStyle {
                 break;
             default:
         }
+    }
+    getDefault(){
+        return new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
     }
     getColor() {
         return this.color;

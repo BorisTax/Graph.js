@@ -50,8 +50,8 @@ export default class LineShape extends Shape{
     getProperties(){
         let prop=new Map();
         prop.set('Title',{value:'Line',regexp:/\s*/});
-        prop.set('P1',{value:{x:this.line.p1.x,y:this.line.p1.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
-        prop.set('P2',{value:{x:this.line.p2.x,y:this.line.p2.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
+        prop.set('P1',{value:{x:this.line.p1.x,y:this.line.p1.y},selected:this.controlPoints[0].selected,picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
+        prop.set('P2',{value:{x:this.line.p2.x,y:this.line.p2.y},selected:this.controlPoints[1].selected,picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
         return prop;
     }
     setProperty(prop){

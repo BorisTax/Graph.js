@@ -65,7 +65,7 @@ class PropertyMultField extends React.Component{
         const value=this.state.value;
         return <div className={"noselect"}>
             <div style={{display:'flex',flexDirection:'row',alignContent:'center'}}>
-            {this.props.label}
+            <span style={{color:this.props.selected?"red":"black",marginRight:"5px"}}>{this.props.label}</span>
             <input style={!this.state.correct?{backgroundColor:'red'}:{}}
                 className='propertyMultField'
                 type="text" value={value.x} 

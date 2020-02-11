@@ -16,7 +16,7 @@ function readFile(file){
   }
 async function getCaptions(lang){
     try{
-    const data=await readFile(`./locale/${lang}.json`);
+    const data=await readFile(`./build/locale/${lang}.json`);
     var result=JSON.parse(data);
     }catch(e){result=null}
     return result;

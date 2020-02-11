@@ -3,7 +3,7 @@ import { MouseHandler } from "./MouseHandler";
 export class StatusSelectHandler extends MouseHandler {
     move({curPoint,screenProps,shiftKey,altKey}){
         super.move({curPoint,screenProps});
-        this.snap(screenProps);
+        //this.snap(screenProps);
         screenProps.selectionManager.setCurrent(screenProps.curCoord);
         screenProps.shapeManager.findShapeInRect(this.prevCoord,this.coord,shiftKey,altKey);
         screenProps.shapeManager.findShapeNearPoint(this.coord,screenProps.selectDist*screenProps.pixelRatio);

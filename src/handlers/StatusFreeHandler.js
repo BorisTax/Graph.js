@@ -20,6 +20,6 @@ export class StatusFreeHandler extends MouseHandler {
     }
     click({screenProps,shiftKey,altKey}){
         screenProps.shapeManager.selectShapes({shiftKey,altKey});
-        screenProps.shapeManager.selectControlPoints(this.coord,screenProps.selectDist*screenProps.pixelRatio,shiftKey);
+        screenProps.shapeManager.selectControlPoints(shiftKey,altKey);
     }
 }

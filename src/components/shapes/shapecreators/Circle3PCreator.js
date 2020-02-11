@@ -2,8 +2,6 @@ import {Circle,Triangle,Coord2D} from "../../../utils/geometry";
 import CircleShape from "../CircleShape";
 import TriangleShape from "../TriangleShape";
 import ShapeStyle from "../ShapeStyle";
-import {Color} from '../../colors';
-import Screen from '../../Screen';
 import ShapeBuilder from "./ShapeBuilder";
 export default class Circle3PCreator extends ShapeBuilder{
     static caption="Circle by 3 points";
@@ -14,16 +12,9 @@ export default class Circle3PCreator extends ShapeBuilder{
         this.circle=new Circle(new Coord2D(),0);
         this.shape=new CircleShape(this.circle);
         this.shape.setStyle(style);
-        this.helperShapes = [];
         this.triangle =new Triangle();
         this.helperShapes.push(new TriangleShape(this.triangle));
-        this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
-        this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
-        this.helperShapes.push(new CircleShape(new Circle(new Coord2D(),0)));
-        this.helperShapes[0].setStyle(new ShapeStyle(Color.gray,ShapeStyle.DASH));
-        this.helperShapes[1].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
-        this.helperShapes[2].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
-        this.helperShapes[3].setStyle(new ShapeStyle(Color.POINT_MARKER,ShapeStyle.SOLID));
+        this.helperShapes[0].setStyle(ShapeStyle.HelperShape);
         this.points=new Array(3);
     }
 
@@ -36,19 +27,10 @@ export default class Circle3PCreator extends ShapeBuilder{
         this.circle=this.triangle.getOuterCircle();
         this.shape=new CircleShape(this.circle);
         this.shape.setStyle(this.style);
-        this.setControlPoints();
+        this.helperShapes[0]=new TriangleShape(this.triangle);
+        this.helperShapes[0].setStyle(ShapeStyle.HelperShape);
     }
 
-    setControlPoints(){
-        this.helperShapes[0]=new TriangleShape(new Triangle(this.points));
-        this.helperShapes[1]=new CircleShape(new Circle(this.points[0],this.boundedCircle.radius* Screen.MARKER_SIZE));
-        this.helperShapes[2]=new CircleShape(new Circle(this.points[1],this.boundedCircle.radius* Screen.MARKER_SIZE));
-        this.helperShapes[3]=new CircleShape(new Circle(this.points[2],this.boundedCircle.radius* Screen.MARKER_SIZE));
-        this.helperShapes[0].setStyle(new ShapeStyle(Color.GRAY,ShapeStyle.DASH));
-        this.helperShapes[1].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
-        this.helperShapes[2].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
-        this.helperShapes[3].setStyle(new ShapeStyle(Color.BLUE,ShapeStyle.SOLID));
-    }
     reset(){return new Circle3PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;

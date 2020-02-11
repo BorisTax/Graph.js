@@ -33,6 +33,7 @@ class PropertyEditorBar extends React.Component{
                                                      label={this.props.captions.shapes[shapeType][key]} 
                                                      value={this.prop.get(key).value}
                                                      regexp={this.prop.get(key).regexp}
+                                                     selected={this.prop.get(key).selected}
                                                      picker={this.prop.get(key).picker}
                                                      setProperty={this.setProperty.bind(this)}
                                                      setActivePoint={this.setActivePoint.bind(this)}  />:

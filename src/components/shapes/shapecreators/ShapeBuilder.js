@@ -1,8 +1,11 @@
+import PointMarker from "../markers/PointMarker";
+
 export default class ShapeBuilder {
      constructor(boundedCircle){
         this.i=0;
         this.boundedCircle=boundedCircle;
         this.legal=true;
+        this.helperShapes=[];
     }
 
     getShape(){
@@ -15,6 +18,7 @@ export default class ShapeBuilder {
         return (this.i<this.points.length);
     }
     setNextPoint(p){
+        this.helperShapes.push(new PointMarker(this.points[this.i]));
         this.setCurrent(p);
         this.i++;
     }
@@ -22,7 +26,6 @@ export default class ShapeBuilder {
     isLegal(){return this.legal}
     refresh(boundedCircle){
         this.boundedCircle=boundedCircle;
-        if(this.points[this.i]!=null) this.setControlPoints();
     }
     setStyle(style){
         this.style=style;
