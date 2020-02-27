@@ -1,5 +1,4 @@
 import React from "react";
-import '../Buttons.css';
 
 export default class ToolButton extends React.Component{
     constructor(props){
@@ -19,14 +18,17 @@ export default class ToolButton extends React.Component{
         let title=this.props.title;
         if(this.props.params&&this.props.params.dev) title=`${title} ${this.props.params.dev}`
         let cls=!pressed?"toolButtonUp":"toolButtonDown";
+        const enabled=this.props.enabled?" toolButtonEnabled":" toolButtonDisabled"
+        const size=` ${this.props.size}`;
         cls=cls+" toolButton";
+        const cls2=enabled+size
         return <div id={this.props.id}
                     className={cls}
                     onClick={this.onclick.bind(this)}
                     title={title}
                     
                     >
-
+                <div className={cls2}></div>
         </div>
     }
 }

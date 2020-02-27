@@ -1,5 +1,4 @@
 import React from 'react';
-import '../Buttons.css';
 import { connect } from 'react-redux';
 
 class PickButton extends React.Component{

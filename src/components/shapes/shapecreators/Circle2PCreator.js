@@ -24,7 +24,7 @@ export default class Circle2PCreator extends ShapeBuilder{
         this.points[this.i]=point;
         if(this.i===0)this.points[1]=this.points[0];
         if(this.i>0) this.circle=new Circle(Geometry.midPoint(this.points[0],this.points[1]),Geometry.distance(this.points[0],this.points[1])/2);
-        this.diamLine =new Line(this.points[0],this.points[this.i]);
+        this.diamLine = new Line(this.points[0],this.points[this.i]);
         this.shape=new CircleShape(this.circle);
         this.shape.setStyle(this.style);
         this.helperShapes[0]=new LineShape(this.diamLine);

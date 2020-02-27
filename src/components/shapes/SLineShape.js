@@ -8,11 +8,8 @@ export default class SLineShape extends Shape{
         this.model=line;
     }
     drawSelf(ctx,realRect, screenRect){
-        this.refresh(realRect, screenRect);
+        super.drawSelf(ctx,realRect, screenRect)
         if(this.p0===null||this.p1===null)return;
-        ctx.strokeStyle=this.getStyle().getColor();
-        ctx.setLineDash(this.getStyle().getStroke());
-        ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
         ctx.moveTo(this.p0.x,this.p0.y);
         ctx.lineTo(this.p1.x,this.p1.y);

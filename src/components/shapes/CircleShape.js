@@ -13,16 +13,13 @@ export default class CircleShape extends Shape{
         this.circle=circle;
         this.model=circle;
         this.setStyle(new ShapeStyle())
-        this.controlPoints=[{point:circle.center,show:false,selected:false}];
+        this.controlPoints=[{point:{...circle.center},show:false,selected:false}];
         for(let cp of this.controlPoints)
                 cp.marker=new PointMarker(cp.point,false)
     }
 
     drawSelf(ctx, realRect, screenRect){
-        this.refresh(realRect, screenRect);
-        ctx.strokeStyle=this.getStyle().getColor();
-        ctx.setLineDash(this.getStyle().getStroke());
-        ctx.lineWidth=this.getStyle().getWidth();
+        super.drawSelf(ctx,realRect, screenRect)
         ctx.beginPath();
         ctx.arc(this.screenCenter.x,this.screenCenter.y,this.screenRadius,0,2*Math.PI);
         ctx.stroke();
@@ -36,7 +33,7 @@ export default class CircleShape extends Shape{
     }
     setActivePoint(key){
         super.setActivePoint();
-        if(key==='Center') {this.controlPoints[0].selected=true;this.controlPoints[0].marker.setActive(true);}
+        if(key==='Center') {this.selectPoint(0)}
     }
     getMarkers(){
         let list=[];
@@ -63,6 +60,22 @@ export default class CircleShape extends Shape{
                 break;
             default:
         }
+    }
+    move(distance){
+        super.move(distance);
+        this.circle.center={...this.controlPoints[0].point}
+    }
+    
+    createMockShape(){
+        super.createMockShape(new CircleShape({center:{...this.circle.center},radius:this.circle.radius}));
+    }
+
+    applyTransform(){
+        super.applyTransform();
+        this.circle.center=this.controlPoints[0].point
+    }
+    copyShape(){
+        return new CircleShape({center:{...this.controlPoints[0].point},radius:this.circle.radius});
     }
     getDistance(point) {
         return Math.abs(Geometry.distance(point,this.circle.center)-this.circle.radius);

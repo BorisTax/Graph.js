@@ -1,6 +1,4 @@
 import React from 'react';
-import '../Graph.css';
-import '../Buttons.css';
 import {connect} from 'react-redux';
 import { setToken } from '../actions/UserActions';
 import options from '../config'

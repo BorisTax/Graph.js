@@ -19,10 +19,7 @@ export default class TriangleShape extends Shape{
           cp.marker=new PointMarker(cp.point,false)
     }
     drawSelf(ctx,realRect, screenRect){
-        this.refresh(realRect,screenRect);
-        ctx.strokeStyle=this.getStyle().getColor();
-        ctx.setLineDash(this.getStyle().getStroke());
-        ctx.lineWidth=this.getStyle().getWidth();
+        super.drawSelf(ctx,realRect, screenRect)
         ctx.beginPath();
         ctx.moveTo(this.p[0].x,this.p[0].y);
         ctx.lineTo(this.p[1].x,this.p[1].y);
@@ -37,9 +34,9 @@ export default class TriangleShape extends Shape{
     }
     setActivePoint(key){
         super.setActivePoint();
-        if(key==='P1') {this.controlPoints[0].selected=true;this.controlPoints[0].marker.setActive(true)}
-        if(key==='P2') {this.controlPoints[1].selected=true;this.controlPoints[1].marker.setActive(true)}
-        if(key==='P3') {this.controlPoints[2].selected=true;this.controlPoints[2].marker.setActive(true)}
+        if(key==='P1') {this.selectPoint(0);}
+        if(key==='P2') {this.selectPoint(1);}
+        if(key==='P3') {this.selectPoint(2);}
     }
     getMarkers(){
         let list=[];

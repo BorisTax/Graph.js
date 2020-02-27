@@ -1,4 +1,5 @@
-{  
+export const captions={  
+  "user":{"name":"Guest"},
   "about":{
     "name":"© Takhmazov Borys, 2018-2019",
     "email":"E-Mail: tboris1983@gmail.com"
@@ -40,7 +41,7 @@
   },
   "create":{
     "createToolBar":"Create",
-    "createCheckBox":"Cyclic",
+    "createCheckBox":"Repeat",
     "createSLine2Points":"Straight line",
     "createRayLine2Points":"Ray line",
     "createSegmentLine2Points":"Segment line",
@@ -85,8 +86,8 @@
     },
     "Line":{
       "Title":"Line",
-      "P1":"P1",
-      "P2":"P2"
+      "p0":"P1",
+      "p1":"P2"
     },
     "SLine":{
       "Title":"Straight Line AX+BY+C=0",
@@ -153,6 +154,13 @@
       "description":"",
       "steps":["","Specify second selection point"]
     }
+  },
+  "transform":{
+    "move":[
+      "Specify base point",
+      "Specify point to move",
+      ""
+    ],
   },
   "help":{
     "title":"Reference",

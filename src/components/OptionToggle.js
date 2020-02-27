@@ -1,4 +1,3 @@
-import "../Graph.css";
 import React from "react";
 
 class OptionToggle extends React.Component{

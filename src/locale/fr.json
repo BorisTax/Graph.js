@@ -40,7 +40,7 @@
   },
   "create":{
     "createToolBar":"Créer",
-    "createCheckBox":"Cyclique",
+    "createCheckBox":"Répéter",
     "createSLine2Points":"Ligne droite",
     "createRayLine2Points":"Ligne de rayon",
     "createSegmentLine2Points":"Ligne de segment",
@@ -162,7 +162,7 @@
     {"key":"Del","desc":"Supprimer sélectionnée"},
     {"key":"C","desc":"Centre vue à l'origine"},
     {"key":"Mouse wheel","desc":"Zoom +/-"},
-    {"key":"Mouse middle button","desc":"Déplacer l'écran"}
+    {"key":"Mouse middle/right button","desc":"Déplacer l'écran"}
     ]
   }
 }

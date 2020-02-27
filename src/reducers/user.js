@@ -1,5 +1,5 @@
 import {UserActions} from "../actions/UserActions";
-import {captions} from '../locale/eng';
+import {captions} from '../locale/en.js';
 import jwtDecode from 'jwt-decode';
 
 var user={}

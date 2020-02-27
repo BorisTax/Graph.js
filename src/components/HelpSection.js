@@ -1,6 +1,4 @@
 import React,{Fragment} from 'react';
-import '../Graph.css';
-import '../Buttons.css';
 import {showHelp} from '../actions/AppActions';
 import { connect } from 'react-redux';
 import MySelf from './MySelf';

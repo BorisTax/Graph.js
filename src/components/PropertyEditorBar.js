@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import '../Graph.css';
 import {setProperty} from '../actions/ShapeActions'
 import PropertyField from './PropertyField';
 import PropertyMultField from './PropertyMultField';
@@ -20,8 +19,10 @@ class PropertyEditorBar extends React.Component{
         const shapes=this.props.screen.selectedShapes;
         let propElements=[];
         let shapeTitle;
+        let selectedPoints='';
         if(shapes.length===1){
             this.shape=shapes[0];
+            selectedPoints=`${this.shape.getState().selectedPoints} of ${this.shape.controlPoints.length} selected`;
             this.prop=shapes[0].getProperties();
             let shapeType=this.prop.get('Title').value;
             shapeTitle=this.props.captions.shapes[shapeType].Title;
@@ -59,6 +60,7 @@ class PropertyEditorBar extends React.Component{
             <div className='propertyGroup'>
             {propElements}
             </div>
+            <div>{selectedPoints}</div>
             {this.props.screen.selectedShapes.length>0?<PropertyEditButtonsBar
                                     deleteConfirm={this.props.deleteConfirm.bind(null,true)}
                                     caption={this.props.captions.deleteButton}/>:<></>}

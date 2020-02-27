@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import '../Graph.css';
 import OptionToggle from './OptionToggle';
 import {setGridVisible} from '../actions/ScreenActions';
 class ShowToggleBar extends React.Component{

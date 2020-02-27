@@ -3,23 +3,27 @@ import Geometry from "../utils/geometry";
 import { Status } from "../reducers/screen";
 
 export class StatusFreeHandler extends MouseHandler {
+    constructor({point,curScreenPoint}){
+        super({point,curScreenPoint});
+    }
     move({curPoint,screenProps,shiftKey,altKey}){
         super.move({curPoint,screenProps});
         screenProps.cursor.setAdditional({shiftKey,altKey});
-        screenProps.shapeManager.findShapeNearPoint(this.coord,screenProps.selectDist*screenProps.pixelRatio, altKey);
-        screenProps.shapeManager.findControlPoints(this.coord,screenProps.selectDist*screenProps.pixelRatio);
+        screenProps.selectionManager.findShapeNearPoint(this.coord,screenProps.selectDist*screenProps.pixelRatio, altKey);
+        screenProps.selectionManager.findControlPoints(this.coord,screenProps.selectDist*screenProps.pixelRatio);
         screenProps.actions.setCurCoord(this.coord,this.curPoint);
+        this.statusBar='';
     }
     down({curPoint,screenProps}){
         this.curPoint={...curPoint};
         this.prevCoord=Geometry.screenToReal(this.curPoint.x,this.curPoint.y,screenProps.screenWidth,screenProps.screenHeight,screenProps.topLeft,screenProps.bottomRight);
-        screenProps.selectionManager.reset();
-        screenProps.selectionManager.setNext(Geometry.screenToReal(this.curPoint.x,this.curPoint.y,screenProps.screenWidth,screenProps.screenHeight,screenProps.topLeft,screenProps.bottomRight));
+        screenProps.selectionShape.reset();
+        screenProps.selectionShape.setNext(Geometry.screenToReal(this.curPoint.x,this.curPoint.y,screenProps.screenWidth,screenProps.screenHeight,screenProps.topLeft,screenProps.bottomRight));
         screenProps.actions.setScreenStatus(Status.SELECT);
         screenProps.actions.setPrevCoord(this.prevCoord,this.curPoint);
     }
     click({screenProps,shiftKey,altKey}){
-        screenProps.shapeManager.selectShapes({shiftKey,altKey});
-        screenProps.shapeManager.selectControlPoints(shiftKey,altKey);
+        screenProps.selectionManager.selectShapes({shiftKey,altKey});
+        screenProps.selectionManager.selectControlPoints(shiftKey,altKey);
     }
 }

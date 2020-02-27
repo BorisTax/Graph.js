@@ -1,4 +1,3 @@
-import "../Graph.css";
 import React from "react";
 import {connect} from 'react-redux';
 import { Status } from "../reducers/screen";

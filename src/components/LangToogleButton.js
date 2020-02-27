@@ -1,6 +1,4 @@
 import React from 'react';
-import '../Graph.css';
-
 export default class LangToggleButton extends React.Component{
     onClick(){
         if(!this.props.pressed){

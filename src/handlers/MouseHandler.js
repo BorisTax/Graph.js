@@ -1,4 +1,3 @@
-import { Status } from "../reducers/screen";
 import Geometry, { Rectangle } from "../utils/geometry";
 
 export class MouseHandler {
@@ -6,6 +5,15 @@ export class MouseHandler {
         this.coord=point
         this.curPoint=curScreenPoint;
         this.prevCoord=point
+        this.clickCount=0;
+        this.curShape=null;
+        this.curHelperShapes=null;
+        this.statusBar='';
+    }
+    click({curPoint,screenProps}){
+        this.clickCount++;
+        //this.coord=Geometry.screenToReal(curPoint.x,curPoint.y,screenProps.screenWidth,screenProps.screenHeight,screenProps.topLeft,screenProps.bottomRight);
+        this.coord=screenProps.curCoord;
     }
     isOutRect(p,screenProps){
         return p.x<screenProps.marginLeft||p.x>screenProps.screenWidth-screenProps.marginRight
@@ -58,16 +66,16 @@ export class MouseHandler {
                 }
                 }
         }
-        if(screenProps.status!==Status.FREE){
-            let d = screenProps.snapMarkersManager.getDistanceToNearestMarker(temp,screenProps.snapDist*screenProps.pixelRatio);
-            if(d>=0&&d<=screenProps.snapMinDist*screenProps.pixelRatio){
-                temp=screenProps.snapMarkersManager.getActiveMarker().getPos();
-                this.curPoint = Geometry.realToScreen(temp,this.getRealRect(screenProps),this.getScreenRect(screenProps));
+        let d = screenProps.snapMarkersManager.getDistanceToNearestMarker(temp,screenProps.snapDist*screenProps.pixelRatio);
+        if(d>=0&&d<=screenProps.snapMinDist*screenProps.pixelRatio){
+            temp=screenProps.snapMarkersManager.getActiveMarker().getPos();
+            this.curPoint = Geometry.realToScreen(temp,this.getRealRect(screenProps),this.getScreenRect(screenProps));
             }
-        }
         this.coord=temp;
      }
-
+     getCurrentStep(){
+         return this.currentStep;
+     }
      getRealRect(screenProps){
         let realRect = new Rectangle();
         realRect.topLeft = screenProps.topLeft;

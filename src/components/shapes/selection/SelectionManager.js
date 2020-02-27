@@ -1,6 +1,7 @@
-export default class ShapeManager {
+export default class SelectionManager {
     constructor(shapes){
         this.allShapes=shapes;
+        this.selectedShapes=0;
     }
     setShapes(shapes,selType){
         this.allShapes=shapes;
@@ -68,12 +69,17 @@ export default class ShapeManager {
         this.allShapes.forEach(shape => {
             if(shape.getState().inSelection||shape.getState().underCursor) {
                if(altKey&&shape.getState().selectedPoints===0)shape.setState({selected:false,inSelection:false,highlighted:false});
-               else shape.setState({selected:true,inSelection:false,highlighted:false});
+               else {
+                   shape.setState({selected:true,inSelection:false,highlighted:false});
+                   this.selectedShapes++;
+                   
+                }
             }
         }); 
     }
     deselectShapes(){
         this.allShapes.forEach(shape => shape.setState({selected:false}));
+        this.selectedShapes=0;
     }
     getSelectedShapes(){
         return this.allShapes.filter((shape)=>shape.getState().selected===true);

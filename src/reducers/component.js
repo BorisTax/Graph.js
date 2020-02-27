@@ -7,6 +7,7 @@ const initialState={
     activeLangButton:"en",
     defaultLang:"en",
     activeSnapButtons:new Set(),
+    activeTransformButton:null,
     showHelp:false,
     showConfirm:{show:false,message:""},
     showAlert:{show:false,message:""}
@@ -16,11 +17,16 @@ export function componentReducer(state=initialState,action) {
     const data=action.payload;
     if(!newState.activeButtons) newState.activeButtons=new Set();
     switch (action.type) {
+        case ScreenActions.ABORT:
+            return {...newState,activeTransformButton:''}
         case ScreenActions.CANCEL:
-            return {...newState,activeCreateButton:null}
+            return {...newState,activeCreateButton:'',activeTransformButton:''}
         case ComponentActions.SET_ACTIVE_CREATE_BUTTON:
             newState.activeCreateButton=data;
             return newState;
+        case ComponentActions.SET_ACTIVE_TRANSFORM_BUTTON:
+                newState.activeTransformButton=data;
+                return newState;
         case ComponentActions.SET_ACTIVE_LANG_BUTTON:
             newState.activeLangButton=data;
             return newState;
@@ -41,6 +47,10 @@ export function componentReducer(state=initialState,action) {
             return {...state,showAlert:data}; 
         case ScreenActions.DELETE_CONFIRM:
            return{...state,showConfirm:{show:true,messageKey:"deleteShapes",okAction:ScreenActions.deleteSelectedShapes.bind(null,false)}}    
+        case ScreenActions.TRANS_MOVE:
+            return{...state,
+                activeTransformButton:'move',
+            }; 
         default:
             return newState;
     }

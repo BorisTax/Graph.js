@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import '../Graph.css';
 import {ScreenActions} from "../actions/ScreenActions";
 import {setLanguage} from "../actions/AppActions";
 import CreateToolBar from "./CreateToolBar";
 import Screen from "./Screen";
-import SnapToggleBar from './SnapToggleBar';
+import SnapToolBar from './SnapToolBar';
+import TransformBar from './TransformBar';
 import PropertyEditorBar from './PropertyEditorBar';
 import SelectionToolBar from './SelectionToolBar';
 import { createShape } from '../actions/ShapeActions';
@@ -23,7 +23,8 @@ class MainContainer extends React.Component{
         <CreateToolBar/>
         <SelectionToolBar/>
         <PropertyEditorBar/>
-        <SnapToggleBar/>
+        <SnapToolBar/>
+        <TransformBar/>
         
     </div>
     }
@@ -36,13 +37,14 @@ const mapStateToProps = store => {
 };
 const mapDispatchToProps = dispatch => {
     return {actions:{
+        abort:()=>dispatch(ScreenActions.abort()),
         addShape:(shape)=>dispatch(ScreenActions.addShape(shape)),
         cancel:()=>dispatch(ScreenActions.cancel()),
         cancelSelection:()=>dispatch(ScreenActions.cancelSelection()),
         centerToPoint:(p)=>dispatch(ScreenActions.centerToPoint(p)),
         createShape:(creator)=>dispatch(createShape(creator)),
         deleteConfirm:()=>dispatch(ScreenActions.deleteConfirm()),
-        refreshShapeManager:()=>dispatch(ScreenActions.refreshShapeManager()),
+        refreshSelectionManager:()=>dispatch(ScreenActions.refreshSelectionManager()),
         refreshSnapMarkers:()=>dispatch(ScreenActions.refreshSnapMarkers()),
         repaint:()=>dispatch(ScreenActions.repaint()),
         selectAll:()=>dispatch(ScreenActions.selectAll()),

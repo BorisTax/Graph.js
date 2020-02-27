@@ -6,14 +6,11 @@ export default class TextShape extends Shape{
     constructor(text="",point={x:0,y:0}){
         super();
         this.p=point;
+        this.controlPoints=[this.p]
         this.text=text;
     }
     drawSelf(ctx,realRect, screenRect){
-        this.refresh(realRect, screenRect);
-        ctx.strokeStyle=this.getStyle().getColor();
-        ctx.setLineDash(this.getStyle().getStroke());
-        ctx.lineWidth=this.getStyle().getWidth();
-        console.log(ctx.lineWidth)
+        super.drawSelf(ctx,realRect, screenRect)
         ctx.save();
         ctx.font=this.font;
         let basePoint={...this.p0}
@@ -51,8 +48,8 @@ export default class TextShape extends Shape{
         this.anchor=anchor;
     }
     setActivePoint(key){
-        this.activePoint=null;
-        if(key==='P1') this.activePoint=this.p;
+        super.setActivePoint();
+        if(key==='P1') this.selectPoint(0);
     }
     getProperties(){
         let prop=new Map();

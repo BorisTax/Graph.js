@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import '../Graph.css';
 import {ScreenActions} from "../actions/ScreenActions";
 import ToolButtonGroup from './ToolButtonGroup';
 
@@ -19,6 +18,8 @@ class SelectionToolBar extends React.Component{
                                             ]}
                                 activeButton={this.props.activeButton}
                                 onClick={this.onClick.bind(this)}
+                                size={"largeSizeButton"}
+                                enabled={true}
                                 />
         </div>
     }

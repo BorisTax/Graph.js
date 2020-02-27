@@ -1,0 +1,56 @@
+#SLine{
+    background-image: url("images/icons/straight-line.svg");
+    background-size: cover;
+}
+#RLine{
+    background-image: url("images/icons/ray-line.svg");
+    background-size: cover;
+}
+#Line{
+    background-image: url("images/icons/segment-line.svg");
+    background-size: cover;
+}
+#CircleRad{
+    background-image: url("images/icons/circle-center.svg");
+    background-size: cover;
+}
+#Circle2p{
+    background-image: url("images/icons/circle-2p.svg");
+    background-size: cover;
+}
+#Circle3p{
+    background-image: url("images/icons/circle-3p.svg");
+    background-size: cover;
+}
+#Rect2p{
+    background-image: url("images/icons/rectangle.svg");
+    background-size: cover;
+}
+#RectCenter{
+    background-image: url("images/icons/rectangle-center.svg");
+    background-size: cover;
+}
+#Triangle{
+    background-image: url("images/icons/triangle.svg");
+    background-size: cover;
+}
+#TriangleInscribed{
+    background-image: url("images/icons/triangle-inscribed.svg");
+    background-size: cover;
+}
+#TriangleDescribed{
+    background-image: url("images/icons/triangle-described.svg");
+    background-size: cover;
+}
+#Parabola{
+    background-image: url("images/icons/parabola.svg");
+    background-size: cover;
+}
+#Hyperbola{
+    background-image: url("images/icons/hyperbola.svg");
+    background-size: cover;
+}
+#Function{
+    background-image: url("images/icons/fx.svg");
+    background-size: cover;
+}

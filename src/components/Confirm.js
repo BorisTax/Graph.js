@@ -1,6 +1,4 @@
 import React from 'react';
-import '../Graph.css';
-import '../Buttons.css';
 import {showConfirm, blink} from '../actions/AppActions';
 import { connect } from 'react-redux';
 import {store} from '../store/configureStore'

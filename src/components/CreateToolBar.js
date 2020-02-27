@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import '../Graph.css';
 import ToolButtonGroup from "./ToolButtonGroup";
 import StraightLineCreator from "./shapes/shapecreators/StraightLineCreator";
 import RayLineCreator from "./shapes/shapecreators/RayLineCreator";
@@ -10,7 +9,7 @@ import Circle2PCreator from "./shapes/shapecreators/Circle2PCreator";
 import Circle3PCreator from "./shapes/shapecreators/Circle3PCreator";
 import TriangleCreator from "./shapes/shapecreators/TriangleCreator";
 import RectangleCreator from "./shapes/shapecreators/RectangleCreator";
-import {setActiveCreateButton} from "../actions/ComponentActions";
+import {ComponentActions} from "../actions/ComponentActions";
 import {ScreenActions} from "../actions/ScreenActions";
 import ShapeStyle from './shapes/ShapeStyle';
 import { Color } from './colors';
@@ -45,6 +44,7 @@ class CreateToolBar extends React.Component{
                                          {title:cap.createRayLine2Points,id:"RLine",params:{creator:RayLineCreator}},
                                          {title:cap.createSegmentLine2Points,id:"Line",params:{creator:LineCreator}}
                                             ]}
+                                size={'largeSizeButton'}
                                 activeButton={this.props.activeButton}
                                 onClick={this.onClick.bind(this)}
                                 />
@@ -53,6 +53,7 @@ class CreateToolBar extends React.Component{
                                           {title:cap.createCircle2P,id:"Circle2p",params:{creator:Circle2PCreator}},
                                           {title:cap.createCircle3P,id:"Circle3p",params:{creator:Circle3PCreator}}
                                             ]}
+                                size={'largeSizeButton'}
                                 activeButton={this.props.activeButton}
                                 onClick={this.onClick.bind(this)}
                                 />
@@ -60,6 +61,7 @@ class CreateToolBar extends React.Component{
                                 buttons={[{title:cap.createRect,id:"Rect2p",params:{creator:RectangleCreator}},
                                           {title:cap.createRectCenter,id:"RectCenter",params:{creator:null,dev:cap.development}}    
                                             ]}
+                                size={'largeSizeButton'}
                                 activeButton={this.props.activeButton}
                                 onClick={this.onClick.bind(this)}            
                                 />
@@ -68,6 +70,7 @@ class CreateToolBar extends React.Component{
                         {title:cap.createTriangleInscribed,id:"TriangleInscribed",params:{creator:null,dev:cap.development}},
                         {title:cap.createTriangleDescribed,id:"TriangleDescribed",params:{creator:null,dev:cap.development}}
                 ]}
+                size={'largeSizeButton'}
                 activeButton={this.props.activeButton}
                 onClick={this.onClick.bind(this)}
             />
@@ -75,12 +78,14 @@ class CreateToolBar extends React.Component{
                 buttons={[{title:cap.createParabola,id:"Parabola",params:{creator:null,dev:cap.development}},
                         {title:cap.createHyperbola,id:"Hyperbola",params:{creator:null,dev:cap.development}},
                 ]}
+                size={'largeSizeButton'}
                 activeButton={this.props.activeButton}
                 onClick={this.onClick.bind(this)}
             />
             <ToolButtonGroup
                 buttons={[{title:cap.createFunction,id:"Function",params:{creator:null,dev:cap.development}}
                 ]}
+                size={'largeSizeButton'}
                 activeButton={this.props.activeButton}
                 onClick={this.onClick.bind(this)}
             />
@@ -102,7 +107,7 @@ const mapDispatchToProps = dispatch => {
     return {
         cancel:()=>dispatch(ScreenActions.cancel()),
         createNewShape:(creator)=>dispatch(ScreenActions.createNewShape(creator)),
-        setActiveCreateButton:id=>dispatch(setActiveCreateButton(id)),
+        setActiveCreateButton:id=>dispatch(ComponentActions.setActiveCreateButton(id)),
         setScreenStatus:(status,params)=>dispatch(ScreenActions.setScreenStatus(status,params)),
         setCyclicFlag:(flag)=>dispatch(ScreenActions.setCyclicFlag(flag)),
     }

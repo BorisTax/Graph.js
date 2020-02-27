@@ -1,0 +1,36 @@
+#grid{
+    background: url("images/icons/grid-snap.svg")  no-repeat;
+    background-size: cover;
+    
+}
+
+#endpoint{
+    background: url("images/icons/vertex-snap.svg")  no-repeat;
+    background-size: cover;
+}
+#middlepoint{
+    background: url("images/icons/middle-snap.svg")  no-repeat;
+    background-size: cover;
+}
+#centerpoint{
+    background: url("images/icons/center-snap.svg")  no-repeat;
+    background-size: cover;
+}
+#crossSelect{
+    background: url("images/icons/cross-select.svg")  no-repeat;
+    background-size: cover;
+}
+#fullSelect{
+    background: url("images/icons/full-select.svg")  no-repeat;
+    background-size: cover;
+}
+
+#move-enabled{
+    background: url("images/icons/move-enabled.svg")  no-repeat;
+    background-size: cover;
+    
+}
+#move-disabled{
+    background: url("images/icons/move-disabled.svg")  no-repeat;
+    background-size: cover;
+}

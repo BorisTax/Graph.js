@@ -1,5 +1,5 @@
 import {Rectangle} from '../../../utils/geometry';
-import SelectRectShape from '../SelectRectShape';
+import SelectRectShape from '../selection/SelectRectShape';
 import ShapeBuilder from './ShapeBuilder';
 export default class SelectRectCreator extends ShapeBuilder{
     static caption="RectSelection";

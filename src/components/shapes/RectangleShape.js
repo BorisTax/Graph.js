@@ -19,10 +19,7 @@ export default class RectangleShape extends Shape{
     }
 
     drawSelf(ctx, realRect, screenRect) {
-        this.refresh(realRect, screenRect);
-        ctx.strokeStyle=this.getStyle().getColor();
-        ctx.setLineDash(this.getStyle().getStroke());
-        ctx.lineWidth=this.getStyle().getWidth();
+        super.drawSelf(ctx,realRect, screenRect)
         ctx.strokeRect(this.rect.topLeft.x,this.rect.topLeft.y,this.rect.width,this.rect.height);
     }
     refresh(realRect, screenRect){
@@ -46,8 +43,8 @@ export default class RectangleShape extends Shape{
     }
     setActivePoint(key){
         super.setActivePoint()
-        if(key==='P1') {this.controlPoints[0].selected=true;this.controlPoints[0].marker.setActive(true)}
-        if(key==='P2') {this.controlPoints[1].selected=true;this.controlPoints[1].marker.setActive(true)}
+        if(key==='P1') {this.selectPoint(0)}
+        if(key==='P2') {this.selectPoint(1)}
     }
     getProperties(){
         let prop=new Map();

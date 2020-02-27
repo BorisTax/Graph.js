@@ -1,4 +1,3 @@
-import "../Graph.css";
 import React from "react";
 import PickButton from "./PickButton";
 import { Status } from "../reducers/screen";

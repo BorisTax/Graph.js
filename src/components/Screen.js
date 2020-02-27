@@ -1,5 +1,4 @@
 import React from 'react';
-import '../Graph.css';
 import Geometry, {Coord2D, Point2D,Rectangle} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import {Color} from './colors';
@@ -165,43 +164,19 @@ export default class Screen extends React.Component {
         this.drawShape(this.props.xAxe,ctx)
         this.drawShape(this.props.yAxe,ctx)
         let status_bar=`X=${this.props.curCoord.x.toFixed(3)} Y=${this.props.curCoord.y.toFixed(3)} `;
-        let currentShape='';
-        if(this.props.shapeCreator) currentShape=this.props.captions.creators[this.props.shapeCreator.getName()].description;
-        let creationStep='';
-        if(this.props.status===Status.CREATE) 
-            {
-            creationStep=this.props.captions.creators[this.props.shapeCreator.getName()].steps[this.props.shapeCreator.getCurrentStep()];
-            status_bar=status_bar+`${currentShape}: ${creationStep}`;
-            }
-        if(this.props.shapeCreator){
-            let curHelperShapes=null;
-            curHelperShapes=this.props.shapeCreator.getHelperShapes();
-            if(curHelperShapes!=null)
+        const curHelperShapes=this.props.mouseHandler.curHelperShapes;
+        if(curHelperShapes!=null)
             for(let shape of curHelperShapes)
                 this.drawShape(shape, ctx);
-            let curShape=null;
-            curShape=this.props.shapeCreator.getShape();
-            if(curShape!=null) this.drawShape(curShape, ctx);
-        }
-        if(this.props.status===Status.PICK) {
-            creationStep=this.props.captions.pickers[this.props.picker.getName()].steps[this.props.picker.getCurrentStep()];
-            status_bar=status_bar+`${creationStep}`;
-
-             }
-        if(this.props.picker){
-            const pickShape=this.props.picker.getShape();
-            if(pickShape!=null) this.drawShape(pickShape, ctx);   
-            const pickHelperShapes=this.props.picker.getHelperShapes();
-            if(pickHelperShapes!=null)
-            for(let shape of pickHelperShapes)
-                this.drawShape(shape, ctx);
-        }
+        let curShape=this.props.mouseHandler.curShape;
+        if(curShape!=null) this.drawShape(curShape, ctx);
+        
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
                 for(let cp of shape.controlPoints)
                         if(cp.show)this.drawShape(cp.marker,ctx);
             }
-         
+        status_bar=status_bar+this.props.mouseHandler.statusBar;
         ctx.lineWidth=1;
         ctx.setLineDash(ShapeStyle.SOLID);
         ctx.fillStyle="white";
@@ -215,17 +190,15 @@ export default class Screen extends React.Component {
         this.drawCoordinates(ctx);
         ctx.font="12px sans-serif";
         ctx.strokeText(status_bar,this.props.marginLeft,this.props.screenHeight-this.props.statusBar);
-        if(this.props.status!==Status.FREE){
             let marker=this.props.snapMarkersManager.getActiveMarker();
             if(marker!=null) {
                 marker.refresh(this.getRealRect(), this.getScreenRect());
                 this.drawShape(marker.getMarker(), ctx);
             }
-        }
         ctx.lineWidth=1;
-        if(this.props.status===Status.SELECT){
-            this.drawShape(this.props.selectionManager.getSelectionShape(),ctx);
-        }
+        // if(this.props.status===Status.SELECT){
+        //     this.drawShape(this.props.selectionShape.getSelectionShape(),ctx);
+        // }
         if(this.props.mouseHandler.mouseOnScreen)this.drawCursor(ctx);
     }
 
@@ -282,10 +255,13 @@ export default class Screen extends React.Component {
     }
 
     clickHandle(e){
+        let rect=e.target.getBoundingClientRect();
+        this.curPoint.x=e.clientX-rect.left;
+        this.curPoint.y=e.clientY-rect.top;
         if(e.button===0){
-            this.props.mouseHandler.click({screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctrlKey,altKey:e.altKey});
+            this.props.mouseHandler.click({curPoint:this.curPoint,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctrlKey,altKey:e.altKey});
         }
-        this.props.actions.selectShapes(this.props.shapeManager.getSelectedShapes());
+        this.props.actions.selectShapes(this.props.selectionManager.getSelectedShapes());
         e.preventDefault();
     }
 
@@ -333,7 +309,7 @@ export default class Screen extends React.Component {
     }
 
     componentDidUpdate(){
-        this.props.shapeManager.setShapes(this.props.shapes,this.props.selectionType);
+        this.props.selectionManager.setShapes(this.props.shapes,this.props.selectionType);
         this.canvas.style.cursor='none'
         this.paint(this.ctx);
     }

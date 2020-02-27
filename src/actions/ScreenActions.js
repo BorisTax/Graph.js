@@ -1,238 +1,245 @@
-import {Status} from '../reducers/screen';
-export const ScreenActions={
-    ADD_SHAPE : 'ADD_SHAPE',
-    CANCEL : 'CANCEL',
-    CANCEL_SELECTION : 'CANCEL_SELECTION',
-    CENTER_TO_POINT : 'CENTER_TO_POINT',
-    CREATE_SHAPE : 'CREATE_SHAPE',
-    DELETE_CONFIRM:'DELETE_CONFIRM',
-    DELETE_SELECTED_SHAPES : 'DELETE_SELECTED_SHAPES',
-    PAN_SCREEN : 'PAN_SCREEN',
-    PICK : 'PICK',
-    REFRESH_SHAPE_MANAGER : 'REFRESH_SHAPE_MANAGER',
-    REFRESH_SNAP_MARKERS : 'REFRESH_SNAP_MARKERS',
-    REPAINT : 'REPAINT',
-    SELECT_ALL : 'SELECT_ALL',
-    SELECT_SHAPE : 'SELECT_SHAPE',
-    SET_BOUNDED_CIRCLE : 'SET_BOUNDED_CIRCLE',
-    SET_CUR_COORD : 'SET_CUR_COORD',
-    SET_CYCLIC_FLAG : 'SET_CYCLIC_FLAG',
-    SET_DIMENSIONS : 'SET_DIMENSIONS',
-    SET_GRID_SNAP : 'SET_GRID_SNAP',
-    SET_GRID_VISIBLE : 'SET_GRID_VISIBLE',
-    SET_PICKED_DATA : 'SET_PICKED_DATA',
-    SET_PREV_COORD : 'SET_PREV_COORD',
-    SET_PREV_STATUS : 'SET_PREV_STATUS',
-    SET_RATIO : 'SET_RATIO',
-    SET_REAL_WIDTH : 'SET_REAL_WIDTH',
-    SET_SCALE : 'SET_SCALE',
-    SET_SCREEN_CONTEXT : 'SET_SCREEN_CONTEXT',
-    SET_SELECTION_TYPE : 'SET_SELECTION_TYPE',
-    SET_SNAP : 'SET_SNAP',
-    SET_STATUS : 'SET_STATUS',
-    SET_TOP_LEFT : 'SET_TOP_LEFT',
-    START_PICKING : 'START_PICKING',
-    START_SELECTION : 'START_SELECTION',
-
-  addShape:(shape)=>{
+import { Status } from "../reducers/screen";
+export const ScreenActions = {
+  ABORT:'ABORT',
+  ADD_SHAPE: "ADD_SHAPE",
+  CANCEL: "CANCEL",
+  CANCEL_SELECTION: "CANCEL_SELECTION",
+  CENTER_TO_POINT: "CENTER_TO_POINT",
+  CREATE_SHAPE: "CREATE_SHAPE",
+  DELETE_CONFIRM: "DELETE_CONFIRM",
+  DELETE_SELECTED_SHAPES: "DELETE_SELECTED_SHAPES",
+  PAN_SCREEN: "PAN_SCREEN",
+  PICK: "PICK",
+  REFRESH_SELECTION_MANAGER: "REFRESH_SELECTION_MANAGER",
+  REFRESH_SNAP_MARKERS: "REFRESH_SNAP_MARKERS",
+  REPAINT: "REPAINT",
+  SELECT_ALL: "SELECT_ALL",
+  SELECT_SHAPE: "SELECT_SHAPE",
+  SET_BOUNDED_CIRCLE: "SET_BOUNDED_CIRCLE",
+  SET_CUR_COORD: "SET_CUR_COORD",
+  SET_CYCLIC_FLAG: "SET_CYCLIC_FLAG",
+  SET_DIMENSIONS: "SET_DIMENSIONS",
+  SET_GRID_SNAP: "SET_GRID_SNAP",
+  SET_GRID_VISIBLE: "SET_GRID_VISIBLE",
+  SET_PICKED_DATA: "SET_PICKED_DATA",
+  SET_PREV_COORD: "SET_PREV_COORD",
+  SET_PREV_STATUS: "SET_PREV_STATUS",
+  SET_RATIO: "SET_RATIO",
+  SET_REAL_WIDTH: "SET_REAL_WIDTH",
+  SET_SCALE: "SET_SCALE",
+  SET_SCREEN_CONTEXT: "SET_SCREEN_CONTEXT",
+  SET_SELECTION_TYPE: "SET_SELECTION_TYPE",
+  SET_SNAP: "SET_SNAP",
+  SET_STATUS: "SET_STATUS",
+  SET_TOP_LEFT: "SET_TOP_LEFT",
+  START_PICKING: "START_PICKING",
+  START_SELECTION: "START_SELECTION",
+  TRANS_MOVE:"TRANS_MOVE",
+  abort: () => {
     return {
-        type:ScreenActions.ADD_SHAPE,
-        payload:shape
-    }
-},
-  cancel:()=>{
-    return{
-        type:ScreenActions.CANCEL
-    }
-},
-  cancelSelection:()=>{
-    return{
-        type:ScreenActions.CANCEL_SELECTION
-    }
-},
-  centerToPoint:(p)=>{
+      type: ScreenActions.ABORT,
+    };
+  },
+  addShape: shape => {
     return {
-        type:ScreenActions.CENTER_TO_POINT,
-        payload:p
-    }
-},
- createNewShape:(creator)=>{
+      type: ScreenActions.ADD_SHAPE,
+      payload: shape
+    };
+  },
+  cancel: () => {
     return {
-        type: ScreenActions.CREATE_SHAPE,
-        payload:creator,
-    }
-},
- deleteConfirm:()=> {
+      type: ScreenActions.CANCEL
+    };
+  },
+  cancelSelection: () => {
     return {
-        type: ScreenActions.DELETE_CONFIRM,
-    }
-},
- deleteSelectedShapes:() =>{
+      type: ScreenActions.CANCEL_SELECTION
+    };
+  },
+  centerToPoint: p => {
     return {
-        type: ScreenActions.DELETE_SELECTED_SHAPES,
-    }
-},
- refreshShapeManager:()=>{
-    return{
-        type:ScreenActions.REFRESH_SHAPE_MANAGER
-    }
-},
- refreshSnapMarkers:()=>{
-    return{
-        type:ScreenActions.REFRESH_SNAP_MARKERS
-    }
-},
- repaint:()=>{
-    return{
-        type:ScreenActions.REPAINT
-    }
-},
- selectAll:()=> {
+      type: ScreenActions.CENTER_TO_POINT,
+      payload: p
+    };
+  },
+  createNewShape: creator => {
     return {
-        type: ScreenActions.SELECT_ALL
-    }
-},
- selectShapes:(selectedShapes) =>{
+      type: ScreenActions.CREATE_SHAPE,
+      payload: creator
+    };
+  },
+  deleteConfirm: () => {
     return {
-        type: ScreenActions.SELECT_SHAPE,
-        payload: selectedShapes,
-    }
-},
- setBoundedCircle:()=>{
-    return{
-        type:ScreenActions.SET_BOUNDED_CIRCLE
-    }
-},
- setCurCoord:(point,screenPoint)=> {
+      type: ScreenActions.DELETE_CONFIRM
+    };
+  },
+  deleteSelectedShapes: () => {
     return {
-        type: ScreenActions.SET_CUR_COORD,
-        payload: {point,screenPoint},
-    }
-},
- setCyclicFlag:(flag)=> {
+      type: ScreenActions.DELETE_SELECTED_SHAPES
+    };
+  },
+  refreshSelectionManager: () => {
     return {
-        type: ScreenActions.SET_CYCLIC_FLAG,
-        payload: flag,
-    }
-},
- setDimensions:(width,height,realWidth,topLeft)=>{
-    return{
-        type:ScreenActions.SET_DIMENSIONS,
-        payload:{width,height,realWidth,topLeft}
-    }
-},
- setGridSnap:(snap) =>{
+      type: ScreenActions.REFRESH_SELECTION_MANAGER
+    };
+  },
+  refreshSnapMarkers: () => {
     return {
-        type: ScreenActions.SET_GRID_SNAP,
-        payload: snap,
-    }
-},
- setGridVisible:(visible)=>{
+      type: ScreenActions.REFRESH_SNAP_MARKERS
+    };
+  },
+  repaint: () => {
     return {
-        type: ScreenActions.SET_GRID_VISIBLE,
-        payload: visible,
-    }
-},
- setPickedData:(data)=>{
-    return{
-        type:ScreenActions.SET_PICKED_DATA,
-        payload:data
-    }
-},
- setPrevCoord:(point,screenPoint) =>{
+      type: ScreenActions.REPAINT
+    };
+  },
+  selectAll: () => {
     return {
-        type: ScreenActions.SET_PREV_COORD,
-        payload: {point,screenPoint},
-    }
-},
- setPrevStatus:()=>{
-    return{
-        type:ScreenActions.SET_PREV_STATUS,
-    }
-},
- setRatio:(ratio)=>{
-    return{
-        type:ScreenActions.SET_RATIO,
-        payload:ratio
-    }
-},
- setRealWidth:(width)=>{
-    return{
-        type:ScreenActions.SET_REAL_WIDTH,
-        payload:width
-    }
-},
- setScale:(scale,anchor)=>{
-    return{
-        type:ScreenActions.SET_SCALE,
-        payload:{scale,anchor}
-    }
-},
- setScreenContext:(context)=> {
+      type: ScreenActions.SELECT_ALL
+    };
+  },
+  selectShapes: selectedShapes => {
     return {
-        type: ScreenActions.SET_SCREEN_CONTEXT,
-        payload: context,
-    }
-},
-setScreenStatus:(status=Status.FREE,params)=>{
-    let payload=null;
-    let type=null;
-    switch(status){
-        case Status.SELECT:
-            type=ScreenActions.START_SELECTION;
-            break;
-        case Status.CREATE:
-            type=ScreenActions.CREATE_SHAPE;
-            payload={creator:params.creator}
-            break;
-        case Status.CANCEL:
-            type=ScreenActions.CANCEL;
-            break;
-        case Status.PAN:
-            type=ScreenActions.PAN_SCREEN;
+      type: ScreenActions.SELECT_SHAPE,
+      payload: selectedShapes
+    };
+  },
+  setBoundedCircle: () => {
+    return {
+      type: ScreenActions.SET_BOUNDED_CIRCLE
+    };
+  },
+  setCurCoord: (point, screenPoint) => {
+    return {
+      type: ScreenActions.SET_CUR_COORD,
+      payload: { point, screenPoint }
+    };
+  },
+  setCyclicFlag: flag => {
+    return {
+      type: ScreenActions.SET_CYCLIC_FLAG,
+      payload: flag
+    };
+  },
+  setDimensions: (width, height, realWidth, topLeft) => {
+    return {
+      type: ScreenActions.SET_DIMENSIONS,
+      payload: { width, height, realWidth, topLeft }
+    };
+  },
+  setGridSnap: snap => {
+    return {
+      type: ScreenActions.SET_GRID_SNAP,
+      payload: snap
+    };
+  },
+  setGridVisible: visible => {
+    return {
+      type: ScreenActions.SET_GRID_VISIBLE,
+      payload: visible
+    };
+  },
+  setPickedData: data => {
+    return {
+      type: ScreenActions.SET_PICKED_DATA,
+      payload: data
+    };
+  },
+  setPrevCoord: (point, screenPoint) => {
+    return {
+      type: ScreenActions.SET_PREV_COORD,
+      payload: { point, screenPoint }
+    };
+  },
+  setPrevStatus: () => {
+    return {
+      type: ScreenActions.SET_PREV_STATUS
+    };
+  },
+  setRatio: ratio => {
+    return {
+      type: ScreenActions.SET_RATIO,
+      payload: ratio
+    };
+  },
+  setRealWidth: width => {
+    return {
+      type: ScreenActions.SET_REAL_WIDTH,
+      payload: width
+    };
+  },
+  setScale: (scale, anchor) => {
+    return {
+      type: ScreenActions.SET_SCALE,
+      payload: { scale, anchor }
+    };
+  },
+  setScreenContext: context => {
+    return {
+      type: ScreenActions.SET_SCREEN_CONTEXT,
+      payload: context
+    };
+  },
+  setScreenStatus: (status = Status.FREE, params) => {
+    let payload = null;
+    let type = null;
+    switch (status) {
+      case Status.SELECT:
+        type = ScreenActions.START_SELECTION;
         break;
-        case Status.PICK:
-            type=ScreenActions.PICK;
-            payload={picker:params.picker}
-            break;
-        default:
+      case Status.CREATE:
+        type = ScreenActions.CREATE_SHAPE;
+        payload = { creator: params.creator };
+        break;
+      case Status.CANCEL:
+        type = ScreenActions.CANCEL;
+        break;
+      case Status.PAN:
+        type = ScreenActions.PAN_SCREEN;
+        break;
+      case Status.PICK:
+        type = ScreenActions.PICK;
+        payload = { picker: params.picker };
+        break;
+      case Status.MOVETRANS:
+        type = ScreenActions.TRANS_MOVE;
+        //payload = { picker: params.picker };
+        break;
+      default:
     }
     return {
-        type,
-        payload
-    }
-},
- setSelectionType:(selType)=> {
+      type,
+      payload
+    };
+  },
+  setSelectionType: selType => {
     return {
-        type: ScreenActions.SET_SELECTION_TYPE,
-        payload: selType,
-    }
-},
-setSnap:(snapClass,snap)=> {
-    const type=snapClass==='grid'?ScreenActions.SET_GRID_SNAP:ScreenActions.SET_SNAP
-    const payload=snapClass==='grid'?snap:{snapClass:snapClass,snap:snap}
+      type: ScreenActions.SET_SELECTION_TYPE,
+      payload: selType
+    };
+  },
+  setSnap: (snapClass, snap) => {
+    const type =
+      snapClass === "grid"
+        ? ScreenActions.SET_GRID_SNAP
+        : ScreenActions.SET_SNAP;
+    const payload =
+      snapClass === "grid" ? snap : { snapClass: snapClass, snap: snap };
     return {
-        type: type,
-        payload: payload,
-    }
-},
-setTopLeft:(p)=>{
+      type: type,
+      payload: payload
+    };
+  },
+  setTopLeft: p => {
     return {
-        type:ScreenActions.SET_TOP_LEFT,
-        payload:p
-    }
-},
- startPicking:(id,picker)=>{
-    return{
-        type:ScreenActions.START_PICKING,
-        payload:{id,picker}
-    }
-}
-}
-
-
-
-
-
-
-
+      type: ScreenActions.SET_TOP_LEFT,
+      payload: p
+    };
+  },
+  startPicking: (id, picker) => {
+    return {
+      type: ScreenActions.START_PICKING,
+      payload: { id, picker }
+    };
+  }
+};

@@ -2,12 +2,12 @@ import {ScreenActions} from "../actions/ScreenActions";
 import {ShapeActions}  from '../actions/ShapeActions';
 import SelectCursor from "../components/shapes/cursors/SelectCursor";
 import Geometry, { Circle, Coord2D, SLine } from "../utils/geometry";
-import ShapeManager from "../components/shapes/ShapeManager";
+import SelectionManager from "../components/shapes/selection/SelectionManager";
 import DrawCursor from "../components/shapes/cursors/DrawCursor";
 import SLineShape from "../components/shapes/SLineShape";
 import ShapeStyle from "../components/shapes/ShapeStyle";
 import SnapMarkersManager from "../components/shapes/markers/SnapMarkersManager";
-import SelectionManager from "../components/shapes/SelectionManager";
+import SelectionShape from "../components/shapes/selection/SelectionShape";
 import SelectRectCreator from "../components/shapes/shapecreators/SelectRectCreator";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import PickCursor from "../components/shapes/cursors/PickCursor";
@@ -17,6 +17,7 @@ import { StatusPanHandler } from "../handlers/StatusPanHandler";
 import { StatusPickHandler } from "../handlers/StatusPickHandler";
 import { StatusSelectHandler } from "../handlers/StatusSelectHandler";
 import { StatusCreateHandler } from "../handlers/StatusCreateHandler";
+import { MoveHandler } from "../handlers/MoveHandler";
 
 export const Status={
     FREE:'FREE',
@@ -56,11 +57,11 @@ const initialState = {
     screenWidth:550,
     selectedShapes:[],
     selectDist:2,
-    selectionManager:new SelectionManager(SelectRectCreator),
+    selectionShape:new SelectionShape(SelectRectCreator),
     selectionType:'crossSelect',
     shapes:[],
     shapeCreator:null,
-    shapeManager:new ShapeManager(),
+    selectionManager:new SelectionManager(),
     show:{grid:true},
     snap:{snapClass:null,snap:false},
     snapDist:20,snapMinDist:10,
@@ -79,12 +80,32 @@ export function screenReducer(state = initialState,action) {
     let handlerOptions={point:state.curCoord,screenPoint:state.curScreenPoint}
     //delete(handlerOptions.mouseHandler);
     switch (action.type) {
+        case ScreenActions.ABORT:
+            state.shapes.forEach(s=>{
+                s.mockShape=null;})
+            return {...state,
+                status:Status.FREE,
+                //activeTransformButton:'',
+                curShape:null,
+                curHelperShapes:null,
+                shapeCreator:null,
+                picker:null,
+                creationStep:"",
+                currentShape:"",
+                cursor:new SelectCursor(state.curCoord),
+                mouseHandler:new StatusFreeHandler(handlerOptions),
+                repaint:Math.random()}
         case ScreenActions.ADD_SHAPE:
             state.shapes.push(action.payload);
             return{...state};
         case ScreenActions.CANCEL:
+            state.shapes.forEach(s=>{
+                s.setState({selected:false,underCursor:false,highlighted:false,inSelection:false});
+                s.mockShape=null;})
+            //for(const s of state.shapes) s.mockShape=null;
             return {...state,
                 status:Status.FREE,
+                activeTransformButton:'',
                 curShape:null,
                 curHelperShapes:null,
                 shapeCreator:null,
@@ -98,6 +119,7 @@ export function screenReducer(state = initialState,action) {
             state.shapes.forEach(s=>s.setState({selected:false,underCursor:false,highlighted:false,inSelection:false}))
             return {...state,
                 status:Status.FREE,
+                activeTransformButton:'',
                 selectedShapes:[],
                 curShape:null,
                 curHelperShapes:null,
@@ -154,8 +176,8 @@ export function screenReducer(state = initialState,action) {
                 state.snapMarkersManager.addSnapMarkers(s.getMarkers());
             }
             return {...state}
-        case ScreenActions.REFRESH_SHAPE_MANAGER:
-                state.shapeManager=new ShapeManager(state.shapes);
+        case ScreenActions.REFRESH_SELECTION_MANAGER:
+                state.selectionManager=new SelectionManager(state.shapes);
                 return {...state}
         case ScreenActions.REPAINT:
             return {...state,repaint:Math.random()}
@@ -282,6 +304,12 @@ export function screenReducer(state = initialState,action) {
             bc=new Circle(c,r);
             if(state.shapeCreator!=null) state.shapeCreator.refresh(bc);
             return {...state,topLeft,bottomRight,boundedCircle:bc}
+        case ScreenActions.TRANS_MOVE:
+            return{...state,
+                mouseHandler:new MoveHandler(handlerOptions),
+                activeTransformButton:'move',
+                cursor: new DrawCursor()
+            };
         default:
             return state
     }

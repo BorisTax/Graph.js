@@ -1,7 +1,7 @@
-import Geometry,{Rectangle} from '../../utils/geometry';
-import {Color} from '../colors';
-import Shape from "./Shape";
-import ShapeStyle from './ShapeStyle';
+import Geometry,{Rectangle} from '../../../utils/geometry';
+import {Color} from '../../colors';
+import Shape from "../Shape";
+import ShapeStyle from '../ShapeStyle';
 
 export default class SelectRectShape extends Shape{
     constructor(rectangle){

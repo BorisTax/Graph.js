@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import "../Graph.css";
 import { showConfirm } from '../actions/AppActions';
 import { logout } from '../actions/UserActions';
 

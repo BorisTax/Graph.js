@@ -1,5 +1,4 @@
 import React from 'react';
-import '../Graph.css';
 import ToolButton from "./ToolButton";
 
 export default class ToolButtonGroup extends React.Component{
@@ -28,6 +27,8 @@ export default class ToolButtonGroup extends React.Component{
                             onClick={this.props.onClick}
                             activeButtonId={this.props.activeButton}
                             setButtonFirst={this.setButtonFirst.bind(this)}
+                            enabled={true}
+                            size={this.props.size}
                         />);
         let index=1;
         this.props.buttons.forEach((button)=>{
@@ -41,6 +42,8 @@ export default class ToolButtonGroup extends React.Component{
                                     onClick={this.props.onClick}
                                     activeButtonId={this.props.activeButton}
                                     setButtonFirst={this.setButtonFirst.bind(this)}
+                                    enabled={true}
+                                    size={this.props.size}
                                 />);
                     })
         let cls="toolButtonGroup";

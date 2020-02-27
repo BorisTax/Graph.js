@@ -1,5 +1,4 @@
 import React from 'react';
-import "../Graph.css";
 import LangToggleBar from './LangToggleBar';
 import HelpButton from './HelpButton';
 import User from './User';

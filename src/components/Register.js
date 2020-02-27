@@ -1,5 +1,4 @@
 import React from 'react';
-import '../Graph.css';
 import {connect} from 'react-redux';
 import options from '../config'
 import Spinner from './Spinner';

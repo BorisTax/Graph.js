@@ -16,11 +16,8 @@ export default class RayLineShape extends Shape{
           cp.marker=new PointMarker(cp.point,false)
     }
     drawSelf(ctx,realRect, screenRect){
-        this.refresh(realRect,screenRect);
+        super.drawSelf(ctx,realRect, screenRect)
         if(this.p0===null||this.p1===null) return;
-        ctx.strokeStyle=this.getStyle().getColor();
-        ctx.setLineDash(this.getStyle().getStroke());
-        ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
         ctx.moveTo(this.p0.x,this.p0.y);
         ctx.lineTo(this.p1.x,this.p1.y);
@@ -55,8 +52,8 @@ export default class RayLineShape extends Shape{
     }
     setActivePoint(key){
         super.setActivePoint();
-        if(key==='Origin') {this.controlPoints[0].selected=true;this.controlPoints[0].marker.setActive(true)}
-        if(key==='Direction') {this.controlPoints[1].selected=true;this.controlPoints[1].marker.setActive(true)}
+        if(key==='Origin') {this.selectPoint(0)}
+        if(key==='Direction') {this.selectPoint(1)}
     }
     getProperties(){
         let prop=new Map();

@@ -1,4 +1,4 @@
-export default class SelectionManager {
+export default class SelectionShape {
     constructor(creator){
         this.creator=creator;
         this.selectionCreator=new creator();
