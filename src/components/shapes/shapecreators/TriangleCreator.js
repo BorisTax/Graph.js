@@ -4,8 +4,8 @@ import ShapeStyle from '../ShapeStyle';
 import ShapeBuilder from './ShapeBuilder';
 export default class TriangleCreator extends ShapeBuilder{
      static caption="Triangle";
-     constructor(style,boundedCircle){
-        super(boundedCircle)
+     constructor(style,screenOuterCircle){
+        super(screenOuterCircle)
         this.name="TriangleCreator"
         this.style=style;
         this.triangle=new Triangle();
@@ -23,5 +23,5 @@ export default class TriangleCreator extends ShapeBuilder{
         this.shape.setStyle(this.style);
     }
 
-    reset(){return new TriangleCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
+    reset(){return new TriangleCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.screenOuterCircle);}
 }

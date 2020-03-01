@@ -60,7 +60,7 @@ export const captions={
     createFunction:"User defined function",
     development:"(in development)"
   },
-  modify:{
+  selection:{
     crossSelect:"Partial selection",
     fullSelect:"Full selection"
   },

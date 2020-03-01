@@ -9,7 +9,7 @@ class SelectionToolBar extends React.Component{
             this.props.setSelectionType(params.id);
     }
     render(){
-        const cap=this.props.captions.modify;
+        const cap=this.props.captions.selection;
         return <div className={"toolBar"} id="selectionToolBar">
                  
                 <ToolButtonGroup

@@ -40,14 +40,13 @@ export class SLine{
             case(3):this.a=param[0];this.b=param[1];this.c=param[2];break;
             default:
         }
+        this.getYbyX=function(x){
+            if(this.b!==0)return -(this.a*x+this.c)/this.b;else return NaN;
+        }
+        this.getXbyY=function(y){
+            if(this.a!==0)return -(this.b*y+this.c)/this.a;else return NaN;
+        }
     }
-    getYbyX(x){
-        if(this.b!==0)return -(this.a*x+this.c)/this.b;else return NaN;
-    }
-    getXbyY(y){
-        if(this.a!==0)return -(this.b*y+this.c)/this.a;else return NaN;
-    }
-
 }
 
 export class RLine {

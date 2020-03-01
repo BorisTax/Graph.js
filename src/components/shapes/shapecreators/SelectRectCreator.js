@@ -5,8 +5,8 @@ export default class SelectRectCreator extends ShapeBuilder{
     static caption="RectSelection";
     rectangle=new Rectangle();
     points=new Array(2);
-    constructor(style,boundedCircle){
-        super(boundedCircle)
+    constructor(style,screenOuterCircle){
+        super(screenOuterCircle)
         this.name="SelectRectCreator"
         this.shape=new SelectRectShape(this.rectangle);
         this.helperShapes = [];

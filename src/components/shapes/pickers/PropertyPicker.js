@@ -20,8 +20,8 @@ export default class PropertyPicker {
         this.i++;
     }
 
-    refresh(boundedCircle){
-        this.boundedCircle=boundedCircle;
+    refresh(screenOuterCircle){
+        this.screenOuterCircle=screenOuterCircle;
         if(this.points[this.i]!=null) this.setControlPoints();
     }
     setStyle(style){

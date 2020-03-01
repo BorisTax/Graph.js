@@ -6,8 +6,8 @@ import ShapeStyle from "../ShapeStyle";
 import ShapeBuilder from "./ShapeBuilder";
 export default class CircleCRCreator extends ShapeBuilder{
     static caption="Circle by center";
-    constructor(style=ShapeStyle.getDefault(),boundedCircle){
-        super(boundedCircle)
+    constructor(style=ShapeStyle.getDefault(),screenOuterCircle){
+        super(screenOuterCircle)
         this.name="CircleCRCreator"
         this.points=new Array(2);
         this.circle=new Circle(new Coord2D(),0);
@@ -31,5 +31,5 @@ export default class CircleCRCreator extends ShapeBuilder{
         this.helperShapes[0].setStyle(ShapeStyle.HelperShape);
     }
 
-    reset(){return new CircleCRCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
+    reset(){return new CircleCRCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.screenOuterCircle);}
 }

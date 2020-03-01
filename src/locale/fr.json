@@ -1,168 +1,216 @@
-{  
-  "about":{
-    "name":"© Takhmazov Borys, 2018-2019",
-    "email":"E-Mail: tboris1983@gmail.com"
-    },
-    "buttons":{
-      "cancel":"Annuler",
-      "logout":"Sortie",
-      "showPass":"Montrer le mot de passe",
-      "pick":"Choisir"
-    },
-    "registerForm":{
-      "title":"Créer le compte",
-      "name":"Nom",
-      "email":"E-Mail",
-      "password":"Mot de passe",
-      "passwordAgain":"Confirmation du mot de passe",
-      "serverMessages":["","Ce nom d'utilisateur existe déjà","Ce E-Mail d'utilisateur existe déjà","","","Erreur interne du serveur"],
-      "inputMessages":["Longueur du nom trop courte (4 caractères au moins)","Le nom ne peut contenir que des lettres, des chiffres et _",
-                    "Mot de passe trop court (6 caractères au moins)","Les mots de passe ne sont pas égaux","Format de courrier électronique incorrect"]
-    },
-    "loginForm":{
-      "title":"Connexion",
-      "name":"Nom ou E-Mail",
-      "password":"Mot de passe",
-      "regForm":"Créer le compte",
-      "rememberMe":"Souvenir de moi sur cet appareil",
-      "messages":["","Données utilisateur incorrectes","L'utilisateur n'est pas encore activé","","","Erreur interne du serveur"]  
-    },
-    "activation":{
-      "title":"Activation",
-      "messages":["L'activation a réussi. Vous pouvez maintenant vous connecter avec votre identifiant et votre mot de passe.",
-                "Le code d'activation est incorrect ou a expiré","","","","Erreur interne du serveur"]
-    },
-  "title":"Éditeur de géométrie",
-  "messages":{
-    "deleteShapes":"Supprimer les formes sélectionnées?",
-    "logout":"Voulez-vous sortir?",
-    "regSucceed":"L'inscription a réussi. Veuillez vérifier votre mail pour activer votre compte"
+{
+  "about": {
+    "name": "© Takhmazov Borys, 2018-2019",
+    "email": "E-Mail: tboris1983@gmail.com"
   },
-  "create":{
-    "createToolBar":"Créer",
-    "createCheckBox":"Répéter",
-    "createSLine2Points":"Ligne droite",
-    "createRayLine2Points":"Ligne de rayon",
-    "createSegmentLine2Points":"Ligne de segment",
-    "createCircleCenter":"Cercle par centre",
-    "createCircle2P":"Cercle par 2 points",
-    "createCircle3P":"Cercle par 3 points",
-    "createRect":"Rectangle par 2 points",
-    "createRectCenter":"Rectangle par centre",
-    "createTriangle":"Triangle par 3 points",
-    "createTriangleInscribed":"Triangle inscrit en cercle",
-    "createTriangleDescribed":"Triangle décrit autour du cercle",
-    "createParabola":"Parabole",
-    "createHyperbola":"Hyperbole",
-    "createFunction":"Fonction auto définie",
-    "development":"(en développement)"
+  "buttons": {
+    "cancel": "Annuler",
+    "logout": "Sortie",
+    "showPass": "Montrer le mot de passe",
+    "pick": "Choisir"
   },
-  "modify":{
-    "crossSelect":"Sélection partielle",
-    "fullSelect":"Sélection complète"
+  "registerForm": {
+    "title": "Créer le compte",
+    "name": "Nom",
+    "email": "E-Mail",
+    "password": "Mot de passe",
+    "passwordAgain": "Confirmation du mot de passe",
+    "serverMessages": [
+      "",
+      "Ce nom d'utilisateur existe déjà",
+      "Ce E-Mail d'utilisateur existe déjà",
+      "",
+      "",
+      "Erreur interne du serveur"
+    ],
+    "inputMessages": [
+      "Longueur du nom trop courte (4 caractères au moins)",
+      "Le nom ne peut contenir que des lettres, des chiffres et _",
+      "Mot de passe trop court (6 caractères au moins)",
+      "Les mots de passe ne sont pas égaux",
+      "Format de courrier électronique incorrect"
+    ]
   },
-  "snap":{
-    "snapToggleBar":"Snap",
-    "snapGridPoints":"Aligner sur les points de la grille",
+  "loginForm": {
+    "title": "Connexion",
+    "name": "Nom ou E-Mail",
+    "password": "Mot de passe",
+    "regForm": "Créer le compte",
+    "rememberMe": "Souvenir de moi sur cet appareil",
+    "messages": [
+      "",
+      "Données utilisateur incorrectes",
+      "L'utilisateur n'est pas encore activé",
+      "",
+      "",
+      "Erreur interne du serveur"
+    ]
+  },
+  "activation": {
+    "title": "Activation",
+    "messages": [
+      "L'activation a réussi. Vous pouvez maintenant vous connecter avec votre identifiant et votre mot de passe.",
+      "Le code d'activation est incorrect ou a expiré",
+      "",
+      "",
+      "",
+      "Erreur interne du serveur"
+    ]
+  },
+  "title": "Éditeur de géométrie",
+  "messages": {
+    "deleteShapes": "Supprimer les formes sélectionnées?",
+    "logout": "Voulez-vous sortir?",
+    "regSucceed": "L'inscription a réussi. Veuillez vérifier votre mail pour activer votre compte"
+  },
+  "create": {
+    "createToolBar": "Créer",
+    "createCheckBox": "Répéter",
+    "createSLine2Points": "Ligne droite",
+    "createRayLine2Points": "Ligne de rayon",
+    "createSegmentLine2Points": "Ligne de segment",
+    "createCircleCenter": "Cercle par centre",
+    "createCircle2P": "Cercle par 2 points",
+    "createCircle3P": "Cercle par 3 points",
+    "createRect": "Rectangle par 2 points",
+    "createRectCenter": "Rectangle par centre",
+    "createTriangle": "Triangle par 3 points",
+    "createTriangleInscribed": "Triangle inscrit en cercle",
+    "createTriangleDescribed": "Triangle décrit autour du cercle",
+    "createParabola": "Parabole",
+    "createHyperbola": "Hyperbole",
+    "createFunction": "Fonction auto définie",
+    "development": "(en développement)"
+  },
+  "selection": {
+    "crossSelect": "Sélection partielle",
+    "fullSelect": "Sélection complète",
+    "selectedVertexes": {
+      "of": "de",
+      "selected": "Points sélectionnés"
+    }
+  },
+  "snap": {
+    "snapToggleBar": "Snap",
+    "snapGridPoints": "Aligner sur les points de la grille",
     "snapEndPoints": "Aligner sur les points de sommet",
     "snapCenterPoints": "Aligner sur les points centraux",
-    "snapMiddlePoints": "Aligner sur les points médians"},
-  "showGrid":"Afficher la grille",
-  "propBar":"Propriétés",
-  "noShapesSelected":"Aucune forme sélectionnée",
-  "NShapesSelected":" formes sélectionnées",
-  "deleteButton":"Supprimer",
-  "shapes":{
-    "Circle":{
-      "Title":"Cercle",
-      "Radius":"Rayon",
-      "Center":"Centre"
+    "snapMiddlePoints": "Aligner sur les points médians"
+  },
+  "showGrid": "Afficher la grille",
+  "propBar": "Propriétés",
+  "noShapesSelected": "Aucune forme sélectionnée",
+  "NShapesSelected": " formes sélectionnées",
+  "deleteButton": "Supprimer",
+  "shapes": {
+    "Circle": {
+      "0": "Cercle",
+      "1": "Centre",
+      "2": "Rayon"
     },
-    "Rectangle":{
-      "Title":"Rectangle",
-      "P1":"P1",
-      "P2":"P2"
+    "Rectangle": {
+      "0": "Rectangle",
+      "1": "P1",
+      "2": "P2"
     },
-    "Line":{
-      "Title":"Ligne",
-      "P1":"P1",
-      "P2":"P2"
+    "Line": {
+      "0": "Ligne",
+      "1": "P1",
+      "2": "P2"
     },
-    "SLine":{
-      "Title":"Ligne droite AX+BY+C=0",
-      "A":"A",
-      "B":"B",
-      "C":"C"
+    "SLine": {
+      "0": "Ligne droite AX+BY+C=0",
+      "1": "A",
+      "2": "B",
+      "3": "C"
     },
-    "RLine":{
-      "Title":"Ligne de rayon",
-      "Origin":"Origine",
-      "Direction":"Direction"
+    "RLine": {
+      "0": "Ligne de rayon",
+      "1": "Origine",
+      "2": "Direction"
     },
-    "Triangle":{
-      "Title":"Triangle",
-      "P1":"P1",
-      "P2":"P2",
-      "P3":"P3"
+    "Triangle": {
+      "0": "Triangle",
+      "1": "P1",
+      "2": "P2",
+      "3": "P3"
     }
   },
-  "pickers":{
-    "PointPicker":{
-      "description":"",
-      "steps":["Spécifiez le point"]
+  "pickers": {
+    "PointPicker": {
+      "description": "",
+      "steps": ["Spécifiez le point"]
     },
-    "DistancePicker":{
-      "description":"",
-      "steps":["Spécifiez le point premiere","Spécifiez la longueur"]
+    "DistancePicker": {
+      "description": "",
+      "steps": ["Spécifiez le point premiere", "Spécifiez la longueur"]
     }
   },
-  "creators":{
-    "StraightLineCreator":{
-      "description":"Ligne droite",
-      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire"]
+  "creators": {
+    "StraightLineCreator": {
+      "description": "Ligne droite",
+      "steps": ["Spécifiez le point premiere", "Spécifiez le point secondaire"]
     },
-    "RayLineCreator":{
-      "description":"Rayon",
-      "steps":["Spécifiez le point origine","Spécifiez le point de direction"]
+    "RayLineCreator": {
+      "description": "Rayon",
+      "steps": ["Spécifiez le point origine", "Spécifiez le point de direction"]
     },
-    "LineCreator":{
-      "description":"Segment Line",
-      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire"]
+    "LineCreator": {
+      "description": "Segment Line",
+      "steps": ["Spécifiez le point premiere", "Spécifiez le point secondaire"]
     },
-    "CircleCRCreator":{
-      "description":"Cercle",
-      "steps":["Spécifiez le point de centre","Spécifiez le rayon"]
+    "CircleCRCreator": {
+      "description": "Cercle",
+      "steps": ["Spécifiez le point de centre", "Spécifiez le rayon"]
     },
-    "Circle2PCreator":{
-      "description":"Cercle",
-      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire"]
+    "Circle2PCreator": {
+      "description": "Cercle",
+      "steps": ["Spécifiez le point premiere", "Spécifiez le point secondaire"]
     },
-    "Circle3PCreator":{
-      "description":"Cercle",
-      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire","Spécifiez le point troisieme"]
+    "Circle3PCreator": {
+      "description": "Cercle",
+      "steps": [
+        "Spécifiez le point premiere",
+        "Spécifiez le point secondaire",
+        "Spécifiez le point troisieme"
+      ]
     },
-    "RectangleCreator":{
-      "description":"Rectangle",
-      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire"]
+    "RectangleCreator": {
+      "description": "Rectangle",
+      "steps": ["Spécifiez le point premiere", "Spécifiez le point secondaire"]
     },
-    "TriangleCreator":{
-      "description":"Triangle",
-      "steps":["Spécifiez le point premiere","Spécifiez le point secondaire","Spécifiez le point troisieme"]
+    "TriangleCreator": {
+      "description": "Triangle",
+      "steps": [
+        "Spécifiez le point premiere",
+        "Spécifiez le point secondaire",
+        "Spécifiez le point troisieme"
+      ]
     },
-    "SelectRectCreator":{
-      "description":"",
-      "steps":["","Spécifiez le point secondaire de selection"]
+    "SelectRectCreator": {
+      "description": "",
+      "steps": ["", "Spécifiez le point secondaire de selection"]
     }
   },
-  "help":{
-    "title":"Référence",
-    "hotKeys":[
-    {"key":"ESC","desc":"Annuler"},
-    {"key":"Ctrl-A","desc":"Tout sélectionner"},
-    {"key":"Del","desc":"Supprimer sélectionnée"},
-    {"key":"C","desc":"Centre vue à l'origine"},
-    {"key":"Mouse wheel","desc":"Zoom +/-"},
-    {"key":"Mouse middle/right button","desc":"Déplacer l'écran"}
+  "transform": {
+    "move": {
+      "description": "Move",
+      "steps": [
+        "Spécifiez le point de base",
+        "Spécifiez le point à déplacer",
+        ""
+      ]
+    }
+  },
+  "help": {
+    "title": "Référence",
+    "hotKeys": [
+      { "key": "ESC", "desc": "Annuler" },
+      { "key": "Ctrl-A", "desc": "Tout sélectionner" },
+      { "key": "Del", "desc": "Supprimer sélectionnée" },
+      { "key": "C", "desc": "Centre vue à l'origine" },
+      { "key": "Mouse wheel", "desc": "Zoom +/-" },
+      { "key": "Mouse middle/right button", "desc": "Déplacer l'écran" }
     ]
   }
 }

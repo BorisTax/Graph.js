@@ -173,8 +173,6 @@ export default class Screen extends React.Component {
         
         for(let shape of this.props.shapes){
                 this.drawShape(shape,ctx);
-                for(let cp of shape.controlPoints)
-                        if(cp.show)this.drawShape(cp.marker,ctx);
             }
         status_bar=status_bar+this.props.mouseHandler.statusBar;
         ctx.lineWidth=1;

@@ -6,8 +6,8 @@ export default class RectangleCreator extends ShapeBuilder{
     static caption="Rectangle";
     rectangle=new Rectangle();
     points=new Array(2);
-    constructor(style,boundedCircle){
-        super(boundedCircle)
+    constructor(style,screenOuterCircle){
+        super(screenOuterCircle)
         this.name="RectangleCreator"
         this.style=style;
         this.shape=new RectangleShape(this.rectangle);
@@ -22,5 +22,5 @@ export default class RectangleCreator extends ShapeBuilder{
         this.shape.setStyle(this.style);
     }
 
-    reset(){return new RectangleCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
+    reset(){return new RectangleCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.screenOuterCircle);}
 }

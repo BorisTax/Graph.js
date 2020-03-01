@@ -5,11 +5,12 @@ import PropertyField from './PropertyField';
 import PropertyMultField from './PropertyMultField';
 import PropertyEditButtonsBar from './PropertyEditButtonsBar';
 import { ScreenActions } from '../actions/ScreenActions';
+import Shape from './shapes/Shape';
 class PropertyEditorBar extends React.Component{
     prop;
     shape;
-    setProperty(k,v){
-        this.props.setProperty({key:k,value:v});
+    setProperty(key,value,type){
+        this.props.setProperty({key,value,type});
         }
     setActivePoint(key){
         this.shape.setActivePoint(key);
@@ -22,31 +23,35 @@ class PropertyEditorBar extends React.Component{
         let selectedPoints='';
         if(shapes.length===1){
             this.shape=shapes[0];
-            selectedPoints=`${this.shape.getState().selectedPoints} of ${this.shape.controlPoints.length} selected`;
-            this.prop=shapes[0].getProperties();
-            let shapeType=this.prop.get('Title').value;
-            shapeTitle=this.props.captions.shapes[shapeType].Title;
-            for(let key of this.prop.keys()){
-                if(key!=='Title')propElements.push(typeof this.prop.get(key).value==='object'?<PropertyMultField
+            const vertexNumber=this.shape.getProperties().reduce((a,prop)=>prop.type===Shape.PropertyTypes.VERTEX?a+1:a,0);
+            selectedPoints=`${this.props.captions.selection.selectedVertexes.selected} ${this.shape.getState().selectedPoints} ${this.props.captions.selection.selectedVertexes.of} ${vertexNumber}`;
+            this.shapeProps=this.shape.getProperties();
+            let shapeType=this.shapeProps[0].value;
+            shapeTitle=this.props.captions.shapes[shapeType][0];
+            for(let key in this.shapeProps){
+                if(key==="0") continue;
+                if(this.shapeProps[key].type===Shape.PropertyTypes.VERTEX)propElements.push(<PropertyMultField
                                                      key={key}
                                                      propKey={key}
                                                      id={key}
                                                      label={this.props.captions.shapes[shapeType][key]} 
-                                                     value={this.prop.get(key).value}
-                                                     regexp={this.prop.get(key).regexp}
-                                                     selected={this.prop.get(key).selected}
-                                                     picker={this.prop.get(key).picker}
+                                                     value={this.shapeProps[key].value}
+                                                     type={this.shapeProps[key].type}
+                                                     regexp={this.shapeProps[key].regexp}
+                                                     selected={this.shapeProps[key].selected}
+                                                     picker={this.shapeProps[key].picker}
                                                      setProperty={this.setProperty.bind(this)}
-                                                     setActivePoint={this.setActivePoint.bind(this)}  />:
-                                                     <PropertyField 
+                                                     setActivePoint={this.setActivePoint.bind(this)}/>);
+                                        else propElements.push(<PropertyField 
                                                      key={key}
                                                      propKey={key}
                                                      id={key}
                                                      label={this.props.captions.shapes[shapeType][key]} 
-                                                     value={this.prop.get(key).value}
-                                                     regexp={this.prop.get(key).regexp}
-                                                     picker={this.prop.get(key).picker}
-                                                     setProperty={this.setProperty.bind(this)}  />)
+                                                     value={this.shapeProps[key].value}
+                                                     type={this.shapeProps[key].type}
+                                                     regexp={this.shapeProps[key].regexp}
+                                                     picker={this.shapeProps[key].picker}
+                                                     setProperty={this.setProperty.bind(this)}/>);
             }
         }
         if(shapes.length>1){

@@ -1,9 +1,9 @@
 import PointMarker from "../markers/PointMarker";
 
 export default class ShapeBuilder {
-     constructor(boundedCircle){
+     constructor(screenOuterCircle){
         this.i=0;
-        this.boundedCircle=boundedCircle;
+        this.screenOuterCircle=screenOuterCircle;
         this.legal=true;
         this.helperShapes=[];
     }
@@ -24,8 +24,8 @@ export default class ShapeBuilder {
     }
 
     isLegal(){return this.legal}
-    refresh(boundedCircle){
-        this.boundedCircle=boundedCircle;
+    refresh(screenOuterCircle){
+        this.screenOuterCircle=screenOuterCircle;
     }
     setStyle(style){
         this.style=style;

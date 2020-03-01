@@ -58,9 +58,13 @@ export const captions={
     "createFunction":"User defined function",
     "development":"(in development)"
   },
-  "modify":{
+  "selection":{
     "crossSelect":"Partial selection",
-    "fullSelect":"Full selection"
+    "fullSelect":"Full selection",
+    "selectedVertexes":{
+      "of":"of",
+      "selected":"Points selected"
+    }
   },
   "snap":{
     "snapToggleBar":"Snap",
@@ -75,36 +79,36 @@ export const captions={
   "deleteButton":"Delete",
   "shapes":{
     "Circle":{
-      "Title":"Circle",
-      "Radius":"Radius",
-      "Center":"Center"
+      "0":"Circle",
+      "1":"Center",
+      "2":"Radius"
     },
     "Rectangle":{
-      "Title":"Rectangle",
-      "P1":"P1",
-      "P2":"P2"
+      "0":"Rectangle",
+      "1":"P1",
+      "2":"P2"
     },
     "Line":{
-      "Title":"Line",
-      "p0":"P1",
-      "p1":"P2"
+      "0":"Line",
+      "1":"P1",
+      "2":"P2"
     },
     "SLine":{
-      "Title":"Straight Line AX+BY+C=0",
-      "A":"A",
-      "B":"B",
-      "C":"C"
+      "0":"Straight Line AX+BY+C=0",
+      "1":"A",
+      "2":"B",
+      "3":"C"
     },
     "RLine":{
-      "Title":"Ray Line",
-      "Origin":"Origin",
-      "Direction":"Direction"
+      "0":"Ray Line",
+      "1":"Origin",
+      "2":"Direction"
     },
     "Triangle":{
-      "Title":"Triangle",
-      "P1":"P1",
-      "P2":"P2",
-      "P3":"P3"
+      "0":"Triangle",
+      "1":"P1",
+      "2":"P2",
+      "3":"P3"
     }
   },
   "pickers":{
@@ -156,11 +160,14 @@ export const captions={
     }
   },
   "transform":{
-    "move":[
-      "Specify base point",
-      "Specify point to move",
-      ""
-    ],
+    "move":{
+      "description":"Move",
+      "steps":[
+        "Specify base point",
+        "Specify point to move",
+        ""
+      ]
+    }
   },
   "help":{
     "title":"Reference",

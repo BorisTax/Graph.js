@@ -29,7 +29,7 @@ class Body extends React.Component {
 const mapStateToProps = store => {
     return {
             showHelp:store.components.showHelp,
-            showConfirm:store.components.showConfirm,
+            showConfirm:store.screen.showConfirm,
             showAlert:store.components.showAlert,
     }
 };

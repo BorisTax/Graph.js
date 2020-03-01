@@ -7,13 +7,14 @@ import PointPicker from "./pickers/PointPicker";
 export default class RayLineShape extends Shape{
     constructor(line){
         super();
-        this.line=line;
-        this.model=line;
-        this.controlPoints=[
-            {point:this.line.origin,show:false,selected:false},
-            {point:this.line.directionPoint,show:false,selected:false}]
-        for(let cp of this.controlPoints)
-          cp.marker=new PointMarker(cp.point,false)
+        this.model={...line,vector:{x:line.directionPoint.x-line.origin.x,y:line.directionPoint.y-line.origin.y}};
+        this.properties=[
+            {type:Shape.PropertyTypes.STRING,value:'RLine'},
+            {type:Shape.PropertyTypes.VERTEX,value:line.origin,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:Shape.PropertyTypes.VERTEX,value:line.directionPoint,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+        ]
+        for(let p of this.properties)
+          if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
     }
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)
@@ -28,12 +29,14 @@ export default class RayLineShape extends Shape{
         let c=Geometry.midPoint(realRect.topLeft,br);
         let rad=Geometry.distance(realRect.topLeft,br)/2;
         let circle=new Circle(c,rad);
-        let p=Intersection.CircleRLine(circle,this.line);
+        this.model.vector.x=this.model.directionPoint.x-this.model.origin.x;
+        this.model.vector.y=this.model.directionPoint.y-this.model.origin.y;
+        let p=Intersection.CircleRLine(circle,this.model);
         if(p!=null){
             if(p.length===1){
                 let r=p[0];
                 p=new Array(2);
-                p[0]=this.line.origin;
+                p[0]=this.model.origin;
                 p[1]=r;
             }
             this.p0=Geometry.realToScreen(p[0],realRect,screenRect);
@@ -47,52 +50,27 @@ export default class RayLineShape extends Shape{
     }
     getMarkers(){
         let list=[];
-        list.push(new EndSnapMarker(this.line.origin));
+        list.push(new EndSnapMarker(this.model.origin));
         return list;
     }
-    setActivePoint(key){
-        super.setActivePoint();
-        if(key==='Origin') {this.selectPoint(0)}
-        if(key==='Direction') {this.selectPoint(1)}
-    }
-    getProperties(){
-        let prop=new Map();
-        prop.set('Title',{value:'RLine',regexp:/\s*/});
-        prop.set('Origin',{value:{x:this.line.origin.x,y:this.line.origin.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Direction',{value:{x:this.line.origin.x+this.line.vector.x,y:this.line.origin.y+this.line.vector.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
-        return prop;
-    }
-    setProperty(prop){
-        super.setProperty(prop);
-        switch(prop.key){
-            case 'Origin':
-                this.line.origin.x=prop.value.x;
-                this.line.origin.y=prop.value.y;
-                this.line.directionPoint.x=this.line.origin.x+this.line.vector.x;
-                this.line.directionPoint.y=this.line.origin.y+this.line.vector.y;
-                this.controlPoints[0].point=this.line.origin;
-                this.controlPoints[1].point=this.line.directionPoint;
-                break;
-            case 'Direction':
-                this.line.vector.x=prop.value.x-this.line.origin.x;
-                this.line.vector.y=prop.value.y-this.line.origin.y;
-                this.line.directionPoint.x=this.line.origin.x+this.line.vector.x;
-                this.line.directionPoint.y=this.line.origin.y+this.line.vector.y;
-                this.controlPoints[1].point=this.line.directionPoint;
-                break;
-            default:
-        }
-    }
+
+
+    refreshModel(){
+        this.model.origin=this.properties[1].value;
+        this.model.directionPoint=this.properties[2].value;
+        this.model.vector.x=this.model.directionPoint.x-this.model.origin.x;
+        this.model.vector.y=this.model.directionPoint.y-this.model.origin.y;
+     }
     getDistance(point) {
-        return Geometry.PointToRLineDistance(point,this.line);
+        return Geometry.PointToRLineDistance(point,this.model);
     }
     isInRect(topLeft,bottomRight){
         const full=false;
-        const cross=Intersection.RectangleRLine(topLeft,bottomRight,this.line).length>0;
+        const cross=Intersection.RectangleRLine(topLeft,bottomRight,this.model).length>0;
         return {cross,full};    
     }
     toString(){
-        return `Ray origin (${this.line.origin.x},${this.line.origin.y}) vector(${this.line.vector.x},${this.line.vector.y})`;
+        return `Ray origin (${this.model.origin.x},${this.model.origin.y}) vector(${this.model.vector.x},${this.model.vector.y})`;
     }
 
 }

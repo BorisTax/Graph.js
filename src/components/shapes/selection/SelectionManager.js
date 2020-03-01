@@ -1,3 +1,5 @@
+import Shape from "../Shape";
+
 export default class SelectionManager {
     constructor(shapes){
         this.allShapes=shapes;
@@ -24,8 +26,8 @@ export default class SelectionManager {
                 const distances=shape.getDistanceToControlPoints?shape.getDistanceToControlPoints(p):[];
                 let i=0;
                 for(const d of distances){
-                    if(d!==null&&d<=dist) {shape.controlPoints[i].underCursor=true}
-                        else {shape.controlPoints[i].underCursor=false}
+                    if(d!==null&&d<=dist) {shape.properties[i].underCursor=true}
+                        else {shape.properties[i].underCursor=false}
                     i++;
                 }
             }
@@ -35,7 +37,8 @@ export default class SelectionManager {
         for(const shape of this.allShapes){
             if(shape.getState().selected){
                 let selPoints=0;
-                for(const cp of shape.controlPoints){
+                for(const cp of shape.properties){
+                    if(cp.type!==Shape.PropertyTypes.VERTEX) continue;
                     if(!shiftKey&&!altKey) cp.selected=false;
                     if(cp.underCursor) {cp.selected=!altKey}
                     if(cp.selected) selPoints++;

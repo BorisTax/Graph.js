@@ -10,7 +10,13 @@ export class MoveHandler extends MouseHandler {
         super.move({curPoint,screenProps});
         this.snap(screenProps);
         screenProps.actions.setCurCoord(this.coord,this.curPoint);
-        this.statusBar=screenProps.captions.transform.move[this.clickCount]
+        let delta='';
+        if(this.clickCount>0){
+            const dx=this.coord.x-this.basePoint.x;
+            const dy=this.coord.y-this.basePoint.y;
+            delta=`(dx=${dx.toFixed(3)} dy=${dy.toFixed(3)})`;
+        }
+        this.statusBar=`${screenProps.captions.transform.move.steps[this.clickCount]}  ${delta}`
         if(this.clickCount===0) return;
         const x=this.coord.x-this.lastPoint.x;
         const y=this.coord.y-this.lastPoint.y;

@@ -6,8 +6,8 @@ import ShapeStyle from "../ShapeStyle";
 import ShapeBuilder from "./ShapeBuilder";
 export default class Circle2PCreator extends ShapeBuilder{
      static caption="Circle by 2 points";
-     constructor(style,boundedCircle){
-        super(boundedCircle)
+     constructor(style,screenOuterCircle){
+        super(screenOuterCircle)
         this.name="Circle2PCreator"
         this.style=style;
         this.circle=new Circle(new Coord2D(),0);
@@ -30,5 +30,5 @@ export default class Circle2PCreator extends ShapeBuilder{
         this.helperShapes[0]=new LineShape(this.diamLine);
         this.helperShapes[0].setStyle(ShapeStyle.HelperShape);
     }
-    reset(){return new Circle2PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
+    reset(){return new Circle2PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.screenOuterCircle);}
 }

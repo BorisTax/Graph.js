@@ -4,14 +4,14 @@ import {SLine,Coord2D} from "../../../utils/geometry";
 import ShapeBuilder from './ShapeBuilder';
 export default class StraightLineCreator extends ShapeBuilder{
     static caption="Straight line";
-    constructor(style,boundedCircle){
-        super(boundedCircle)
+    constructor(style,screenOuterCircle){
+        super(screenOuterCircle)
         this.name="StraightLineCreator"
         this.points=new Array(2);
         this.points[0]=new Coord2D();
         this.points[1]=new Coord2D();
         this.line=new SLine(0,0,0);
-        //this.boundedCircle=new Circle(new Coord2D(),0);
+        //this.screenOuterCircle=new Circle(new Coord2D(),0);
         this.shape=new SLineShape(this.line);
         this.style=style||ShapeStyle.getDefault();
         this.shape.setStyle(style);
@@ -25,5 +25,5 @@ export default class StraightLineCreator extends ShapeBuilder{
         this.shape=new SLineShape(this.line);
         this.shape.setStyle(this.style);
     }
-    reset(){return new StraightLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
+    reset(){return new StraightLineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.screenOuterCircle);}
 }

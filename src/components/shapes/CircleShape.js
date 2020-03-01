@@ -10,12 +10,15 @@ export default class CircleShape extends Shape{
     constructor(circle){
         super();
         this.p=new Coord2D();
-        this.circle=circle;
         this.model=circle;
         this.setStyle(new ShapeStyle())
-        this.controlPoints=[{point:{...circle.center},show:false,selected:false}];
-        for(let cp of this.controlPoints)
-                cp.marker=new PointMarker(cp.point,false)
+        this.properties=[
+            {type:Shape.PropertyTypes.STRING,value:'Circle'},
+            {type:Shape.PropertyTypes.VERTEX,value:circle.center,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:Shape.PropertyTypes.NUMBER,value:circle.radius,picker:DistancePicker,regexp:Shape.RegExp.POSITIVE_NUMBER},
+        ]
+        for(let p of this.properties)
+            if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
     }
 
     drawSelf(ctx, realRect, screenRect){
@@ -25,98 +28,64 @@ export default class CircleShape extends Shape{
         ctx.stroke();
     }
     refresh(realRect, screenRect){
-        this.screenCenter=Geometry.realToScreen(this.circle.center,realRect,screenRect);
-        this.screenRadius=Geometry.realToScreenLength(this.circle.radius,realRect.width,screenRect.width);
+        this.screenCenter=Geometry.realToScreen(this.model.center,realRect,screenRect);
+        this.screenRadius=Geometry.realToScreenLength(this.model.radius,realRect.width,screenRect.width);
         if(this.activePoint) 
             this.activePointMarker=new PointMarker(this.activePoint)
 
     }
-    setActivePoint(key){
-        super.setActivePoint();
-        if(key==='Center') {this.selectPoint(0)}
-    }
+
     getMarkers(){
         let list=[];
-        list.push(new CenterSnapMarker(this.circle.center));
+        list.push(new CenterSnapMarker(this.model.center));
         return list;
     }
-    getProperties(){
-        let prop=new Map();
-        prop.set('Title',{value:'Circle',regexp:/\s*/});
-        prop.set('Center',{value:{x:this.circle.center.x,y:this.circle.center.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
-        prop.set('Radius',{value:this.circle.radius,picker:DistancePicker,regexp:/^\d*\.?\d*$/});
-        return prop;
-    }
-    setProperty(prop){
-        super.setProperty(prop);
-        switch(prop.key){
-            case 'Center':
-                this.circle.center.x=prop.value.x;
-                this.circle.center.y=prop.value.y;
-                this.controlPoints[0].point=this.circle.center;
-                break;
-            case 'Radius':
-                this.circle.radius=prop.value;
-                break;
-            default:
-        }
-    }
-    move(distance){
-        super.move(distance);
-        this.circle.center={...this.controlPoints[0].point}
-    }
-    
-    createMockShape(){
-        super.createMockShape(new CircleShape({center:{...this.circle.center},radius:this.circle.radius}));
+
+    refreshModel(){
+        this.model.center=this.properties[1].value;
+        this.model.radius=this.properties[2].value;
     }
 
-    applyTransform(){
-        super.applyTransform();
-        this.circle.center=this.controlPoints[0].point
-    }
-    copyShape(){
-        return new CircleShape({center:{...this.controlPoints[0].point},radius:this.circle.radius});
-    }
     getDistance(point) {
-        return Math.abs(Geometry.distance(point,this.circle.center)-this.circle.radius);
+        return Math.abs(Geometry.distance(point,this.model.center)-this.model.radius);
     }
     isInRect(topLeft,bottomRight){
-        const outRectX1=topLeft.x-this.circle.radius;
-        const outRectY1=topLeft.y+this.circle.radius;
-        const outRectX2=bottomRight.x+this.circle.radius;
-        const outRectY2=bottomRight.y-this.circle.radius;
-        const inRectX1=topLeft.x+this.circle.radius;
-        const inRectY1=topLeft.y-this.circle.radius;
-        const inRectX2=bottomRight.x-this.circle.radius;
-        const inRectY2=bottomRight.y+this.circle.radius;
-        const c=this.circle.center;
+        const outRectX1=topLeft.x-this.model.radius;
+        const outRectY1=topLeft.y+this.model.radius;
+        const outRectX2=bottomRight.x+this.model.radius;
+        const outRectY2=bottomRight.y-this.model.radius;
+        const inRectX1=topLeft.x+this.model.radius;
+        const inRectY1=topLeft.y-this.model.radius;
+        const inRectX2=bottomRight.x-this.model.radius;
+        const inRectY2=bottomRight.y+this.model.radius;
+        const c=this.model.center;
         let cross=false;
-        const signs=[Math.sign(Geometry.distance(c,{x:topLeft.x,y:topLeft.y})-this.circle.radius),
-                     Math.sign(Geometry.distance(c,{x:bottomRight.x,y:topLeft.y})-this.circle.radius),
-                     Math.sign(Geometry.distance(c,{x:bottomRight.x,y:bottomRight.y})-this.circle.radius),
-                     Math.sign(Geometry.distance(c,{x:topLeft.x,y:bottomRight.y})-this.circle.radius)];
+        const signs=[Math.sign(Geometry.distance(c,{x:topLeft.x,y:topLeft.y})-this.model.radius),
+                     Math.sign(Geometry.distance(c,{x:bottomRight.x,y:topLeft.y})-this.model.radius),
+                     Math.sign(Geometry.distance(c,{x:bottomRight.x,y:bottomRight.y})-this.model.radius),
+                     Math.sign(Geometry.distance(c,{x:topLeft.x,y:bottomRight.y})-this.model.radius)];
         if(signs.every(x=>x<0)) return {cross:false,full:false};
         let full=Geometry.pointInRectByPoints(c.x,c.y,inRectX1,inRectY1,inRectX2,inRectY2);
         if(full===true) return {cross:false,full:true}
         if(Geometry.pointInRectByPoints(c.x,c.y,outRectX1,outRectY1,outRectX2,outRectY2)){
                 cross=true;
                 if(Geometry.pointInRectByPoints(c.x,c.y,outRectX1,outRectY1,topLeft.x,topLeft.y)){
-                    if(Geometry.distance(c,{x:topLeft.x,y:topLeft.y})>this.circle.radius) cross=false;
+                    if(Geometry.distance(c,{x:topLeft.x,y:topLeft.y})>this.model.radius) cross=false;
                 }
                 if(Geometry.pointInRectByPoints(c.x,c.y,bottomRight.x,outRectY1,outRectX2,topLeft.y)){
-                    if(Geometry.distance(c,{x:bottomRight.x,y:topLeft.y})>this.circle.radius) cross=false;
+                    if(Geometry.distance(c,{x:bottomRight.x,y:topLeft.y})>this.model.radius) cross=false;
                 }
                 if(Geometry.pointInRectByPoints(c.x,c.y,bottomRight.x,bottomRight.y,outRectX2,outRectY2)){
-                    if(Geometry.distance(c,{x:bottomRight.x,y:bottomRight.y})>this.circle.radius) cross=false;
+                    if(Geometry.distance(c,{x:bottomRight.x,y:bottomRight.y})>this.model.radius) cross=false;
                 }
                 if(Geometry.pointInRectByPoints(c.x,c.y,outRectX1,bottomRight.y,topLeft.x,outRectY2)){
-                    if(Geometry.distance(c,{x:topLeft.x,y:bottomRight.y})>this.circle.radius) cross=false;
+                    if(Geometry.distance(c,{x:topLeft.x,y:bottomRight.y})>this.model.radius) cross=false;
                 }
             }
         return {cross:cross,full:false}
     }
     toString(){
-        return "Center("+this.circle.center.x+","+this.circle.center.y+") radius("+this.circle.radius+")";
+        return "Center("+this.model.center.x+","+this.model.center.y+") radius("+this.model.radius+")";
     }
 
 }

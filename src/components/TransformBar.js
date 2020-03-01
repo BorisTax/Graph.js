@@ -8,9 +8,9 @@ import { Status } from '../reducers/screen';
 
 class TransformBar extends React.Component{
     render(){
-        let cap=this.props.captions.snap;
+        let cap=this.props.captions.transform;
         return <div className={"toolBar"}>
-        <ToggleButton title={cap.snapGridPoints}
+        <ToggleButton title={cap.move.description}
                            id={"move"}
                            onDown={[{func:this.props.setStatus,params:[Status.MOVETRANS]}]}
                            onUp={[{func:this.props.cancel,params:[]}]}

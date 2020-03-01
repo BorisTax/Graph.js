@@ -18,7 +18,7 @@ class CreateToolBar extends React.Component{
     onClick({pressed,params}){
         if(!pressed) {
             this.setButtonId(params.id);
-            this.props.createNewShape(new params.creator(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID),this.props.boundedCircle));
+            this.props.createNewShape(new params.creator(new ShapeStyle(Color.BLACK, ShapeStyle.SOLID),this.props.screenOuterCircle));
         }
         else {
            this.setButtonId("");
@@ -97,7 +97,7 @@ class CreateToolBar extends React.Component{
 const mapStateToProps = (store,ownProps) => {
 
     return {
-        boundedCircle:store.screen.boundedCircle,
+        screenOuterCircle:store.screen.screenOuterCircle,
         context:store.screen.context,
         captions:store.options.captions,
         activeButton:store.components.activeCreateButton,

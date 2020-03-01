@@ -1,11 +1,17 @@
-import Geometry,{Circle,Coord2D, Intersection} from "../../utils/geometry";
+import Geometry,{Intersection} from "../../utils/geometry";
 import Shape from "./Shape";
+import DistancePicker from "./pickers/DistancePicker";
 
 export default class SLineShape extends Shape{
     constructor(line){
         super();
-        this.line=line;
         this.model=line;
+        this.properties=[
+            {type:Shape.PropertyTypes.STRING,value:'SLine'},
+            {type:Shape.PropertyTypes.NUMBER,value:line.a,picker:DistancePicker,regexp:Shape.RegExp.NUMBER},
+            {type:Shape.PropertyTypes.NUMBER,value:line.b,picker:DistancePicker,regexp:Shape.RegExp.NUMBER},
+            {type:Shape.PropertyTypes.NUMBER,value:line.c,picker:DistancePicker,regexp:Shape.RegExp.NUMBER}
+        ]
     }
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)
@@ -16,11 +22,9 @@ export default class SLineShape extends Shape{
         ctx.stroke();
     }
     refresh(realRect, screenRect){
-        let br=new Coord2D(realRect.topLeft.x+realRect.width,realRect.topLeft.y-realRect.height);
-        let c=Geometry.midPoint(realRect.topLeft,br);
-        let rad=Geometry.distance(realRect.topLeft,br)/2;
-        let circle=new Circle(c,rad);
-        let p=Intersection.CircleSLine(circle,this.line);
+        let center={x:realRect.topLeft.x+realRect.width/2,y:realRect.topLeft.y-realRect.height/2};
+        let radius=Geometry.distance(realRect.topLeft,center);
+        let p=Intersection.CircleSLine({center,radius},this.model);
         if(p!==null){
             if(p.length===1){
                 let r=this.p[0];
@@ -35,44 +39,34 @@ export default class SLineShape extends Shape{
             this.p1=null;
         }
     }
-    setActivePoint(){
-        this.activePoint=null;
-    }
+
     getMarkers(){
         return null;
     }
-    getProperties(){
-        let prop=new Map();
-        prop.set('Title',{value:'SLine',regexp:/\s*/});
-        prop.set('A',{value:this.line.a,regexp:/^-?\d*\.?\d*$/});
-        prop.set('B',{value:this.line.b,regexp:/^-?\d*\.?\d*$/});
-        prop.set('C',{value:this.line.c,regexp:/^-?\d*\.?\d*$/});
-        return prop;
-    }
-    setProperty(prop){
-        super.setProperty(prop);
-        switch(prop.key){
-            case 'A':
-                if(!(this.line.b===0&&prop.value===0)) this.line.a=prop.value;
-                break;
-            case 'B':
-                if(!(this.line.a===0&&prop.value===0)) this.line.b=prop.value;
-                break;
-            case 'C':
-                this.line.c=prop.value;
-                break;
-            default:
-        }
-    }
-    getDistance(point) {
-        return Geometry.PointToSLineDistance(point,this.line);
+
+    move(distance){
+        //super.move(distance);
+        this.model=Geometry.LineShifted(this.model,distance.x,distance.y);
+        this.properties[1].value=this.model.a;
+        this.properties[2].value=this.model.b;
+        this.properties[3].value=this.model.c;
+     }
+     
+    refreshModel(){
+        this.model.a=this.properties[1].value;
+        this.model.b=this.properties[2].value;
+        this.model.c=this.properties[3].value;
+        
+     }
+    getDistance(point){
+        return Geometry.PointToSLineDistance(point,this.model);
     }
     isInRect(topLeft,bottomRight){
         const full=false;
-        const cross=Intersection.RectangleSLine(topLeft,bottomRight,this.line).length>0;
+        const cross=Intersection.RectangleSLine(topLeft,bottomRight,this.model).length>0;
         return {cross,full};    
     }
     toString(){
-        return `Line ${this.line.a}X+${this.line.b}Y+${this.line.c}=0`;
+        return `Straight Line ${this.model.a}X+${this.model.b}Y+${this.model.c}=0`;
     }
 }

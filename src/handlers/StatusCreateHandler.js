@@ -27,7 +27,7 @@ export class StatusCreateHandler extends MouseHandler {
             screenProps.actions.refreshSnapMarkers();
             screenProps.actions.refreshSelectionManager();
             if(screenProps.cyclicCreation){
-                screenProps.actions.createShape(screenProps.shapeCreator.reset(screenProps.boundedCircle));
+                screenProps.actions.createShape(screenProps.shapeCreator.reset(screenProps.screenOuterCircle));
             }else {
                 screenProps.actions.cancel();
             }

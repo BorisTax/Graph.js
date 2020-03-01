@@ -5,8 +5,8 @@ import ShapeStyle from "../ShapeStyle";
 import ShapeBuilder from "./ShapeBuilder";
 export default class Circle3PCreator extends ShapeBuilder{
     static caption="Circle by 3 points";
-    constructor(style,boundedCircle){
-        super(boundedCircle)
+    constructor(style,screenOuterCircle){
+        super(screenOuterCircle)
         this.name="Circle3PCreator"
         this.style=style;
         this.circle=new Circle(new Coord2D(),0);
@@ -31,9 +31,9 @@ export default class Circle3PCreator extends ShapeBuilder{
         this.helperShapes[0].setStyle(ShapeStyle.HelperShape);
     }
 
-    reset(){return new Circle3PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
-    refresh(boundedCircle){
-        this.boundedCircle=boundedCircle;
+    reset(){return new Circle3PCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.screenOuterCircle);}
+    refresh(screenOuterCircle){
+        this.screenOuterCircle=screenOuterCircle;
         if(this.points[this.i]!=null) this.setControlPoints();
     }
 

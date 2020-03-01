@@ -10,6 +10,7 @@ import SnapMarkersManager from "../components/shapes/markers/SnapMarkersManager"
 import SelectionShape from "../components/shapes/selection/SelectionShape";
 import SelectRectCreator from "../components/shapes/shapecreators/SelectRectCreator";
 import DragCursor from "../components/shapes/cursors/DragCursor";
+import MoveCursor from "../components/shapes/cursors/MoveCursor";
 import PickCursor from "../components/shapes/cursors/PickCursor";
 import { Color } from "../components/colors";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
@@ -18,6 +19,7 @@ import { StatusPickHandler } from "../handlers/StatusPickHandler";
 import { StatusSelectHandler } from "../handlers/StatusSelectHandler";
 import { StatusCreateHandler } from "../handlers/StatusCreateHandler";
 import { MoveHandler } from "../handlers/MoveHandler";
+import { AppActions } from "../actions/AppActions";
 
 export const Status={
     FREE:'FREE',
@@ -37,7 +39,7 @@ yAxeShape.setStyle(new ShapeStyle(Color.RED,ShapeStyle.SOLID));
 
 const initialState = {
     bottomRight:{x:10,y:-10},
-    boundedCircle:new Circle({x:0,y:0},20),
+    screenOuterCircle:new Circle({x:0,y:0},20),
     curCoord:{x:0,y:0},
     curScreenPoint:{x:225,y:225},
     cursor:new SelectCursor({x:0,y:0}),
@@ -61,6 +63,7 @@ const initialState = {
     selectionType:'crossSelect',
     shapes:[],
     shapeCreator:null,
+    showConfirm:{show:false,message:""},
     selectionManager:new SelectionManager(),
     show:{grid:true},
     snap:{snapClass:null,snap:false},
@@ -76,6 +79,7 @@ const initialState = {
 //initialState.mouseHandler=new StatusFreeHandler({selectDist:initialState.selectDist,pixelRatio:initialState.pixelRatio});
 initialState.mouseHandler=new StatusFreeHandler({point:initialState.curCoord,screenPoint:initialState.curScreenPoint});
 export function screenReducer(state = initialState,action) {
+    const newState={...state}
     var tl,c,br,bc,params,rh,r;
     let handlerOptions={point:state.curCoord,screenPoint:state.curScreenPoint}
     //delete(handlerOptions.mouseHandler);
@@ -138,7 +142,7 @@ export function screenReducer(state = initialState,action) {
             br={}
             br.x=tl.x+state.realWidth;
             br.y=tl.y-state.realHeight;        
-            //new boundedCircle
+            //new screenOuterCircle
             c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,tl,br);
             r=Math.sqrt(state.realWidth*state.realWidth+state.realHeight*state.realHeight)/2;
             bc=new Circle(c,r);
@@ -196,7 +200,10 @@ export function screenReducer(state = initialState,action) {
             r=Math.sqrt(state.realWidth*state.realWidth+state.realHeight*state.realHeight)/2;
             bc=new Circle(c,r);
             if(state.shapeCreator!=null) state.shapeCreator.refresh(bc);
-            return{...state,boundedCircle:bc}
+            return{...state,screenOuterCircle:bc}
+        case ScreenActions.DELETE_CONFIRM:
+            if(state.shapes.some(s=>s.state.selected)) newState.showConfirm={show:true,messageKey:"deleteShapes",okAction:ScreenActions.deleteSelectedShapes.bind(null,false)}
+            return{...newState}    
         case ScreenActions.SET_DIMENSIONS:
             params=action.payload;
             rh=params.height*params.realWidth/params.width
@@ -217,6 +224,8 @@ export function screenReducer(state = initialState,action) {
             return{...state,gridSnap:action.payload};
         case ScreenActions.SET_GRID_VISIBLE:
             return{...state,show:{grid:action.payload}};
+        case AppActions.SHOW_CONFIRM:
+            return {...state,showConfirm:action.payload};  
         case ScreenActions.START_PICKING:
             return {...state,
                 status:Status.PICK,
@@ -242,7 +251,7 @@ export function screenReducer(state = initialState,action) {
             }
         case ShapeActions.SET_PROPERTY:
             for(let shape of state.selectedShapes){
-               if(shape.getProperties().has(action.payload.key)) shape.setProperty({key:action.payload.key,value:action.payload.value});
+               shape.setProperty({...action.payload});
             }
             return{...state}
         case ScreenActions.SET_RATIO:
@@ -266,7 +275,7 @@ export function screenReducer(state = initialState,action) {
             br={}
             br.x=tl.x+params.realWidth;
             br.y=tl.y-params.realHeight;
-            //new boundedCircle
+            //new screenOuterCircle
             c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,tl,br);
             r=Math.sqrt(params.realWidth*params.realWidth+params.realHeight*params.realHeight)/2;
             bc=new Circle(c,r);
@@ -279,7 +288,7 @@ export function screenReducer(state = initialState,action) {
                     if(params.gridStep>0.001) params.gridStep=params.gridStep/10;
                             params.gridStepPixels=Math.round(params.gridStep/params.pixelRatio);
             var pr=params.realWidth/state.screenWidth;
-            return {...state,...params,topLeft:tl,bottomRight:br,boundedCircle:bc,pixelRatio:pr}
+            return {...state,...params,topLeft:tl,bottomRight:br,screenOuterCircle:bc,pixelRatio:pr}
         case ScreenActions.SET_SCREEN_CONTEXT:
             return{...state,context:action.payload};
         case ScreenActions.SET_SELECTION_TYPE:
@@ -298,17 +307,17 @@ export function screenReducer(state = initialState,action) {
             var bottomRight={};
             bottomRight.x=topLeft.x+state.realWidth;
             bottomRight.y=topLeft.y-state.realHeight;
-            //boundedCircle
+            //screenOuterCircle
             c=Geometry.midPoint(topLeft,bottomRight);
             r=Geometry.distance(topLeft,c);
             bc=new Circle(c,r);
             if(state.shapeCreator!=null) state.shapeCreator.refresh(bc);
-            return {...state,topLeft,bottomRight,boundedCircle:bc}
+            return {...state,topLeft,bottomRight,screenOuterCircle:bc}
         case ScreenActions.TRANS_MOVE:
             return{...state,
                 mouseHandler:new MoveHandler(handlerOptions),
                 activeTransformButton:'move',
-                cursor: new DrawCursor()
+                cursor: new MoveCursor()
             };
         default:
             return state

@@ -11,11 +11,11 @@ class PropertyField extends React.Component{
     }
     change(e){
         let v=e.target.value;
-        const r=this.props.regexp;
-        const corr=v.match(r)!=null;
-        if(corr)this.setState({value:v,prevValue:v}); 
-          else
-          this.setState({value:v===''?'':this.state.prevValue})
+        // const r=this.props.regexp;
+        // const corr=v.match(r)!=null;
+        // if(corr)this.setState({value:+v,prevValue:+v}); 
+        //   else
+        this.setState({value:v})
     }
     blur(){
         this.setState({value:this.state.originValue})
@@ -24,11 +24,11 @@ class PropertyField extends React.Component{
     onKeyPress(e){
         if(e.charCode===13){
             let v=e.target.value;
-            v=v===''?"0":v;
+            //v=v===''?"0":v;
             const r=this.props.regexp;
             if(v.match(r)!==null) {
                 const n=Number.parseFloat(v);
-                this.props.setProperty(this.props.propKey,n);
+                this.props.setProperty(this.props.propKey,n,this.props.type);
                 this.setState({value:n,correct:true,prevValue:n});
                 return;
                 }
@@ -38,23 +38,25 @@ class PropertyField extends React.Component{
         
     }
     static getDerivedStateFromProps(nextProps,prevState){
-        let value=(nextProps.status===Status.PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue:prevState.value;
-        value=(+value).toFixed(4)
+        let value=(nextProps.status===Status.PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue.value:prevState.value;
+        //value=(+value).toFixed(4)
         return {...nextProps,value:value,originValue:nextProps.value,correct:true};
     }
     componentDidUpdate(){
         if(this.props.status===Status.PICK_END&&this.props.propKey===this.props.editId) {
-           this.props.setProperty(this.props.propKey,+this.state.value)
-           this.props.cancel();
+           this.props.setProperty(this.props.propKey,+this.state.value,this.props.type)
+           this.props.abort();
         }
     }
     render(){
+        const v=this.state.value;
+        const [value,correct]=isNaN(+v)?[v,false]:v===""?[v,false]:[(+v).round4(),true];
         return <div className={"noselect"}>
             <div style={{display:'flex',flexDirection:'row',alignContent:'center'}}>
-            {this.props.label}
-            <input style={!this.state.correct?{backgroundColor:'red'}:{}}
+            <span style={{color:this.props.selected?"red":"black",marginRight:"5px"}}>{this.props.label}</span>
+            <input style={!correct?{backgroundColor:'red'}:{}}
                 className='propertyField'
-                type="text" value={this.state.value} 
+                type="text" value={value} 
                 id={this.props.label}
                 onChange={this.change.bind(this)}
                 onKeyPress={this.onKeyPress.bind(this)}
@@ -85,6 +87,7 @@ const mapDispatchToProps=(dispatch)=>{
         startPicking:(id,picker)=>dispatch(ScreenActions.startPicking(id,picker)),
         setPickedData:data=>dispatch(ScreenActions.setPickedData(data)),
         cancel:()=>dispatch(ScreenActions.cancel()),
+        abort:()=>dispatch(ScreenActions.abort()),
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(PropertyField)

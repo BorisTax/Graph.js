@@ -6,16 +6,17 @@ import PointMarker from './markers/PointMarker';
 import PointPicker from './pickers/PointPicker';
 
 export default class RectangleShape extends Shape{
-    constructor(rectangle){
+    constructor(model){
         super();
-        this.rectangle=rectangle;
-        this.model=rectangle;
+        this.model=model;
         this.rect=new Rectangle()
-        this.controlPoints=[
-            {point:this.rectangle.topLeft,show:false,selected:false},
-            {point:this.rectangle.bottomRight,show:false,selected:false}]
-        for(let cp of this.controlPoints)
-          cp.marker=new PointMarker(cp.point,false)
+        this.properties=[
+            {type:Shape.PropertyTypes.STRING,value:'Rectangle'},
+            {type:Shape.PropertyTypes.VERTEX,value:model.topLeft,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:Shape.PropertyTypes.VERTEX,value:model.bottomRight,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+        ]
+        for(let p of this.properties)
+          if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
     }
 
     drawSelf(ctx, realRect, screenRect) {
@@ -23,59 +24,36 @@ export default class RectangleShape extends Shape{
         ctx.strokeRect(this.rect.topLeft.x,this.rect.topLeft.y,this.rect.width,this.rect.height);
     }
     refresh(realRect, screenRect){
-        this.rect.topLeft=Geometry.realToScreen(this.rectangle.topLeft,realRect,screenRect);
-        this.rect.width=Geometry.realToScreenLength(this.rectangle.width,realRect.width,screenRect.width);
-        this.rect.height=Geometry.realToScreenLength(this.rectangle.height,realRect.height,screenRect.height);
-        if(this.activePoint) 
-            this.activePointMarker=new PointMarker(this.activePoint)
+        this.rect.topLeft=Geometry.realToScreen(this.model.topLeft,realRect,screenRect);
+        this.rect.width=Geometry.realToScreenLength(this.model.width,realRect.width,screenRect.width);
+        this.rect.height=Geometry.realToScreenLength(this.model.height,realRect.height,screenRect.height);
+        // if(this.activePoint) 
+        //     this.activePointMarker=new PointMarker(this.activePoint)
     }
     getMarkers(){
         let list=[];
-        list.push(new EndSnapMarker(this.rectangle.topLeft));
-        list.push(new EndSnapMarker(new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y)));
-        list.push(new EndSnapMarker(new Coord2D(this.rectangle.topLeft.x,this.rectangle.topLeft.y-this.rectangle.height)));
-        list.push(new EndSnapMarker(new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y-this.rectangle.height)));
-        list.push(new MiddleSnapMarker(Geometry.midPoint(this.rectangle.topLeft,new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y))));
-        list.push(new MiddleSnapMarker(Geometry.midPoint(new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y),new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y-this.rectangle.height))));
-        list.push(new MiddleSnapMarker(Geometry.midPoint(new Coord2D(this.rectangle.topLeft.x+this.rectangle.width,this.rectangle.topLeft.y-this.rectangle.height),new Coord2D(this.rectangle.topLeft.x,this.rectangle.topLeft.y-this.rectangle.height))));
-        list.push(new MiddleSnapMarker(Geometry.midPoint(new Coord2D(this.rectangle.topLeft.x,this.rectangle.topLeft.y-this.rectangle.height),this.rectangle.topLeft)));
+        list.push(new EndSnapMarker(this.model.topLeft));
+        list.push(new EndSnapMarker(new Coord2D(this.model.topLeft.x+this.model.width,this.model.topLeft.y)));
+        list.push(new EndSnapMarker(new Coord2D(this.model.topLeft.x,this.model.topLeft.y-this.model.height)));
+        list.push(new EndSnapMarker(new Coord2D(this.model.topLeft.x+this.model.width,this.model.topLeft.y-this.model.height)));
+        list.push(new MiddleSnapMarker(Geometry.midPoint(this.model.topLeft,new Coord2D(this.model.topLeft.x+this.model.width,this.model.topLeft.y))));
+        list.push(new MiddleSnapMarker(Geometry.midPoint(new Coord2D(this.model.topLeft.x+this.model.width,this.model.topLeft.y),new Coord2D(this.model.topLeft.x+this.model.width,this.model.topLeft.y-this.model.height))));
+        list.push(new MiddleSnapMarker(Geometry.midPoint(new Coord2D(this.model.topLeft.x+this.model.width,this.model.topLeft.y-this.model.height),new Coord2D(this.model.topLeft.x,this.model.topLeft.y-this.model.height))));
+        list.push(new MiddleSnapMarker(Geometry.midPoint(new Coord2D(this.model.topLeft.x,this.model.topLeft.y-this.model.height),this.model.topLeft)));
         return list;
     }
-    setActivePoint(key){
-        super.setActivePoint()
-        if(key==='P1') {this.selectPoint(0)}
-        if(key==='P2') {this.selectPoint(1)}
-    }
-    getProperties(){
-        let prop=new Map();
-        prop.set('Title',{value:'Rectangle',regexp:/\s*/});
-        prop.set('P1',{value:{x:this.rectangle.topLeft.x,y:this.rectangle.topLeft.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
-        prop.set('P2',{value:{x:this.rectangle.bottomRight.x,y:this.rectangle.bottomRight.y},picker:PointPicker,regexp:/^-?\d*\.?\d*$/});
-        return prop;
-    }
-    setProperty(prop){
-        super.setProperty(prop);
-        switch(prop.key){
-            case 'P1':
-                this.rectangle.topLeft.x=prop.value.x;
-                this.rectangle.topLeft.y=prop.value.y;
-                this.controlPoints[0].point=this.rectangle.topLeft;
-                break;
-            case 'P2':
-                this.rectangle.bottomRight.x=prop.value.x;
-                this.rectangle.bottomRight.y=prop.value.y;
-                this.controlPoints[1].point=this.rectangle.bottomRight;
-                break;
-            default:
-        }
-        this.rectangle.width=this.rectangle.bottomRight.x-this.rectangle.topLeft.x;
-        this.rectangle.height=this.rectangle.topLeft.y-this.rectangle.bottomRight.y;
+
+    refreshModel(){
+        this.model.topLeft=this.properties[1].value;
+        this.model.bottomRight=this.properties[2].value;
+        this.model.width=this.model.bottomRight.x-this.model.topLeft.x;
+        this.model.height=this.model.topLeft.y-this.model.bottomRight.y;
     }
     getDistance(point) {
-        let tl=this.rectangle.topLeft;
-        let tr=new Coord2D(tl.x+this.rectangle.width,tl.y);
-        let bl=new Coord2D(tl.x,tl.y-this.rectangle.height);
-        let br=new Coord2D(tl.x+this.rectangle.width,tl.y-this.rectangle.height);
+        let tl=this.model.topLeft;
+        let tr=new Coord2D(tl.x+this.model.width,tl.y);
+        let bl=new Coord2D(tl.x,tl.y-this.model.height);
+        let br=new Coord2D(tl.x+this.model.width,tl.y-this.model.height);
         let top=new Line(tl,tr);
         let bottom=new Line(bl,br);
         let right=new Line(tr,br);
@@ -86,10 +64,10 @@ export default class RectangleShape extends Shape{
         Geometry.PointToLineDistance(point,right));
     }
     isInRect(topLeft,bottomRight){
-        const inRect=[Geometry.pointInRect(this.rectangle.topLeft,topLeft,bottomRight),
-                        Geometry.pointInRect(this.rectangle.bottomRight,topLeft,bottomRight)];
+        const inRect=[Geometry.pointInRect(this.model.topLeft,topLeft,bottomRight),
+                        Geometry.pointInRect(this.model.bottomRight,topLeft,bottomRight)];
         const full=inRect.every(i=>i===true);
-        const cross=Intersection.RectangleRectangle(topLeft,bottomRight,this.rectangle.topLeft,this.rectangle.bottomRight).length>0;
+        const cross=Intersection.RectangleRectangle(topLeft,bottomRight,this.model.topLeft,this.model.bottomRight).length>0;
         return {cross,full};    
     }
     toString(){

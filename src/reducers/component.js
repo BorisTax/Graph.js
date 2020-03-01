@@ -41,12 +41,8 @@ export function componentReducer(state=initialState,action) {
             return{...state} 
         case AppActions.SHOW_HELP:
             return {...state,showHelp:data};  
-        case AppActions.SHOW_CONFIRM:
-            return {...state,showConfirm:data};  
         case AppActions.SHOW_ALERT:
             return {...state,showAlert:data}; 
-        case ScreenActions.DELETE_CONFIRM:
-           return{...state,showConfirm:{show:true,messageKey:"deleteShapes",okAction:ScreenActions.deleteSelectedShapes.bind(null,false)}}    
         case ScreenActions.TRANS_MOVE:
             return{...state,
                 activeTransformButton:'move',

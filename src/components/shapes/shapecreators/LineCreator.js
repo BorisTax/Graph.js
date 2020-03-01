@@ -4,8 +4,8 @@ import {Line,Coord2D} from "../../../utils/geometry";
 import ShapeBuilder from './ShapeBuilder';
 export default class LineCreator extends ShapeBuilder{
     static caption="Segment line";
-    constructor(style=ShapeStyle.getDefault(),boundedCircle){
-        super(boundedCircle)
+    constructor(style=ShapeStyle.getDefault(),screenOuterCircle){
+        super(screenOuterCircle)
         this.name="LineCreator"
         this.line=new Line(new Coord2D(),new Coord2D());
         this.points=[new Coord2D(),new Coord2D()];
@@ -23,5 +23,5 @@ export default class LineCreator extends ShapeBuilder{
         this.shape.setStyle(this.style);
     }
 
-    reset(){return new LineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.boundedCircle);}
+    reset(){return new LineCreator(new ShapeStyle(this.style.getColor(),this.style.getType()),this.screenOuterCircle);}
 }
