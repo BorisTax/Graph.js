@@ -17,8 +17,8 @@ export default class SLineShape extends Shape{
         super.drawSelf(ctx,realRect, screenRect)
         if(this.p0===null||this.p1===null)return;
         ctx.beginPath();
-        ctx.moveTo(this.p0.x,this.p0.y);
-        ctx.lineTo(this.p1.x,this.p1.y);
+        ctx.moveTo(this.p0.x+0.5,this.p0.y+0.5);
+        ctx.lineTo(this.p1.x+0.5,this.p1.y+0.5);
         ctx.stroke();
     }
     refresh(realRect, screenRect){

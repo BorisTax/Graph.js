@@ -74,8 +74,8 @@ export default class Screen extends React.Component {
 
                 if(this.props.show.grid) {
                     ctx.beginPath();
-                    ctx.moveTo(px.x, 0);
-                    ctx.lineTo(px.x, this.props.screenHeight);
+                    ctx.moveTo(px.x+0.5, 0.5);
+                    ctx.lineTo(px.x+0.5, this.props.screenHeight+0.5);
                     ctx.stroke();
                 }
                 this.gridPointsX[ix]=px.x;
@@ -91,8 +91,8 @@ export default class Screen extends React.Component {
                 yGridLineNumber--;
                 if(this.props.show.grid) {
                     ctx.beginPath();
-                    ctx.moveTo(0, py.y);
-                    ctx.lineTo(this.props.screenWidth, py.y);
+                    ctx.moveTo(0.5, py.y+0.5);
+                    ctx.lineTo(this.props.screenWidth+0.5, py.y+0.5);
                     ctx.stroke();
                 }
                 this.gridPointsY[iy]=py.y;
