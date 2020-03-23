@@ -22,7 +22,7 @@ export default class PointMarker extends Shape {
         ctx.fillStyle=this.getStyle().getColor();
         ctx.lineWidth=this.getStyle().getWidth();
         ctx.beginPath();
-        ctx.arc(this.center.x,this.center.y,this.radius,0,2*Math.PI);
+        ctx.arc(this.center.x+0.5,this.center.y+0.5,this.radius,0,2*Math.PI);
         ctx.fill();
     }
     refresh(realRect, screenRect){

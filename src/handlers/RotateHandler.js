@@ -1,7 +1,8 @@
 import { MouseHandler } from "./MouseHandler";
-import DistanceShape from "../components/shapes/helpers/DistanceShape";
+import LineShape from "../components/shapes/LineShape";
+import ShapeStyle from "../components/shapes/ShapeStyle";
 
-export class MoveHandler extends MouseHandler {
+export class RotateHandler extends MouseHandler {
     constructor({point,curScreenPoint}){
         super({point,curScreenPoint});
     }
@@ -30,7 +31,7 @@ export class MoveHandler extends MouseHandler {
     click({curPoint, screenProps}){
         super.click({curPoint,screenProps})
         this.lastPoint={...this.coord};
-        if(this.clickCount===2){
+        if(this.clickCount===3){
             for(let s of screenProps.shapes){
                 if(s.getState().selected){
                     s.applyTransform();
@@ -46,8 +47,8 @@ export class MoveHandler extends MouseHandler {
                 s.createMockShape();
             }
             this.basePoint={...this.coord}
-            this.curShape=new DistanceShape({p1:this.basePoint,p2:this.coord});
-            //this.curShape.setStyle(ShapeStyle.HelperShape);
+            this.curShape=new LineShape({p1:this.basePoint,p2:this.coord});
+            this.curShape.setStyle(ShapeStyle.HelperShape);
         }
         
     }

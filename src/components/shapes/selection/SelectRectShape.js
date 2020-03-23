@@ -16,7 +16,7 @@ export default class SelectRectShape extends Shape{
         ctx.strokeStyle=this.getStyle().getColor();
         ctx.setLineDash(this.getStyle().getStroke());
         ctx.lineWidth=this.getStyle().getWidth();
-        ctx.strokeRect(this.rect.topLeft.x,this.rect.topLeft.y,this.rect.width,this.rect.height);
+        ctx.strokeRect(this.rect.topLeft.x+0.5,this.rect.topLeft.y+0.5,this.rect.width,this.rect.height);
     }
     refresh(realRect, screenRect){
         this.rect.topLeft=Geometry.realToScreen(this.rectangle.topLeft,realRect,screenRect);

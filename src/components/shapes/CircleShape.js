@@ -24,7 +24,7 @@ export default class CircleShape extends Shape{
     drawSelf(ctx, realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)
         ctx.beginPath();
-        ctx.arc(this.screenCenter.x,this.screenCenter.y,this.screenRadius,0,2*Math.PI);
+        ctx.arc(this.screenCenter.x+0.5,this.screenCenter.y+0.5,this.screenRadius,0,2*Math.PI);
         ctx.stroke();
     }
     refresh(realRect, screenRect){

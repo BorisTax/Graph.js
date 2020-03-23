@@ -22,10 +22,10 @@ export default class TriangleShape extends Shape{
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)
         ctx.beginPath();
-        ctx.moveTo(this.p[0].x,this.p[0].y);
-        ctx.lineTo(this.p[1].x,this.p[1].y);
-        ctx.lineTo(this.p[2].x,this.p[2].y);
-        ctx.lineTo(this.p[0].x,this.p[0].y);
+        ctx.moveTo(this.p[0].x+0.5,this.p[0].y+0.5);
+        ctx.lineTo(this.p[1].x+0.5,this.p[1].y+0.5);
+        ctx.lineTo(this.p[2].x+0.5,this.p[2].y+0.5);
+        ctx.lineTo(this.p[0].x+0.5,this.p[0].y+0.5);
         ctx.stroke();
     }
     refresh(realRect, screenRect){

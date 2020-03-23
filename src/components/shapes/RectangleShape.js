@@ -21,7 +21,7 @@ export default class RectangleShape extends Shape{
 
     drawSelf(ctx, realRect, screenRect) {
         super.drawSelf(ctx,realRect, screenRect)
-        ctx.strokeRect(this.rect.topLeft.x,this.rect.topLeft.y,this.rect.width,this.rect.height);
+        ctx.strokeRect(this.rect.topLeft.x+0.5,this.rect.topLeft.y+0.5,this.rect.width+0.5,this.rect.height+0.5);
     }
     refresh(realRect, screenRect){
         this.rect.topLeft=Geometry.realToScreen(this.model.topLeft,realRect,screenRect);

@@ -3,7 +3,7 @@ import { Color } from "../colors";
 export default class ShapeStyle {
     static DASH=[1,3];
     static SOLID=[0];
-    static SELECTION=[1,1];
+    static SELECTION=[1,3];
     static HelperShape=new ShapeStyle(Color.BLACK,ShapeStyle.DASH,1);
     static MockShape=new ShapeStyle(Color.DARK_GRAY,ShapeStyle.SOLID);
     constructor(color=Color.BLACK,stroke=ShapeStyle.SOLID,width=1){
