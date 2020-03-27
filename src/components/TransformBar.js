@@ -13,10 +13,19 @@ class TransformBar extends React.Component{
         <ToggleButton title={cap.move.description}
                            id={"move"}
                            onDown={[{func:this.props.setStatus,params:[Status.MOVETRANS]}]}
-                           onUp={[{func:this.props.cancel,params:[]}]}
+                           onUp={[{func:this.props.abort,params:[]}]}
                            pressed={this.props.activeTransformButton==="move"}
                            enabled={this.props.screen.selectionManager.selectedShapes>0}
                            size={'middleSizeButton'}
+        />
+        <br/>
+        <ToggleButton title={cap.rotate.description}
+                   id={"rotate"}
+                   onDown={[{func:this.props.setStatus,params:[Status.ROTATETRANS]}]}
+                   onUp={[{func:this.props.abort,params:[]}]}
+                   pressed={this.props.activeTransformButton==="rotate"}
+                   enabled={this.props.screen.selectionManager.selectedShapes>0}
+                   size={'middleSizeButton'}
         />
 
         </div>
@@ -36,6 +45,7 @@ const mapDispatchToProps = dispatch => {
         setActiveButton: id=>dispatch(ComponentActions.setActiveTransformButton(id)),
         setStatus: (status)=>dispatch(ScreenActions.setScreenStatus(status)),
         cancel:()=>dispatch(ScreenActions.cancel()),
+        abort:()=>dispatch(ScreenActions.abort()),
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(TransformBar)

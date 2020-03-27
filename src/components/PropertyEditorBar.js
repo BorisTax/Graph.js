@@ -9,6 +9,9 @@ import Shape from './shapes/Shape';
 class PropertyEditorBar extends React.Component{
     prop;
     shape;
+    pickProperty(id,propKey,picker){
+        this.props.pickProperty(id,this.shape,propKey,picker);
+    }
     setProperty(key,value,type){
         this.props.setProperty({key,value,type});
         }
@@ -40,6 +43,7 @@ class PropertyEditorBar extends React.Component{
                                                      regexp={this.shapeProps[key].regexp}
                                                      selected={this.shapeProps[key].selected}
                                                      picker={this.shapeProps[key].picker}
+                                                     pickProperty={this.pickProperty.bind(this)}
                                                      setProperty={this.setProperty.bind(this)}
                                                      setActivePoint={this.setActivePoint.bind(this)}/>);
                                         else propElements.push(<PropertyField 
@@ -51,6 +55,7 @@ class PropertyEditorBar extends React.Component{
                                                      type={this.shapeProps[key].type}
                                                      regexp={this.shapeProps[key].regexp}
                                                      picker={this.shapeProps[key].picker}
+                                                     pickProperty={this.pickProperty.bind(this)}
                                                      setProperty={this.setProperty.bind(this)}/>);
             }
         }
@@ -80,6 +85,8 @@ const mapStateToProps = store => {
     return {
             screen: store.screen,
             captions:store.options.captions,
+            pickEditId:store.screen.pickedEditId,
+            status:store.screen.status
     }
 };
 const mapDispatchToProps = dispatch => {
@@ -87,6 +94,7 @@ const mapDispatchToProps = dispatch => {
         setProperty:(prop)=>dispatch(setProperty(prop)),
         deleteConfirm:()=>dispatch(ScreenActions.deleteConfirm()),
         repaint:()=>dispatch(ScreenActions.repaint()),
+        pickProperty:(id,shape,propKey,picker)=>dispatch(ScreenActions.pickProperty(id,shape,propKey,picker)),
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(PropertyEditorBar)

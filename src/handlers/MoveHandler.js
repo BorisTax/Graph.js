@@ -25,7 +25,7 @@ export class MoveHandler extends MouseHandler {
             }
         this.lastPoint={...this.coord};
         }
-        if(this.curShape)this.curShape.setControlPoint(1,this.coord);
+        if(this.curShape)this.curShape.setControlPoint(2,this.coord);
     }
     click({curPoint, screenProps}){
         super.click({curPoint,screenProps})

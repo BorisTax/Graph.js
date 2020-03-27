@@ -97,7 +97,9 @@ export const captions={
       "0":"Straight Line AX+BY+C=0",
       "1":"A",
       "2":"B",
-      "3":"C"
+      "3":"C",
+      "4":"P1",
+      "5":"P2"
     },
     "RLine":{
       "0":"Ray Line",
@@ -166,6 +168,14 @@ export const captions={
         "Specify base point",
         "Specify point to move",
         ""
+      ]
+    },
+    "rotate":{
+      "description":"Rotate",
+      "steps":[
+        "Specify base point",
+        "Specify base axis",
+        "Specify rotation angle"
       ]
     }
   },

@@ -11,6 +11,7 @@ import SelectionShape from "../components/shapes/selection/SelectionShape";
 import SelectRectCreator from "../components/shapes/shapecreators/SelectRectCreator";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import MoveCursor from "../components/shapes/cursors/MoveCursor";
+import RotateCursor from "../components/shapes/cursors/RotateCursor";
 import PickCursor from "../components/shapes/cursors/PickCursor";
 import { Color } from "../components/colors";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
@@ -20,6 +21,7 @@ import { StatusSelectHandler } from "../handlers/StatusSelectHandler";
 import { StatusCreateHandler } from "../handlers/StatusCreateHandler";
 import { MoveHandler } from "../handlers/MoveHandler";
 import { AppActions } from "../actions/AppActions";
+import { RotateHandler } from "../handlers/RotateHandler";
 
 export const Status={
     FREE:'FREE',
@@ -29,8 +31,8 @@ export const Status={
     CANCEL:'CANCEL',
     PAN:'PAN',
     PICK:'PICK',
-    PICK_END:'PICK_END', 
     MOVETRANS:'MOVETRANS',
+    ROTATETRANS:'ROTATETRANS',
 }
 const xAxeShape=new SLineShape(new SLine(0,1,0),new Circle(new Coord2D(0,0),8));
 const yAxeShape=new SLineShape(new SLine(1,0,0),new Circle(new Coord2D(0,0),8));
@@ -49,7 +51,6 @@ const initialState = {
     gridStep:1,
     gridStepPixels:1,
     marginTop:15,marginLeft:40,marginBottom:15,marginRight:10,
-    pickedData:{data:null,editId:0,fix:false},
     picker:null,
     prevStatus:Status.FREE,
     ratio:1,pixelRatio:1,
@@ -94,6 +95,7 @@ export function screenReducer(state = initialState,action) {
                 curHelperShapes:null,
                 shapeCreator:null,
                 picker:null,
+                pickedEditId:"",
                 creationStep:"",
                 currentShape:"",
                 cursor:new SelectCursor(state.curCoord),
@@ -106,6 +108,7 @@ export function screenReducer(state = initialState,action) {
             state.shapes.forEach(s=>{
                 s.setState({selected:false,underCursor:false,highlighted:false,inSelection:false});
                 s.mockShape=null;})
+            state.selectionManager.deselectShapes();
             //for(const s of state.shapes) s.mockShape=null;
             return {...state,
                 status:Status.FREE,
@@ -114,6 +117,7 @@ export function screenReducer(state = initialState,action) {
                 curHelperShapes:null,
                 shapeCreator:null,
                 picker:null,
+                pickedEditId:"",
                 creationStep:"",
                 currentShape:"",
                 cursor:new SelectCursor(state.curCoord),
@@ -129,6 +133,7 @@ export function screenReducer(state = initialState,action) {
                 curHelperShapes:null,
                 shapeCreator:null,
                 picker:null,
+                pickedEditId:"",
                 creationStep:"",
                 currentShape:"",
                 cursor:new SelectCursor(state.curCoord),
@@ -203,7 +208,18 @@ export function screenReducer(state = initialState,action) {
             return{...state,screenOuterCircle:bc}
         case ScreenActions.DELETE_CONFIRM:
             if(state.shapes.some(s=>s.state.selected)) newState.showConfirm={show:true,messageKey:"deleteShapes",okAction:ScreenActions.deleteSelectedShapes.bind(null,false)}
-            return{...newState}    
+            return{...newState}
+        case ScreenActions.PICK_PROPERTY:
+            return {...state,
+                status:Status.PICK,
+                pickedEditId:action.payload.id,
+                cursor:new PickCursor(state.curCoord),
+                mouseHandler:new StatusPickHandler({...handlerOptions,
+                    shape:action.payload.shape,
+                    propKey:action.payload.propKey,
+                    picker:action.payload.picker,
+                })
+            }    
         case ScreenActions.SET_DIMENSIONS:
             params=action.payload;
             rh=params.height*params.realWidth/params.width
@@ -226,21 +242,12 @@ export function screenReducer(state = initialState,action) {
             return{...state,show:{grid:action.payload}};
         case AppActions.SHOW_CONFIRM:
             return {...state,showConfirm:action.payload};  
-        case ScreenActions.START_PICKING:
-            return {...state,
-                status:Status.PICK,
-                pickedData:{data:state.pickedData.data,editId:action.payload.id},
-                picker:action.payload.picker,
-                cursor:new PickCursor(state.curCoord),
-                mouseHandler:new StatusPickHandler(handlerOptions)
-            }
+
         case ScreenActions.START_SELECTION:
             return {...state,
                 status:Status.SELECT,
                 mouseHandler:new StatusSelectHandler(handlerOptions)
             }
-        case ScreenActions.SET_PICKED_DATA:
-            return {...state,status:Status.PICK_END,pickedData:{data:action.payload,editId:state.pickedData.editId}}
         case ScreenActions.SET_PREV_COORD:
             return {...state,prevCoord:{...action.payload.point},prevScreenPoint:{...action.payload.screenPoint}}
         case ScreenActions.SET_PREV_STATUS:
@@ -318,6 +325,12 @@ export function screenReducer(state = initialState,action) {
                 mouseHandler:new MoveHandler(handlerOptions),
                 activeTransformButton:'move',
                 cursor: new MoveCursor()
+            };
+        case ScreenActions.TRANS_ROTATE:
+            return{...state,
+                mouseHandler:new RotateHandler(handlerOptions),
+                activeTransformButton:'rotate',
+                cursor: new RotateCursor()
             };
         default:
             return state

@@ -17,7 +17,7 @@ export default class DistanceShape extends Shape{
         this.text.setFont('10px sans-serif')
         //this.style=style;
         this.setStyle(style);
-        this.xAxe=new Vector({x:1,y:0},{x:0,y:0})
+        this.xAxe=new Vector({x:0,y:0},{x:1,y:0});
         this.properties=[
             {type:Shape.PropertyTypes.STRING,value:'Line'},
             {type:Shape.PropertyTypes.VERTEX,value:line.p1,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
@@ -53,9 +53,9 @@ export default class DistanceShape extends Shape{
         this.model.p2=this.properties[2].value;
         this.text.setText(Geometry.distance(this.model.p1,this.model.p2).toFixed(4))
         this.text.setPoint(Geometry.midPoint(this.model.p1,this.model.p2))
-        let angle=Geometry.angleVectors(new Vector(this.model.p2,this.model.p1),this.xAxe);
-        if(angle<Math.PI/2)angle=angle*Math.sign(this.model.p1.y-this.model.p2.y);
-            else angle=(Math.PI-angle)*Math.sign(this.model.p2.y-this.model.p1.y);
+        const v=new Vector(this.model.p1,this.model.p2);
+        let angle=Geometry.angleVectors(v,this.xAxe);
+        if(v.x<0)angle=Math.PI+angle;
         this.text.rotate(angle);
      }
 

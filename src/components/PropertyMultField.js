@@ -13,18 +13,9 @@ class PropertyMultField extends React.Component{
     change(e){
         let v={x:this.state.value.x,y:this.state.value.y};
         v[e.target.id]=e.target.value;
-        //const r=this.props.regexp;
-        //const corr=v[e.target.id].match(r)!=null&&v[e.target.id]!=="";
         this.setState({value:v});
-        // if(corr)this.setState({value:{x:+v.x,y:+v.y},prevValue:{x:+v.x,y:+v.y}}); 
-        //   else{
-        //   // const value=this.state.prevValue
-        //   //if(v[e.target.id]==='') value[e.target.id]='';
-        //   //this.setState({value:value})
-        // }
     }
     blur(){
-        //this.props.setActivePoint('');
         this.setState({value:this.state.originValue})
         window.KEYDOWNHANDLE=true
     }
@@ -35,7 +26,6 @@ class PropertyMultField extends React.Component{
     onKeyPress(e){
         if(e.charCode===13){
             let v=e.target.value;
-            //v=v===''?"0":v;
             const r=this.props.regexp;
             if(v.match(r)!==null) {
                 const n=Number.parseFloat(v);
@@ -51,19 +41,9 @@ class PropertyMultField extends React.Component{
         
     }
     static getDerivedStateFromProps(nextProps,prevState){
-            let value=(nextProps.status===Status.PICK_END&&nextProps.id===nextProps.editId)?nextProps.pickedValue.value:prevState.value;
-            // const x=+value.x;
-            // const y=+value.y;
-            // if(!isNaN(x)) value.x=+(x.toFixed(4));
-            // if(!isNaN(y)) value.y=+(y.toFixed(4));
-            return {...nextProps,value:value,originValue:nextProps.value,correct:true};
+             return {...nextProps,value:nextProps.value,originValue:nextProps.value,correct:true};
     }
-    componentDidUpdate(){
-        if(this.props.status===Status.PICK_END&&this.props.propKey===this.props.editId) {
-           this.props.setProperty(this.props.propKey,this.state.value,this.props.type);
-           this.props.abort();
-        }
-    }
+
     render(){
         const value=this.state.value;
         const [x,xcorrect]=isNaN(+value.x)?[value.x,false]:value.x===""?[value.x,false]:[(+value.x).round4(),true];
@@ -95,8 +75,7 @@ class PropertyMultField extends React.Component{
                 active={this.props.status===Status.PICK&&this.props.id===this.props.editId} 
                 onClick={()=>{
                     if(this.props.status===Status.PICK&&this.props.id===this.props.editId){this.props.cancel();return;}   
-                    this.props.setPickedData(this.state.value);
-                    this.props.startPicking(this.props.id,new this.props.picker());
+                    this.props.pickProperty(this.props.id,this.props.propKey,new this.props.picker());
                     this.props.setActivePoint(this.props.propKey);
                         
                  }}></PickButton>:<></>}
@@ -106,15 +85,12 @@ class PropertyMultField extends React.Component{
 }
 const mapStateToProps=(store)=>{
     return {
-        pickedValue:store.screen.pickedData.data,
-        editId:store.screen.pickedData.editId,
+        editId:store.screen.pickedEditId,
         status:store.screen.status,
     }
 }
 const mapDispatchToProps=(dispatch)=>{
     return {
-        startPicking:(id,picker)=>dispatch(ScreenActions.startPicking(id,picker)),
-        setPickedData:data=>dispatch(ScreenActions.setPickedData(data)),
         cancel:()=>dispatch(ScreenActions.cancel()),
         abort:()=>dispatch(ScreenActions.abort())
     }

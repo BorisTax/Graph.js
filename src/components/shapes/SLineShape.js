@@ -1,6 +1,8 @@
-import Geometry,{Intersection} from "../../utils/geometry";
+import Geometry,{Intersection, SLine} from "../../utils/geometry";
 import Shape from "./Shape";
 import DistancePicker from "./pickers/DistancePicker";
+import PointPicker from "./pickers/PointPicker";
+import PointMarker from "./markers/PointMarker";
 
 export default class SLineShape extends Shape{
     constructor(line){
@@ -10,8 +12,12 @@ export default class SLineShape extends Shape{
             {type:Shape.PropertyTypes.STRING,value:'SLine'},
             {type:Shape.PropertyTypes.NUMBER,value:line.a,picker:DistancePicker,regexp:Shape.RegExp.NUMBER},
             {type:Shape.PropertyTypes.NUMBER,value:line.b,picker:DistancePicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.NUMBER,value:line.c,picker:DistancePicker,regexp:Shape.RegExp.NUMBER}
-        ]
+            {type:Shape.PropertyTypes.NUMBER,value:line.c,picker:DistancePicker,regexp:Shape.RegExp.NUMBER},
+            {type:Shape.PropertyTypes.VERTEX,value:line.p1,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:Shape.PropertyTypes.VERTEX,value:line.p2,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+        ];
+        for(let p of this.properties)
+              if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false);
     }
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)
@@ -45,17 +51,28 @@ export default class SLineShape extends Shape{
     }
 
     move(distance){
-        //super.move(distance);
-        this.model=Geometry.LineShifted(this.model,distance.x,distance.y);
-        this.properties[1].value=this.model.a;
-        this.properties[2].value=this.model.b;
-        this.properties[3].value=this.model.c;
+        super.move(distance);
+        // this.model=Geometry.LineShifted(this.model,distance.x,distance.y);
+        // this.properties[1].value=this.model.a;
+        // this.properties[2].value=this.model.b;
+        // this.properties[3].value=this.model.c;
      }
      
     refreshModel(){
-        this.model.a=this.properties[1].value;
-        this.model.b=this.properties[2].value;
-        this.model.c=this.properties[3].value;
+        if(this.properties[1].changed||this.properties[2].changed||this.properties[3].changed){
+            this.model.a=this.properties[1].value;
+            this.model.b=this.properties[2].value;
+            this.model.c=this.properties[3].value;
+
+        }
+        if(this.properties[4].changed||this.properties[5].changed){
+            const line={p1:this.properties[4].value,p2:this.properties[5].value}
+            this.model=new SLine(line);
+            this.model.p1=line.p1;
+            this.model.p2=line.p2;
+
+        }
+        super.refreshModel();
         
      }
     getDistance(point){

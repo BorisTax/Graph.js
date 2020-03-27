@@ -11,6 +11,8 @@ export default class StraightLineCreator extends ShapeBuilder{
         this.points[0]=new Coord2D();
         this.points[1]=new Coord2D();
         this.line=new SLine(0,0,0);
+        this.line.p1=this.points[0];
+        this.line.p2=this.points[1];
         //this.screenOuterCircle=new Circle(new Coord2D(),0);
         this.shape=new SLineShape(this.line);
         this.style=style||ShapeStyle.getDefault();
@@ -22,6 +24,8 @@ export default class StraightLineCreator extends ShapeBuilder{
         this.points[this.i]=point;
         if(this.i===0)this.points[1]=this.points[0];
         if(this.i>0) {this.line=new SLine(...this.points);if(this.line.a===0&&this.line.b===0)this.legal=false;else this.legal=true;}
+        this.line.p1=this.points[0];
+        this.line.p2=this.points[1];
         this.shape=new SLineShape(this.line);
         this.shape.setStyle(this.style);
     }

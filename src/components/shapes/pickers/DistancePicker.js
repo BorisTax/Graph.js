@@ -21,7 +21,7 @@ export default class DistancePicker extends PropertyPicker{
         this.style=style;
         this.shape.setStyle(style);
         this.helperShapes=[this.text];
-        this.xAxe=new Vector({x:1,y:0},{x:0,y:0})
+        this.xAxe=new Vector({x:0,y:0},{x:1,y:0});
         this.data={type:Shape.PropertyTypes.NUMBER}
     }
     setCurrent(point){

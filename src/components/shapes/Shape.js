@@ -27,6 +27,7 @@ export default class Shape {
            if(this.properties[i].type===Shape.PropertyTypes.VERTEX){
                 this.properties[i].value.x=this.mockShape.properties[i].value.x;
                 this.properties[i].value.y=this.mockShape.properties[i].value.y;
+                this.properties[i].changed=true;
                 this.properties[i].marker.setPoint(this.mockShape.properties[i].value);
                 }
             if(this.properties[i].type===Shape.PropertyTypes.NUMBER){
@@ -39,8 +40,19 @@ export default class Shape {
         for(let cp of this.properties){
             if(cp.type!==Shape.PropertyTypes.VERTEX) continue;
             if(cp.selected||(!cp.selected&&this.state.selectedPoints===0)){
+                cp.changed=true;
                 cp.value.x+=distance.x;
                 cp.value.y+=distance.y;
+            }
+        }
+        this.refreshModel();
+    }
+    rotate(basePoint,angle){
+        for(let cp of this.properties){
+            if(cp.type!==Shape.PropertyTypes.VERTEX) continue;
+            if(cp.selected||(!cp.selected&&this.state.selectedPoints===0)){
+                cp.value=Geometry.rotatePoint(cp.value,angle,basePoint);
+                cp.changed=true;
             }
         }
         this.refreshModel();
@@ -50,7 +62,7 @@ export default class Shape {
         this.mockShape.state.selectedPoints=0;
         this.mockShape.setStyle(ShapeStyle.MockShape);
         for(const i in this.properties){
-           if(this.properties[i].type!==Shape.PropertyTypes.VERTEX) continue;
+           //if(this.properties[i].type!==Shape.PropertyTypes.VERTEX) continue;
            this.mockShape.properties[i].selected=this.properties[i].selected;
            if(this.properties[i].selected) this.mockShape.state.selectedPoints++;
         }
@@ -85,6 +97,7 @@ export default class Shape {
         return this.properties;
     }
     setProperty(prop){
+        this.properties[prop.key].changed=true;
         if(prop.type===Shape.PropertyTypes.VERTEX){
             this.properties[prop.key].value.x=prop.value.x;
             this.properties[prop.key].value.y=prop.value.y;
@@ -95,6 +108,11 @@ export default class Shape {
         }
     getModel(){
         return this.model;
+    }
+    refreshModel(){
+        for(const p of this.properties){
+            p.changed=false;
+        }
     }
     setColor(color){
         this.style.setColor(color);

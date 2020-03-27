@@ -47,6 +47,10 @@ export function componentReducer(state=initialState,action) {
             return{...state,
                 activeTransformButton:'move',
             }; 
+        case ScreenActions.TRANS_ROTATE:
+                return{...state,
+                    activeTransformButton:'rotate',
+                }; 
         default:
             return newState;
     }
