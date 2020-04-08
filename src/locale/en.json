@@ -167,6 +167,14 @@
         "Specify point to move",
         ""
       ]
+    },
+    "rotate":{
+      "description":"Rotate",
+      "steps":[
+        "Specify base point",
+        "Specify base axis",
+        "Specify rotation angle"
+      ]
     }
   },
   "help":{

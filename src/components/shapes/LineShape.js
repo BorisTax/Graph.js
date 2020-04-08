@@ -2,20 +2,19 @@ import Geometry, { Intersection} from '../../utils/geometry';
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
+import {PropertyTypes} from "./PropertyData";
 import PointPicker from './pickers/PointPicker';
-import PointMarker from './markers/PointMarker';
 
 export default class LineShape extends Shape{
     constructor(line){
         super();
         this.model=line;
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'Line'},
-            {type:Shape.PropertyTypes.VERTEX,value:line.p1,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.VERTEX,value:line.p2,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:PropertyTypes.STRING,value:'Line'},
+            {type:PropertyTypes.VERTEX,value:line.p1,picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:line.p2,picker:PointPicker},
         ]
-        for(let p of this.properties)
-          if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
+        this.defineProperties();
     }
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)

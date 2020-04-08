@@ -2,6 +2,7 @@ import {Coord2D} from "../../utils/geometry";
 import Geometry from "../../utils/geometry";
 import CenterSnapMarker from './markers/CenterSnapMarker';
 import Shape from "./Shape";
+import {PropertyTypes, RegExp} from "./PropertyData";
 import PointMarker from "./markers/PointMarker";
 import PointPicker from './pickers/PointPicker'
 import DistancePicker from './pickers/DistancePicker'
@@ -13,12 +14,11 @@ export default class CircleShape extends Shape{
         this.model=circle;
         this.setStyle(new ShapeStyle())
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'Circle'},
-            {type:Shape.PropertyTypes.VERTEX,value:circle.center,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.NUMBER,value:circle.radius,picker:DistancePicker,regexp:Shape.RegExp.POSITIVE_NUMBER},
+            {type:PropertyTypes.STRING,value:'Circle'},
+            {type:PropertyTypes.VERTEX,value:circle.center,show:false,selected:false,picker:PointPicker},
+            {type:PropertyTypes.NUMBER,value:circle.radius,picker:DistancePicker},
         ]
-        for(let p of this.properties)
-            if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
+        this.defineProperties();
     }
 
     drawSelf(ctx, realRect, screenRect){

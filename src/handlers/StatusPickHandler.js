@@ -1,10 +1,10 @@
 import { MouseHandler } from "./MouseHandler";
 
 export class StatusPickHandler extends MouseHandler {
-    constructor({point,curScreenPoint,shape,propKey,picker}){
-        super({point,curScreenPoint});
-        this.shape=shape;
-        this.propKey=propKey;
+    constructor({state,properties,index,picker}){
+        super(state);
+        this.properties=properties;
+        this.index=index;
         this.picker=picker;
     }
     move({curPoint,screenProps}){
@@ -20,12 +20,16 @@ export class StatusPickHandler extends MouseHandler {
         this.curHelperShapes=this.picker.getHelperShapes();
     }
     click({screenProps}){
-        this.picker.setNextPoint(screenProps.curCoord);
+        this.picker.setNextPoint(screenProps.curRealPoint);
                     if(!this.picker.isNext())
                     {
-                        this.shape.setProperty({key:this.propKey,value:this.picker.getPickedData().value,type:this.picker.getPickedData().type});
+                        //this.shape.setProperty({key:this.propKey,value:this.picker.getPickedData().value,type:this.picker.getPickedData().type});
+                        this.properties[this.index].setValue(this.picker.getPickedData().value);
                         screenProps.actions.refreshSnapMarkers();
                         screenProps.actions.abort();
                     }
+    }
+    getCaptionsKey(){
+        return "shapes";
     }
 }

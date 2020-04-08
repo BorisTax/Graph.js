@@ -1,4 +1,4 @@
-import { Status } from "../reducers/screen";
+import { Status } from "../reducers/model";
 export const ScreenActions = {
   ABORT:'ABORT',
   ADD_SHAPE: "ADD_SHAPE",
@@ -17,6 +17,7 @@ export const ScreenActions = {
   SELECT_ALL: "SELECT_ALL",
   SELECT_SHAPE: "SELECT_SHAPE",
   SET_BOUNDED_CIRCLE: "SET_BOUNDED_CIRCLE",
+  SET_CURRENT_PROPS:"SET_CURRENT_PROPS",
   SET_CUR_COORD: "SET_CUR_COORD",
   SET_CYCLIC_FLAG: "SET_CYCLIC_FLAG",
   SET_DIMENSIONS: "SET_DIMENSIONS",
@@ -78,10 +79,10 @@ export const ScreenActions = {
       type: ScreenActions.DELETE_SELECTED_SHAPES
     };
   },
-  pickProperty: (id, shape, propKey, picker) => {
+  pickProperty: (properties, index, picker) => {
     return {
       type: ScreenActions.PICK_PROPERTY,
-      payload: { id, shape, propKey, picker }
+      payload: {properties, index, picker}
     };
   },
   refreshSelectionManager: () => {

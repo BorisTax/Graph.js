@@ -7,7 +7,7 @@ import ShapeStyle from '../ShapeStyle';
 import { Color } from '../../colors';
 import TextShape from '../TextShape';
 import { Vector } from '../../../utils/geometry';
-
+import {PropertyTypes} from "../PropertyData";
 export default class DistanceShape extends Shape{
     constructor(line,style=new ShapeStyle(Color.BLACK,ShapeStyle.DASH)){
         super();
@@ -19,12 +19,11 @@ export default class DistanceShape extends Shape{
         this.setStyle(style);
         this.xAxe=new Vector({x:0,y:0},{x:1,y:0});
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'Line'},
-            {type:Shape.PropertyTypes.VERTEX,value:line.p1,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.VERTEX,value:line.p2,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:PropertyTypes.STRING,value:'Line'},
+            {type:PropertyTypes.VERTEX,value:line.p1,picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:line.p2,picker:PointPicker},
         ]
-        for(let p of this.properties)
-          if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
+        this.defineProperties();
         this.refreshModel();
     }
     drawSelf(ctx,realRect, screenRect){

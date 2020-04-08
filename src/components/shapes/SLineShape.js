@@ -3,21 +3,20 @@ import Shape from "./Shape";
 import DistancePicker from "./pickers/DistancePicker";
 import PointPicker from "./pickers/PointPicker";
 import PointMarker from "./markers/PointMarker";
-
+import {PropertyTypes} from "./PropertyData";
 export default class SLineShape extends Shape{
     constructor(line){
         super();
         this.model=line;
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'SLine'},
-            {type:Shape.PropertyTypes.NUMBER,value:line.a,picker:DistancePicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.NUMBER,value:line.b,picker:DistancePicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.NUMBER,value:line.c,picker:DistancePicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.VERTEX,value:line.p1,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.VERTEX,value:line.p2,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:PropertyTypes.STRING,value:'SLine'},
+            {type:PropertyTypes.NUMBER,value:line.a,picker:DistancePicker},
+            {type:PropertyTypes.NUMBER,value:line.b,picker:DistancePicker},
+            {type:PropertyTypes.NUMBER,value:line.c,picker:DistancePicker},
+            {type:PropertyTypes.VERTEX,value:line.p1,picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:line.p2,picker:PointPicker},
         ];
-        for(let p of this.properties)
-              if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false);
+        this.defineProperties();
     }
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)

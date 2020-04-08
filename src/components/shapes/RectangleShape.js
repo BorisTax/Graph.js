@@ -4,19 +4,18 @@ import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 import PointMarker from './markers/PointMarker';
 import PointPicker from './pickers/PointPicker';
-
+import {PropertyTypes} from "./PropertyData";
 export default class RectangleShape extends Shape{
     constructor(model){
         super();
         this.model=model;
         this.rect=new Rectangle()
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'Rectangle'},
-            {type:Shape.PropertyTypes.VERTEX,value:model.topLeft,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.VERTEX,value:model.bottomRight,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:PropertyTypes.STRING,value:'Rectangle'},
+            {type:PropertyTypes.VERTEX,value:model.topLeft,picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:model.bottomRight,picker:PointPicker},
         ]
-        for(let p of this.properties)
-          if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
+        this.defineProperties();
     }
 
     drawSelf(ctx, realRect, screenRect) {

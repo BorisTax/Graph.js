@@ -4,7 +4,7 @@ import Geometry, {Line,Coord2D,Circle, Vector} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import PropertyPicker from './PropertyPicker';
 import TextShape from '../TextShape';
-import Shape from '../Shape';
+import {PropertyTypes} from "../PropertyData";
 import DistanceShape from '../helpers/DistanceShape';
 export default class DistancePicker extends PropertyPicker{
     static caption="";
@@ -22,7 +22,7 @@ export default class DistancePicker extends PropertyPicker{
         this.shape.setStyle(style);
         this.helperShapes=[this.text];
         this.xAxe=new Vector({x:0,y:0},{x:1,y:0});
-        this.data={type:Shape.PropertyTypes.NUMBER}
+        this.data={type:PropertyTypes.NUMBER}
     }
     setCurrent(point){
         if(!this.isNext()) return;

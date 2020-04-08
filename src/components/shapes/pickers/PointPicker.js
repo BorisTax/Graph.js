@@ -1,7 +1,7 @@
 import ShapeStyle from '../ShapeStyle';
 import {Coord2D} from "../../../utils/geometry";
 import PropertyPicker from './PropertyPicker';
-import Shape from '../Shape';
+import {PropertyTypes} from "../PropertyData";
 export default class PointPicker extends PropertyPicker{
     static caption="";
     constructor(){
@@ -9,7 +9,7 @@ export default class PointPicker extends PropertyPicker{
         this.name="PointPicker"
         this.points=[new Coord2D()];
         this.helperShapes=[];
-        this.data={type:Shape.PropertyTypes.VERTEX}
+        this.data={type:PropertyTypes.VERTEX}
     }
     setCurrent(point){
         if(!this.isNext()) return;

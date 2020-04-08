@@ -256,8 +256,8 @@ export class Intersection{
 }
 export default class Geometry {
 
-    static realToScreenLength(value, realWidth, screenWidth){
-        return Math.round(value/(realWidth/screenWidth));
+    static realToScreenLength(value, realWidth, viewPortWidth){
+        return Math.round(value/(realWidth/viewPortWidth));
     }
     static SLineFromRLine(line){
         return new SLine(line.origin,new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y));
@@ -424,11 +424,11 @@ export default class Geometry {
         res.y=p.x*Math.sin(angle)+p.y*Math.cos(angle)+center.y;
         return res;
     }
-    static screenToReal(x,y,screenWidth,screenHeight,topLeft,bottomRight){
+    static screenToReal(x,y,viewPortWidth,viewPortHeight,topLeft,bottomRight){
         let realWidth=bottomRight.x-topLeft.x;
         let realHeight=topLeft.y-bottomRight.y;
-        let rx=x/screenWidth*realWidth+topLeft.x;
-        let ry=topLeft.y-y/screenHeight*realHeight;
+        let rx=x/viewPortWidth*realWidth+topLeft.x;
+        let ry=topLeft.y-y/viewPortHeight*realHeight;
         return {x:rx,y:ry};
     }
     static realToScreen(point,realRect, screenRect){

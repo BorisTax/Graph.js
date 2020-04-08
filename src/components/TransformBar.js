@@ -4,7 +4,7 @@ import {ComponentActions} from '../actions/ComponentActions';
 
 import ToggleButton from './ToggleButton';
 import { ScreenActions } from '../actions/ScreenActions';
-import { Status } from '../reducers/screen';
+import { Status } from '../reducers/model';
 
 class TransformBar extends React.Component{
     render(){
@@ -15,7 +15,7 @@ class TransformBar extends React.Component{
                            onDown={[{func:this.props.setStatus,params:[Status.MOVETRANS]}]}
                            onUp={[{func:this.props.abort,params:[]}]}
                            pressed={this.props.activeTransformButton==="move"}
-                           enabled={this.props.screen.selectionManager.selectedShapes>0}
+                           enabled={this.props.model.selectionManager.selectedShapes>0}
                            size={'middleSizeButton'}
         />
         <br/>
@@ -24,7 +24,7 @@ class TransformBar extends React.Component{
                    onDown={[{func:this.props.setStatus,params:[Status.ROTATETRANS]}]}
                    onUp={[{func:this.props.abort,params:[]}]}
                    pressed={this.props.activeTransformButton==="rotate"}
-                   enabled={this.props.screen.selectionManager.selectedShapes>0}
+                   enabled={this.props.model.selectionManager.selectedShapes>0}
                    size={'middleSizeButton'}
         />
 
@@ -35,7 +35,7 @@ class TransformBar extends React.Component{
 const mapStateToProps = store => {
 
     return {
-            screen: store.screen,
+            model: store.model,
             captions:store.options.captions,
             activeTransformButton:store.components.activeTransformButton,
     }

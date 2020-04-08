@@ -2,9 +2,9 @@ import React from 'react';
 import Geometry, {Coord2D, Point2D,Rectangle} from '../utils/geometry.js';
 import ShapeStyle from './shapes/ShapeStyle';
 import {Color} from './colors';
-import { Status } from '../reducers/screen';
+import { Status } from '../reducers/model';
 import TextShape from './shapes/TextShape';
-export default class Screen extends React.Component {
+export default class ViewPort extends React.Component {
     static MARKER_SIZE=0.005;
     static SNAP_MARKER_SIZE=5;
     curPoint=new Point2D();
@@ -32,8 +32,8 @@ export default class Screen extends React.Component {
         let screenRect = new Rectangle();
         screenRect.topLeft.x = 0;
         screenRect.topLeft.y = 0;
-        screenRect.width = this.props.screenWidth;
-        screenRect.height = this.props.screenHeight;
+        screenRect.width = this.props.viewPortWidth;
+        screenRect.height = this.props.viewPortHeight;
         return screenRect;
     }
 
@@ -45,7 +45,7 @@ export default class Screen extends React.Component {
     }
 
     drawCursor(ctx){
-      this.props.cursor.setCoord(this.props.curCoord);
+      this.props.cursor.setPosition(this.props.curRealPoint);
       this.drawShape(this.props.cursor,ctx);
     }
     drawGrid(ctx){
@@ -75,7 +75,7 @@ export default class Screen extends React.Component {
                 if(this.props.show.grid) {
                     ctx.beginPath();
                     ctx.moveTo(px.x+0.5, 0+0.5);
-                    ctx.lineTo(px.x+0.5, this.props.screenHeight+0.5);
+                    ctx.lineTo(px.x+0.5, this.props.viewPortHeight+0.5);
                     ctx.stroke();
                 }
                 this.gridPointsX[ix]=px.x;
@@ -92,7 +92,7 @@ export default class Screen extends React.Component {
                 if(this.props.show.grid) {
                     ctx.beginPath();
                     ctx.moveTo(0+0.5, py.y+0.5);
-                    ctx.lineTo(this.props.screenWidth+0.5, py.y+0.5);
+                    ctx.lineTo(this.props.viewPortWidth+0.5, py.y+0.5);
                     ctx.stroke();
                 }
                 this.gridPointsY[iy]=py.y;
@@ -124,7 +124,7 @@ export default class Screen extends React.Component {
         w=ctx.measureText(s0).width;
         for(let x of this.gridPointsX){
             if(x===null) continue;
-            if(x>this.props.marginLeft&&x<this.props.screenWidth-this.props.marginRight) {
+            if(x>this.props.marginLeft&&x<this.props.viewPortWidth-this.props.marginRight) {
                  let s=this.gridNumbersX[i].toFixed(format);
                  let d=1;
                  let r=w/this.props.gridStepPixels;
@@ -138,7 +138,7 @@ export default class Screen extends React.Component {
         i=0;
         for(let y of this.gridPointsY){
             if(y===null) continue;
-            if(y>this.props.marginTop&&y<this.props.screenHeight-this.props.marginBottom){
+            if(y>this.props.marginTop&&y<this.props.viewPortHeight-this.props.marginBottom){
                 let s=this.gridNumbersY[i].toFixed(format);
                 w=ctx.measureText(s).width;
                 let h=ctx.measureText("12").width;
@@ -159,11 +159,11 @@ export default class Screen extends React.Component {
         ctx.fillStyle="white";
         ctx.lineWidth=1;
         ctx.lineJoin='round';
-        ctx.fillRect(0, 0, this.props.screenWidth, this.props.screenHeight);
+        ctx.fillRect(0, 0, this.props.viewPortWidth, this.props.viewPortHeight);
         this.drawGrid(ctx);
         this.drawShape(this.props.xAxe,ctx)
         this.drawShape(this.props.yAxe,ctx)
-        let status_bar=`X=${this.props.curCoord.x.toFixed(3)} Y=${this.props.curCoord.y.toFixed(3)} `;
+        let status_bar=`X=${this.props.curRealPoint.x.toFixed(3)} Y=${this.props.curRealPoint.y.toFixed(3)} `;
         const curHelperShapes=this.props.mouseHandler.curHelperShapes;
         if(curHelperShapes!=null)
             for(let shape of curHelperShapes)
@@ -179,15 +179,15 @@ export default class Screen extends React.Component {
         ctx.setLineDash(ShapeStyle.SOLID);
         ctx.fillStyle="white";
         //fill margin
-        ctx.fillRect(0, 0, this.props.screenWidth-this.props.marginRight,this.props.marginTop);
-        ctx.fillRect(0,0, this.props.marginLeft,this.props.screenHeight);
-        ctx.fillRect(this.props.screenWidth-this.props.marginRight, 0, this.props.screenWidth,this.props.screenHeight);
-        ctx.fillRect(this.props.marginLeft, this.props.screenHeight-this.props.marginBottom, this.props.screenWidth-this.props.marginRight,this.props.screenHeight-this.props.marginTop);
+        ctx.fillRect(0, 0, this.props.viewPortWidth-this.props.marginRight,this.props.marginTop);
+        ctx.fillRect(0,0, this.props.marginLeft,this.props.viewPortHeight);
+        ctx.fillRect(this.props.viewPortWidth-this.props.marginRight, 0, this.props.viewPortWidth,this.props.viewPortHeight);
+        ctx.fillRect(this.props.marginLeft, this.props.viewPortHeight-this.props.marginBottom, this.props.viewPortWidth-this.props.marginRight,this.props.viewPortHeight-this.props.marginTop);
         ctx.strokeStyle="black";
-        ctx.strokeRect(this.props.marginLeft, this.props.marginTop, this.props.screenWidth-this.props.marginRight-this.props.marginLeft,this.props.screenHeight-this.props.marginBottom-this.props.marginTop);
+        ctx.strokeRect(this.props.marginLeft, this.props.marginTop, this.props.viewPortWidth-this.props.marginRight-this.props.marginLeft,this.props.viewPortHeight-this.props.marginBottom-this.props.marginTop);
         this.drawCoordinates(ctx);
         ctx.font="12px sans-serif";
-        ctx.strokeText(status_bar,this.props.marginLeft,this.props.screenHeight-this.props.statusBar);
+        ctx.strokeText(status_bar,this.props.marginLeft,this.props.viewPortHeight-this.props.statusBar);
             let marker=this.props.snapMarkersManager.getActiveMarker();
             if(marker!=null) {
                 marker.refresh(this.getRealRect(), this.getScreenRect());
@@ -201,8 +201,8 @@ export default class Screen extends React.Component {
     }
 
     isOutRect(p){
-       return p.x<this.props.marginLeft||p.x>this.props.screenWidth-this.props.marginRight
-        ||p.y<this.props.marginTop||p.y>this.props.screenHeight-this.props.marginBottom;
+       return p.x<this.props.marginLeft||p.x>this.props.viewPortWidth-this.props.marginRight
+        ||p.y<this.props.marginTop||p.y>this.props.viewPortHeight-this.props.marginBottom;
     }
     mmoveHandle(e){
         let rect=e.target.getBoundingClientRect();
@@ -211,10 +211,6 @@ export default class Screen extends React.Component {
     }
     mdownHandle(e){
         if(e.button===1||e.button===2){
-            //let rect=e.target.getBoundingClientRect();
-            //const curPoint={x:e.clientX-rect.left,y:e.clientY-rect.top};
-            ///this.dragX0=curPoint.x
-            //this.dragY0=curPoint.y
             this.props.actions.setScreenStatus(Status.PAN);
             e.preventDefault();
         }
@@ -240,7 +236,7 @@ export default class Screen extends React.Component {
     mwheelHandle(e){
         if(this.props.status===Status.PAN)return;
         let rect=e.target.getBoundingClientRect();
-        let point=Geometry.screenToReal(e.clientX-rect.left,e.clientY-rect.top,this.props.screenWidth,this.props.screenHeight,this.props.topLeft,this.props.bottomRight);
+        let point=Geometry.screenToReal(e.clientX-rect.left,e.clientY-rect.top,this.props.viewPortWidth,this.props.viewPortHeight,this.props.topLeft,this.props.bottomRight);
         this.props.mouseHandler.wheel({deltaY:e.deltaY,point,screenProps:this.props,shiftKey:e.shiftKey,ctrlKey:e.ctrlKey,altKey:e.altKey})
        e.preventDefault();
     }
@@ -313,7 +309,7 @@ export default class Screen extends React.Component {
     }
 
     render(){
-        return <canvas ref={this.refCanvas} id="canvas" width={this.props.screenWidth} height={this.props.screenHeight}
+        return <canvas ref={this.refCanvas} id="canvas" width={this.props.viewPortWidth} height={this.props.viewPortHeight}
                 onMouseMove={this.mmoveHandle.bind(this)}
                 onMouseDown={this.mdownHandle.bind(this)}
                 onMouseUp={this.mupHandle.bind(this)}

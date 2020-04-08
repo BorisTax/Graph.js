@@ -1,6 +1,6 @@
 import React from "react";
 import PickButton from "./PickButton";
-import { Status } from "../reducers/screen";
+import { Status } from "../reducers/model";
 import { connect } from "react-redux";
 import { ScreenActions } from "../actions/ScreenActions";
 
@@ -64,8 +64,8 @@ class PropertyField extends React.Component{
 }
 const mapStateToProps=(store)=>{
     return {
-        editId:store.screen.pickedEditId,
-        status:store.screen.status,
+        editId:store.model.pickedEditId,
+        status:store.model.status,
     }
 }
 const mapDispatchToProps=(dispatch)=>{

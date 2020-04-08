@@ -31,7 +31,7 @@ class SnapToolBar extends React.Component{
 const mapStateToProps = store => {
 
     return {
-            //screen: store.screen,
+            //model: store.screen,
             captions:store.options.captions,
             //activeButtons:store.components.activeSnapButtons,
     }

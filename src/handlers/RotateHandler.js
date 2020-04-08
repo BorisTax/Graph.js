@@ -5,8 +5,8 @@ import AngleShape from "../components/shapes/helpers/AngleShape";
 import Geometry, { Vector } from "../utils/geometry";
 
 export class RotateHandler extends MouseHandler {
-    constructor({point,curScreenPoint}){
-        super({point,curScreenPoint});
+    constructor(state){
+        super(state);
         this.prevAngle=0;
     }
     move({curPoint,screenProps}){

@@ -2,7 +2,7 @@
 import {ComponentActions} from "../actions/ComponentActions";
 import {ScreenActions} from "../actions/ScreenActions";
 import {AppActions} from '../actions/AppActions';
-import { Status } from "./screen";
+import { Status } from "./model";
 const initialState={
     activeLangButton:"en",
     defaultLang:"en",

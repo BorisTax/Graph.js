@@ -200,6 +200,14 @@
         "Spécifiez le point à déplacer",
         ""
       ]
+    },
+    "rotate":{
+      "description":"Tourner",
+      "steps":[
+        "Spécifiez le point de base",
+        "Spécifiez l'axe de base",
+        "Spécifiez l'angle de rotation"
+      ]
     }
   },
   "help": {

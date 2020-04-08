@@ -2,8 +2,8 @@ import { MouseHandler } from "./MouseHandler";
 import DistanceShape from "../components/shapes/helpers/DistanceShape";
 
 export class MoveHandler extends MouseHandler {
-    constructor({point,curScreenPoint}){
-        super({point,curScreenPoint});
+    constructor(state){
+        super(state);
     }
     move({curPoint,screenProps}){
         super.move({curPoint,screenProps});

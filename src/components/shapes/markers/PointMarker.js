@@ -1,14 +1,21 @@
 import Geometry from '../../../utils/geometry';
-import Shape from '../Shape';
 import {Color} from '../../colors';
 import SnapMarker from './SnapMarker';
+import ShapeStyle from '../ShapeStyle';
 
-export default class PointMarker extends Shape {
+export default class PointMarker{
     static caption = "center points";
     constructor(point,active){
-        super();
+        //super();
+        this.style=new ShapeStyle(Color.BLACK,ShapeStyle.SOLID);
         this.point=point;
         this.setActive(active);
+    }
+    setColor(color){
+        this.style.setColor(color);
+    }
+    getStyle() {
+        return this.style;
     }
     setPoint(p){
         this.point=p

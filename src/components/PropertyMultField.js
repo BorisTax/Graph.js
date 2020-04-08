@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from 'react-redux';
-import { Status } from "../reducers/screen";
+import { Status } from "../reducers/model";
 import { ScreenActions } from "../actions/ScreenActions";
 import PickButton from "./PickButton";
 
@@ -17,11 +17,14 @@ class PropertyMultField extends React.Component{
     }
     blur(){
         this.setState({value:this.state.originValue})
+        this.props.setActivePoint(false);
+        this.props.repaint();
         window.KEYDOWNHANDLE=true
     }
     focus(){
-        this.props.setActivePoint(this.props.propKey);
+        this.props.setActivePoint(true);
         window.KEYDOWNHANDLE=false;
+        this.props.repaint();
     }
     onKeyPress(e){
         if(e.charCode===13){
@@ -31,7 +34,7 @@ class PropertyMultField extends React.Component{
                 const n=Number.parseFloat(v);
                 const value=this.state.value;
                 value[e.target.id]=n;
-                this.props.setProperty(this.props.propKey,value,this.props.type);
+                this.props.setProperty(this.props.propKey,value);
                 this.setState({value:value,correct:true,prevValue:value});
                 return;
                 }
@@ -53,7 +56,7 @@ class PropertyMultField extends React.Component{
             <span style={{color:this.props.selected?"red":"black",marginRight:"5px"}}>{this.props.label}</span>
             <input style={!xcorrect?{backgroundColor:'red'}:{}}
                 className='propertyMultField'
-                type="text" value={x} 
+                type="text" value={x}
                 id='x'
                 onChange={this.change.bind(this)}
                 onKeyPress={this.onKeyPress.bind(this)}
@@ -75,7 +78,7 @@ class PropertyMultField extends React.Component{
                 active={this.props.status===Status.PICK&&this.props.id===this.props.editId} 
                 onClick={()=>{
                     if(this.props.status===Status.PICK&&this.props.id===this.props.editId){this.props.cancel();return;}   
-                    this.props.pickProperty(this.props.id,this.props.propKey,new this.props.picker());
+                    this.props.pickProperty(this.props.id,new this.props.picker());
                     this.props.setActivePoint(this.props.propKey);
                         
                  }}></PickButton>:<></>}
@@ -85,14 +88,15 @@ class PropertyMultField extends React.Component{
 }
 const mapStateToProps=(store)=>{
     return {
-        editId:store.screen.pickedEditId,
-        status:store.screen.status,
+        editId:store.model.pickedEditId,
+        status:store.model.status,
     }
 }
 const mapDispatchToProps=(dispatch)=>{
     return {
         cancel:()=>dispatch(ScreenActions.cancel()),
-        abort:()=>dispatch(ScreenActions.abort())
+        abort:()=>dispatch(ScreenActions.abort()),
+        repaint:()=>dispatch(ScreenActions.repaint()),
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(PropertyMultField)

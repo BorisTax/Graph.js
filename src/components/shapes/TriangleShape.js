@@ -4,20 +4,19 @@ import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 import PointMarker from './markers/PointMarker';
 import PointPicker from './pickers/PointPicker';
-
+import {PropertyTypes} from "./PropertyData";
 export default class TriangleShape extends Shape{
     constructor(model){
         super();
         this.p=[new Coord2D(),new Coord2D(),new Coord2D()];
         this.model=model;
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'Triangle'},
-            {type:Shape.PropertyTypes.VERTEX,value:this.model.points[0],show:false,selected:false,picker:PointPicker,regexp:/^-?\d+\.?\d*$/},
-            {type:Shape.PropertyTypes.VERTEX,value:this.model.points[1],show:false,selected:false,picker:PointPicker,regexp:/^-?\d+\.?\d*$/},
-            {type:Shape.PropertyTypes.VERTEX,value:this.model.points[2],show:false,selected:false,picker:PointPicker,regexp:/^-?\d+\.?\d*$/},
+            {type:PropertyTypes.STRING,value:'Triangle'},
+            {type:PropertyTypes.VERTEX,value:this.model.points[0],picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:this.model.points[1],picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:this.model.points[2],picker:PointPicker},
         ]
-        for(let p of this.properties)
-          if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
+        this.defineProperties();
     }
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)

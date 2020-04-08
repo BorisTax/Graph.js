@@ -3,18 +3,17 @@ import EndSnapMarker from './markers/EndSnapMarker';
 import Shape from "./Shape";
 import PointMarker from "./markers/PointMarker";
 import PointPicker from "./pickers/PointPicker";
-
+import {PropertyTypes} from "./PropertyData";
 export default class RayLineShape extends Shape{
     constructor(line){
         super();
         this.model={...line,vector:{x:line.directionPoint.x-line.origin.x,y:line.directionPoint.y-line.origin.y}};
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'RLine'},
-            {type:Shape.PropertyTypes.VERTEX,value:line.origin,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.VERTEX,value:line.directionPoint,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:PropertyTypes.STRING,value:'RLine'},
+            {type:PropertyTypes.VERTEX,value:line.origin,picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:line.directionPoint,picker:PointPicker},
         ]
-        for(let p of this.properties)
-          if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
+    this.defineProperties();
     }
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)
