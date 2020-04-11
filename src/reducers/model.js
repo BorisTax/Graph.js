@@ -99,7 +99,6 @@ initialState.mouseHandler=new StatusFreeHandler(initialState);
 export function modelReducer(state = initialState,action) {
     const newState={...state}
     var tl,c,br,bc,params,rh,r;
-    let handlerOptions={point:state.curRealPoint,screenPoint:state.curScreenPoint,screenProps:state}
     //delete(handlerOptions.mouseHandler);
     switch (action.type) {
         case ScreenActions.ABORT:

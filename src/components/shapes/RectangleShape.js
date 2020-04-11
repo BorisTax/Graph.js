@@ -2,7 +2,6 @@ import Geometry,{Rectangle,Coord2D,Line, Intersection} from '../../utils/geometr
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
-import PointMarker from './markers/PointMarker';
 import PointPicker from './pickers/PointPicker';
 import {PropertyTypes} from "./PropertyData";
 export default class RectangleShape extends Shape{
@@ -11,9 +10,9 @@ export default class RectangleShape extends Shape{
         this.model=model;
         this.rect=new Rectangle()
         this.properties=[
-            {type:PropertyTypes.STRING,value:'Rectangle'},
-            {type:PropertyTypes.VERTEX,value:model.topLeft,picker:PointPicker},
-            {type:PropertyTypes.VERTEX,value:model.bottomRight,picker:PointPicker},
+            {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.VERTEX,value:model.topLeft,labelKey:"p1",picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:model.bottomRight,labelKey:"p2",picker:PointPicker},
         ]
         this.defineProperties();
     }
@@ -71,5 +70,8 @@ export default class RectangleShape extends Shape{
     }
     toString(){
         return "Rectangle";
+    }
+    getDescription(){
+        return 'Rectangle';
     }
 }

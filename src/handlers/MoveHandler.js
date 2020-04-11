@@ -1,9 +1,13 @@
 import { MouseHandler } from "./MouseHandler";
 import DistanceShape from "../components/shapes/helpers/DistanceShape";
+import { PropertyTypes } from "../components/shapes/PropertyData";
 
 export class MoveHandler extends MouseHandler {
     constructor(state){
         super(state);
+        this.properties=[
+            {type:PropertyTypes.BOOL,value:false,labelKey:"make_copy",setValue:(value)=>{this.makeCopy=value;}},
+        ]
     }
     move({curPoint,screenProps}){
         super.move({curPoint,screenProps});
@@ -33,7 +37,15 @@ export class MoveHandler extends MouseHandler {
         if(this.clickCount===2){
             for(let s of screenProps.shapes){
                 if(s.getState().selected){
-                    s.applyTransform();
+                    if(this.makeCopy){
+                        const newShape=s.copyShape();
+                        newShape.mockShape=s.mockShape;
+                        newShape.applyTransform();
+                        newShape.deleteMockShape();
+                        screenProps.actions.addShape(newShape);
+                    }else{
+                        s.applyTransform();
+                    }
                     s.deleteMockShape();
                 }
             }
@@ -50,5 +62,8 @@ export class MoveHandler extends MouseHandler {
             //this.curShape.setStyle(ShapeStyle.HelperShape);
         }
         
+    }
+    getCaptionsKey(){
+        return "transform";
     }
 }

@@ -2,19 +2,18 @@ import Geometry,{Intersection, SLine} from "../../utils/geometry";
 import Shape from "./Shape";
 import DistancePicker from "./pickers/DistancePicker";
 import PointPicker from "./pickers/PointPicker";
-import PointMarker from "./markers/PointMarker";
 import {PropertyTypes} from "./PropertyData";
 export default class SLineShape extends Shape{
     constructor(line){
         super();
         this.model=line;
         this.properties=[
-            {type:PropertyTypes.STRING,value:'SLine'},
-            {type:PropertyTypes.NUMBER,value:line.a,picker:DistancePicker},
-            {type:PropertyTypes.NUMBER,value:line.b,picker:DistancePicker},
-            {type:PropertyTypes.NUMBER,value:line.c,picker:DistancePicker},
-            {type:PropertyTypes.VERTEX,value:line.p1,picker:PointPicker},
-            {type:PropertyTypes.VERTEX,value:line.p2,picker:PointPicker},
+            {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.NUMBER,value:line.a,labelKey:"a",picker:DistancePicker},
+            {type:PropertyTypes.NUMBER,value:line.b,labelKey:"b",picker:DistancePicker},
+            {type:PropertyTypes.NUMBER,value:line.c,labelKey:"c",picker:DistancePicker},
+            {type:PropertyTypes.VERTEX,value:line.p1,labelKey:"p1",picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:line.p2,labelKey:"p2",picker:PointPicker},
         ];
         this.defineProperties();
     }
@@ -84,5 +83,8 @@ export default class SLineShape extends Shape{
     }
     toString(){
         return `Straight Line ${this.model.a}X+${this.model.b}Y+${this.model.c}=0`;
+    }
+    getDescription(){
+        return 'SLine';
     }
 }

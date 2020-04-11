@@ -10,9 +10,9 @@ export default class LineShape extends Shape{
         super();
         this.model=line;
         this.properties=[
-            {type:PropertyTypes.STRING,value:'Line'},
-            {type:PropertyTypes.VERTEX,value:line.p1,picker:PointPicker},
-            {type:PropertyTypes.VERTEX,value:line.p2,picker:PointPicker},
+            {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.VERTEX,value:line.p1,labelKey:"p1",picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:line.p2,labelKey:"p2",picker:PointPicker},
         ]
         this.defineProperties();
     }
@@ -54,6 +54,9 @@ export default class LineShape extends Shape{
     }
     toString(){
             return `Line P1(${this.this.model.p1.x},${this.this.model.p1.y}) P2(${this.model.p2.x},${this.model.p2.y})`;
+    }
+    getDescription(){
+        return 'Line';
     }
 
 }

@@ -3,11 +3,15 @@ import LineShape from "../components/shapes/LineShape";
 import ShapeStyle from "../components/shapes/ShapeStyle";
 import AngleShape from "../components/shapes/helpers/AngleShape";
 import Geometry, { Vector } from "../utils/geometry";
+import { PropertyTypes } from "../components/shapes/PropertyData";
 
 export class RotateHandler extends MouseHandler {
     constructor(state){
         super(state);
         this.prevAngle=0;
+        this.properties=[
+            {type:PropertyTypes.BOOL,value:false,labelKey:"make_copy",setValue:(value)=>{this.makeCopy=value;}},
+        ]
     }
     move({curPoint,screenProps}){
         super.move({curPoint,screenProps});
@@ -56,7 +60,15 @@ export class RotateHandler extends MouseHandler {
         case 3:
             for(let s of screenProps.shapes){
                 if(s.getState().selected){
-                    s.applyTransform();
+                    if(this.makeCopy){
+                        const newShape=s.copyShape();
+                        newShape.mockShape=s.mockShape;
+                        newShape.applyTransform();
+                        newShape.deleteMockShape();
+                        screenProps.actions.addShape(newShape);
+                    }else{
+                        s.applyTransform();
+                    }
                     s.deleteMockShape();
                 }
             }
@@ -67,5 +79,8 @@ export class RotateHandler extends MouseHandler {
         default:
     }
         
+    }
+    getCaptionsKey(){
+        return "transform";
     }
 }

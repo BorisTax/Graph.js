@@ -9,6 +9,7 @@ export class MouseHandler {
         this.curShape=null;
         this.curHelperShapes=null;
         this.statusBar='';
+        this.properties=[];
     }
     click({curPoint,screenProps}){
         this.clickCount++;

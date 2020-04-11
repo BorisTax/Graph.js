@@ -79,38 +79,38 @@ export const captions={
   "deleteButton":"Delete",
   "shapes":{
     "Circle":{
-      "0":"Circle",
-      "1":"Center",
-      "2":"Radius"
+      "name":"Circle",
+      "center":"Center",
+      "radius":"Radius"
     },
     "Rectangle":{
-      "0":"Rectangle",
-      "1":"P1",
-      "2":"P2"
+      "name":"Rectangle",
+      "p1":"P1",
+      "p2":"P2"
     },
     "Line":{
-      "0":"Line",
-      "1":"P1",
-      "2":"P2"
+      "name":"Line",
+      "p1":"P1",
+      "p2":"P2"
     },
     "SLine":{
-      "0":"Straight Line AX+BY+C=0",
-      "1":"A",
-      "2":"B",
-      "3":"C",
-      "4":"P1",
-      "5":"P2"
+      "name":"Straight Line AX+BY+C=0",
+      "a":"A",
+      "b":"B",
+      "c":"C",
+      "p1":"P1",
+      "p2":"P2"
     },
     "RLine":{
-      "0":"Ray Line",
-      "1":"Origin",
-      "2":"Direction"
+      "name":"Ray Line",
+      "origin":"Origin",
+      "direction":"Direction"
     },
     "Triangle":{
-      "0":"Triangle",
-      "1":"P1",
-      "2":"P2",
-      "3":"P3"
+      "name":"Triangle",
+      "p1":"P1",
+      "p2":"P2",
+      "p3":"P3"
     }
   },
   "pickers":{
@@ -162,6 +162,7 @@ export const captions={
     }
   },
   "transform":{
+    "make_copy":"Make copy",
     "move":{
       "description":"Move",
       "steps":[

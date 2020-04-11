@@ -1,9 +1,7 @@
 import { MouseHandler } from "./MouseHandler";
 
 export class StatusSelectHandler extends MouseHandler {
-    constructor(state){
-        super(state);
-    }
+
     move({curPoint,screenProps,shiftKey,altKey}){
         super.move({curPoint,screenProps});
         //this.snap(screenProps);

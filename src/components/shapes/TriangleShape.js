@@ -2,7 +2,6 @@ import Geometry, {Coord2D,Line,Intersection} from '../../utils/geometry';
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
-import PointMarker from './markers/PointMarker';
 import PointPicker from './pickers/PointPicker';
 import {PropertyTypes} from "./PropertyData";
 export default class TriangleShape extends Shape{
@@ -11,10 +10,10 @@ export default class TriangleShape extends Shape{
         this.p=[new Coord2D(),new Coord2D(),new Coord2D()];
         this.model=model;
         this.properties=[
-            {type:PropertyTypes.STRING,value:'Triangle'},
-            {type:PropertyTypes.VERTEX,value:this.model.points[0],picker:PointPicker},
-            {type:PropertyTypes.VERTEX,value:this.model.points[1],picker:PointPicker},
-            {type:PropertyTypes.VERTEX,value:this.model.points[2],picker:PointPicker},
+            {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.VERTEX,value:this.model.points[0],labelKey:"p1",picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:this.model.points[1],labelKey:"p2",picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:this.model.points[2],labelKey:"p3",picker:PointPicker},
         ]
         this.defineProperties();
     }
@@ -72,5 +71,8 @@ export default class TriangleShape extends Shape{
     }
     toString(){
         return "Triangle";
+    }
+    getDescription(){
+        return 'Triangle';
     }
 }

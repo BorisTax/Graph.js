@@ -56,7 +56,7 @@ class PropertyField extends React.Component{
                 active={this.props.status===Status.PICK&&this.props.id===this.props.pickedEditId} 
                 onClick={()=>{
                     if(this.props.status===Status.PICK&&this.props.id===this.props.editId){this.props.cancel();return;}   
-                    this.props.pickProperty(this.props.id,this.props.propKey,new this.props.picker());
+                    this.props.pickProperty(this.props.id,new this.props.picker());
                  }}></PickButton>:<></>}
         </div>
         </div>

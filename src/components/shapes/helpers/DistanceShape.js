@@ -2,7 +2,6 @@ import Geometry, { Intersection} from '../../../utils/geometry';
 import EndSnapMarker from '../markers/EndSnapMarker';
 import Shape from "../Shape";
 import PointPicker from '../pickers/PointPicker';
-import PointMarker from '../markers/PointMarker';
 import ShapeStyle from '../ShapeStyle';
 import { Color } from '../../colors';
 import TextShape from '../TextShape';
@@ -71,6 +70,9 @@ export default class DistanceShape extends Shape{
     }
     toString(){
             return `Line P1(${this.this.model.p1.x},${this.this.model.p1.y}) P2(${this.model.p2.x},${this.model.p2.y})`;
+    }
+    getDescription(){
+        return 'Distance';
     }
 
 }

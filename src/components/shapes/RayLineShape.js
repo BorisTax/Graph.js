@@ -9,9 +9,9 @@ export default class RayLineShape extends Shape{
         super();
         this.model={...line,vector:{x:line.directionPoint.x-line.origin.x,y:line.directionPoint.y-line.origin.y}};
         this.properties=[
-            {type:PropertyTypes.STRING,value:'RLine'},
-            {type:PropertyTypes.VERTEX,value:line.origin,picker:PointPicker},
-            {type:PropertyTypes.VERTEX,value:line.directionPoint,picker:PointPicker},
+            {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.VERTEX,value:line.origin,labelKey:"origin",picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:line.directionPoint,labelKey:"direction",picker:PointPicker},
         ]
     this.defineProperties();
     }
@@ -70,6 +70,9 @@ export default class RayLineShape extends Shape{
     }
     toString(){
         return `Ray origin (${this.model.origin.x},${this.model.origin.y}) vector(${this.model.vector.x},${this.model.vector.y})`;
+    }
+    getDescription(){
+        return 'RLine';
     }
 
 }

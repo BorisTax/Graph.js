@@ -2,8 +2,7 @@ import {Coord2D} from "../../utils/geometry";
 import Geometry from "../../utils/geometry";
 import CenterSnapMarker from './markers/CenterSnapMarker';
 import Shape from "./Shape";
-import {PropertyTypes, RegExp} from "./PropertyData";
-import PointMarker from "./markers/PointMarker";
+import {PropertyTypes} from "./PropertyData";
 import PointPicker from './pickers/PointPicker'
 import DistancePicker from './pickers/DistancePicker'
 import ShapeStyle from "./ShapeStyle";
@@ -14,9 +13,9 @@ export default class CircleShape extends Shape{
         this.model=circle;
         this.setStyle(new ShapeStyle())
         this.properties=[
-            {type:PropertyTypes.STRING,value:'Circle'},
-            {type:PropertyTypes.VERTEX,value:circle.center,show:false,selected:false,picker:PointPicker},
-            {type:PropertyTypes.NUMBER,value:circle.radius,picker:DistancePicker},
+            {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.VERTEX,value:circle.center,labelKey:"center",picker:PointPicker},
+            {type:PropertyTypes.POSITIVE_NUMBER,value:circle.radius,labelKey:"radius",picker:DistancePicker},
         ]
         this.defineProperties();
     }
@@ -30,8 +29,6 @@ export default class CircleShape extends Shape{
     refresh(realRect, screenRect){
         this.screenCenter=Geometry.realToScreen(this.model.center,realRect,screenRect);
         this.screenRadius=Geometry.realToScreenLength(this.model.radius,realRect.width,screenRect.width);
-        if(this.activePoint) 
-            this.activePointMarker=new PointMarker(this.activePoint)
 
     }
 
@@ -86,6 +83,9 @@ export default class CircleShape extends Shape{
     }
     toString(){
         return "Center("+this.model.center.x+","+this.model.center.y+") radius("+this.model.radius+")";
+    }
+    getDescription(){
+        return 'Circle';
     }
 
 }

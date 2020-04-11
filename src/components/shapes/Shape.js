@@ -15,6 +15,7 @@ export default class Shape {
     defineProperties(){
         const thisShape=this;
         for(let p of this.properties){
+            p.parentLabelKeys=[this.getDescription()];
             p.setValue=function(value){
                 this.value=value;
                 this.changed=true;

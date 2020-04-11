@@ -3,8 +3,8 @@ import { MouseHandler } from "./MouseHandler";
 export class StatusPanHandler extends MouseHandler {
     constructor(state){
         super(state);
-        this.dragX0=this.curRealPoint.x;
-        this.dragY0=this.curRealPoint.y;
+        this.dragX0=this.coord.x;
+        this.dragY0=this.coord.y;
     }
     move({curPoint,screenProps}){
         //let coord=Geometry.screenToReal(curPoint.x,curPoint.y,screenProps.viewPortWidth,screenProps.viewPortHeight,screenProps.topLeft,screenProps.bottomRight);
