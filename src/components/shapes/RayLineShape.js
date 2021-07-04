@@ -44,8 +44,8 @@ export default class RayLineShape extends Shape{
             this.p0=null;
             this.p1=null;
         }
-        if(this.activePoint) 
-            this.activePointMarker=new PointMarker(this.activePoint)
+        // if(this.activePoint) 
+        //     this.activePointMarker=new PointMarker(this.activePoint)
     }
     getMarkers(){
         let list=[];

@@ -206,6 +206,7 @@ export function modelReducer(state = initialState,action) {
                 pickedEditId:action.payload.index,
                 cursor:new PickCursor(state.curRealPoint),
                 mouseHandler:new StatusPickHandler({state,
+                    object:action.payload.object,
                     properties:action.payload.properties,
                     index:action.payload.index,
                     picker:action.payload.picker,

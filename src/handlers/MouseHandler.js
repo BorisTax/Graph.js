@@ -86,6 +86,9 @@ export class MouseHandler {
      setProperties(props){
         this.properties=props;
     }
+    getCurrentObject(){
+        return this.currentObject;
+    }
      getRealRect(screenProps){
         let realRect = new Rectangle();
         realRect.topLeft = screenProps.topLeft;

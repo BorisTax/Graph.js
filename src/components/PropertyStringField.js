@@ -7,7 +7,7 @@ import { ScreenActions } from "../actions/ScreenActions";
 class PropertyField extends React.Component{
     constructor(props){
         super(props);
-        this.state={value:props.value.toFixed(4),correct:true,prevValue:props.value.toFixed(4),originValue:props.value.toFixed(4)}
+        this.state={value:props.value,correct:true,prevValue:props.value,originValue:props.value}
     }
     change(e){
         let v=e.target.value;
@@ -29,7 +29,7 @@ class PropertyField extends React.Component{
                     return;
                     }
             }else{
-                if(this.props.test(r)) {
+                if(this.props.test(v)) {
                     this.props.setProperty(v);
                     this.setState({value:v,correct:true,prevValue:v});
                     return;
@@ -40,13 +40,13 @@ class PropertyField extends React.Component{
        return false;
         
     }
-    static getDerivedStateFromProps(nextProps,prevState){
-         return {...nextProps,value:nextProps.value,originValue:nextProps.value,correct:true};
-     }
+    // static getDerivedStateFromProps(nextProps,prevState){
+    //      return {...nextProps,value:nextProps.value,originValue:nextProps.value,correct:true};
+    //  }
 
     render(){
         const v=this.state.value;
-        const [value,correct]=isNaN(+v)?[v,false]:v===""?[v,false]:[(+v).round4(),true];
+        const [value,correct]=[v,this.props.test(v)];
         return <div className={"noselect"}>
             <div style={{display:'flex',flexDirection:'row',alignContent:'center'}}>
             <span style={{color:this.props.selected?"red":"black",marginRight:"5px"}}>{this.props.label}</span>

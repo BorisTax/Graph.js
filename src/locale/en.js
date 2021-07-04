@@ -111,6 +111,9 @@ export const captions={
       "p1":"P1",
       "p2":"P2",
       "p3":"P3"
+    },
+    "Function":{
+      "name":"Function",
     }
   },
   "pickers":{
@@ -155,6 +158,10 @@ export const captions={
     "TriangleCreator":{
       "description":"Triangle",
       "steps":["Select first point","Select second point","Select third"]
+    },
+    "FunctionCreator":{
+      "description":"Function",
+      "steps":["Select point"]
     },
     "SelectRectCreator":{
       "description":"",

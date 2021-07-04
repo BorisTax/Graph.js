@@ -1,8 +1,9 @@
 import { MouseHandler } from "./MouseHandler";
 
 export class StatusPickHandler extends MouseHandler {
-    constructor({state,properties,index,picker}){
+    constructor({state,object,properties,index,picker}){
         super(state);
+        this.currentObject=object;
         this.properties=properties;
         this.index=index;
         this.picker=picker;

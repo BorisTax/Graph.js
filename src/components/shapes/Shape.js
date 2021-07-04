@@ -30,7 +30,7 @@ export default class Shape {
                 p.regexp=RegExp.NUMBER;
                 p.marker=new PointMarker(p.value,false);
                 p.setActive=function(active){
-                    this.selected=active;
+                    //this.selected=active;
                     this.marker.setActive(active);
                 }
                 break;
@@ -42,6 +42,11 @@ export default class Shape {
                 break;
             default:
           }
+        }
+    }
+    deactivatePoints(){
+        for(let p of this.properties){
+            if(p.marker) p.marker.active=false;
         }
     }
     drawSelf(ctx,realRect, screenRect){
@@ -107,13 +112,13 @@ export default class Shape {
         for(const cp of this.properties) {
             if(cp.type!==PropertyTypes.VERTEX) continue;
             cp.selected=false;
-            cp.marker.setActive(false);
+            cp.marker.setSelected(false);
         }
         this.selectPoint(key);
     }
     selectPoint(pointIndex){
             this.properties[pointIndex].selected=true;
-            this.properties[pointIndex].marker.setActive(true);
+            this.properties[pointIndex].marker.setSelected(true);
     }
     setControlPoint(index,point){
         this.properties[index].value={...point}
@@ -165,7 +170,7 @@ export default class Shape {
                 if(cp.type!==PropertyTypes.VERTEX) continue;
                 cp.show=true
                 cp.marker.setPoint(cp.value)
-                cp.marker.setActive(cp.selected||cp.toBeSelected)
+                cp.marker.setSelected(cp.selected||cp.toBeSelected)
             }
             return;
         }else {
@@ -175,7 +180,7 @@ export default class Shape {
                 cp.show=false;
                 cp.selected=false;
                 cp.toBeSelected=false;
-            }
+                }
             this.pointMarkers=null;
         }
         if(this.state.highlighted) this.setStyle(new ShapeStyle(Color.BLACK,ShapeStyle.SOLID,2));

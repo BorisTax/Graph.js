@@ -22,7 +22,11 @@ export default class PointMarker{
     }
     setActive(active){
         this.active=active
-        this.setColor(active?Color.ACTIVE_POINT_MARKER:Color.POINT_MARKER);
+        //this.setColor(active?Color.SELECTED_POINT_MARKER:Color.POINT_MARKER);
+    }
+    setSelected(selected){
+        this.selected=selected
+        this.setColor(selected?Color.SELECTED_POINT_MARKER:Color.POINT_MARKER);
     }
     drawSelf(ctx, realRect, screenRect){
         this.refresh(realRect, screenRect);
@@ -31,6 +35,11 @@ export default class PointMarker{
         ctx.beginPath();
         ctx.arc(this.center.x+0.5,this.center.y+0.5,this.radius,0,2*Math.PI);
         ctx.fill();
+        if(this.active){
+            ctx.beginPath();
+            ctx.arc(this.center.x+0.5,this.center.y+0.5,this.radius*3,0,2*Math.PI);
+            ctx.stroke();
+        }
     }
     refresh(realRect, screenRect){
         this.center=Geometry.realToScreen(this.point,realRect,screenRect);

@@ -79,10 +79,10 @@ export const ScreenActions = {
       type: ScreenActions.DELETE_SELECTED_SHAPES
     };
   },
-  pickProperty: (properties, index, picker) => {
+  pickProperty: (object,properties, index, picker) => {
     return {
       type: ScreenActions.PICK_PROPERTY,
-      payload: {properties, index, picker}
+      payload: {object,properties, index, picker}
     };
   },
   refreshSelectionManager: () => {

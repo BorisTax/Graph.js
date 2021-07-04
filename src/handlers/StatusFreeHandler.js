@@ -36,6 +36,8 @@ export class StatusFreeHandler extends MouseHandler {
         if(shape){
             const props=shape.getProperties();
             this.setProperties(props);
+            shape.deactivatePoints();
+            this.currentObject=shape;
         }
     }
     getCaptionsKey(){
