@@ -55,7 +55,9 @@ export const captions={
     "createTriangleDescribed":"Triangle described about circle",
     "createParabola":"Parabola",
     "createHyperbola":"Hyperbola",
-    "createFunction":"User defined function",
+    "createFunction":"Cartesian function",
+    "createParamFunction":"Parametric function",
+    "createPolarFunction":"Polar function",
     "development":"(in development)"
   },
   "selection":{
@@ -114,6 +116,16 @@ export const captions={
     },
     "Function":{
       "name":"Function",
+      "func":"Y="
+    },
+    "FunctionParam":{
+      "name":"Parametric Function",
+      "xfunc":"X=",
+      "yfunc":"Y=",
+      "angle":"Angle="
+    },
+    "FunctionPolar":{
+      "name":"Polar Function",
     }
   },
   "pickers":{
@@ -161,6 +173,14 @@ export const captions={
     },
     "FunctionCreator":{
       "description":"Function",
+      "steps":["Select point"]
+    },
+    "FunctionParamCreator":{
+      "description":"FunctionParam",
+      "steps":["Select point"]
+    },
+    "FunctionPolarCreator":{
+      "description":"FunctionPolar",
       "steps":["Select point"]
     },
     "SelectRectCreator":{

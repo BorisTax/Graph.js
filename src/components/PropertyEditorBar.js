@@ -5,6 +5,7 @@ import PropertyStringField from './PropertyStringField';
 import PropertyMultField from './PropertyMultField';
 import { ScreenActions} from '../actions/ScreenActions';
 import {PropertyTypes} from "./shapes/PropertyData";
+import PropertyEditButtonsBar from "./PropertyEditButtonsBar";
 import PropertyBool from './PropertyBool';
 import { Status } from '../reducers/model';
 class PropertyEditorBar extends React.Component{
@@ -64,6 +65,9 @@ class PropertyEditorBar extends React.Component{
             <div className='propertyGroup'>
             {propElements}
             </div>
+            {this.props.model.selectedShapes.length>0?<PropertyEditButtonsBar
+                                    deleteConfirm={this.props.deleteConfirm.bind(null,true)}
+                                    caption={this.props.captions.deleteButton}/>:<></>}
         </div>
     }
 }
@@ -80,6 +84,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
     return {
         repaint:()=>dispatch(ScreenActions.repaint()),
+        deleteConfirm:()=>dispatch(ScreenActions.deleteConfirm()),
         pickProperty:(object,properties,index,picker)=>dispatch(ScreenActions.pickProperty(object,properties,index,picker)),
     }
 };

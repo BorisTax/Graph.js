@@ -25,13 +25,13 @@ class PropertyField extends React.Component{
                 if(v.match(r)!==null) {
                     const n=Number.parseFloat(v);
                     this.props.setProperty(n);
-                    this.setState({value:n,correct:true,prevValue:n});
+                    this.setState({value:n,originValue:n,correct:true,prevValue:n});
                     return;
                     }
             }else{
                 if(this.props.test(v)) {
                     this.props.setProperty(v);
-                    this.setState({value:v,correct:true,prevValue:v});
+                    this.setState({value:v,originValue:v,correct:true,prevValue:v});
                     return;
                     }
             }

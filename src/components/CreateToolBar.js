@@ -10,6 +10,8 @@ import Circle3PCreator from "./shapes/shapecreators/Circle3PCreator";
 import TriangleCreator from "./shapes/shapecreators/TriangleCreator";
 import RectangleCreator from "./shapes/shapecreators/RectangleCreator";
 import FunctionCreator from "./shapes/shapecreators/FunctionCreator";
+import FunctionParamCreator from "./shapes/shapecreators/FunctionParamCreator";
+import FunctionPolarCreator from "./shapes/shapecreators/FunctionPolarCreator";
 import {ComponentActions} from "../actions/ComponentActions";
 import {ScreenActions} from "../actions/ScreenActions";
 import ShapeStyle from './shapes/ShapeStyle';
@@ -84,7 +86,9 @@ class CreateToolBar extends React.Component{
                 onClick={this.onClick.bind(this)}
             />
             <ToolButtonGroup
-                buttons={[{title:cap.createFunction,id:"Function",params:{creator:FunctionCreator}}
+                buttons={[{title:cap.createFunction,id:"Function",params:{creator:FunctionCreator}},
+                          {title:cap.createFunctionParam,id:"FunctionParam",params:{creator:FunctionParamCreator}},
+                          {title:cap.createFunctionPolar,id:"FunctionPolar",params:{creator:FunctionPolarCreator}}
                 ]}
                 size={'largeSizeButton'}
                 activeButton={this.props.activeButton}

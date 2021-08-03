@@ -15,14 +15,14 @@ function replaceMath(str){
 }
 function test(str){
 
-    const operators=[...functions,'\\d','\\(','\\)','\\+','\\-',',','\\.','\\*','\\/','x']
+    const operators=[...functions,'\\d','\\(','\\)','\\+','\\-',',','\\.','\\*','\\/','t']
     let s=str.toLowerCase()
-    if (s.match('xx')) return false;
+    if (s.match('tt')) return false;
     for(let op of operators){
         s=s.replace(RegExp(op,"g"),"")
     }
     if (s!="") return false
-    let x=1;
+    let t=1;
     s=str.toLowerCase()
     for(let func of functions){
         s=s.replace(RegExp(func,"g"),`Math.${func}`)
@@ -36,13 +36,15 @@ function test(str){
     return true
 }
 
-export default class FunctionShape extends Shape{
-    constructor({func="pow(x,3)"}){
+export default class FunctionParamShape extends Shape{
+    constructor({yfunc="3.6*(cos(t)+cos(3.6*t)/2.6)",xfunc="3.6*(sin(t)-sin(3.6*t)/2.6)",angle=360}){
         super();
-        this.model={func,mathFunc:replaceMath(func)};
+        this.model={angle,yfunc,xfunc,ymathFunc:replaceMath(yfunc),xmathFunc:replaceMath(xfunc)};
         this.properties=[
             {type:PropertyTypes.STRING,labelKey:"name"},
-            {type:PropertyTypes.INPUT,value:func,labelKey:"func",test},
+            {type:PropertyTypes.INPUT,value:xfunc,labelKey:"xfunc",test},
+            {type:PropertyTypes.INPUT,value:yfunc,labelKey:"yfunc",test},
+            {type:PropertyTypes.POSITIVE_NUMBER,value:angle,labelKey:"angle"},
         ]
         this.defineProperties();
     }
@@ -52,26 +54,26 @@ export default class FunctionShape extends Shape{
         let first=true;
         let dw=realRect.width/screenRect.width
         let dh=realRect.height/screenRect.height
-        for(let vx=0;vx<=screenRect.width;vx+=1){
-        let x=realRect.topLeft.x+dw*vx
-        let ry=eval(this.model.mathFunc);
-        if(ry==='Infinity'){ry=realRect.topLeft.y;}
-        if(ry==='-Infinity'){ry=realRect.bottomRight.y;}
-        let vy=(realRect.topLeft.y-ry)/dh
-        
-        if ((vy>=0&&vy<=screenRect.height)){
-            if (first) {ctx.moveTo(vx+0.5,vy+0.5);}
-            if (!first) ctx.lineTo(vx+0.5,vy+0.5);
+        let p={x:0,y:0}
+        for(let ta=0;ta<=this.model.angle;ta+=1){
+        let t=Math.PI*ta/180;
+        p.x=eval(this.model.xmathFunc);
+        p.y=eval(this.model.ymathFunc);
+        //if(ry==='Infinity'){ry=realRect.topLeft.y;}
+        //if(ry==='-Infinity'){ry=realRect.bottomRight.y;}
+        let {x,y}=Geometry.realToScreen(p,realRect,screenRect);
+        //if ((vy>=0&&vy<=screenRect.height)){
+            if (first) {ctx.moveTo(x+0.5,y+0.5);}
+            if (!first) ctx.lineTo(x+0.5,y+0.5);
             first=false;
             }
-            else first=true;
-        }
+           // else first=true;
+        //}
         
         ctx.stroke();
     }
     refresh(realRect, screenRect){
-        this.screenRect=screenRect
-        this.realRect=realRect
+        
 
     }
     getMarkers(){
@@ -83,25 +85,29 @@ export default class FunctionShape extends Shape{
     }
 
     refreshModel(){
-        this.model.func=this.properties[1].value;
-        this.model.mathFunc=replaceMath(this.model.func);
+        this.model.xfunc=this.properties[1].value;
+        this.model.yfunc=this.properties[2].value;
+        this.model.angle=+this.properties[3].value;
+        this.model.xmathFunc=replaceMath(this.model.xfunc);
+        this.model.ymathFunc=replaceMath(this.model.yfunc);
         //this.model.p1=this.properties[1].value;
         //this.model.p2=this.properties[2].value;
      }
 
     getDistance(point) {
-        let min=1000000;
-        let dw=this.realRect.width/this.screenRect.width
-        for(let vx=0;vx<=this.screenRect.width;vx+=1){
-            let x=this.realRect.topLeft.x+dw*vx
-            let ry=eval(this.model.mathFunc);
-            let y=eval(this.model.mathFunc);
-            let d=Math.sqrt((x-point.x)*(x-point.x) +(y-point.y)*(y-point.y))
+        //let x=point.x
+        //let y=eval(this.model.mathFunc)
+        //return Math.abs(point.y-y)
+        let min=100000000
+        const p={x:0,y:0}
+        for(let ta=0;ta<=this.model.angle;ta+=1){
+            let t=Math.PI*ta/180;
+            p.x=eval(this.model.xmathFunc);
+            p.y=eval(this.model.ymathFunc);
+            let d=Math.sqrt((p.x-point.x)*(p.x-point.x) +(p.y-point.y)*(p.y-point.y))
             if (min>d) min=d;
         }
-
-        return min
-        //return Geometry.PointToLineDistance(point,{p1:this.model.p1,p2:this.model.p2});
+        return min;
     }
 
     isInRect(topLeft,bottomRight){
@@ -114,10 +120,10 @@ export default class FunctionShape extends Shape{
         return {cross,full};    
     }
     toString(){
-            return `Function y=${this.model}`;
+            return `Function y=${this.model.yfunc} x=${this.model.xfunc}`;
     }
     getDescription(){
-        return 'Function';
+        return 'FunctionParam';
     }
 
 }

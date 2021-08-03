@@ -54,3 +54,11 @@
     background-image: url("images/icons/fx.svg");
     background-size: cover;
 }
+#FunctionParam{
+    background-image: url("images/icons/ft.svg");
+    background-size: cover;
+}
+#FunctionPolar{
+    background-image: url("images/icons/pa.svg");
+    background-size: cover;
+}

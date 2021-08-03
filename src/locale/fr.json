@@ -134,6 +134,18 @@
       "1": "P1",
       "2": "P2",
       "3": "P3"
+    },
+    "Function":{
+      "name":"Function",
+      "func":"Y="
+    },
+    "FunctionParam":{
+      "name":"Parametric Function",
+      "xfunc":"X=",
+      "yfunc":"Y="
+    },
+    "FunctionPolar":{
+      "name":"Polar Function"
     }
   },
   "pickers": {
