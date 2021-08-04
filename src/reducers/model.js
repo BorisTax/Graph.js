@@ -11,6 +11,7 @@ import SelectionShape from "../components/shapes/selection/SelectionShape";
 import SelectRectCreator from "../components/shapes/shapecreators/SelectRectCreator";
 import DragCursor from "../components/shapes/cursors/DragCursor";
 import MoveCursor from "../components/shapes/cursors/MoveCursor";
+import RotateCursor from "../components/shapes/cursors/RotateCursor";
 import PickCursor from "../components/shapes/cursors/PickCursor";
 import { Color } from "../components/colors";
 import { StatusFreeHandler } from "../handlers/StatusFreeHandler";
@@ -20,6 +21,7 @@ import { StatusSelectHandler } from "../handlers/StatusSelectHandler";
 import { StatusCreateHandler } from "../handlers/StatusCreateHandler";
 import { MoveHandler } from "../handlers/MoveHandler";
 import { AppActions } from "../actions/AppActions";
+import { RotateHandler } from "../handlers/RotateHandler";
 
 export const Status={
     FREE:'FREE',
@@ -29,8 +31,8 @@ export const Status={
     CANCEL:'CANCEL',
     PAN:'PAN',
     PICK:'PICK',
-    PICK_END:'PICK_END', 
     MOVETRANS:'MOVETRANS',
+    ROTATETRANS:'ROTATETRANS',
 }
 const xAxeShape=new SLineShape(new SLine(0,1,0),new Circle(new Coord2D(0,0),8));
 const yAxeShape=new SLineShape(new SLine(1,0,0),new Circle(new Coord2D(0,0),8));
@@ -38,10 +40,27 @@ xAxeShape.setStyle(new ShapeStyle(Color.RED,ShapeStyle.SOLID));
 yAxeShape.setStyle(new ShapeStyle(Color.RED,ShapeStyle.SOLID));
 
 const initialState = {
-    bottomRight:{x:10,y:-10},
-    screenOuterCircle:new Circle({x:0,y:0},20),
-    curCoord:{x:0,y:0},
-    curScreenPoint:{x:225,y:225},
+    viewPorts:[
+        {
+            topLeft:{x:-10,y:10},
+            bottomRight:{x:10,y:-10},
+            viewPortOuterCircle:new Circle({x:0,y:0},20),
+            //curRealPoint:{x:0,y:0},
+            curCanvasPoint:{x:225,y:225},
+            marginTop:15,marginLeft:40,marginBottom:15,marginRight:10,
+            gridStep:1,
+            gridStepPixels:1,
+            ratio:1,pixelRatio:1,
+            realWidth:20,realHeight:20,
+            viewPortHeight:550,
+            viewPortWidth:550,
+        },
+    ],
+    currentProps:[],//properties of the selected shape or active tool shown in the PropertyBar
+    //bottomRight:{x:10,y:-10},
+    //screenOuterCircle:new Circle({x:0,y:0},20),
+    curRealPoint:{x:0,y:0},
+    //curScreenPoint:{x:225,y:225},
     cursor:new SelectCursor({x:0,y:0}),
     curShape:null,
     cyclicCreation:false,
@@ -49,14 +68,13 @@ const initialState = {
     gridStep:1,
     gridStepPixels:1,
     marginTop:15,marginLeft:40,marginBottom:15,marginRight:10,
-    pickedData:{data:null,editId:0,fix:false},
     picker:null,
     prevStatus:Status.FREE,
     ratio:1,pixelRatio:1,
     realWidth:20,realHeight:20,
-    repaint:0,//random number is used to rerender all components when it's changed
-    screenHeight:550,
-    screenWidth:550,
+    repaint:0,//random number used to rerender all components when it's changed
+    viewPortHeight:550,
+    viewPortWidth:550,
     selectedShapes:[],
     selectDist:2,
     selectionShape:new SelectionShape(SelectRectCreator),
@@ -64,7 +82,7 @@ const initialState = {
     shapes:[],
     shapeCreator:null,
     showConfirm:{show:false,message:""},
-    selectionManager:new SelectionManager(),
+    selectionManager:new SelectionManager([]),
     show:{grid:true},
     snap:{snapClass:null,snap:false},
     snapDist:20,snapMinDist:10,
@@ -77,11 +95,10 @@ const initialState = {
     yAxe:yAxeShape,
 };
 //initialState.mouseHandler=new StatusFreeHandler({selectDist:initialState.selectDist,pixelRatio:initialState.pixelRatio});
-initialState.mouseHandler=new StatusFreeHandler({point:initialState.curCoord,screenPoint:initialState.curScreenPoint});
-export function screenReducer(state = initialState,action) {
+initialState.mouseHandler=new StatusFreeHandler(initialState);
+export function modelReducer(state = initialState,action) {
     const newState={...state}
     var tl,c,br,bc,params,rh,r;
-    let handlerOptions={point:state.curCoord,screenPoint:state.curScreenPoint}
     //delete(handlerOptions.mouseHandler);
     switch (action.type) {
         case ScreenActions.ABORT:
@@ -94,10 +111,11 @@ export function screenReducer(state = initialState,action) {
                 curHelperShapes:null,
                 shapeCreator:null,
                 picker:null,
+                pickedEditId:"",
                 creationStep:"",
                 currentShape:"",
-                cursor:new SelectCursor(state.curCoord),
-                mouseHandler:new StatusFreeHandler(handlerOptions),
+                cursor:new SelectCursor(state.curRealPoint),
+                mouseHandler:new StatusFreeHandler(state),
                 repaint:Math.random()}
         case ScreenActions.ADD_SHAPE:
             state.shapes.push(action.payload);
@@ -106,6 +124,7 @@ export function screenReducer(state = initialState,action) {
             state.shapes.forEach(s=>{
                 s.setState({selected:false,underCursor:false,highlighted:false,inSelection:false});
                 s.mockShape=null;})
+            state.selectionManager.deselectShapes();
             //for(const s of state.shapes) s.mockShape=null;
             return {...state,
                 status:Status.FREE,
@@ -114,10 +133,12 @@ export function screenReducer(state = initialState,action) {
                 curHelperShapes:null,
                 shapeCreator:null,
                 picker:null,
+                pickedEditId:"",
                 creationStep:"",
                 currentShape:"",
-                cursor:new SelectCursor(state.curCoord),
-                mouseHandler:new StatusFreeHandler(handlerOptions),
+                currentProps:[],
+                cursor:new SelectCursor(state.curRealPoint),
+                mouseHandler:new StatusFreeHandler(state),
                 repaint:Math.random()}
         case ScreenActions.CANCEL_SELECTION:
             state.shapes.forEach(s=>s.setState({selected:false,underCursor:false,highlighted:false,inSelection:false}))
@@ -129,9 +150,11 @@ export function screenReducer(state = initialState,action) {
                 curHelperShapes:null,
                 shapeCreator:null,
                 picker:null,
+                pickedEditId:"",
                 creationStep:"",
                 currentShape:"",
-                cursor:new SelectCursor(state.curCoord),
+                currentProps:[],
+                cursor:new SelectCursor(state.curRealPoint),
                 repaint:Math.random()}
         case ScreenActions.CENTER_TO_POINT:
             var point=action.payload;
@@ -143,7 +166,7 @@ export function screenReducer(state = initialState,action) {
             br.x=tl.x+state.realWidth;
             br.y=tl.y-state.realHeight;        
             //new screenOuterCircle
-            c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,tl,br);
+            c=Geometry.screenToReal(state.viewPortWidth/2,state.viewPortHeight/2,state.viewPortWidth,state.viewPortHeight,tl,br);
             r=Math.sqrt(state.realWidth*state.realWidth+state.realHeight*state.realHeight)/2;
             bc=new Circle(c,r);
             if(state.shapeCreator!=null) state.shapeCreator.refresh(bc);
@@ -154,14 +177,17 @@ export function screenReducer(state = initialState,action) {
                 shapeCreator:action.payload,
                 curShape:null,
                 curHelperShapes:null,
-                cursor:new DrawCursor(state.curCoord),
-                mouseHandler:new StatusCreateHandler(handlerOptions)
+                cursor:new DrawCursor(state.curRealPoint),
+                mouseHandler:new StatusCreateHandler(state)
             };
+        case ScreenActions.DELETE_CONFIRM:
+            if(state.shapes.some(s=>s.state.selected)) newState.showConfirm={show:true,messageKey:"deleteShapes",okAction:ScreenActions.deleteSelectedShapes.bind(null,false)}
+            return{...newState}
         case ScreenActions.DELETE_SELECTED_SHAPES:
             return{...state,
                 shapes:state.shapes.filter((s)=>!s.getState().selected),
                 selectedShapes:[],
-                mouseHandler:new StatusFreeHandler(handlerOptions),
+                mouseHandler:new StatusFreeHandler(state),
                 cursor: new SelectCursor()
             };
         case ScreenActions.PAN_SCREEN:
@@ -171,8 +197,20 @@ export function screenReducer(state = initialState,action) {
                 prevStatus:state.status,
                 prevCursor:state.cursor,
                 prevMouseHandler:state.mouseHandler,
-                cursor:new DragCursor(state.curCoord),
-                mouseHandler:new StatusPanHandler(handlerOptions)
+                cursor:new DragCursor(state.curRealPoint),
+                mouseHandler:new StatusPanHandler(state)
+            }
+        case ScreenActions.PICK_PROPERTY:
+            return {...state,
+                status:Status.PICK,
+                pickedEditId:action.payload.index,
+                cursor:new PickCursor(state.curRealPoint),
+                mouseHandler:new StatusPickHandler({state,
+                    object:action.payload.object,
+                    properties:action.payload.properties,
+                    index:action.payload.index,
+                    picker:action.payload.picker,
+                })
             }
         case ScreenActions.REFRESH_SNAP_MARKERS:
             state.snapMarkersManager.clear();
@@ -196,28 +234,27 @@ export function screenReducer(state = initialState,action) {
         case ScreenActions.SELECT_SHAPE:
             return{...state,selectedShapes:action.payload};
         case ScreenActions.SET_BOUNDED_CIRCLE:
-            c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,state.topLeft,state.bottomRight);
+            c=Geometry.screenToReal(state.viewPortWidth/2,state.viewPortHeight/2,state.viewPortWidth,state.viewPortHeight,state.topLeft,state.bottomRight);
             r=Math.sqrt(state.realWidth*state.realWidth+state.realHeight*state.realHeight)/2;
             bc=new Circle(c,r);
             if(state.shapeCreator!=null) state.shapeCreator.refresh(bc);
             return{...state,screenOuterCircle:bc}
-        case ScreenActions.DELETE_CONFIRM:
-            if(state.shapes.some(s=>s.state.selected)) newState.showConfirm={show:true,messageKey:"deleteShapes",okAction:ScreenActions.deleteSelectedShapes.bind(null,false)}
-            return{...newState}    
+        case ScreenActions.SET_CURRENT_PROPS:
+            return {...state,currentProps:action.payload}
         case ScreenActions.SET_DIMENSIONS:
             params=action.payload;
             rh=params.height*params.realWidth/params.width
             return {...state,
-                screenWidth:params.width,
-                screenHeight:params.height,
+                viewPortWidth:params.width,
+                viewPortHeight:params.height,
                 realWidth:params.realWidth,
                 ratio:params.width/params.height,
-                pixelRatio:params.realWidth/state.screenWidth,
+                pixelRatio:params.realWidth/state.viewPortWidth,
                 realHeight:rh,
                 bottomRight:{x:state.topLeft.x+params.realWidth,y:state.topLeft.y-rh}
             }
         case ScreenActions.SET_CUR_COORD:
-            return {...state,curCoord:{...action.payload.point},curScreenPoint:{...action.payload.screenPoint}}
+            return {...state,curRealPoint:{...action.payload.point},curScreenPoint:{...action.payload.screenPoint}}
         case ScreenActions.SET_CYCLIC_FLAG:
             return {...state,cyclicCreation:action.payload}
         case ScreenActions.SET_GRID_SNAP:
@@ -226,21 +263,12 @@ export function screenReducer(state = initialState,action) {
             return{...state,show:{grid:action.payload}};
         case AppActions.SHOW_CONFIRM:
             return {...state,showConfirm:action.payload};  
-        case ScreenActions.START_PICKING:
-            return {...state,
-                status:Status.PICK,
-                pickedData:{data:state.pickedData.data,editId:action.payload.id},
-                picker:action.payload.picker,
-                cursor:new PickCursor(state.curCoord),
-                mouseHandler:new StatusPickHandler(handlerOptions)
-            }
+
         case ScreenActions.START_SELECTION:
             return {...state,
                 status:Status.SELECT,
-                mouseHandler:new StatusSelectHandler(handlerOptions)
+                mouseHandler:new StatusSelectHandler(state)
             }
-        case ScreenActions.SET_PICKED_DATA:
-            return {...state,status:Status.PICK_END,pickedData:{data:action.payload,editId:state.pickedData.editId}}
         case ScreenActions.SET_PREV_COORD:
             return {...state,prevCoord:{...action.payload.point},prevScreenPoint:{...action.payload.screenPoint}}
         case ScreenActions.SET_PREV_STATUS:
@@ -258,7 +286,7 @@ export function screenReducer(state = initialState,action) {
             return {...state,ratio:action.payload}
         case ScreenActions.SET_REAL_WIDTH:
             var width=action.payload;
-            params=getRealWidthParams(width,state.screenWidth,state.screenHeight,state.topLeft,state.gridStep)
+            params=getRealWidthParams(width,state.viewPortWidth,state.viewPortHeight,state.topLeft,state.gridStep)
             params.gridStepPixels=Math.round(params.gridStep/params.pixelRatio);
             return {...state,...params}
         case ScreenActions.SET_SCALE:
@@ -267,7 +295,7 @@ export function screenReducer(state = initialState,action) {
             let dx=anchor.x-tl.x;
             let dy=anchor.y-tl.y;
             //getting new realHeight,pixelRatio,gridStepPixels,bottomRight
-            params=getRealWidthParams(state.realWidth*scale,state.screenWidth,state.screenHeight,tl,state.gridStep)
+            params=getRealWidthParams(state.realWidth*scale,state.viewPortWidth,state.viewPortHeight,tl,state.gridStep)
             dx=dx*scale;
             dy=dy*scale;
             //new topLeft
@@ -276,7 +304,7 @@ export function screenReducer(state = initialState,action) {
             br.x=tl.x+params.realWidth;
             br.y=tl.y-params.realHeight;
             //new screenOuterCircle
-            c=Geometry.screenToReal(state.screenWidth/2,state.screenHeight/2,state.screenWidth,state.screenHeight,tl,br);
+            c=Geometry.screenToReal(state.viewPortWidth/2,state.viewPortHeight/2,state.viewPortWidth,state.viewPortHeight,tl,br);
             r=Math.sqrt(params.realWidth*params.realWidth+params.realHeight*params.realHeight)/2;
             bc=new Circle(c,r);
             if(state.shapeCreator!=null) state.shapeCreator.refresh(bc);
@@ -287,7 +315,7 @@ export function screenReducer(state = initialState,action) {
                 else if(params.gridStep/params.pixelRatio>100)
                     if(params.gridStep>0.001) params.gridStep=params.gridStep/10;
                             params.gridStepPixels=Math.round(params.gridStep/params.pixelRatio);
-            var pr=params.realWidth/state.screenWidth;
+            var pr=params.realWidth/state.viewPortWidth;
             return {...state,...params,topLeft:tl,bottomRight:br,screenOuterCircle:bc,pixelRatio:pr}
         case ScreenActions.SET_SCREEN_CONTEXT:
             return{...state,context:action.payload};
@@ -315,18 +343,24 @@ export function screenReducer(state = initialState,action) {
             return {...state,topLeft,bottomRight,screenOuterCircle:bc}
         case ScreenActions.TRANS_MOVE:
             return{...state,
-                mouseHandler:new MoveHandler(handlerOptions),
+                mouseHandler:new MoveHandler(state),
                 activeTransformButton:'move',
                 cursor: new MoveCursor()
+            };
+        case ScreenActions.TRANS_ROTATE:
+            return{...state,
+                mouseHandler:new RotateHandler(state),
+                activeTransformButton:'rotate',
+                cursor: new RotateCursor()
             };
         default:
             return state
     }
 }
 
-function getRealWidthParams(realWidth,screenWidth,screenHeight,topLeft,gridStep){
-    const pr=realWidth/screenWidth;
-    const rh=screenHeight*pr;
+function getRealWidthParams(realWidth,viewPortWidth,viewPortHeight,topLeft,gridStep){
+    const pr=realWidth/viewPortWidth;
+    const rh=viewPortHeight*pr;
     const gsp=Math.round(gridStep/pr);
     const br={};
     br.x=topLeft.x+realWidth;

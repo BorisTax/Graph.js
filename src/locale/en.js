@@ -55,7 +55,9 @@ export const captions={
     "createTriangleDescribed":"Triangle described about circle",
     "createParabola":"Parabola",
     "createHyperbola":"Hyperbola",
-    "createFunction":"User defined function",
+    "createFunction":"Cartesian function",
+    "createParamFunction":"Parametric function",
+    "createPolarFunction":"Polar function",
     "development":"(in development)"
   },
   "selection":{
@@ -79,36 +81,55 @@ export const captions={
   "deleteButton":"Delete",
   "shapes":{
     "Circle":{
-      "0":"Circle",
-      "1":"Center",
-      "2":"Radius"
+      "name":"Circle",
+      "center":"Center",
+      "radius":"Radius"
     },
     "Rectangle":{
-      "0":"Rectangle",
-      "1":"P1",
-      "2":"P2"
+      "name":"Rectangle",
+      "p1":"P1",
+      "p2":"P2"
     },
     "Line":{
-      "0":"Line",
-      "1":"P1",
-      "2":"P2"
+      "name":"Line",
+      "p1":"P1",
+      "p2":"P2"
     },
     "SLine":{
-      "0":"Straight Line AX+BY+C=0",
-      "1":"A",
-      "2":"B",
-      "3":"C"
+      "name":"Straight Line AX+BY+C=0",
+      "a":"A",
+      "b":"B",
+      "c":"C",
+      "p1":"P1",
+      "p2":"P2"
     },
     "RLine":{
-      "0":"Ray Line",
-      "1":"Origin",
-      "2":"Direction"
+      "name":"Ray Line",
+      "origin":"Origin",
+      "direction":"Direction"
     },
     "Triangle":{
-      "0":"Triangle",
-      "1":"P1",
-      "2":"P2",
-      "3":"P3"
+      "name":"Triangle",
+      "p1":"P1",
+      "p2":"P2",
+      "p3":"P3"
+    },
+    "Function":{
+      "name":"Function",
+<<<<<<< HEAD
+      "func":"Y=",
+=======
+      "func":"Y="
+    },
+    "FunctionParam":{
+      "name":"Parametric Function",
+      "xfunc":"X=",
+      "yfunc":"Y=",
+      "angle":"Angle="
+    },
+    "FunctionPolar":{
+      "name":"Polar Function",
+>>>>>>> 0820a0e5c2c8ea22e6b2894ee43bfa16b2d5ceef
     }
   },
   "pickers":{
@@ -154,18 +175,39 @@ export const captions={
       "description":"Triangle",
       "steps":["Select first point","Select second point","Select third"]
     },
+    "FunctionCreator":{
+      "description":"Function",
+      "steps":["Select point"]
+    },
+    "FunctionParamCreator":{
+      "description":"FunctionParam",
+      "steps":["Select point"]
+    },
+    "FunctionPolarCreator":{
+      "description":"FunctionPolar",
+      "steps":["Select point"]
+    },
     "SelectRectCreator":{
       "description":"",
       "steps":["","Specify second selection point"]
     }
   },
   "transform":{
+    "make_copy":"Make copy",
     "move":{
       "description":"Move",
       "steps":[
         "Specify base point",
         "Specify point to move",
         ""
+      ]
+    },
+    "rotate":{
+      "description":"Rotate",
+      "steps":[
+        "Specify base point",
+        "Specify base axis",
+        "Specify rotation angle"
       ]
     }
   },

@@ -1,33 +1,34 @@
 import Geometry, { Rectangle } from "../utils/geometry";
 
 export class MouseHandler {
-    constructor({point,curScreenPoint}){
-        this.coord=point
-        this.curPoint=curScreenPoint;
-        this.prevCoord=point
+    constructor(state){
+        this.coord=state.curRealPoint
+        this.curPoint=state.curScreenPoint;
+        this.prevCoord=this.coord
         this.clickCount=0;
         this.curShape=null;
         this.curHelperShapes=null;
         this.statusBar='';
+        this.properties=[];
     }
     click({curPoint,screenProps}){
         this.clickCount++;
-        //this.coord=Geometry.screenToReal(curPoint.x,curPoint.y,screenProps.screenWidth,screenProps.screenHeight,screenProps.topLeft,screenProps.bottomRight);
-        this.coord=screenProps.curCoord;
+        //this.coord=Geometry.screenToReal(curPoint.x,curPoint.y,screenProps.viewPortWidth,screenProps.viewPortHeight,screenProps.topLeft,screenProps.bottomRight);
+        this.coord=screenProps.curRealPoint;
     }
     isOutRect(p,screenProps){
-        return p.x<screenProps.marginLeft||p.x>screenProps.screenWidth-screenProps.marginRight
-         ||p.y<screenProps.marginTop||p.y>screenProps.screenHeight-screenProps.marginBottom;
+        return p.x<screenProps.marginLeft||p.x>screenProps.viewPortWidth-screenProps.marginRight
+         ||p.y<screenProps.marginTop||p.y>screenProps.viewPortHeight-screenProps.marginBottom;
      }
      move({curPoint,screenProps}){
         this.prevPoint={...this.curPoint}
         this.curPoint={...curPoint}
 
-        this.coord=Geometry.screenToReal(this.curPoint.x,this.curPoint.y,screenProps.screenWidth,screenProps.screenHeight,screenProps.topLeft,screenProps.bottomRight);
+        this.coord=Geometry.screenToReal(this.curPoint.x,this.curPoint.y,screenProps.viewPortWidth,screenProps.viewPortHeight,screenProps.topLeft,screenProps.bottomRight);
         this.coord.x=+this.coord.x.toFixed(4);
         this.coord.y=+this.coord.y.toFixed(4);
 
-        //this.coord={x:this.options.curCoord.x,y:this.options.curCoord.y};
+        //this.coord={x:this.options.curRealPoint.x,y:this.options.curRealPoint.y};
         this.mouseOnScreen=!this.isOutRect(this.curPoint,screenProps);
         if(!this.mouseOnScreen){
             this.curPoint.x=this.prevPoint.x;
@@ -76,6 +77,18 @@ export class MouseHandler {
      getCurrentStep(){
          return this.currentStep;
      }
+     getCaptionsKey(){
+         return "";
+     }
+     getProperties(){
+         return this.properties;
+     }
+     setProperties(props){
+        this.properties=props;
+    }
+    getCurrentObject(){
+        return this.currentObject;
+    }
      getRealRect(screenProps){
         let realRect = new Rectangle();
         realRect.topLeft = screenProps.topLeft;
@@ -88,8 +101,8 @@ export class MouseHandler {
         let screenRect = new Rectangle();
         screenRect.topLeft.x = 0;
         screenRect.topLeft.y = 0;
-        screenRect.width = screenProps.screenWidth;
-        screenRect.height = screenProps.screenHeight;
+        screenRect.width = screenProps.viewPortWidth;
+        screenRect.height = screenProps.viewPortHeight;
         return screenRect;
     }
 

@@ -1,4 +1,4 @@
-import Shape from "../Shape";
+import {PropertyTypes} from "../PropertyData";
 
 export default class SelectionManager {
     constructor(shapes){
@@ -38,7 +38,7 @@ export default class SelectionManager {
             if(shape.getState().selected){
                 let selPoints=0;
                 for(const cp of shape.properties){
-                    if(cp.type!==Shape.PropertyTypes.VERTEX) continue;
+                    if(cp.type!==PropertyTypes.VERTEX) continue;
                     if(!shiftKey&&!altKey) cp.selected=false;
                     if(cp.underCursor) {cp.selected=!altKey}
                     if(cp.selected) selPoints++;

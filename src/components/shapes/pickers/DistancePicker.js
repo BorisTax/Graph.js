@@ -4,7 +4,8 @@ import Geometry, {Line,Coord2D,Circle, Vector} from "../../../utils/geometry";
 import {Color} from '../../colors';
 import PropertyPicker from './PropertyPicker';
 import TextShape from '../TextShape';
-import Shape from '../Shape';
+import {PropertyTypes} from "../PropertyData";
+import DistanceShape from '../helpers/DistanceShape';
 export default class DistancePicker extends PropertyPicker{
     static caption="";
     constructor(style=new ShapeStyle(Color.BLACK,ShapeStyle.DASH)){
@@ -20,31 +21,20 @@ export default class DistancePicker extends PropertyPicker{
         this.style=style;
         this.shape.setStyle(style);
         this.helperShapes=[this.text];
-        this.xAxe=new Vector({x:1,y:0},{x:0,y:0})
-        this.data={type:Shape.PropertyTypes.NUMBER}
+        this.xAxe=new Vector({x:0,y:0},{x:1,y:0});
+        this.data={type:PropertyTypes.NUMBER}
     }
     setCurrent(point){
         if(!this.isNext()) return;
         this.points[this.i]=point;
         if(this.i===0)this.points[1]=this.points[0];
         if(this.i>0)this.line=new Line(this.points[0],this.points[1]);
+        this.shape=new DistanceShape(this.line);
         this.data.value=Geometry.distance(this.points[0],this.points[1]);
-        this.shape=new LineShape(this.line);
-        this.shape.setStyle(this.style);
-        this.text.setText(this.data.value.toFixed(4))
-        this.text.setPoint(Geometry.midPoint(this.points[0],this.points[1]))
-        let angle=Geometry.angleVectors(new Vector(this.points[1],this.points[0]),this.xAxe);
-        if(angle<Math.PI/2)angle=angle*Math.sign(this.points[0].y-this.points[1].y);
-            else angle=(Math.PI-angle)*Math.sign(this.points[1].y-this.points[0].y);
-        this.text.rotate(angle);
-
         this.setControlPoints();
     }
     setControlPoints(){
-        //this.helperShapes[0]=new CircleShape(new Circle(this.points[0],this.screenOuterCircle.radius* Screen.MARKER_SIZE));
-        //this.helperShapes[1]=new CircleShape(new Circle(this.points[1],this.screenOuterCircle.radius* Screen.MARKER_SIZE));
-        //this.helperShapes[0].setColor(Color.BLUE);
-        //this.helperShapes[1].setColor(Color.BLUE);
+
     }
     reset(){return new DistancePicker(new ShapeStyle(this.style.getColor(),this.style.getType()));}
 }

@@ -1,10 +1,13 @@
 import { MouseHandler } from "./MouseHandler";
-import LineShape from "../components/shapes/LineShape";
-import ShapeStyle from "../components/shapes/ShapeStyle";
+import DistanceShape from "../components/shapes/helpers/DistanceShape";
+import { PropertyTypes } from "../components/shapes/PropertyData";
 
 export class MoveHandler extends MouseHandler {
-    constructor({point,curScreenPoint}){
-        super({point,curScreenPoint});
+    constructor(state){
+        super(state);
+        this.properties=[
+            {type:PropertyTypes.BOOL,value:false,labelKey:"make_copy",setValue:(value)=>{this.makeCopy=value;}},
+        ]
     }
     move({curPoint,screenProps}){
         super.move({curPoint,screenProps});
@@ -26,7 +29,7 @@ export class MoveHandler extends MouseHandler {
             }
         this.lastPoint={...this.coord};
         }
-        if(this.curShape)this.curShape.setControlPoint(1,this.coord);
+        if(this.curShape)this.curShape.setControlPoint(2,this.coord);
     }
     click({curPoint, screenProps}){
         super.click({curPoint,screenProps})
@@ -34,7 +37,15 @@ export class MoveHandler extends MouseHandler {
         if(this.clickCount===2){
             for(let s of screenProps.shapes){
                 if(s.getState().selected){
-                    s.applyTransform();
+                    if(this.makeCopy){
+                        const newShape=s.copyShape();
+                        newShape.mockShape=s.mockShape;
+                        newShape.applyTransform();
+                        newShape.deleteMockShape();
+                        screenProps.actions.addShape(newShape);
+                    }else{
+                        s.applyTransform();
+                    }
                     s.deleteMockShape();
                 }
             }
@@ -47,9 +58,12 @@ export class MoveHandler extends MouseHandler {
                 s.createMockShape();
             }
             this.basePoint={...this.coord}
-            this.curShape=new LineShape({p1:this.basePoint,p2:this.coord});
-            this.curShape.setStyle(ShapeStyle.HelperShape);
+            this.curShape=new DistanceShape({p1:this.basePoint,p2:this.coord});
+            //this.curShape.setStyle(ShapeStyle.HelperShape);
         }
         
+    }
+    getCaptionsKey(){
+        return "transform";
     }
 }

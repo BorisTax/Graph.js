@@ -1,28 +1,36 @@
 import { MouseHandler } from "./MouseHandler";
 
 export class StatusPickHandler extends MouseHandler {
-    constructor({point,curScreenPoint}){
-        super({point,curScreenPoint});
+    constructor({state,object,properties,index,picker}){
+        super(state);
+        this.currentObject=object;
+        this.properties=properties;
+        this.index=index;
+        this.picker=picker;
     }
     move({curPoint,screenProps}){
         super.move({curPoint,screenProps});
         this.snap(screenProps);
-        screenProps.picker.setCurrent(this.coord);
+        this.picker.setCurrent(this.coord);
         screenProps.actions.setCurCoord(this.coord,this.curPoint);
-        const currentStep=screenProps.captions.pickers[screenProps.picker.getName()].steps[screenProps.picker.getCurrentStep()];
+        const currentStep=screenProps.captions.pickers[this.picker.getName()].steps[this.picker.getCurrentStep()];
         this.statusBar=currentStep;
         this.curShape=null;
         this.curHelperShapes=null;
-        this.curShape=screenProps.picker.getShape();
-        this.curHelperShapes=screenProps.picker.getHelperShapes();
+        this.curShape=this.picker.getShape();
+        this.curHelperShapes=this.picker.getHelperShapes();
     }
     click({screenProps}){
-        screenProps.picker.setNextPoint(screenProps.curCoord);
-                    if(!screenProps.picker.isNext())
+        this.picker.setNextPoint(screenProps.curRealPoint);
+                    if(!this.picker.isNext())
                     {
-                        screenProps.actions.setPickedData(screenProps.picker.getPickedData());
+                        //this.shape.setProperty({key:this.propKey,value:this.picker.getPickedData().value,type:this.picker.getPickedData().type});
+                        this.properties[this.index].setValue(this.picker.getPickedData().value);
                         screenProps.actions.refreshSnapMarkers();
-                        screenProps.actions.refreshSelectionManager();
+                        screenProps.actions.abort();
                     }
+    }
+    getCaptionsKey(){
+        return "shapes";
     }
 }

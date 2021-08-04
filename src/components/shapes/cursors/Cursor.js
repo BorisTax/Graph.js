@@ -7,10 +7,10 @@ export default class Cursor extends Shape{
         this.p=point;
     }
 
-    refresh( realRect,  screenRect){
+    refresh(realRect,  screenRect){
         this.p0 = Geometry.realToScreen(this.p,realRect,screenRect);
     }
-    setCoord( point) {
+    setPosition(point) {
         this.p=point;
     }
     setAdditional({shiftKey,altKey}){

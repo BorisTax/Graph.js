@@ -17,8 +17,10 @@ class Body extends React.Component {
         return <div className={"body"}>
             {this.props.showConfirm.show?<Confirm messageKey={this.props.showConfirm.messageKey} onOk={this.props.showConfirm.okAction}/>:<></>}
             {this.props.showAlert.show?<Alert messageKey={this.props.showAlert.messageKey}/>:<></>}
-            <Header/>
-            {this.props.showHelp?<HelpSection/>:<></>}
+            {//<Header/>
+            }
+            {//this.props.showHelp?<HelpSection/>:<></>
+            }
             <hr/>
             <MainContainer/>
             
@@ -29,7 +31,7 @@ class Body extends React.Component {
 const mapStateToProps = store => {
     return {
             showHelp:store.components.showHelp,
-            showConfirm:store.screen.showConfirm,
+            showConfirm:store.model.showConfirm,
             showAlert:store.components.showAlert,
     }
 };

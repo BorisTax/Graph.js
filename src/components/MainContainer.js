@@ -3,26 +3,29 @@ import { connect } from 'react-redux';
 import {ScreenActions} from "../actions/ScreenActions";
 import {setLanguage} from "../actions/AppActions";
 import CreateToolBar from "./CreateToolBar";
-import Screen from "./Screen";
 import SnapToolBar from './SnapToolBar';
 import TransformBar from './TransformBar';
 import PropertyEditorBar from './PropertyEditorBar';
 import SelectionToolBar from './SelectionToolBar';
 import { createShape } from '../actions/ShapeActions';
+import ViewPort from './ViewPort';
 
 class MainContainer extends React.Component{
     render(){
+        const currentProperties=this.props.model.mouseHandler.getProperties();
         return <div className={'mainContainer'}>
         <div className={'screenContainer'}>
-            <Screen style={{borderWidth:1+'px',borderStyle:"solid"}}
+            <ViewPort style={{borderWidth:1+'px',borderStyle:"solid"}}
+                index={0}
                 actions={this.props.actions}
                 keyDownHandler={this.props.keyDownHandler}
-                {...this.props.screen}
+                {...this.props.model.viewPorts[0]}
+                {...this.props.model}
                 />
                 </div>
         <CreateToolBar/>
         <SelectionToolBar/>
-        <PropertyEditorBar/>
+        <PropertyEditorBar properties={currentProperties}/>
         <SnapToolBar/>
         <TransformBar/>
         
@@ -31,7 +34,8 @@ class MainContainer extends React.Component{
 }
 const mapStateToProps = store => {
     return {
-            screen: {...store.screen,captions:store.options.captions},
+            model: {...store.model,captions:store.options.captions},
+
             keyDownHandler:store.options.keyDownHandler,
     }
 };
@@ -51,6 +55,7 @@ const mapDispatchToProps = dispatch => {
         selectShapes:(selectedShapes)=>dispatch(ScreenActions.selectShapes(selectedShapes)),
         setBoundedCircle:()=>dispatch(ScreenActions.setBoundedCircle()),
         setCurCoord:(coord,screenPoint)=>dispatch(ScreenActions.setCurCoord(coord,screenPoint)),
+        setCurrentProps:(props)=>dispatch(ScreenActions.setCurrentProps(props)),
         setDimensions:(width,height,realWidth,topLeft)=>dispatch(ScreenActions.setDimensions(width,height,realWidth,topLeft)),
         setLanguage:captions=>dispatch(setLanguage(captions)),
         setPickedData:data=>dispatch(ScreenActions.setPickedData(data)),

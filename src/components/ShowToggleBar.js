@@ -8,7 +8,7 @@ class ShowToggleBar extends React.Component{
         return <div className={"toolBar"}>
             <OptionToggle title={cap.showGrid}
                       action={this.props.setGridVisible}
-                      checked={this.props.screen.show.grid}
+                      checked={this.props.model.show.grid}
         />
         </div>
     }
@@ -17,7 +17,7 @@ class ShowToggleBar extends React.Component{
 const mapStateToProps = store => {
 
     return {
-            screen: store.screen,
+            model: store.model,
             captions:store.options.captions,
     }
 };

@@ -9,6 +9,9 @@ import Circle2PCreator from "./shapes/shapecreators/Circle2PCreator";
 import Circle3PCreator from "./shapes/shapecreators/Circle3PCreator";
 import TriangleCreator from "./shapes/shapecreators/TriangleCreator";
 import RectangleCreator from "./shapes/shapecreators/RectangleCreator";
+import FunctionCreator from "./shapes/shapecreators/FunctionCreator";
+import FunctionParamCreator from "./shapes/shapecreators/FunctionParamCreator";
+import FunctionPolarCreator from "./shapes/shapecreators/FunctionPolarCreator";
 import {ComponentActions} from "../actions/ComponentActions";
 import {ScreenActions} from "../actions/ScreenActions";
 import ShapeStyle from './shapes/ShapeStyle';
@@ -83,7 +86,9 @@ class CreateToolBar extends React.Component{
                 onClick={this.onClick.bind(this)}
             />
             <ToolButtonGroup
-                buttons={[{title:cap.createFunction,id:"Function",params:{creator:null,dev:cap.development}}
+                buttons={[{title:cap.createFunction,id:"Function",params:{creator:FunctionCreator}},
+                          {title:cap.createFunctionParam,id:"FunctionParam",params:{creator:FunctionParamCreator}},
+                          {title:cap.createFunctionPolar,id:"FunctionPolar",params:{creator:FunctionPolarCreator}}
                 ]}
                 size={'largeSizeButton'}
                 activeButton={this.props.activeButton}
@@ -97,8 +102,8 @@ class CreateToolBar extends React.Component{
 const mapStateToProps = (store,ownProps) => {
 
     return {
-        screenOuterCircle:store.screen.screenOuterCircle,
-        context:store.screen.context,
+        screenOuterCircle:store.model.screenOuterCircle,
+        context:store.model.context,
         captions:store.options.captions,
         activeButton:store.components.activeCreateButton,
     }

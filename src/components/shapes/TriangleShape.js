@@ -2,30 +2,28 @@ import Geometry, {Coord2D,Line,Intersection} from '../../utils/geometry';
 import EndSnapMarker from './markers/EndSnapMarker';
 import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
-import PointMarker from './markers/PointMarker';
 import PointPicker from './pickers/PointPicker';
-
+import {PropertyTypes} from "./PropertyData";
 export default class TriangleShape extends Shape{
     constructor(model){
         super();
         this.p=[new Coord2D(),new Coord2D(),new Coord2D()];
         this.model=model;
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'Triangle'},
-            {type:Shape.PropertyTypes.VERTEX,value:this.model.points[0],show:false,selected:false,picker:PointPicker,regexp:/^-?\d+\.?\d*$/},
-            {type:Shape.PropertyTypes.VERTEX,value:this.model.points[1],show:false,selected:false,picker:PointPicker,regexp:/^-?\d+\.?\d*$/},
-            {type:Shape.PropertyTypes.VERTEX,value:this.model.points[2],show:false,selected:false,picker:PointPicker,regexp:/^-?\d+\.?\d*$/},
+            {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.VERTEX,value:this.model.points[0],labelKey:"p1",picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:this.model.points[1],labelKey:"p2",picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:this.model.points[2],labelKey:"p3",picker:PointPicker},
         ]
-        for(let p of this.properties)
-          if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
+        this.defineProperties();
     }
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)
         ctx.beginPath();
-        ctx.moveTo(this.p[0].x,this.p[0].y);
-        ctx.lineTo(this.p[1].x,this.p[1].y);
-        ctx.lineTo(this.p[2].x,this.p[2].y);
-        ctx.lineTo(this.p[0].x,this.p[0].y);
+        ctx.moveTo(this.p[0].x+0.5,this.p[0].y+0.5);
+        ctx.lineTo(this.p[1].x+0.5,this.p[1].y+0.5);
+        ctx.lineTo(this.p[2].x+0.5,this.p[2].y+0.5);
+        ctx.lineTo(this.p[0].x+0.5,this.p[0].y+0.5);
         ctx.stroke();
     }
     refresh(realRect, screenRect){
@@ -73,5 +71,8 @@ export default class TriangleShape extends Shape{
     }
     toString(){
         return "Triangle";
+    }
+    getDescription(){
+        return 'Triangle';
     }
 }

@@ -3,25 +3,24 @@ import EndSnapMarker from './markers/EndSnapMarker';
 import Shape from "./Shape";
 import PointMarker from "./markers/PointMarker";
 import PointPicker from "./pickers/PointPicker";
-
+import {PropertyTypes} from "./PropertyData";
 export default class RayLineShape extends Shape{
     constructor(line){
         super();
         this.model={...line,vector:{x:line.directionPoint.x-line.origin.x,y:line.directionPoint.y-line.origin.y}};
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'RLine'},
-            {type:Shape.PropertyTypes.VERTEX,value:line.origin,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.VERTEX,value:line.directionPoint,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
+            {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.VERTEX,value:line.origin,labelKey:"origin",picker:PointPicker},
+            {type:PropertyTypes.VERTEX,value:line.directionPoint,labelKey:"direction",picker:PointPicker},
         ]
-        for(let p of this.properties)
-          if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
+    this.defineProperties();
     }
     drawSelf(ctx,realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)
         if(this.p0===null||this.p1===null) return;
         ctx.beginPath();
-        ctx.moveTo(this.p0.x,this.p0.y);
-        ctx.lineTo(this.p1.x,this.p1.y);
+        ctx.moveTo(this.p0.x+0.5,this.p0.y+0.5);
+        ctx.lineTo(this.p1.x+0.5,this.p1.y+0.5);
         ctx.stroke();
     }
     refresh(realRect, screenRect){
@@ -45,8 +44,8 @@ export default class RayLineShape extends Shape{
             this.p0=null;
             this.p1=null;
         }
-        if(this.activePoint) 
-            this.activePointMarker=new PointMarker(this.activePoint)
+        // if(this.activePoint) 
+        //     this.activePointMarker=new PointMarker(this.activePoint)
     }
     getMarkers(){
         let list=[];
@@ -71,6 +70,9 @@ export default class RayLineShape extends Shape{
     }
     toString(){
         return `Ray origin (${this.model.origin.x},${this.model.origin.y}) vector(${this.model.vector.x},${this.model.vector.y})`;
+    }
+    getDescription(){
+        return 'RLine';
     }
 
 }

@@ -1,4 +1,4 @@
-import { Status } from "../reducers/screen";
+import { Status } from "../reducers/model";
 export const ScreenActions = {
   ABORT:'ABORT',
   ADD_SHAPE: "ADD_SHAPE",
@@ -10,18 +10,19 @@ export const ScreenActions = {
   DELETE_SELECTED_SHAPES: "DELETE_SELECTED_SHAPES",
   PAN_SCREEN: "PAN_SCREEN",
   PICK: "PICK",
+  PICK_PROPERTY: "PICK_PROPERTY",
   REFRESH_SELECTION_MANAGER: "REFRESH_SELECTION_MANAGER",
   REFRESH_SNAP_MARKERS: "REFRESH_SNAP_MARKERS",
   REPAINT: "REPAINT",
   SELECT_ALL: "SELECT_ALL",
   SELECT_SHAPE: "SELECT_SHAPE",
   SET_BOUNDED_CIRCLE: "SET_BOUNDED_CIRCLE",
+  SET_CURRENT_PROPS:"SET_CURRENT_PROPS",
   SET_CUR_COORD: "SET_CUR_COORD",
   SET_CYCLIC_FLAG: "SET_CYCLIC_FLAG",
   SET_DIMENSIONS: "SET_DIMENSIONS",
   SET_GRID_SNAP: "SET_GRID_SNAP",
   SET_GRID_VISIBLE: "SET_GRID_VISIBLE",
-  SET_PICKED_DATA: "SET_PICKED_DATA",
   SET_PREV_COORD: "SET_PREV_COORD",
   SET_PREV_STATUS: "SET_PREV_STATUS",
   SET_RATIO: "SET_RATIO",
@@ -32,9 +33,9 @@ export const ScreenActions = {
   SET_SNAP: "SET_SNAP",
   SET_STATUS: "SET_STATUS",
   SET_TOP_LEFT: "SET_TOP_LEFT",
-  START_PICKING: "START_PICKING",
   START_SELECTION: "START_SELECTION",
   TRANS_MOVE:"TRANS_MOVE",
+  TRANS_ROTATE:"TRANS_ROTATE",
   abort: () => {
     return {
       type: ScreenActions.ABORT,
@@ -76,6 +77,12 @@ export const ScreenActions = {
   deleteSelectedShapes: () => {
     return {
       type: ScreenActions.DELETE_SELECTED_SHAPES
+    };
+  },
+  pickProperty: (object,properties, index, picker) => {
+    return {
+      type: ScreenActions.PICK_PROPERTY,
+      payload: {object,properties, index, picker}
     };
   },
   refreshSelectionManager: () => {
@@ -205,6 +212,10 @@ export const ScreenActions = {
         type = ScreenActions.TRANS_MOVE;
         //payload = { picker: params.picker };
         break;
+      case Status.ROTATETRANS:
+        type = ScreenActions.TRANS_ROTATE;
+        //payload = { picker: params.picker };
+        break;
       default:
     }
     return {
@@ -236,10 +247,5 @@ export const ScreenActions = {
       payload: p
     };
   },
-  startPicking: (id, picker) => {
-    return {
-      type: ScreenActions.START_PICKING,
-      payload: { id, picker }
-    };
-  }
+
 };

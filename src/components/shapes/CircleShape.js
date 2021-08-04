@@ -2,7 +2,7 @@ import {Coord2D} from "../../utils/geometry";
 import Geometry from "../../utils/geometry";
 import CenterSnapMarker from './markers/CenterSnapMarker';
 import Shape from "./Shape";
-import PointMarker from "./markers/PointMarker";
+import {PropertyTypes} from "./PropertyData";
 import PointPicker from './pickers/PointPicker'
 import DistancePicker from './pickers/DistancePicker'
 import ShapeStyle from "./ShapeStyle";
@@ -13,25 +13,22 @@ export default class CircleShape extends Shape{
         this.model=circle;
         this.setStyle(new ShapeStyle())
         this.properties=[
-            {type:Shape.PropertyTypes.STRING,value:'Circle'},
-            {type:Shape.PropertyTypes.VERTEX,value:circle.center,show:false,selected:false,picker:PointPicker,regexp:Shape.RegExp.NUMBER},
-            {type:Shape.PropertyTypes.NUMBER,value:circle.radius,picker:DistancePicker,regexp:Shape.RegExp.POSITIVE_NUMBER},
+            {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.VERTEX,value:circle.center,labelKey:"center",picker:PointPicker},
+            {type:PropertyTypes.POSITIVE_NUMBER,value:circle.radius,labelKey:"radius",picker:DistancePicker},
         ]
-        for(let p of this.properties)
-            if(p.type===Shape.PropertyTypes.VERTEX) p.marker=new PointMarker(p.value,false)
+        this.defineProperties();
     }
 
     drawSelf(ctx, realRect, screenRect){
         super.drawSelf(ctx,realRect, screenRect)
         ctx.beginPath();
-        ctx.arc(this.screenCenter.x,this.screenCenter.y,this.screenRadius,0,2*Math.PI);
+        ctx.arc(this.screenCenter.x+0.5,this.screenCenter.y+0.5,this.screenRadius,0,2*Math.PI);
         ctx.stroke();
     }
     refresh(realRect, screenRect){
         this.screenCenter=Geometry.realToScreen(this.model.center,realRect,screenRect);
         this.screenRadius=Geometry.realToScreenLength(this.model.radius,realRect.width,screenRect.width);
-        if(this.activePoint) 
-            this.activePointMarker=new PointMarker(this.activePoint)
 
     }
 
@@ -86,6 +83,9 @@ export default class CircleShape extends Shape{
     }
     toString(){
         return "Center("+this.model.center.x+","+this.model.center.y+") radius("+this.model.radius+")";
+    }
+    getDescription(){
+        return 'Circle';
     }
 
 }

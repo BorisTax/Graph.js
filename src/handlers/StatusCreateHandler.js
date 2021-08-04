@@ -1,9 +1,7 @@
 import { MouseHandler } from "./MouseHandler";
 
 export class StatusCreateHandler extends MouseHandler {
-    constructor({point,curScreenPoint}){
-        super({point,curScreenPoint});
-    }
+
     move({curPoint,screenProps}){
         super.move({curPoint,screenProps});
         this.snap(screenProps);
@@ -19,8 +17,8 @@ export class StatusCreateHandler extends MouseHandler {
         this.curShape=screenProps.shapeCreator.getShape();
     }
     click({screenProps}){
-        screenProps.shapeCreator.setCurrent(screenProps.curCoord);
-        if(screenProps.shapeCreator.isLegal()) screenProps.shapeCreator.setNextPoint(screenProps.curCoord);
+        screenProps.shapeCreator.setCurrent(screenProps.curRealPoint);
+        if(screenProps.shapeCreator.isLegal()) screenProps.shapeCreator.setNextPoint(screenProps.curRealPoint);
         if(!screenProps.shapeCreator.isNext()){
             //screenProps.shapes.push(screenProps.shapeCreator.getShape());
             screenProps.actions.addShape(screenProps.shapeCreator.getShape());

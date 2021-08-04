@@ -28,9 +28,9 @@ class SelectionToolBar extends React.Component{
 const mapStateToProps = store => {
 
     return {
-        context:store.screen.context,
+        context:store.model.context,
         captions:store.options.captions,
-        activeButton:store.screen.selectionType,
+        activeButton:store.model.selectionType,
     }
 };
 const mapDispatchToProps = dispatch => {

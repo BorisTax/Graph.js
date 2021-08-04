@@ -53,9 +53,9 @@ export class RLine {
 
     constructor(p1=new Coord2D(), p2=new Coord2D()){
     this.origin=p1;
-    this.vector=new Vector();
-    this.vector.x=p2.x-p1.x;
-    this.vector.y=p2.y-p1.y;
+    this.vector=new Vector(p1,p2);
+    // this.vector.x=p2.x-p1.x;
+    // this.vector.y=p2.y-p1.y;
     this.directionPoint={x:this.origin.x+this.vector.x,y:this.origin.y+this.vector.y}
     }
 
@@ -256,8 +256,8 @@ export class Intersection{
 }
 export default class Geometry {
 
-    static realToScreenLength(value, realWidth, screenWidth){
-        return Math.round(value/(realWidth/screenWidth));
+    static realToScreenLength(value, realWidth, viewPortWidth){
+        return Math.round(value/(realWidth/viewPortWidth));
     }
     static SLineFromRLine(line){
         return new SLine(line.origin,new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y));
@@ -328,7 +328,7 @@ export default class Geometry {
         return res;
     }
     static midPoint(p1, p2) {
-        return new Coord2D((p2.x + p1.x) / 2, (p2.y + p1.y) / 2);
+        return {x : (p2.x + p1.x) / 2, y : (p2.y + p1.y) / 2};
     }
 
     static scalar(v1, v2) {
@@ -340,7 +340,10 @@ export default class Geometry {
     }
 
     static angleVectors(v1, v2) {
-        return Math.acos(this.scalar(v1, v2) / (v1.modulus * v2.modulus));
+        const sign=Math.sign(v1.x*v2.y-v2.x*v1.y)
+        //return Math.atan((v1.x*v2.y - v1.y*v2.x) / (v1.x*v2.x + v1.y*v2.y))
+        //return Math.atan2(v.y,v.x)
+        return Math.acos(this.scalar(v1, v2) / (v1.modulus * v2.modulus))*sign;
     }
 
     static arcCenterPoint(p1, p2, p3) {
@@ -415,17 +418,17 @@ export default class Geometry {
         return Math.sqrt((p2.x-p1.x) * (p2.x-p1.x) + (p2.y-p1.y) * (p2.y-p1.y));
     }
     static rotatePoint(point, angle, center){
-        let p=new Coord2D(point.x-center.x,point.y-center.y);
-        let res=new Coord2D();
+        let p={x:point.x-center.x,y:point.y-center.y};
+        let res={};
         res.x=p.x*Math.cos(angle)-p.y*Math.sin(angle)+center.x;
         res.y=p.x*Math.sin(angle)+p.y*Math.cos(angle)+center.y;
         return res;
     }
-    static screenToReal(x,y,screenWidth,screenHeight,topLeft,bottomRight){
+    static screenToReal(x,y,viewPortWidth,viewPortHeight,topLeft,bottomRight){
         let realWidth=bottomRight.x-topLeft.x;
         let realHeight=topLeft.y-bottomRight.y;
-        let rx=x/screenWidth*realWidth+topLeft.x;
-        let ry=topLeft.y-y/screenHeight*realHeight;
+        let rx=x/viewPortWidth*realWidth+topLeft.x;
+        let ry=topLeft.y-y/viewPortHeight*realHeight;
         return {x:rx,y:ry};
     }
     static realToScreen(point,realRect, screenRect){

@@ -141,8 +141,8 @@ export default class Geometry {
         let y = -Math.round((point.y - realRect.topLeft.y) / ratio);
         return new Point2D(x,y);
     }
-    static realToScreenLength(value, realWidth, screenWidth){
-        return Math.round(value/(realWidth/screenWidth));
+    static realToScreenLength(value, realWidth, viewPortWidth){
+        return Math.round(value/(realWidth/viewPortWidth));
     }
     static SLineFromRLine(line){
         return new SLine(line.origin,new Coord2D(line.origin.x+line.vector.x,line.origin.y+line.vector.y));

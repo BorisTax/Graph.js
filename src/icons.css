@@ -34,3 +34,12 @@
     background: url("images/icons/move-disabled.svg")  no-repeat;
     background-size: cover;
 }
+#rotate-enabled{
+    background: url("images/icons/rotate-enabled.svg")  no-repeat;
+    background-size: cover;
+    
+}
+#rotate-disabled{
+    background: url("images/icons/rotate-disabled.svg")  no-repeat;
+    background-size: cover;
+}
