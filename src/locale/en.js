@@ -116,9 +116,6 @@ export const captions={
     },
     "Function":{
       "name":"Function",
-<<<<<<< HEAD
-      "func":"Y=",
-=======
       "func":"Y="
     },
     "FunctionParam":{
@@ -129,7 +126,6 @@ export const captions={
     },
     "FunctionPolar":{
       "name":"Polar Function",
->>>>>>> 0820a0e5c2c8ea22e6b2894ee43bfa16b2d5ceef
     }
   },
   "pickers":{
