@@ -9,7 +9,7 @@ export default class FunctionCreator extends ShapeBuilder{
         this.name="FunctionCreator"
         //this.line=new Line(new Coord2D(),new Coord2D());
         this.points=[new Coord2D()];
-        this.shape=new FunctionShape({func:"x*x"});
+        this.shape=new FunctionShape({func:"pow(x,3)"});
         this.style=style;
         this.shape.setStyle(style);
         this.helperShapes=[];
@@ -17,6 +17,7 @@ export default class FunctionCreator extends ShapeBuilder{
     setCurrent(point){
         if(!this.isNext()) return;
         this.points[this.i]=point;
+        this.shape.setProperty({key:1,value:point})
         //this.shape=new FunctionShape(this.model);
         //this.shape.setStyle(this.style);
     }

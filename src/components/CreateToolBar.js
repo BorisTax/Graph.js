@@ -78,14 +78,6 @@ class CreateToolBar extends React.Component{
                 onClick={this.onClick.bind(this)}
             />
             <ToolButtonGroup
-                buttons={[{title:cap.createParabola,id:"Parabola",params:{creator:null,dev:cap.development}},
-                        {title:cap.createHyperbola,id:"Hyperbola",params:{creator:null,dev:cap.development}},
-                ]}
-                size={'largeSizeButton'}
-                activeButton={this.props.activeButton}
-                onClick={this.onClick.bind(this)}
-            />
-            <ToolButtonGroup
                 buttons={[{title:cap.createFunction,id:"Function",params:{creator:FunctionCreator}},
                           {title:cap.createFunctionParam,id:"FunctionParam",params:{creator:FunctionParamCreator}},
                           {title:cap.createFunctionPolar,id:"FunctionPolar",params:{creator:FunctionPolarCreator}}

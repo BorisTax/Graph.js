@@ -4,7 +4,7 @@ import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 import {PropertyTypes} from "./PropertyData";
 import PointPicker from './pickers/PointPicker';
-const functions=['sin','cos','tan','asin','acos','atan','log','exp','pow','abs'];
+const functions=['sqrt','sin','cos','tan','asin','acos','atan','log','exp','pow','abs'];
 
 function replaceMath(str){
     let s=str
@@ -52,21 +52,22 @@ export default class FunctionPolarShape extends Shape{
         let first=true;
         let dw=realRect.width/screenRect.width
         let dh=realRect.height/screenRect.height
-        for(let vx=0;vx<=screenRect.width;vx+=1){
-        let x=realRect.topLeft.x+dw*vx
-        let ry=eval(this.model.mathFunc);
-        if(ry==='Infinity'){ry=realRect.topLeft.y;}
-        if(ry==='-Infinity'){ry=realRect.bottomRight.y;}
-        let vy=(realRect.topLeft.y-ry)/dh
-        
-        if ((vy>=0&&vy<=screenRect.height)){
-            if (first) {ctx.moveTo(vx+0.5,vy+0.5);}
-            if (!first) ctx.lineTo(vx+0.5,vy+0.5);
+        const p={x:0,y:0}
+        for(let a=0;a<=Math.PI*2;a+=Math.PI/180){
+        //let a=realRect.topLeft.x+dw*vx
+        let r = eval(this.model.mathFunc);
+        p.x=r*Math.cos(a)
+        p.y=r*Math.sin(a)
+        //if(ry==='Infinity'){ry=realRect.topLeft.y;}
+        //if(ry==='-Infinity'){ry=realRect.bottomRight.y;}
+        let {x,y}=Geometry.realToScreen(p,realRect,screenRect);
+        //if ((vy>=0&&vy<=screenRect.height)){
+            if (first) {ctx.moveTo(x+0.5,y+0.5);}
+            if (!first) ctx.lineTo(x+0.5,y+0.5);
             first=false;
             }
-            else first=true;
-        }
-        
+           // else first=true;
+        //}
         ctx.stroke();
     }
     refresh(realRect, screenRect){
@@ -89,10 +90,17 @@ export default class FunctionPolarShape extends Shape{
      }
 
     getDistance(point) {
-        let x=point.x
-        let y=eval(this.model.mathFunc)
-        return Math.abs(point.y-y)
-        //return Geometry.PointToLineDistance(point,{p1:this.model.p1,p2:this.model.p2});
+        let min=100000000
+        const p={x:0,y:0}
+        for(let a=0;a<=Math.PI*2;a+=Math.PI/180){
+            //let a=realRect.topLeft.x+dw*vx
+            let r = eval(this.model.mathFunc);
+            p.x=r*Math.cos(a)
+            p.y=r*Math.sin(a)
+            let d=Math.sqrt((p.x-point.x)*(p.x-point.x) +(p.y-point.y)*(p.y-point.y))
+            if (min>d) min=d;
+        }
+        return min;
     }
 
     isInRect(topLeft,bottomRight){

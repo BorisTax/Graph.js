@@ -4,7 +4,7 @@ import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 import {PropertyTypes} from "./PropertyData";
 import PointPicker from './pickers/PointPicker';
-const functions=['sin','cos','tan','asin','acos','atan','log','exp','pow','abs'];
+const functions=['sqrt','sin','cos','tan','asin','acos','atan','log','exp','pow','abs'];
 
 function replaceMath(str){
     let s=str
@@ -42,6 +42,7 @@ export default class FunctionShape extends Shape{
         this.model={func,mathFunc:replaceMath(func)};
         this.properties=[
             {type:PropertyTypes.STRING,labelKey:"name"},
+            {type:PropertyTypes.VERTEX,labelKey:"origin"},
             {type:PropertyTypes.INPUT,value:func,labelKey:"func",test},
         ]
         this.defineProperties();
@@ -50,21 +51,32 @@ export default class FunctionShape extends Shape{
         super.drawSelf(ctx,realRect, screenRect)
         ctx.beginPath();
         let first=true;
+        let cx=this.model.origin.x;
+        let cy=this.model.origin.y;
         let dw=realRect.width/screenRect.width
         let dh=realRect.height/screenRect.height
         for(let vx=0;vx<=screenRect.width;vx+=1){
-        let x=realRect.topLeft.x+dw*vx
-        let ry=eval(this.model.mathFunc);
-        if(ry==='Infinity'){ry=realRect.topLeft.y;}
-        if(ry==='-Infinity'){ry=realRect.bottomRight.y;}
-        let vy=(realRect.topLeft.y-ry)/dh
-        
-        if ((vy>=0&&vy<=screenRect.height)){
-            if (first) {ctx.moveTo(vx+0.5,vy+0.5);}
-            if (!first) ctx.lineTo(vx+0.5,vy+0.5);
-            first=false;
-            }
-            else first=true;
+            let x=realRect.topLeft.x+dw*vx
+            x=x-cx;
+            let ry=eval(this.model.mathFunc);
+            ry=ry+cy;
+            if((ry==='Infinity') ||( ry>realRect.topLeft.y)){
+                ry=realRect.topLeft.y;
+                first=true;
+                }   
+            if((ry==='-Infinity') || (ry<realRect.bottomRight.y)){
+                ry=realRect.bottomRight.y;
+                first=true;
+                }
+            
+            let vy=(realRect.topLeft.y-ry)/dh
+            
+            if ((vy>=0&&vy<=screenRect.height)){
+                if (first) {ctx.moveTo(vx+0.5,vy+0.5);}
+                if (!first) ctx.lineTo(vx+0.5,vy+0.5);
+                first=false;
+                }
+                else first=true;
         }
         
         ctx.stroke();
@@ -83,20 +95,24 @@ export default class FunctionShape extends Shape{
     }
 
     refreshModel(){
-        this.model.func=this.properties[1].value;
+        this.model.origin=this.properties[1].value
+        this.model.func=this.properties[2].value;
         this.model.mathFunc=replaceMath(this.model.func);
         //this.model.p1=this.properties[1].value;
         //this.model.p2=this.properties[2].value;
      }
 
-    getDistance(point) {
+    getDistance({x,y}) {
         let min=1000000;
         let dw=this.realRect.width/this.screenRect.width
+        let cx=this.model.origin.x;
+        let cy=this.model.origin.y;
+        x=x-cx
+        y=y-cy
         for(let vx=0;vx<=this.screenRect.width;vx+=1){
-            let x=this.realRect.topLeft.x+dw*vx
+            let rx=this.realRect.topLeft.x+dw*vx
             let ry=eval(this.model.mathFunc);
-            let y=eval(this.model.mathFunc);
-            let d=Math.sqrt((x-point.x)*(x-point.x) +(y-point.y)*(y-point.y))
+            let d=Math.sqrt((rx-x)*(rx-x) +(ry-y)*(ry-y))
             if (min>d) min=d;
         }
 

@@ -76,10 +76,9 @@
     "createRectCenter": "Rectangle par centre",
     "createTriangle": "Triangle par 3 points",
     "createTriangleInscribed": "Triangle inscrit en cercle",
-    "createTriangleDescribed": "Triangle décrit autour du cercle",
-    "createParabola": "Parabole",
-    "createHyperbola": "Hyperbole",
-    "createFunction": "Fonction auto définie",
+    "createFunction": "Fonction cartésienne",
+    "createFunctionParam":"Fonction paramétrique",
+    "createFunctionPolar":"Fonction polaire",
     "development": "(en développement)"
   },
   "selection": {

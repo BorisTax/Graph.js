@@ -52,9 +52,9 @@
   "createTriangle": "Произвольный треугольник",
   "createTriangleInscribed":"Вписанный треугольник",
   "createTriangleDescribed":"Описанный треугольник",
-  "createParabola":"Парабола",
-  "createHyperbola":"Гипербола",
-  "createFunction":"Произвольная функция",
+  "createFunction":"Декартова функция",
+  "createFunctionParam":"Параметрическая функция",
+  "createFunctionPolar":"Полярная функция",
   "development":"(в разработке)"
 },
 "selection":{

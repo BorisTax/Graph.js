@@ -4,7 +4,7 @@ import MiddleSnapMarker from './markers/MiddleSnapMarker';
 import Shape from "./Shape";
 import {PropertyTypes} from "./PropertyData";
 import PointPicker from './pickers/PointPicker';
-const functions=['sin','cos','tan','asin','acos','atan','log','exp','pow','abs'];
+const functions=['sqrt','sin','cos','tan','asin','acos','atan','log','exp','pow','abs'];
 
 function replaceMath(str){
     let s=str

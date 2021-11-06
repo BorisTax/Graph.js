@@ -53,11 +53,9 @@ export const captions={
     "createTriangle":"Triangle",
     "createTriangleInscribed":"Triangle inscribed in circle",
     "createTriangleDescribed":"Triangle described about circle",
-    "createParabola":"Parabola",
-    "createHyperbola":"Hyperbola",
     "createFunction":"Cartesian function",
-    "createParamFunction":"Parametric function",
-    "createPolarFunction":"Polar function",
+    "createFunctionParam":"Parametric function",
+    "createFunctionPolar":"Polar function",
     "development":"(in development)"
   },
   "selection":{
